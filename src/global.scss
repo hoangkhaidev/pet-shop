@@ -1,0 +1,30 @@
+.DateRangePicker {
+  width: 100%;
+}
+
+.DateRangePickerInput {
+  display: flex !important;
+  align-items: center;
+}
+
+.DateRangePickerInput__withBorder {
+  height: 56px;
+}
+
+.dater-picker-input {
+  height: 56px !important;
+
+  &:focus {
+    border-color: #5664d2 !important;
+    border: 2px solid #5664d2;
+    box-shadow: unset !important;
+  }
+}
+
+button:focus {
+  outline: none !important;
+}
+
+.clearfix {
+  clear: both;
+}
