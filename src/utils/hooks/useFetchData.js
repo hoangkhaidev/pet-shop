@@ -1,10 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 // import { toast } from "react-toastify";
-import { useTranslation } from "react-i18next";
 import queryString from "query-string";
 import { useSelector } from "react-redux";
-
-import { store } from "src/stores";
+import { toast } from "react-toastify";
 import get from "lodash/get";
 
 import useRouter from "./useRouter";
@@ -22,8 +20,6 @@ export default function useFetchData(endpoint, objFilter) {
     isHasPermission: true,
     total: null,
   });
-
-  const { t } = useTranslation();
 
   const fetchData = useCallback(async () => {
     setData(prevState => ({
@@ -51,6 +47,7 @@ export default function useFetchData(endpoint, objFilter) {
       const dataJSON = await response.json();
       if (get(dataJSON, "success", false)) {
         return setData({
+          isLoading: false,
           dataResponse: get(dataJSON, "data", []),
           total_size: get(dataJSON, "data.total_size", []),
           isLoaded: false,
@@ -58,21 +55,22 @@ export default function useFetchData(endpoint, objFilter) {
           total: get(dataJSON, "data.total", null),
           refetch: false,
         });
-      }
-      if (dataJSON?.err === "err:no_permission") {
-        return setData({
-          dataResponse: null,
-          total_size: 0,
+      } else {
+        if (dataJSON?.err === "err:no_permission") {
+          return setData({
+            dataResponse: null,
+            total_size: 0,
+            isLoading: false,
+            isHasPermission: false,
+            refetch: false,
+          });
+        }
+          setData(prevState => ({
+          ...prevState,
           isLoading: false,
-          isHasPermission: false,
-          refetch: false,
-        });
+        }));
+        return toast.error(dataJSON?.err)
       }
-      setData(prevState => ({
-        ...prevState,
-        isLoading: false,
-      }));
-      return console.log(t(data?.err));
     } catch (e) {
       console.log("e", e);
     }
