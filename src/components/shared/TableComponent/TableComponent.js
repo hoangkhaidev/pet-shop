@@ -69,7 +69,7 @@ const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
       {cellInfo.map((info) => (
         <TableCell
           sx={{
-            padding: 0
+            padding: 1
           }}
           className={classes.tableCellBody}
           key={info.data_field}

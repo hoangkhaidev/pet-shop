@@ -6,7 +6,7 @@ import { string, node, func } from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   fab: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
   },
   absolute: {
     position: 'absolute',
