@@ -7,6 +7,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:testing": "env-cmd -f .env.testing react-scripts build",
+    "deploy:testing": "yarn build:testing && rsync -azP build/ dever@direct.arrowltd.net:/home/dever/public/sbe",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -37,6 +39,7 @@
     "bootstrap-daterangepicker": "^3.1.0",
     "chart.js": "^2.9.4",
     "clsx": "^1.1.1",
+    "env-cmd": "^10.1.0",
     "history": "^5.0.0",
     "i18next": "^20.2.2",
     "i18next-browser-languagedetector": "^6.1.0",
