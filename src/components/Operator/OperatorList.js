@@ -36,7 +36,9 @@ const OperatorList = () => {
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData("/api/operators", objFilter);
 
   useEffect(() => {
-    setData(get(dataResponse, "list", []));
+    const mapData = get(dataResponse, "list", []);
+    mapData.map(data => data.id = data.account_id);
+    setData(mapData);
   }, [dataResponse]);
 
   const onSubmit = async (dataForm) => {

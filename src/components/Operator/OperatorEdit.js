@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from "react-router-dom";
 import Chip from '@material-ui/core/Chip';
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -12,6 +13,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
+import { toast } from "react-toastify";
 
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
@@ -27,6 +29,8 @@ import ButtonGroup, {
 } from 'src/components/shared/Button/Button';
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
+
+import api from "src/utils/api";
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -55,6 +59,7 @@ const OperatorEdit = () => {
   const [financeEmail, setFinanceEmail] = useState([]);
   const [data, setData] = useState(null);
   const router = useRouter();
+  const navigate = useNavigate();
 
   const {
     control,
@@ -71,9 +76,9 @@ const OperatorEdit = () => {
 
   useEffect(() => {
     setData(dataResponse);
-    const formatWhitelistIP = dataResponse?.WhitelistIPs?.map((ip) => ip.split('.'));
-    const formatApiWLIP = dataResponse?.ApiWhitelistIP?.split('.');
-    setFinanceEmail(get(dataResponse, 'FinanceEmails', []));
+    const formatWhitelistIP = dataResponse?.whitelistIPs?.map((ip) => ip.split('.'));
+    const formatApiWLIP = dataResponse?.apiWhiteListIP?.split('.');
+    setFinanceEmail(get(dataResponse, 'financeEmails', []));
     setWhitelistIP(formatWhitelistIP);
     setAPIWLIP(formatApiWLIP);
   }, [dataResponse]);
@@ -87,14 +92,24 @@ const OperatorEdit = () => {
       const joinStr = item.join('.');
       return joinStr;
     });
+
     const form = {
       ...dataForm,
+      accountId: data.accountId,
       api_whitelist_ip: formatWLIPEndpoint,
       whitelist_ips: formatWLIPs,
       finance_email: financeEmail,
       account_type: 'operator'
     };
     console.log("form", form);
+    try {
+      await api.post(`/api/operators/${router.query?.id}/update`, form);
+      toast.success("Update operator Success", {
+        onClose: navigate("/operator/list")
+      });
+    } catch (e) {
+      console.log("e", e);
+    }
   };
 
   useEffect(() => {
@@ -105,9 +120,11 @@ const OperatorEdit = () => {
 
   useEffect(() => {
     if (data) {
-      setValue("name", data?.OperatorName);
-      setValue("support_email", data?.SupportEmail);
-      setValue("username", data?.Username);
+      setValue("name", data?.username);
+      setValue("support_email", data?.supportEmail);
+      setValue("username", data?.username);
+      setValue("api_endpoint", data?.apiEndpoint);
+      setValue("commission", data?.commission);
     }
   }, [data, setValue]);
 

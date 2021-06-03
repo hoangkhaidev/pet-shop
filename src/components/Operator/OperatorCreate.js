@@ -5,6 +5,7 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from "react-router-dom";
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Chip from '@material-ui/core/Chip';
 import remove from 'lodash/remove';
@@ -15,6 +16,7 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import FormLabel from '@material-ui/core/FormLabel';
 import get from 'lodash/get';
+import { toast } from "react-toastify";
 
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import InputField from 'src/components/shared/InputField/InputField';
@@ -65,6 +67,7 @@ const OperatorCreate = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [apiWLIP, setAPIWLIP] = useState(['', '', '', '']);
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const finance_email = watch('finance_email');
   const commission = watch('commission');
@@ -87,6 +90,7 @@ const OperatorCreate = () => {
       const response = await api.post('/api/operators/create', form);
       if (get(response, 'data.success', false)) {
         console.log('response', response);
+        navigate("operator/list")
       } else {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {

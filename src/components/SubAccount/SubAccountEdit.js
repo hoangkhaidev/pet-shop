@@ -1,5 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { makeStyles } from '@material-ui/core/styles';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
+import Button from '@material-ui/core/Button';
+import remove from "lodash/remove";
+import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
+import { toast } from "react-toastify";
 
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
@@ -7,16 +14,110 @@ import InputField from "src/components/shared/InputField/InputField";
 import SelectField from "src/components/shared/InputField/SelectField";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 
-const SubAccountEdit = () => {
-  const { control, handleSubmit, formState: { errors } } = useForm();
-  const navigate = useNavigate();
+import useFetchData from "src/utils/hooks/useFetchData";
+import useRouter from "src/utils/hooks/useRouter";
+import { useEffect, useState } from "react";
+import get from "lodash/get";
 
-  const onSubmit = data => {
-    console.log("data", data);
+import FormLabel from '@material-ui/core/FormLabel';
+
+import api from "src/utils/api";
+
+const useStyles = makeStyles(() => ({
+  whitelistIPLine: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  }
+}));
+
+const SubAccountEdit = () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm();
+
+  const navigate = useNavigate();
+  const router = useRouter();
+  const classes = useStyles();
+
+  const { dataResponse } = useFetchData(`/api/subs/${router.query?.id}`);
+  const { dataResponse: dataRole } = useFetchData("/api/role");
+  const [roleData, setRoleData] = useState([]);
+  const [data, setData] = useState(null)
+  const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
+
+  useEffect(() => {
+    setValue("brand", get(dataResponse, "brand_ids", ""));
+    setValue("username", get(dataResponse, "username", ""));
+    setValue("name", get(dataResponse, "name", ""));
+    setData(dataResponse)
+  }, [dataResponse, setValue])
+
+  useEffect(() => {
+    const formatWhitelistIP = ["..."].map((ip) => ip.split('.'));
+    setWhitelistIP(formatWhitelistIP);
+
+    if (dataRole.length <= 0) return;
+    let mapdata = []
+    dataRole.forEach(data => {
+      let optionData = {
+        id: data.id,
+        value: data.id,
+        label: data.roleName,
+      };
+      mapdata.push(optionData)
+    });
+    setRoleData([...mapdata]);
+  }, [dataRole, setRoleData])
+  
+  const onSubmit = async (dataform) => {
+    const formatWLIPs = whitelistIP.map((item) => {
+      const joinStr = item.join('.');
+      return joinStr;
+    });
+    const form = {
+      brand_ids: dataform.brand,
+      display_name: dataform.name,
+      password: dataform.password,
+      password_confirmation: dataform.confirm_password,
+      role_id: dataform.role,
+      whitelist_ips: formatWLIPs,
+    };
+    console.log("form", form);
+    try {
+      await api.post(`/api/subs/${router.query?.id}/update`, form);
+      toast.success("Update subs Success", {
+        onClose: navigate("/subs/list")
+      });
+    } catch (e) {
+      console.log("e", e);
+    }
   };
 
   const onCancel = () => {
     navigate("/sub/list");
+  };
+
+  const onChangeWhitelistIp = (e, index, rowIndex) => {
+    const { formattedValue } = e;
+    const cloneArr = whitelistIP.slice();
+    cloneArr[rowIndex][index] = formattedValue;
+    setWhitelistIP(cloneArr);
+  };
+
+  const onAddingWLIPAddress = () => {
+    const cloneArr = whitelistIP.slice();
+    const newArray = [...cloneArr, ['', '', '', '']];
+    setWhitelistIP(newArray);
+  };
+
+  const onRemoveWLIPAddress = (rowIndex) => {
+    const cloneArr = whitelistIP.slice();
+    remove(cloneArr, (item, index) => rowIndex === index);
+    setWhitelistIP(cloneArr);
   };
 
   return (
@@ -72,21 +173,38 @@ const SubAccountEdit = () => {
           control={control}
           errors={errors?.role}
           options={
-            [
-              {
-                id: 1,
-                value: "role 1",
-                label: "Role 1"
-              },
-              {
-                id: 2,
-                value: "role 2",
-                label: "Role 2"
-              }
-            ]
+            roleData
           }
-          defaultValue="role 1"
+          defaultValue=""
         />
+        <FormLabel>Whitelist IP Address</FormLabel>
+        {(whitelistIP || []).map((item, index) => (
+          <div className={classes.whitelistIPLine}>
+            <IPAddressInput
+              key={index}
+              apiWLIP={item}
+              onChange={onChangeWhitelistIp}
+              rowIndex={index}
+            />
+            {whitelistIP.length - 1 === index ? (
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={onAddingWLIPAddress}
+              >
+                <AddIcon />
+              </Button>
+            ) : (
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={() => onRemoveWLIPAddress(index)}
+              >
+                <RemoveIcon />
+              </Button>
+            )}
+          </div>
+        ))}
         <ButtonGroup>
           <SubmitButton />
           <ResetButton text="Cancel" onAction={onCancel} />
