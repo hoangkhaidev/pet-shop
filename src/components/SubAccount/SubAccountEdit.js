@@ -86,12 +86,13 @@ const SubAccountEdit = () => {
       role_id: dataform.role,
       whitelist_ips: formatWLIPs,
     };
-    console.log("form", form);
     try {
-      await api.post(`/api/subs/${router.query?.id}/update`, form);
-      toast.success("Update subs Success", {
-        onClose: navigate("/subs/list")
-      });
+      let data = await api.post(`/api/subs/${router.query?.id}/update`, form);
+      if(data?.success) {
+        toast.success("Update subs Success", {
+          onClose: navigate("/subs/list")
+        });
+      }
     } catch (e) {
       console.log("e", e);
     }

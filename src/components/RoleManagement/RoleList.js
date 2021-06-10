@@ -16,6 +16,8 @@ import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import Loading from "src/components/shared/Loading/Loading";
 import useRouter from "src/utils/hooks/useRouter";
 import useFetchData from "src/utils/hooks/useFetchData";
+import api from "src/utils/api";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,6 +65,19 @@ const RoleList = () => {
     setData(dataResponse);
   }, [dataResponse]);
 
+  const deleteRole = async (id) => {
+    try {
+      let data = await api.post(`/api/role/${id}/delete`);
+      if(!data?.success) {
+        toast.warn("Role in Use")
+      } else {
+          navigate("/role/list");
+      }
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
   const columns = [
     {
       data_field: "roleName",
@@ -76,7 +91,7 @@ const RoleList = () => {
     },
     {
       data_field: "action",
-      column_name: "",
+      column_name: "Action",
       align: "center",
       formatter: (cell, row) => (
         <ButtonGroup className={classes.root}>
@@ -89,6 +104,7 @@ const RoleList = () => {
             IconComponent={<DeleteIcon />}
             title="Delete Role"
             color="secondary"
+            onClick={() => deleteRole(row.id)}
           />
           <TooltipIcon />
         </ButtonGroup>

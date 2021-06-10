@@ -32,15 +32,18 @@ const SubAccountCreate = () => {
   const { t } = useTranslation();
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [roleData, setRoleData] = useState([]);
+  const [brandData, setBrandData] = useState([]);
 
   const { control, handleSubmit, formState: { errors }, setError } = useForm();
   const navigate = useNavigate();
 
   const { dataResponse: dataRole } = useFetchData("/api/role");
+  const { dataResponse: dataBrand} = useFetchData("/api/brand");
 
   useEffect(() => {
     if (dataRole.length <= 0) return;
     let mapdata = []
+    console.log(dataRole)
     dataRole.forEach(data => {
       let optionData = {
         id: data.id,
@@ -51,13 +54,30 @@ const SubAccountCreate = () => {
     });
     setRoleData([...mapdata]);
   }, [dataRole, setRoleData])
+
+  useEffect(() => {
+    let mapdata = [];
+    let newBrand = dataBrand?.list;
+    if (!newBrand) return;
+    if (newBrand.length <= 0) return;
+    console.log(newBrand)
+    newBrand.forEach(data => {
+      let optionData = {
+        id: data.id,
+        value: data.id,
+        label: data.username,
+      };
+      mapdata.push(optionData)
+    });
+    setBrandData([...mapdata]);
+  }, [dataBrand, setBrandData])
   const onSubmit = async (dataform) => {
     const formatWLIPs = whitelistIP.map((item) => {
       const joinStr = item.join('.');
       return joinStr;
     });
     const form = {
-      brand_ids: dataform.brand,
+      brand_ids: [dataform.brand],
       display_name: dataform.name,
       password: dataform.password,
       password_confirmation: dataform.confirm_password,
@@ -112,7 +132,7 @@ const SubAccountCreate = () => {
     <ContentCardPage>
       <TitlePage title="Create Sub Account" />
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: "50%" }}>
-        <InputField
+        {/* <InputField
           required
           nameField="brand"
           control={control}
@@ -120,6 +140,15 @@ const SubAccountCreate = () => {
           errors={errors?.brand}
           type="text"
           label="Brand"
+        /> */}
+        <SelectField
+          nameField="brand"
+          control={control}
+          errors={errors?.brand}
+          options={
+            brandData
+          }
+          defaultValue=""
         />
         <InputField
           required

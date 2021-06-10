@@ -28,6 +28,7 @@ import ButtonGroup, {
 import useFetchData from "src/utils/hooks/useFetchData";
 import api from "src/utils/api";
 import { LIST_PERMISSIONS } from "src/constants";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
   formStyle: {
@@ -76,8 +77,12 @@ const RoleAdd = () => {
       permission_group: permissionGroup
     };
     try {
-      await api.post("/api/role/create", form);
-      navigate("/role/list");
+      let data = await api.post("/api/role/create", form);
+      if(!data?.success) {
+        toast.warn("Form validation false");
+      } else {
+        navigate("/role/list");
+      }
     } catch (e) {
       console.log("e", e);
     }

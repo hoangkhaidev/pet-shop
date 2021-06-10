@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, lazy } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm, FormProvider } from "react-hook-form";
 import get from "lodash/get";
@@ -14,6 +14,8 @@ import StatusBadge from "src/components/shared/StatusBadge/StatusBadge";
 
 import useFetchData from "src/utils/hooks/useFetchData";
 import useRouter from "src/utils/hooks/useRouter";
+
+const ChangePasswordForm = lazy(() => import("src/components/Modal/ChangePasswordForm"));
 
 const OperatorList = () => {
   const router = useRouter();
@@ -98,19 +100,19 @@ const OperatorList = () => {
       data_field: "statuses",
       column_name: "Status",
       align: "center",
-      formatter: (cell) => (
+      formatter: (cell, row) => {
+        const newlabel = row.statuses[0] ? row.statuses[0] : "active";
+        return (
         <div>
-          <StatusBadge label="suspended" />
-          <StatusBadge label="active" />
-          <StatusBadge label="inactive" />
-          <StatusBadge label="locked" />
+          <StatusBadge label={newlabel} />
         </div>
-      )
+      )}
     },
     {
       data_field: "action",
       column_name: "Action",
       align: "center",
+      formatter: () => <ChangePasswordForm />,
     }
   ];
 

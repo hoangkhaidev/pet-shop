@@ -1,8 +1,17 @@
 import { useState, useEffect, lazy, Fragment } from "react";
 import get from "lodash/get";
 import { useForm, FormProvider } from "react-hook-form";
-import Link from "@material-ui/core/Link";
+import { useNavigate } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
 
+import DeleteIcon from '@material-ui/icons/Delete';
+import TooltipIcon from "src/components/shared/TooltipIcon/TooltipIcon";
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Link from "@material-ui/core/Link";
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+
+import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import Loading from "src/components/shared/Loading/Loading";
@@ -11,8 +20,22 @@ import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import useFetchData from "src/utils/hooks/useFetchData";
 import useRouter from "src/utils/hooks/useRouter";
 import SubAccountListFilter from "./SubAccountListFilter";
+import api from "src/utils/api";
+import { toast } from "react-toastify";
+import StatusBadge from "src/components/shared/StatusBadge/StatusBadge";
 
 const ChangePasswordForm = lazy(() => import("src/components/Modal/ChangePasswordForm"));
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  addRoleButton: {
+    float: "right"
+  }
+}));
 
 const SubAccountList = () => {
   const [data, setData] = useState([]);
@@ -26,6 +49,8 @@ const SubAccountList = () => {
     page_size: 30,
     ...router.query
   });
+  const navigate = useNavigate();
+  const classes = useStyles();
   const methods = useForm({
     defaultValues: router.query
   });
@@ -35,6 +60,19 @@ const SubAccountList = () => {
   useEffect(() => {
     setData(get(dataResponse, "list", []));
   }, [dataResponse]);
+
+  const deleteSubAccount = async (id) => {
+    try {
+      let data = await api.post(`/api/subs/${id}/delete`);
+      if(!data?.success) {
+        toast.warn("Role in Use")
+      } else {
+          navigate("/subs/list");
+      }
+    } catch(e) {
+      console.log(e)
+    }
+  }
 
   const columns = [
     {
@@ -48,17 +86,17 @@ const SubAccountList = () => {
       )
     },
     {
-      data_field: "display_name",
+      data_field: "name",
       column_name: "Name",
       align: "left",
     },
     {
-      data_field: "role",
+      data_field: "role_name",
       column_name: "Role",
       align: "center"
     },
     {
-      data_field: "brand",
+      data_field: "brand_name_list",
       column_name: "Brand",
       align: "center"
     },
@@ -68,7 +106,7 @@ const SubAccountList = () => {
       align: "right",
     },
     {
-      data_field: "last_login_time",
+      data_field: "last_logged_in",
       column_name: "Last Login Time",
       align: "right"
     },
@@ -76,12 +114,30 @@ const SubAccountList = () => {
       data_field: "statuses",
       column_name: "Status",
       align: "center",
+      formatter: (cell, row) => {
+        const newlabel = row.statuses[0] ? row.statuses[0] : "active";
+        return (
+        <div>
+          <StatusBadge label={newlabel} />
+        </div>
+      )}
     },
     {
       data_field: "action",
       column_name: "Action",
       align: "center",
-      formatter: () => <ChangePasswordForm />
+      formatter: (cell, row) =>( 
+      <ButtonGroup className={classes.root} >
+          <ChangePasswordForm />
+          <TooltipIcon
+            IconComponent={<DeleteIcon />}
+            title="Delete Role"
+            color="secondary"
+            onClick={() => deleteSubAccount(row.id)}
+          />
+          <TooltipIcon />
+        </ButtonGroup>
+      )
     }
   ];
 
@@ -129,6 +185,10 @@ const SubAccountList = () => {
     return <NoPermissionPage />;
   }
 
+  const onGotoAddSubPage = () => {
+    navigate("/sub/create");
+  };
+
   return (
     <Fragment>
       {isLoading && <Loading />}
@@ -140,6 +200,16 @@ const SubAccountList = () => {
         </form>
       </FormProvider>
       <ContentCardPage>
+        <Button
+          className={classes.addRoleButton}
+          variant="contained"
+          color="primary"
+          startIcon={<AddIcon />}
+          onClick={onGotoAddSubPage}
+        >
+          Add Sub Account
+        </Button>
+        <TitlePage title="Sub Account List" />
         <TableComponent
           data={data}
           columns={columns}

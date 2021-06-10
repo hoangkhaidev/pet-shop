@@ -13,6 +13,7 @@ import useFetchData from "src/utils/hooks/useFetchData";
 import useRouter from "src/utils/hooks/useRouter";
 
 import BrandListFilter from "./BrandListFilter";
+import StatusBadge from "src/components/shared/StatusBadge/StatusBadge";
 
 const BrandList = () => {
   const router = useRouter();
@@ -32,7 +33,7 @@ const BrandList = () => {
   });
   const { t } = useTranslation();
 
-  const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData("/api/operators", objFilter);
+  const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData("/api/brand", objFilter);
 
   useEffect(() => {
     setData(get(dataResponse, "list", []));
@@ -86,7 +87,7 @@ const BrandList = () => {
       align: "right",
     },
     {
-      data_field: "last_login_time",
+      data_field: "last_logged_in",
       column_name: "Last Login Time",
       align: "right"
     },
@@ -94,6 +95,13 @@ const BrandList = () => {
       data_field: "statuses",
       column_name: "Status",
       align: "center",
+      formatter: (cell, row) => {
+        const newlabel = row.statuses[0] ? row.statuses[0] : "active";
+        return (
+        <div>
+          <StatusBadge label={newlabel} />
+        </div>
+      )}
     },
     {
       data_field: "players",
