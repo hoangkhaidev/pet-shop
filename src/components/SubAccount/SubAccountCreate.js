@@ -60,7 +60,6 @@ const SubAccountCreate = () => {
     let newBrand = dataBrand?.list;
     if (!newBrand) return;
     if (newBrand.length <= 0) return;
-    console.log(newBrand)
     newBrand.forEach(data => {
       let optionData = {
         id: data.id,
@@ -77,6 +76,7 @@ const SubAccountCreate = () => {
       return joinStr;
     });
     const form = {
+      username: dataform.username,
       brand_ids: [dataform.brand],
       display_name: dataform.name,
       password: dataform.password,

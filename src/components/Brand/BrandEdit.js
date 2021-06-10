@@ -95,6 +95,28 @@ const BrandEdit = () => {
       account_type: 'operator'
     };
     console.log("form", form);
+
+    // try {
+    //   let response = await api.post(`/api/role/${router.query?.id}/update`, form);
+
+    //   if (get(response, 'data.success', false)) {
+    //     toast.success("Update Role Success", {
+    //       onClose: navigate("/role")
+    //     });
+    //   } else {
+    //     if (response?.err === 'err:form_validation_failed') {
+    //       for (const field in response?.data) {
+    //         console.log('field', field);
+    //         setError(field, {
+    //           type: 'validate',
+    //           message: response?.data[field]
+    //         });
+    //       }
+    //     }
+    //   }
+    // } catch (e) {
+    //   console.log("e", e);
+    // }
   };
 
   useEffect(() => {

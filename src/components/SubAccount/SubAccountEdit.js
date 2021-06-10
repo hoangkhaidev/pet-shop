@@ -37,6 +37,7 @@ const SubAccountEdit = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    setError,
   } = useForm();
 
   const navigate = useNavigate();
@@ -87,11 +88,21 @@ const SubAccountEdit = () => {
       whitelist_ips: formatWLIPs,
     };
     try {
-      let data = await api.post(`/api/subs/${router.query?.id}/update`, form);
-      if(data?.success) {
+      let response = await api.post(`/api/subs/${router.query?.id}/update`, form);
+      if (get(response, 'data.success', false)) {
         toast.success("Update subs Success", {
           onClose: navigate("/subs/list")
         });
+      } else {
+        if (response?.err === 'err:form_validation_failed') {
+          for (const field in response?.data) {
+            console.log('field', field);
+            setError(field, {
+              type: 'validate',
+              message: response?.data[field]
+            });
+          }
+        }
       }
     } catch (e) {
       console.log("e", e);

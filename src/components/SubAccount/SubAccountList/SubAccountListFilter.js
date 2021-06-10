@@ -1,4 +1,6 @@
+import { useState, useEffect} from "react";
 import { useFormContext } from "react-hook-form";
+import useFetchData from "src/utils/hooks/useFetchData";
 import Grid from "@material-ui/core/Grid";
 import { func } from "prop-types";
 
@@ -11,7 +13,26 @@ import { SORT_ODER, USER_STATUS } from "src/constants";
 const SubAccountListFilter = ({
   onResetFilter
 }) => {
+  const [brandData, setBrandData] = useState([]);
   const { control } = useFormContext();
+
+  const { dataResponse: dataBrand} = useFetchData("/api/brand");
+
+  useEffect(() => {
+    let mapdata = [{id: 0, value: "all", label: "All"}];
+    let newBrand = dataBrand?.list;
+    if (!newBrand) return;
+    if (newBrand.length <= 0) return;
+    newBrand.forEach(data => {
+      let optionData = {
+        id: data.id,
+        value: data.id,
+        label: data.username,
+      };
+      mapdata.push(optionData)
+    });
+    setBrandData([...mapdata]);
+  }, [dataBrand, setBrandData])
 
   return (
     <ContentCardPage>
@@ -33,7 +54,8 @@ const SubAccountListFilter = ({
             id="brand"
             label="Brand"
             fullWidth={false}
-            defaultValue=""
+            options={brandData}
+            defaultValue="all"
           />
         </Grid>
         <Grid item xs={12} xl={3} md={4}>
@@ -60,7 +82,7 @@ const SubAccountListFilter = ({
         </Grid>
       </Grid>
       <ButtonGroup>
-        <SubmitButton />
+        <SubmitButton text="Search"/>
         <ResetButton onAction={onResetFilter} />
       </ButtonGroup>
     </ContentCardPage>

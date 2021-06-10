@@ -82,7 +82,7 @@ const RoleList = () => {
     {
       data_field: "roleName",
       column_name: "Role Name",
-      align: "center"
+      align: "left"
     },
     {
       data_field: "description",

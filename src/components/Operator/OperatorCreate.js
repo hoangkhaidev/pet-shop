@@ -262,7 +262,7 @@ const OperatorCreate = () => {
           type="password"
           label="Confirm Password"
         />
-        <FormLabel>{t("Whitelist IP Address")}</FormLabel>
+        <FormLabel>{t("Whitelist IP Address for BO")}</FormLabel>
         {whitelistIP.map((item, index) => (
           <div className={classes.whitelistIPLine}>
             <IPAddressInput

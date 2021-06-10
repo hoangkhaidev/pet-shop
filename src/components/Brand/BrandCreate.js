@@ -88,10 +88,14 @@ const BrandCreate = () => {
     setWhitelistIP(cloneArr);
   };
 
+  const onSubmit = async (dataForm) => {
+    console.log(dataForm);
+  }
+
   return (
     <ContentCardPage>
       <TitlePage title="Create Brand" />
-      <form className={classes.formStyle}>
+      <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle}>
         <InputField
           autoFocus
           required

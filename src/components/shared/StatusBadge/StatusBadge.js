@@ -30,7 +30,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 const StatusBadge = memo(({
-  label
+  label,
+  onClick
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -46,6 +47,7 @@ const StatusBadge = memo(({
       classes={{
         root: classes.labelBadge
       }}
+      onClick={onClick}
     />
   );
 });

@@ -16,6 +16,7 @@ import useFetchData from "src/utils/hooks/useFetchData";
 import useRouter from "src/utils/hooks/useRouter";
 
 const ChangePasswordForm = lazy(() => import("src/components/Modal/ChangePasswordForm"));
+const ChangeStatus = lazy(() => import("src/components/Modal/ChangeStatus"));
 
 const OperatorList = () => {
   const router = useRouter();
@@ -78,23 +79,23 @@ const OperatorList = () => {
     {
       data_field: "support_email",
       column_name: "Support Email",
-      align: "center"
+      align: "left"
     },
     {
       data_field: "finance_emails",
       column_name: "Finance Email",
-      align: "center",
+      align: "left",
       formatter: (cell) => cell.join(", ")
     },
     {
       data_field: "created_at",
       column_name: "Created At",
-      align: "right",
+      align: "left",
     },
     {
       data_field: "last_logged_in",
       column_name: "Last Login Time",
-      align: "right"
+      align: "left"
     },
     {
       data_field: "statuses",
@@ -103,9 +104,7 @@ const OperatorList = () => {
       formatter: (cell, row) => {
         const newlabel = row.statuses[0] ? row.statuses[0] : "active";
         return (
-        <div>
-          <StatusBadge label={newlabel} />
-        </div>
+          <ChangeStatus newlabel={newlabel}/>
       )}
     },
     {

@@ -69,7 +69,8 @@ const RoleEdit = () => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
+    setError,
   } = useForm();
 
   const { dataResponse, isLoading, isHasPermission } = useFetchData(`/api/role/${router.query?.id}`);
@@ -100,10 +101,23 @@ const RoleEdit = () => {
       permission_group: permissionGroup
     };
     try {
-      await api.post(`/api/role/${router.query?.id}/update`, form);
-      toast.success("Update Role Success", {
-        onClose: navigate("/role")
-      });
+      let response = await api.post(`/api/role/${router.query?.id}/update`, form);
+
+      if (get(response, 'data.success', false)) {
+        toast.success("Update Role Success", {
+          onClose: navigate("/role")
+        });
+      } else {
+        if (response?.err === 'err:form_validation_failed') {
+          for (const field in response?.data) {
+            console.log('field', field);
+            setError(field, {
+              type: 'validate',
+              message: response?.data[field]
+            });
+          }
+        }
+      }
     } catch (e) {
       console.log("e", e);
     }

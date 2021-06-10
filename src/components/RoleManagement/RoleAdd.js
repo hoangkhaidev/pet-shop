@@ -16,6 +16,8 @@ import Radio from '@material-ui/core/Radio';
 import forEach from "lodash/forEach";
 import findIndex from "lodash/findIndex";
 
+import get from "lodash/get";
+
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import InputField from 'src/components/shared/InputField/InputField';
 import Loading from 'src/components/shared/Loading/Loading';
@@ -62,6 +64,7 @@ const RoleAdd = () => {
     control,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
 
   const { dataResponse, isLoading, isHasPermission } = useFetchData("/api/role/permissions");
@@ -77,11 +80,21 @@ const RoleAdd = () => {
       permission_group: permissionGroup
     };
     try {
-      let data = await api.post("/api/role/create", form);
-      if(!data?.success) {
-        toast.warn("Form validation false");
+      let response = await api.post("/api/role/create", form);
+      if (get(response, 'data.success', false)) {
+        toast.success("Add Role Success", {
+          onClose: navigate("/role/list")
+        });
       } else {
-        navigate("/role/list");
+        if (response?.err === 'err:form_validation_failed') {
+          for (const field in response?.data) {
+            console.log('field', field);
+            setError(field, {
+              type: 'validate',
+              message: response?.data[field]
+            });
+          }
+        }
       }
     } catch (e) {
       console.log("e", e);

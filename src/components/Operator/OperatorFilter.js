@@ -75,7 +75,7 @@ const OperatorListFilter = ({
         </Grid>
       </Grid>
       <ButtonGroup>
-        <SubmitButton />
+        <SubmitButton text="Search"/>
         <ResetButton onAction={onResetFilter} />
       </ButtonGroup>
     </ContentCardPage>

@@ -66,7 +66,8 @@ const OperatorEdit = () => {
     handleSubmit,
     formState: { errors },
     setValue,
-    watch
+    watch,
+    setError,
   } = useForm();
 
   const { dataResponse, isLoading, isHasPermission } = useFetchData(
@@ -103,10 +104,23 @@ const OperatorEdit = () => {
     };
     console.log("form", form);
     try {
-      await api.post(`/api/operators/${router.query?.id}/update`, form);
-      toast.success("Update operator Success", {
-        onClose: navigate("/operator/list")
-      });
+      let response = await api.post(`/api/operators/${router.query?.id}/update`, form);
+
+      if (get(response, 'data.success', false)) {
+        toast.success("Update operator Success", {
+          onClose: navigate("/operator/list")
+        });
+      } else {
+        if (response?.err === 'err:form_validation_failed') {
+          for (const field in response?.data) {
+            console.log('field', field);
+            setError(field, {
+              type: 'validate',
+              message: response?.data[field]
+            });
+          }
+        }
+      }
     } catch (e) {
       console.log("e", e);
     }

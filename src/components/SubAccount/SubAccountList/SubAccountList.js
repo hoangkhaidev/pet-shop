@@ -93,22 +93,22 @@ const SubAccountList = () => {
     {
       data_field: "role_name",
       column_name: "Role",
-      align: "center"
+      align: "left"
     },
     {
       data_field: "brand_name_list",
       column_name: "Brand",
-      align: "center"
+      align: "left"
     },
     {
       data_field: "created_at",
       column_name: "Created At",
-      align: "right",
+      align: "left",
     },
     {
       data_field: "last_logged_in",
       column_name: "Last Login Time",
-      align: "right"
+      align: "left"
     },
     {
       data_field: "statuses",
@@ -157,12 +157,37 @@ const SubAccountList = () => {
   };
 
   const onSubmit = dataSubmit => {
-    setObjFilter(prevState => ({
-      ...prevState,
+    // "name_search": "",
+    // "status_search": "",
+    // "sort_field": "username",
+    // "filter_type": "brand",
+    // "brand_id": 1,
+
+
+    // name_search: "",
+    // status_search: "",
+    // sort_field: "username",
+    let data = {
       name_search: dataSubmit.name_search,
       status_search: dataSubmit.status_search,
       sort_order: dataSubmit.sort_order,
       refetch: true
+    }
+    if(dataSubmit?.brand === "all") {
+      data = {
+        ...data,
+        filter_type: dataSubmit?.brand,
+      }
+    } else {
+      data = {
+        ...data,
+        filter_type: "brand",
+        brand_id: dataSubmit?.brand,
+      }
+    }
+    setObjFilter(prevState => ({
+      ...prevState,
+      ...data,
     }));
   };
 

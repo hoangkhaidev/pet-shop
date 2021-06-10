@@ -74,27 +74,27 @@ const BrandList = () => {
     {
       data_field: "support_email",
       column_name: "Support Email",
-      align: "center"
+      align: "left"
     },
     {
       data_field: "finance_email",
       column_name: "Finance Email",
-      align: "center"
+      align: "left"
     },
     {
       data_field: "created_at",
       column_name: "Created At",
-      align: "right",
+      align: "left",
     },
     {
       data_field: "last_logged_in",
       column_name: "Last Login Time",
-      align: "right"
+      align: "left"
     },
     {
       data_field: "statuses",
       column_name: "Status",
-      align: "center",
+      align: "left",
       formatter: (cell, row) => {
         const newlabel = row.statuses[0] ? row.statuses[0] : "active";
         return (
