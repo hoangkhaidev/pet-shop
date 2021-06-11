@@ -157,16 +157,6 @@ const SubAccountList = () => {
   };
 
   const onSubmit = dataSubmit => {
-    // "name_search": "",
-    // "status_search": "",
-    // "sort_field": "username",
-    // "filter_type": "brand",
-    // "brand_id": 1,
-
-
-    // name_search: "",
-    // status_search: "",
-    // sort_field: "username",
     let data = {
       name_search: dataSubmit.name_search,
       status_search: dataSubmit.status_search,

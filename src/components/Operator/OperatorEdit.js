@@ -188,7 +188,7 @@ const OperatorEdit = () => {
 
   return (
     <ContentCardPage>
-      <TitlePage title="Create Operator" />
+      <TitlePage title="Edit Operator" />
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: '50%' }}>
         <InputField
           autoFocus

@@ -70,6 +70,7 @@ const SubAccountCreate = () => {
     });
     setBrandData([...mapdata]);
   }, [dataBrand, setBrandData])
+
   const onSubmit = async (dataform) => {
     const formatWLIPs = whitelistIP.map((item) => {
       const joinStr = item.join('.');
@@ -86,7 +87,7 @@ const SubAccountCreate = () => {
     };
     try {
       const response = await api.post('/api/subs/create', form);
-      if (get(response, 'data.success', false)) {
+      if (get(response, 'success', false)) {
         console.log('subs', response);
         navigate("subs/list")
       } else {
@@ -143,6 +144,9 @@ const SubAccountCreate = () => {
         /> */}
         <SelectField
           nameField="brand"
+          id="brand"
+          label="Brand"
+          fullWidth={false}
           control={control}
           errors={errors?.brand}
           options={
@@ -186,6 +190,9 @@ const SubAccountCreate = () => {
           label="Confirm Password"
         />
         <SelectField
+          id="role"
+          fullWidth={false}
+          label="Role"
           nameField="role"
           control={control}
           errors={errors?.role}

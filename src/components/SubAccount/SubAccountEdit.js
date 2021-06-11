@@ -49,8 +49,28 @@ const SubAccountEdit = () => {
   const [roleData, setRoleData] = useState([]);
   const [data, setData] = useState(null)
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
+  const [brandData, setBrandData] = useState([]);
+
+  const { dataResponse: dataBrand} = useFetchData("/api/brand");
 
   useEffect(() => {
+    let mapdata = [];
+    let newBrand = dataBrand?.list;
+    if (!newBrand) return;
+    if (newBrand.length <= 0) return;
+    newBrand.forEach(data => {
+      let optionData = {
+        id: data.id,
+        value: data.id,
+        label: data.username,
+      };
+      mapdata.push(optionData)
+    });
+    setBrandData([...mapdata]);
+  }, [dataBrand, setBrandData])
+
+  useEffect(() => {
+    console.log(dataResponse)
     setValue("brand", get(dataResponse, "brand_ids", ""));
     setValue("username", get(dataResponse, "username", ""));
     setValue("name", get(dataResponse, "name", ""));
@@ -80,7 +100,7 @@ const SubAccountEdit = () => {
       return joinStr;
     });
     const form = {
-      brand_ids: dataform.brand,
+      brand_ids: [+dataform.brand],
       display_name: dataform.name,
       password: dataform.password,
       password_confirmation: dataform.confirm_password,
@@ -89,7 +109,7 @@ const SubAccountEdit = () => {
     };
     try {
       let response = await api.post(`/api/subs/${router.query?.id}/update`, form);
-      if (get(response, 'data.success', false)) {
+      if (get(response, 'success', false)) {
         toast.success("Update subs Success", {
           onClose: navigate("/subs/list")
         });
@@ -136,7 +156,7 @@ const SubAccountEdit = () => {
     <ContentCardPage>
       <TitlePage title="Edit Sub Account" />
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: "50%" }}>
-        <InputField
+        {/* <InputField
           required
           nameField="brand"
           control={control}
@@ -144,6 +164,19 @@ const SubAccountEdit = () => {
           errors={errors?.brand}
           type="text"
           label="Brand"
+        /> */}
+        <SelectField
+          control={control}
+          nameField="brand"
+          id="brand"
+          label="Brand"
+          fullWidth={false}
+          control={control}
+          errors={errors?.brand}
+          options={
+            brandData
+          }
+          defaultValue=""
         />
         <InputField
           required
@@ -181,6 +214,7 @@ const SubAccountEdit = () => {
           label="Confirm Password"
         />
         <SelectField
+          label="Role"
           nameField="role"
           control={control}
           errors={errors?.role}
@@ -191,7 +225,7 @@ const SubAccountEdit = () => {
         />
         <FormLabel>Whitelist IP Address</FormLabel>
         {(whitelistIP || []).map((item, index) => (
-          <div className={classes.whitelistIPLine}>
+          <div className={classes.whitelistIPLine} key={index}>
             <IPAddressInput
               key={index}
               apiWLIP={item}

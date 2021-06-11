@@ -102,8 +102,7 @@ const RoleEdit = () => {
     };
     try {
       let response = await api.post(`/api/role/${router.query?.id}/update`, form);
-
-      if (get(response, 'data.success', false)) {
+      if (get(response, 'success', false)) {
         toast.success("Update Role Success", {
           onClose: navigate("/role")
         });
@@ -181,7 +180,7 @@ const RoleEdit = () => {
   return (
     <ContentCardPage>
       {isLoading && <Loading />}
-      <TitlePage title="Add Role" />
+      <TitlePage title="Edit Role" />
       <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle}>
         <InputField
           autoFocus

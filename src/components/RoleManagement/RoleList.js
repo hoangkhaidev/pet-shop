@@ -67,11 +67,13 @@ const RoleList = () => {
 
   const deleteRole = async (id) => {
     try {
-      let data = await api.post(`/api/role/${id}/delete`);
-      if(!data?.success) {
+      let response = await api.post(`/api/role/${id}/delete`);
+      if(!response?.success) {
         toast.warn("Role in Use")
       } else {
-          navigate("/role/list");
+        toast.success("Delete Role Success", {
+          onClose: navigate("/role/list")
+        });
       }
     } catch(e) {
       console.log(e)
@@ -80,7 +82,7 @@ const RoleList = () => {
 
   const columns = [
     {
-      data_field: "roleName",
+      data_field: "role_name",
       column_name: "Role Name",
       align: "left"
     },
