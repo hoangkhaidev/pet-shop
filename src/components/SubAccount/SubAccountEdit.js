@@ -60,8 +60,8 @@ const SubAccountEdit = () => {
     if (newBrand.length <= 0) return;
     newBrand.forEach(data => {
       let optionData = {
-        id: data.id,
-        value: data.id,
+        id: data.BrandId,
+        value: data.BrandId,
         label: data.username,
       };
       mapdata.push(optionData)
@@ -70,7 +70,6 @@ const SubAccountEdit = () => {
   }, [dataBrand, setBrandData])
 
   useEffect(() => {
-    console.log(dataResponse)
     setValue("brand", get(dataResponse, "brand_ids", ""));
     setValue("username", get(dataResponse, "username", ""));
     setValue("name", get(dataResponse, "name", ""));
@@ -78,7 +77,7 @@ const SubAccountEdit = () => {
   }, [dataResponse, setValue])
 
   useEffect(() => {
-    const formatWhitelistIP = ["..."].map((ip) => ip.split('.'));
+    const formatWhitelistIP = get(dataResponse, "whitelist_ips", ["..."]).map((ip) => ip.split('.'));
     setWhitelistIP(formatWhitelistIP);
 
     if (dataRole.length <= 0) return;
@@ -87,12 +86,12 @@ const SubAccountEdit = () => {
       let optionData = {
         id: data.id,
         value: data.id,
-        label: data.roleName,
+        label: data.role_name,
       };
       mapdata.push(optionData)
     });
     setRoleData([...mapdata]);
-  }, [dataRole, setRoleData])
+  }, [dataRole, setRoleData, dataResponse])
   
   const onSubmit = async (dataform) => {
     const formatWLIPs = whitelistIP.map((item) => {
@@ -170,7 +169,6 @@ const SubAccountEdit = () => {
           nameField="brand"
           id="brand"
           label="Brand"
-          fullWidth={false}
           control={control}
           errors={errors?.brand}
           options={

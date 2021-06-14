@@ -77,9 +77,9 @@ const OperatorEdit = () => {
 
   useEffect(() => {
     setData(dataResponse);
-    const formatWhitelistIP = dataResponse?.whitelistIPs?.map((ip) => ip.split('.'));
-    const formatApiWLIP = dataResponse?.apiWhiteListIP?.split('.');
-    setFinanceEmail(get(dataResponse, 'financeEmails', []));
+    const formatWhitelistIP = dataResponse?.whitelist_ips?.map((ip) => ip.split('.'));
+    const formatApiWLIP = dataResponse?.api_white_list_ip?.split('.');
+    setFinanceEmail(get(dataResponse, 'finance_emails', []));
     setWhitelistIP(formatWhitelistIP);
     setAPIWLIP(formatApiWLIP);
   }, [dataResponse]);
@@ -102,11 +102,10 @@ const OperatorEdit = () => {
       finance_email: financeEmail,
       account_type: 'operator'
     };
-    console.log("form", form);
     try {
       let response = await api.post(`/api/operators/${router.query?.id}/update`, form);
 
-      if (get(response, 'data.success', false)) {
+      if (get(response, 'success', false)) {
         toast.success("Update operator Success", {
           onClose: navigate("/operator/list")
         });
@@ -134,10 +133,10 @@ const OperatorEdit = () => {
 
   useEffect(() => {
     if (data) {
-      setValue("name", data?.username);
-      setValue("support_email", data?.supportEmail);
+      setValue("name", data?.operator_name);
+      setValue("support_email", data?.support_email);
       setValue("username", data?.username);
-      setValue("api_endpoint", data?.apiEndpoint);
+      setValue("api_endpoint", data?.api_endpoint);
       setValue("commission", data?.commission);
     }
   }, [data, setValue]);
@@ -296,6 +295,7 @@ const OperatorEdit = () => {
           label="Confirm Password"
           helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
         />
+        <FormLabel>Whitelist IP Address for BO</FormLabel>
         {(whitelistIP || []).map((item, index) => (
           <div
             className={classes.whitelistIPLine}

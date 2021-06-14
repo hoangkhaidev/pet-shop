@@ -72,7 +72,7 @@ const OperatorList = () => {
       )
     },
     {
-      data_field: "name",
+      data_field: "operator_name",
       column_name: "Name",
       align: "left",
     },

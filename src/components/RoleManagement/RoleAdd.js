@@ -75,7 +75,7 @@ const RoleAdd = () => {
 
   const onSubmit = async (data) => {
     const form = {
-      rolename: data.rolename,
+      role_name: data.rolename,
       description: data.description,
       permission_group: permissionGroup
     };

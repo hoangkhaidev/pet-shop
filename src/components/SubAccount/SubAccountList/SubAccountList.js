@@ -96,7 +96,7 @@ const SubAccountList = () => {
       align: "left"
     },
     {
-      data_field: "brand_name_list",
+      data_field: "brand_names",
       column_name: "Brand",
       align: "left"
     },

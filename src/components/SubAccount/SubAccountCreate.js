@@ -48,7 +48,7 @@ const SubAccountCreate = () => {
       let optionData = {
         id: data.id,
         value: data.id,
-        label: data.roleName,
+        label: data.role_name,
       };
       mapdata.push(optionData)
     });
@@ -62,8 +62,8 @@ const SubAccountCreate = () => {
     if (newBrand.length <= 0) return;
     newBrand.forEach(data => {
       let optionData = {
-        id: data.id,
-        value: data.id,
+        id: data.BrandId,
+        value: data.BrandId,
         label: data.username,
       };
       mapdata.push(optionData)

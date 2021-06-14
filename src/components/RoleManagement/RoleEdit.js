@@ -76,7 +76,7 @@ const RoleEdit = () => {
   const { dataResponse, isLoading, isHasPermission } = useFetchData(`/api/role/${router.query?.id}`);
 
   useEffect(() => {
-    setValue("rolename", get(dataResponse, "roleName", ""));
+    setValue("rolename", get(dataResponse, "role_name", ""));
     setValue("description", get(dataResponse, "description", ""));
     setPermissionGroup(get(dataResponse, "permission_group", []));
   }, [dataResponse, setValue]);

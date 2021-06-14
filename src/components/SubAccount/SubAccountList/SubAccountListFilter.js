@@ -20,13 +20,17 @@ const SubAccountListFilter = ({
 
   useEffect(() => {
     let mapdata = [{id: 0, value: "all", label: "All"}];
-    let newBrand = dataBrand?.list;
+    let newBrand;
+    if(dataBrand?.list) {
+      newBrand = [...dataBrand?.list];
+    }
+    console.log(newBrand)
     if (!newBrand) return;
     if (newBrand.length <= 0) return;
     newBrand.forEach(data => {
       let optionData = {
-        id: data.id,
-        value: data.id,
+        id: data.BrandId,
+        value: data.BrandId,
         label: data.username,
       };
       mapdata.push(optionData)
