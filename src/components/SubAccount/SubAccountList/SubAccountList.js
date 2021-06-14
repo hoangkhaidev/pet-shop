@@ -22,9 +22,9 @@ import useRouter from "src/utils/hooks/useRouter";
 import SubAccountListFilter from "./SubAccountListFilter";
 import api from "src/utils/api";
 import { toast } from "react-toastify";
-import StatusBadge from "src/components/shared/StatusBadge/StatusBadge";
 
-const ChangePasswordForm = lazy(() => import("src/components/Modal/ChangePasswordForm"));
+const ChangePasswordForm = lazy(() => import("src/components/Modal/ChangePasswordForm")); 
+const ChangeStatus = lazy(() => import("src/components/Modal/ChangeStatus"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -115,11 +115,9 @@ const SubAccountList = () => {
       column_name: "Status",
       align: "center",
       formatter: (cell, row) => {
-        const newlabel = row.statuses[0] ? row.statuses[0] : "active";
+        const newlabel = row.statuses[0] ? row.statuses[0].status : "active";
         return (
-        <div>
-          <StatusBadge label={newlabel} />
-        </div>
+        <ChangeStatus newlabel={newlabel} linkApi={`/api/subs/${row.id}/update_status`}/>
       )}
     },
     {
@@ -128,7 +126,7 @@ const SubAccountList = () => {
       align: "center",
       formatter: (cell, row) =>( 
       <ButtonGroup className={classes.root} >
-          <ChangePasswordForm />
+          <ChangePasswordForm linkApi={`/api/subs/${row.id}/update_password`}/>
           <TooltipIcon
             IconComponent={<DeleteIcon />}
             title="Delete Role"

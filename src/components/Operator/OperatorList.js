@@ -102,16 +102,16 @@ const OperatorList = () => {
       column_name: "Status",
       align: "center",
       formatter: (cell, row) => {
-        const newlabel = row.statuses[0] ? row.statuses[0] : "active";
+        const newlabel = row.statuses[0] ? row.statuses[0].status : "active";
         return (
-          <ChangeStatus newlabel={newlabel}/>
+          <ChangeStatus newlabel={newlabel} linkApi={`/api/operators/${row.id}/update_status`}/>
       )}
     },
     {
       data_field: "action",
       column_name: "Action",
       align: "center",
-      formatter: () => <ChangePasswordForm />,
+      formatter: (cell, row) => <ChangePasswordForm linkApi={`/api/operators/${row.id}/update_password`}/>,
     }
   ];
 
