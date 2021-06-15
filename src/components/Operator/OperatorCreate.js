@@ -25,7 +25,7 @@ import ButtonGroup, {
   ResetButton
 } from 'src/components/shared/Button/Button';
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
-import FormattedNumberInput from 'src/components/shared/InputField/InputFieldNumber';
+import {FormattedNumberInputComission} from 'src/components/shared/InputField/InputFieldNumber';
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
 import Loading from 'src/components/shared/Loading/Loading';
 import api from 'src/utils/api';
@@ -81,6 +81,7 @@ const OperatorCreate = () => {
     setIsLoading(true);
     const form = {
       ...data,
+      commission: String(data.commission),
       api_whitelist_ip: formatWLIPEndpoint,
       whitelist_ips: formatWLIPs,
       finance_email: financeEmail,
@@ -199,7 +200,7 @@ const OperatorCreate = () => {
             />
           ))}
         </div>
-        <FormattedNumberInput
+        <FormattedNumberInputComission
           nameField="commission"
           label="Comission"
           id="commission"

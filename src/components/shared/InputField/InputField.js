@@ -16,6 +16,9 @@ const useStyles = makeStyles(() => ({
   },
   formControl: {
     width: '100%'
+  },
+  labelStyle: {
+    color: 'red'
   }
 }));
 
@@ -66,7 +69,7 @@ const InputField = ({
               style={styles}
               type={type}
               id={id}
-              label={`${label}${required ? "*" : ""}`}
+              label={<div>{label}<span className={classes.labelStyle}>{required ? "*" : ""}</span></div>}
               fullWidth
               inputRef={ref}
               onBlur={onBlur}

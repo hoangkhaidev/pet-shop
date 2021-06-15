@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
-import FormattedNumberInput from 'src/components/shared/InputField/InputFieldNumber';
+import {FormattedNumberInputComission} from 'src/components/shared/InputField/InputFieldNumber';
 import InputField from 'src/components/shared/InputField/InputField';
 import Loading from 'src/components/shared/Loading/Loading';
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
@@ -93,9 +93,9 @@ const OperatorEdit = () => {
       const joinStr = item.join('.');
       return joinStr;
     });
-
     const form = {
       ...dataForm,
+      commission: String(data.commission),
       accountId: data.accountId,
       api_whitelist_ip: formatWLIPEndpoint,
       whitelist_ips: formatWLIPs,
@@ -104,7 +104,6 @@ const OperatorEdit = () => {
     };
     try {
       let response = await api.post(`/api/operators/${router.query?.id}/update`, form);
-
       if (get(response, 'success', false)) {
         toast.success("Update operator Success", {
           onClose: navigate("/operator/list")
@@ -230,21 +229,15 @@ const OperatorEdit = () => {
             />
           ))}
         </div>
-        <FormattedNumberInput
+        <FormattedNumberInputComission
           nameField="commission"
           label="Comission"
           id="commission"
           control={control}
-          allowLeadingZeros
-          allowNegative={false}
-          decimalScale={0}
           errors={errors.commission}
           required
           InputProps={{
             endAdornment: <InputAdornment position="end">%</InputAdornment>
-          }}
-          inputProps={{
-            maxLength: 3
           }}
         />
         <InputField
