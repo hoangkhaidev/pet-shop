@@ -94,9 +94,9 @@ const BrandList = () => {
     {
       data_field: "statuses",
       column_name: "Status",
-      align: "left",
+      align: "center",
       formatter: (cell, row) => {
-        const newlabel = row.statuses[0] ? row.statuses[0] : "active";
+        const newlabel = row.statuses[0] ? row.statuses[0].status : "active";
         return (
         <div>
           <StatusBadge label={newlabel} />

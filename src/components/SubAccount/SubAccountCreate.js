@@ -43,7 +43,6 @@ const SubAccountCreate = () => {
   useEffect(() => {
     if (dataRole.length <= 0) return;
     let mapdata = []
-    console.log(dataRole)
     dataRole.forEach(data => {
       let optionData = {
         id: data.id,
@@ -88,12 +87,10 @@ const SubAccountCreate = () => {
     try {
       const response = await api.post('/api/subs/create', form);
       if (get(response, 'success', false)) {
-        console.log('subs', response);
         navigate("subs/list")
       } else {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
-            console.log('field', field);
             setError(field, {
               type: 'validate',
               message: response?.data[field]

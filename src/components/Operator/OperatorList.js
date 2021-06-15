@@ -18,6 +18,39 @@ import useRouter from "src/utils/hooks/useRouter";
 const ChangePasswordForm = lazy(() => import("src/components/Modal/ChangePasswordForm"));
 const ChangeStatus = lazy(() => import("src/components/Modal/ChangeStatus"));
 
+const STATUS = [
+  {
+    id: 1,
+    value: "active",
+    label: "active",
+  },
+  {
+    id: 2,
+    value: "inactive",
+    label: "inactive",
+  },
+  {
+    id: 3,
+    value: "suspended",
+    label: "suspended",
+  },
+  {
+    id: 4,
+    value: "unsuspended",
+    label: "unsuspended",
+  },
+  {
+    id: 5,
+    value: "locked",
+    label: "locked",
+  },
+  {
+    id: 6,
+    value: "unlocked",
+    label: "unlocked",
+  },
+];
+
 const OperatorList = () => {
   const router = useRouter();
   const [data, setData] = useState([]);
@@ -104,7 +137,7 @@ const OperatorList = () => {
       formatter: (cell, row) => {
         const newlabel = row.statuses[0] ? row.statuses[0].status : "active";
         return (
-          <ChangeStatus newlabel={newlabel} linkApi={`/api/operators/${row.id}/update_status`}/>
+          <ChangeStatus newlabel={newlabel} linkApi={`/api/operators/${row.id}/update_status`} STATUS={STATUS}/>
       )}
     },
     {

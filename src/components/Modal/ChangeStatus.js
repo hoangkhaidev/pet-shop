@@ -10,35 +10,12 @@ import ModalComponent from "src/components/shared/ModalComponent/ModalComponent"
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import { SubmitButton } from "src/components/shared/Button/Button";
 
-const STATUS = [
-  {
-    id: 1,
-    value: "active",
-    label: "active",
-  },
-  {
-    id: 2,
-    value: "inactive",
-    label: "inactive",
-  },
-  {
-    id: 3,
-    value: "suspended",
-    label: "suspended",
-  },
-  {
-    id: 4,
-    value: "locked",
-    label: "locked",
-  },
-];
-
-const ChangeStatus = ({newlabel, linkApi}) => {
+const ChangeStatus = ({newlabel, linkApi, STATUS}) => {
+  const [label, setLabel] = useState(newlabel);
   const [open, setOpen] = useState(false);
-  const { handleSubmit, formState: { errors }, control, setError } = useForm();
+  const { handleSubmit, formState: { errors }, control, setError, setValue } = useForm();
 
   const onOpenModal = useCallback(() => {
-    console.log("chay")
     setOpen(true);
   }, []);
 
@@ -53,16 +30,16 @@ const ChangeStatus = ({newlabel, linkApi}) => {
     };
     try {
       const response = await api.post(linkApi, form);
-      console.log(response)
       
       if (get(response, 'success', false)) {
+        setLabel(data.status);
+        setValue("reason", "");
         toast.success("Update Status Success", {
           onClose: onClose()
         });
       } else {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
-            console.log('field', field);
             setError(field, {
               type: 'validate',
               message: response?.data[field]
@@ -77,7 +54,7 @@ const ChangeStatus = ({newlabel, linkApi}) => {
 
   return (
     <div>
-      <StatusBadge label={newlabel} onClick={(onOpenModal)}/>
+      <StatusBadge label={label} onClick={(onOpenModal)}/>
       <ModalComponent
         open={open}
         onClose={onClose}

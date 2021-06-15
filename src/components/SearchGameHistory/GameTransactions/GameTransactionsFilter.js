@@ -116,7 +116,6 @@ const GameTransactionFilter = ({
       end: dateRange.end,
       start: dateRange.start
     };
-    console.log("form", form);
   };
 
   const onReset = () => {

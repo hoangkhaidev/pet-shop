@@ -37,6 +37,19 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const STATUS = [
+  {
+    id: 1,
+    value: "suspended",
+    label: "suspended",
+  },
+  {
+    id: 2,
+    value: "locked",
+    label: "locked",
+  },
+];
+
 const SubAccountList = () => {
   const [data, setData] = useState([]);
   const router = useRouter();
@@ -117,7 +130,7 @@ const SubAccountList = () => {
       formatter: (cell, row) => {
         const newlabel = row.statuses[0] ? row.statuses[0].status : "active";
         return (
-        <ChangeStatus newlabel={newlabel} linkApi={`/api/subs/${row.id}/update_status`}/>
+        <ChangeStatus newlabel={newlabel} linkApi={`/api/subs/${row.id}/update_status`} STATUS={STATUS}/>
       )}
     },
     {

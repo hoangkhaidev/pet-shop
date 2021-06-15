@@ -115,7 +115,6 @@ const SubAccountEdit = () => {
       } else {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
-            console.log('field', field);
             setError(field, {
               type: 'validate',
               message: response?.data[field]
@@ -155,15 +154,6 @@ const SubAccountEdit = () => {
     <ContentCardPage>
       <TitlePage title="Edit Sub Account" />
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: "50%" }}>
-        {/* <InputField
-          required
-          nameField="brand"
-          control={control}
-          id="brand"
-          errors={errors?.brand}
-          type="text"
-          label="Brand"
-        /> */}
         <SelectField
           control={control}
           nameField="brand"

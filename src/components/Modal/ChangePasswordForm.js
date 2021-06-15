@@ -31,7 +31,6 @@ const ChangePasswordForm = ({linkApi}) => {
     
     try {
       const response = await api.post(linkApi, form);
-      console.log(response)
       
       if (get(response, 'success', false)) {
         toast.success("Update Password Success", {

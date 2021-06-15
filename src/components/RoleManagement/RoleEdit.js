@@ -109,7 +109,6 @@ const RoleEdit = () => {
       } else {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
-            console.log('field', field);
             setError(field, {
               type: 'validate',
               message: response?.data[field]
