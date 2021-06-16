@@ -13,6 +13,8 @@ import {
 import get from "lodash/get";
 import api from "src/utils/api";
 import { CurrentPageContext } from "src/App";
+import { useDispatch } from "react-redux";
+import { getUser } from "src/features/roleUser/roleUser";
 
 import NavItem from './NavItem';
 
@@ -25,6 +27,7 @@ const user = {
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const [listNav, setListNav] = useState({});
   const { currentMenu } = useContext(CurrentPageContext);
+  const dispatch = useDispatch();
 
   const getListNav = useCallback(async () => {
     const response = await api.post('/api/navigation', null);
@@ -34,6 +37,20 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
       console.log("response", response);
     }
   }, []);
+
+  const getUserData = async() => {
+    const response = await api.post('/api/auth', null);
+    if (get(response, "success", false)) {
+      let data = get(response, "data", "");
+      dispatch(getUser(data));
+    } else {
+      console.log("response", response);
+    }
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, [])
 
   useEffect(() => {
     getListNav();

@@ -70,12 +70,22 @@ const RoleAdd = () => {
   const { dataResponse, isLoading, isHasPermission } = useFetchData("/api/role/permissions");
 
   useEffect(() => {
-    setPermissionGroup(dataResponse);
+    const cloneArr = dataResponse.slice();
+    forEach(cloneArr, (item, index) => {
+      const permissionsList = item.permissions;
+
+      permissionsList.forEach(arr => {
+        arr.none = true
+      });
+      cloneArr[index].permissions = permissionsList;
+    });
+    setSelectedColumn("none");
+    setPermissionGroup(cloneArr);
   }, [dataResponse]);
 
   const onSubmit = async (data) => {
     const form = {
-      role_name: data.rolename,
+      role_name: data.role_name,
       description: data.description,
       permission_group: permissionGroup
     };
@@ -83,7 +93,7 @@ const RoleAdd = () => {
       let response = await api.post("/api/role/create", form);
       if (get(response, 'success', false)) {
         toast.success("Add Role Success", {
-          onClose: navigate("/role/list")
+          onClose: navigate("/role")
         });
       } else {
         if (response?.err === 'err:form_validation_failed') {
@@ -126,10 +136,11 @@ const RoleAdd = () => {
     if (isAllPermissionsAreSameColumn) {
       setSelectedColumn(name);
     }
+    console.log(cloneArr)
     setPermissionGroup(cloneArr);
   };
 
-  const checkedColumn = (e, name) => {
+  const checkedColumn = (name) => {
     setSelectedColumn(name);
     const cloneArr = permissionGroup.slice();
     forEach(cloneArr, (item, index) => {
@@ -146,7 +157,7 @@ const RoleAdd = () => {
           }
         });
       });
-      cloneArr[index].permission = permissionsList;
+      cloneArr[index].permissions = permissionsList;
     });
     setPermissionGroup(cloneArr);
   };
@@ -163,10 +174,10 @@ const RoleAdd = () => {
         <InputField
           autoFocus
           required
-          nameField="rolename"
+          nameField="role_name"
           control={control}
           id="name"
-          errors={errors?.rolename}
+          errors={errors?.role_name}
           type="text"
           label="Role Name"
           inputProps={{
@@ -175,7 +186,6 @@ const RoleAdd = () => {
         />
         <InputField
           multiline
-          required
           rows={4}
           nameField="description"
           control={control}
@@ -200,7 +210,7 @@ const RoleAdd = () => {
                     <Radio
                       checked={selectedColumn === permission.value}
                       name={permission.value}
-                      onChange={(e) => checkedColumn(e, permission.value)}
+                      onChange={(e) => checkedColumn(permission.value)}
                     />
                     {permission.label}
                   </TableCell>

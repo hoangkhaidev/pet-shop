@@ -76,9 +76,10 @@ const RoleEdit = () => {
   const { dataResponse, isLoading, isHasPermission } = useFetchData(`/api/role/${router.query?.id}`);
 
   useEffect(() => {
-    setValue("rolename", get(dataResponse, "role_name", ""));
+    setValue("role_name", get(dataResponse, "role_name", ""));
     setValue("description", get(dataResponse, "description", ""));
     setPermissionGroup(get(dataResponse, "permission_group", []));
+    console.log(dataResponse)
   }, [dataResponse, setValue]);
 
   useEffect(() => {
@@ -96,7 +97,7 @@ const RoleEdit = () => {
 
   const onSubmit = async (dataForm) => {
     const form = {
-      rolename: dataForm.rolename,
+      role_name: dataForm.role_name,
       description: dataForm.description,
       permission_group: permissionGroup
     };
@@ -184,10 +185,10 @@ const RoleEdit = () => {
         <InputField
           autoFocus
           required
-          nameField="rolename"
+          nameField="role_name"
           control={control}
           id="name"
-          errors={errors?.rolename}
+          errors={errors?.role_name}
           type="text"
           label="Role Name"
           inputProps={{
@@ -196,7 +197,6 @@ const RoleEdit = () => {
         />
         <InputField
           multiline
-          required
           rows={4}
           nameField="description"
           control={control}
