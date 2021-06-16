@@ -1,9 +1,9 @@
 import { useState, useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import EditIcon from '@material-ui/icons/Edit';
 import get from 'lodash/get';
 import { toast } from "react-toastify";
 import api from 'src/utils/api';  
+import ChangePassword from "src/icons/ChangePassword";
 
 import InputField from "src/components/shared/InputField/InputField";
 import TooltipIcon from "src/components/shared/TooltipIcon/TooltipIcon";
@@ -57,7 +57,7 @@ const ChangePasswordForm = ({linkApi}) => {
       <TooltipIcon
         title="Change password"
         arialLabel="change-password"
-        IconComponent={<EditIcon />}
+        IconComponent={<ChangePassword />}
         onClick={onOpenModal}
       />
       <ModalComponent

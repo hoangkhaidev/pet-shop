@@ -110,7 +110,7 @@ const SubAccountEdit = () => {
       let response = await api.post(`/api/subs/${router.query?.id}/update`, form);
       if (get(response, 'success', false)) {
         toast.success("Update subs Success", {
-          onClose: navigate("/subs/list")
+          onClose: navigate("/sub/list")
         });
       } else {
         if (response?.err === 'err:form_validation_failed') {

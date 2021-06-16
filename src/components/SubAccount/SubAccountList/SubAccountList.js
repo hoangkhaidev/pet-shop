@@ -25,6 +25,7 @@ import { toast } from "react-toastify";
 
 const ChangePasswordForm = lazy(() => import("src/components/Modal/ChangePasswordForm")); 
 const ChangeStatus = lazy(() => import("src/components/Modal/ChangeStatus"));
+const DeleteItem = lazy(() => import("src/components/Modal/DeleteItem"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,19 +75,6 @@ const SubAccountList = () => {
     setData(get(dataResponse, "list", []));
   }, [dataResponse]);
 
-  const deleteSubAccount = async (id) => {
-    try {
-      let data = await api.post(`/api/subs/${id}/delete`);
-      if(!data?.success) {
-        toast.warn("Role in Use")
-      } else {
-          navigate("/subs/list");
-      }
-    } catch(e) {
-      console.log(e)
-    }
-  }
-
   const columns = [
     {
       data_field: "username",
@@ -129,8 +117,9 @@ const SubAccountList = () => {
       align: "center",
       formatter: (cell, row) => {
         const newlabel = row.statuses[0] ? row.statuses[0].status : "active";
+        console.log(row)
         return (
-        <ChangeStatus newlabel={newlabel} linkApi={`/api/subs/${row.id}/update_status`} STATUS={STATUS}/>
+        <ChangeStatus newlabel={newlabel} linkApi={`/api/subs/${row.id}/update_status`} STATUS={STATUS} username={row.username} statuses={row.statuses}/>
       )}
     },
     {
@@ -140,12 +129,7 @@ const SubAccountList = () => {
       formatter: (cell, row) =>( 
       <ButtonGroup className={classes.root} >
           <ChangePasswordForm linkApi={`/api/subs/${row.id}/update_password`}/>
-          <TooltipIcon
-            IconComponent={<DeleteIcon />}
-            title="Delete Role"
-            color="secondary"
-            onClick={() => deleteSubAccount(row.id)}
-          />
+          <DeleteItem linkApi={`/api/subs/${row.id}/delete`} title="Delete Sub Account" />
           <TooltipIcon />
         </ButtonGroup>
       )

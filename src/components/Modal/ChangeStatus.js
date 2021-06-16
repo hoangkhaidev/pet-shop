@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import SelectField from "src/components/shared/InputField/SelectField";
 import InputField from "src/components/shared/InputField/InputField";
@@ -10,10 +10,15 @@ import ModalComponent from "src/components/shared/ModalComponent/ModalComponent"
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import { SubmitButton } from "src/components/shared/Button/Button";
 
-const ChangeStatus = ({newlabel, linkApi, STATUS}) => {
+const ChangeStatus = ({newlabel, linkApi, STATUS, username, statuses}) => {
   const [label, setLabel] = useState(newlabel);
   const [open, setOpen] = useState(false);
   const { handleSubmit, formState: { errors }, control, setError, setValue } = useForm();
+
+  useEffect(() => {
+    setValue("username", username)
+    setValue("current_status", newlabel)
+  }, [])
 
   const onOpenModal = useCallback(() => {
     setOpen(true);
@@ -62,13 +67,33 @@ const ChangeStatus = ({newlabel, linkApi, STATUS}) => {
         <div>
           <TitlePage title="Change Status" />
           <form onSubmit={handleSubmit(onSubmit)}>
+            <InputField
+              nameField="username"
+              control={control}
+              id="username"
+              errors={errors?.username}
+              type="text"
+              label="Username"
+              disabled
+            />  
+            <InputField
+              nameField="current_status"
+              control={control}
+              id="current_status"
+              errors={errors?.current_status}
+              type="text"
+              label="Current Status"
+              disabled
+            />  
             <SelectField
               nameField="status"
+              id="status"
               control={control}
               errors={errors?.status}
               options={
                 STATUS
               }
+              label="Status"
               defaultValue="active"
             />
             <InputField
@@ -78,7 +103,7 @@ const ChangeStatus = ({newlabel, linkApi, STATUS}) => {
               id="reason"
               errors={errors?.reason}
               type="text"
-              label="reason"
+              label="Reason"
               multiline
               rows={4}
             />  

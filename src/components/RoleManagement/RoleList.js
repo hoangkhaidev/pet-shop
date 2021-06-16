@@ -4,10 +4,10 @@ import { useNavigate, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
+import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
 
+import DeleteItem from "src/components/Modal/DeleteItem";
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
@@ -65,20 +65,6 @@ const RoleList = () => {
     setData(dataResponse);
   }, [dataResponse]);
 
-  const deleteRole = async (id) => {
-    try {
-      let response = await api.post(`/api/role/${id}/delete`);
-      if(!response?.success) {
-        toast.warn("Role in Use")
-      } else {
-        toast.success("Delete Role Success", {
-          onClose: navigate("/role/list")
-        });
-      }
-    } catch(e) {
-      console.log(e)
-    }
-  }
 
   const columns = [
     {
@@ -102,12 +88,7 @@ const RoleList = () => {
             title="Edit Role"
             onClick={() => navigate(`${row.id}/edit`)}
           />
-          <TooltipIcon
-            IconComponent={<DeleteIcon />}
-            title="Delete Role"
-            color="secondary"
-            onClick={() => deleteRole(row.id)}
-          />
+          <DeleteItem title="Delete Role" linkApi={`/api/role/${row.id}/delete`}/>
           <TooltipIcon />
         </ButtonGroup>
       )

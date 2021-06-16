@@ -64,7 +64,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         height: '100%'
       }}
     >
-      <Box
+      {/* <Box
         sx={{
           alignItems: 'center',
           display: 'flex',
@@ -94,7 +94,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         >
           {user.jobTitle}
         </Typography>
-      </Box>
+      </Box> */}
       <Divider />
       <Box sx={{ p: 2 }}>
         <List>

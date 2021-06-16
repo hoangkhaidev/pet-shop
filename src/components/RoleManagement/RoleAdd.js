@@ -93,7 +93,7 @@ const RoleAdd = () => {
       let response = await api.post("/api/role/create", form);
       if (get(response, 'success', false)) {
         toast.success("Add Role Success", {
-          onClose: navigate("/role")
+          onClose: navigate("/role/list")
         });
       } else {
         if (response?.err === 'err:form_validation_failed') {

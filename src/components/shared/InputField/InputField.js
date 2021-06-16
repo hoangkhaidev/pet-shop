@@ -38,7 +38,8 @@ const InputField = ({
   styles,
   helperText,
   readOnly,
-  multiline
+  multiline,
+  disabled
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -65,6 +66,7 @@ const InputField = ({
             },
           }) => (
             <TextField
+              disabled = {disabled}
               autoFocus={autoFocus}
               style={styles}
               type={type}
@@ -105,7 +107,7 @@ const InputField = ({
             />
           )}
           rules={{
-            required
+            required,
           }}
         />
         {!isEmpty(errors) && (
@@ -132,7 +134,8 @@ InputField.propTypes = {
   autoFocus: bool,
   helperText: string,
   readOnly: bool,
-  multiline: bool
+  multiline: bool,
+  disabled: bool,
 };
 
 InputField.defaultProps = {
@@ -142,6 +145,7 @@ InputField.defaultProps = {
   nameField: '',
   id: '',
   required: false,
+  disabled: false,
   styles: {},
   errors: {},
   isHasInputProps: false,
