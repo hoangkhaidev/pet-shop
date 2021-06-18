@@ -4,7 +4,6 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
-import DeleteIcon from '@material-ui/icons/Delete';
 import TooltipIcon from "src/components/shared/TooltipIcon/TooltipIcon";
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Link from "@material-ui/core/Link";
@@ -20,8 +19,6 @@ import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import useFetchData from "src/utils/hooks/useFetchData";
 import useRouter from "src/utils/hooks/useRouter";
 import SubAccountListFilter from "./SubAccountListFilter";
-import api from "src/utils/api";
-import { toast } from "react-toastify";
 
 const ChangePasswordForm = lazy(() => import("src/components/Modal/ChangePasswordForm")); 
 const ChangeStatus = lazy(() => import("src/components/Modal/ChangeStatus"));
@@ -117,7 +114,6 @@ const SubAccountList = () => {
       align: "center",
       formatter: (cell, row) => {
         const newlabel = row.statuses[0] ? row.statuses[0].status : "active";
-        console.log(row)
         return (
         <ChangeStatus newlabel={newlabel} linkApi={`/api/subs/${row.id}/update_status`} STATUS={STATUS} username={row.username} statuses={row.statuses}/>
       )}

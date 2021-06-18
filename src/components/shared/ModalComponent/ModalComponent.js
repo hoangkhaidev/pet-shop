@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from '@material-ui/core/styles';
 import { node, bool, func } from "prop-types";
+import CancelIcon from '@material-ui/icons/Cancel';
 
 function getModalStyle() {
   const top = 50;
@@ -22,11 +23,24 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+
+  closer: {
+    cursor: 'pointer',
+    position: 'absolute',
+    top: '3%',
+    right: '3%',
+  },
 }));
 
-const ModalComponent = ({ children, open, onClose }) => {
-  const [modalStyle] = useState(getModalStyle);
+const ModalComponent = ({ children, open, onClose, width }) => {
+  const [modalStyle, setModalStyle] = useState(getModalStyle);
   const classes = useStyles();
+
+  useEffect(() => {
+    let style = {...modalStyle};
+    style.width = width;
+    setModalStyle(style)
+  }, [width])
 
   return (
     <Modal
@@ -34,6 +48,9 @@ const ModalComponent = ({ children, open, onClose }) => {
       onClose={onClose}
     >
       <div style={modalStyle} className={classes.paper}>
+        <div onClick={onClose} className={classes.closer}>
+          <CancelIcon />
+        </div>
         {children}
       </div>
     </Modal>

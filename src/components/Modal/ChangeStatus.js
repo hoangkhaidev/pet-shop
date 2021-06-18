@@ -9,16 +9,44 @@ import StatusBadge from "src/components/shared/StatusBadge/StatusBadge";
 import ModalComponent from "src/components/shared/ModalComponent/ModalComponent";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import { SubmitButton } from "src/components/shared/Button/Button";
+import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
+import TableComponent from "src/components/shared/TableComponent/TableComponent";
+import useRouter from "src/utils/hooks/useRouter";
+
+const fakeData = [
+  {
+    id: 1,
+    role_name: "Sub Account",
+    description: "Access Sub Account Page",
+  },
+  {
+    id: 2,
+    role_name: "Operator",
+    description: "Access Operator Page"
+  }
+];
 
 const ChangeStatus = ({newlabel, linkApi, STATUS, username, statuses}) => {
   const [label, setLabel] = useState(newlabel);
   const [open, setOpen] = useState(false);
+  const [data, setData] = useState([]);
   const { handleSubmit, formState: { errors }, control, setError, setValue } = useForm();
+  const router = useRouter();
+
+  const [objFilter, setObjFilter] = useState({
+    page: 1,
+    page_size: 30,
+    ...router.query
+  });
 
   useEffect(() => {
     setValue("username", username)
     setValue("current_status", newlabel)
   }, [])
+
+  useEffect(() => {
+    setData(statuses)
+  }, [statuses])
 
   const onOpenModal = useCallback(() => {
     setOpen(true);
@@ -26,6 +54,44 @@ const ChangeStatus = ({newlabel, linkApi, STATUS, username, statuses}) => {
 
   const onClose = () => {
     setOpen(false);
+  };
+
+  const columns = [
+    {
+      data_field: "at",
+      column_name: "Date",
+      align: "center"
+    },
+    {
+      data_field: "status",
+      column_name: "Status",
+      align: "left"
+    },
+    {
+      data_field: "by_user",
+      column_name: "By",
+      align: "left",
+    },
+    {
+      data_field: "reason",
+      column_name: "Reason",
+      align: "left",
+    },
+  ];
+
+  const handleChangePage = (page) => {
+    setObjFilter(prevState => ({
+      ...prevState,
+      page
+    }));
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setObjFilter(prevState => ({
+      ...prevState,
+      page: 1,
+      page_size: parseInt(event.target.value, 10)
+    }));
   };
 
   const onSubmit = async (data) => {
@@ -63,6 +129,7 @@ const ChangeStatus = ({newlabel, linkApi, STATUS, username, statuses}) => {
       <ModalComponent
         open={open}
         onClose={onClose}
+        width="800px"
       >
         <div>
           <TitlePage title="Change Status" />
@@ -109,6 +176,20 @@ const ChangeStatus = ({newlabel, linkApi, STATUS, username, statuses}) => {
             />  
             <SubmitButton />
           </form>
+          <ContentCardPage>
+            <TitlePage title="Role List" />
+            <TableComponent
+              data={data}
+              columns={columns}
+              pagination={{
+                total_size: fakeData.length,
+                page: +objFilter.page,
+                page_size: +objFilter.page_size
+              }}
+              handleChangePage={handleChangePage}
+              handleChangeRowsPerPage={handleChangeRowsPerPage}
+            />
+          </ContentCardPage>
         </div>
       </ModalComponent>
     </div>

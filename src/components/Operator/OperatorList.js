@@ -137,14 +137,14 @@ const OperatorList = () => {
       formatter: (cell, row) => {
         const newlabel = row.statuses[0] ? row.statuses[0].status : "active";
         return (
-          <ChangeStatus newlabel={newlabel} linkApi={`/api/operators/${row.id}/update_status`} STATUS={STATUS}/>
+          <ChangeStatus newlabel={newlabel} linkApi={`/api/operators/${row.id}/update_status`} STATUS={STATUS} STATUS={STATUS} username={row.username} statuses={row.statuses}/>
       )}
     },
     {
       data_field: "action",
       column_name: "Action",
       align: "center",
-      formatter: (cell, row) => <ChangePasswordForm linkApi={`/api/operators/${row.id}/update_password`}/>,
+      formatter: (cell, row) => <ChangePasswordForm linkApi={`/api/operators/${row.id}/update_password`} />,
     }
   ];
 
