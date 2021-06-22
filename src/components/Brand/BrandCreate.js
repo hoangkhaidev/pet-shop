@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-duplicate-props */
-import { useState } from "react";
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Chip from '@material-ui/core/Chip';
@@ -11,23 +11,25 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
+import useFetchData from 'src/utils/hooks/useFetchData';
 
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import InputField from 'src/components/shared/InputField/InputField';
-import TitlePage from "src/components/shared/TitlePage/TitlePage";
+import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
 import FormattedNumberInput from 'src/components/shared/InputField/InputFieldNumber';
+import SelectField from 'src/components/shared/InputField/SelectField';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
     display: 'flex',
     flexWrap: 'wrap',
     '& > *': {
-      margin: `${theme.spacing(0.5)} !important`
-    }
+      margin: `${theme.spacing(0.5)} !important`,
+    },
   },
   formStyle: {
-    width: "50%"
+    width: '50%',
   },
 }));
 
@@ -40,13 +42,30 @@ const BrandCreate = () => {
     formState: { errors },
     watch,
     setValue,
-    setError
+    setError,
   } = useForm();
   const [financeEmail, setFinanceEmail] = useState([]);
   const [apiWLIP, setAPIWLIP] = useState(['', '', '', '']);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
+  const [operatorData, setOperatorData] = useState([]);
 
   const finance_email = watch('finance_email');
+  const { dataResponse } = useFetchData('/api/operators');
+
+  useEffect(() => {
+    const data = dataResponse?.list;
+    if (!data) return;
+    let mapdata = [];
+    data.forEach((data) => {
+      let optionData = {
+        id: data.operator_id,
+        value: data.operator_id,
+        label: data.username,
+      };
+      mapdata.push(optionData);
+    });
+    setOperatorData([...mapdata]);
+  }, [dataResponse]);
 
   const onRemoveFinanceEmail = (email) => {
     const cloneArr = financeEmail.slice();
@@ -90,12 +109,22 @@ const BrandCreate = () => {
 
   const onSubmit = async (dataForm) => {
     console.log(dataForm);
-  }
+  };
 
   return (
     <ContentCardPage>
       <TitlePage title="Create Brand" />
       <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle}>
+        <SelectField
+          nameField="operator"
+          id="operator"
+          label="Operator"
+          fullWidth={false}
+          control={control}
+          errors={errors?.operator}
+          options={operatorData}
+          defaultValue=""
+        />
         <InputField
           autoFocus
           required
@@ -106,8 +135,9 @@ const BrandCreate = () => {
           type="text"
           label="Name"
           inputProps={{
-            maxLength: 100
+            maxLength: 100,
           }}
+          helperText="length 3 - 15 chars, allow letter (lowercase), digit and underscore(_)"
         />
         <InputField
           nameField="support_email"
@@ -148,10 +178,10 @@ const BrandCreate = () => {
           errors={errors.commission}
           required
           InputProps={{
-            endAdornment: <InputAdornment position="end">%</InputAdornment>
+            endAdornment: <InputAdornment position="end">%</InputAdornment>,
           }}
           inputProps={{
-            maxLength: 3
+            maxLength: 3,
           }}
         />
         <InputField
@@ -163,7 +193,7 @@ const BrandCreate = () => {
           type="text"
           label="API Endpoint"
         />
-        <FormLabel>{t("Whitelist IP Address for API")}</FormLabel>
+        <FormLabel>{t('Whitelist IP Address for API')}</FormLabel>
         <IPAddressInput apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} />
         <Typography
           className={classes.operatorAdminLabel}
@@ -200,7 +230,7 @@ const BrandCreate = () => {
           type="password"
           label="Confirm Password"
         />
-        <FormLabel>{t("Whitelist IP Address for BO")}</FormLabel>
+        <FormLabel>{t('Whitelist IP Address for BO')}</FormLabel>
         {whitelistIP.map((item, index) => (
           <div className={classes.whitelistIPLine}>
             <IPAddressInput

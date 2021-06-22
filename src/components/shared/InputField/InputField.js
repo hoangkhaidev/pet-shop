@@ -4,22 +4,22 @@ import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import { makeStyles } from '@material-ui/core/styles';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import isEmpty from "lodash/isEmpty";
+import isEmpty from 'lodash/isEmpty';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(() => ({
   inputField: {
-    margin: '16px 0'
+    margin: '16px 0',
   },
   formControl: {
-    width: '100%'
+    width: '100%',
   },
   labelStyle: {
-    color: 'red'
-  }
+    color: 'red',
+  },
 }));
 
 const InputField = ({
@@ -39,17 +39,17 @@ const InputField = ({
   helperText,
   readOnly,
   multiline,
-  disabled
+  disabled,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
   const renderErrors = () => {
     if (isEmpty(errors)) {
-      return "";
+      return '';
     }
-    if (errors.type === "required") {
-      return "Field is required";
+    if (errors.type === 'required') {
+      return 'Field is required';
     }
     return errors.message;
   };
@@ -60,18 +60,21 @@ const InputField = ({
         <Controller
           control={control}
           name={nameField}
-          render={({
-            field: {
-              onChange, onBlur, name, ref, value
-            },
-          }) => (
+          render={({ field: { onChange, onBlur, name, ref, value } }) => (
             <TextField
-              disabled = {disabled}
+              disabled={disabled}
               autoFocus={autoFocus}
               style={styles}
               type={type}
               id={id}
-              label={<div>{label}<span className={classes.labelStyle}>{required ? "*" : ""}</span></div>}
+              label={
+                <div>
+                  {label}
+                  <span className={classes.labelStyle}>
+                    {required ? '*' : ''}
+                  </span>
+                </div>
+              }
               fullWidth
               inputRef={ref}
               onBlur={onBlur}
@@ -85,24 +88,19 @@ const InputField = ({
               rows={rows}
               multiline={multiline}
               InputLabelProps={{
-                shrink: !!value
+                shrink: !!value,
               }}
               InputProps={{
                 readOnly,
-                endAdornment: (
-                  isHasInputProps ? (
-                    <InputAdornment
-                      position="start"
-                    >
-                      <IconButton
-                        aria-label={label}
-                        onClick={callbackInputProps}
-                      >
-                        <AddIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ) : ""
-                )
+                endAdornment: isHasInputProps ? (
+                  <InputAdornment position="start">
+                    <IconButton aria-label={label} onClick={callbackInputProps}>
+                      <AddIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ) : (
+                  ''
+                ),
               }}
             />
           )}
@@ -110,11 +108,7 @@ const InputField = ({
             required,
           }}
         />
-        {!isEmpty(errors) && (
-          <FormHelperText>
-            {renderErrors()}
-          </FormHelperText>
-        )}
+        {!isEmpty(errors) && <FormHelperText>{renderErrors()}</FormHelperText>}
       </FormControl>
     </div>
   );
@@ -151,7 +145,7 @@ InputField.defaultProps = {
   isHasInputProps: false,
   callbackInputProps: () => {},
   autoFocus: false,
-  helperText: "",
+  helperText: '',
   readOnly: false,
   multiline: false,
 };

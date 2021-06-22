@@ -5,7 +5,7 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Chip from '@material-ui/core/Chip';
 import remove from 'lodash/remove';
@@ -16,16 +16,16 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import FormLabel from '@material-ui/core/FormLabel';
 import get from 'lodash/get';
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import InputField from 'src/components/shared/InputField/InputField';
 import ButtonGroup, {
   SubmitButton,
-  ResetButton
+  ResetButton,
 } from 'src/components/shared/Button/Button';
-import TitlePage from "src/components/shared/TitlePage/TitlePage";
-import {FormattedNumberInputComission} from 'src/components/shared/InputField/InputFieldNumber';
+import TitlePage from 'src/components/shared/TitlePage/TitlePage';
+import { FormattedNumberInputComission } from 'src/components/shared/InputField/InputFieldNumber';
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
 import Loading from 'src/components/shared/Loading/Loading';
 import api from 'src/utils/api';
@@ -35,21 +35,21 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     '& > *': {
-      margin: `${theme.spacing(0.5)} !important`
-    }
+      margin: `${theme.spacing(0.5)} !important`,
+    },
   },
   operatorAdminLabel: {
     marginTop: '16px !important',
-    fontWeight: '600 !important'
+    fontWeight: '600 !important',
   },
   whitelistIPLine: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   formStyle: {
-    width: "50%"
-  }
+    width: '50%',
+  },
 }));
 
 const OperatorCreate = () => {
@@ -60,7 +60,7 @@ const OperatorCreate = () => {
     formState: { errors },
     watch,
     setValue,
-    setError
+    setError,
   } = useForm();
   const [financeEmail, setFinanceEmail] = useState([]);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
@@ -85,20 +85,20 @@ const OperatorCreate = () => {
       api_whitelist_ip: formatWLIPEndpoint,
       whitelist_ips: formatWLIPs,
       finance_email: financeEmail,
-      account_type: 'operator'
+      account_type: 'operator',
     };
     try {
       const response = await api.post('/api/operators/create', form);
       if (get(response, 'success', false)) {
-        toast.success("Update operator Success", {
-          onClose: navigate("operator/list")
+        toast.success('Update operator Success', {
+          onClose: navigate('operator/list'),
         });
       } else {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
             setError(field, {
               type: 'validate',
-              message: response?.data[field]
+              message: response?.data[field],
             });
           }
         }
@@ -169,8 +169,9 @@ const OperatorCreate = () => {
           type="text"
           label="Name"
           inputProps={{
-            maxLength: 100
+            maxLength: 100,
           }}
+          helperText="Length 4 - 15 chars, allow letter, digit and underscore()"
         />
         <InputField
           nameField="support_email"
@@ -211,11 +212,12 @@ const OperatorCreate = () => {
           errors={errors.commission}
           required
           InputProps={{
-            endAdornment: <InputAdornment position="end">%</InputAdornment>
+            endAdornment: <InputAdornment position="end">%</InputAdornment>,
           }}
           inputProps={{
-            maxLength: 3
+            maxLength: 3,
           }}
+          helperText="From 0% to 100%"
         />
         <InputField
           required
@@ -244,6 +246,7 @@ const OperatorCreate = () => {
           errors={errors?.username}
           type="text"
           label="Username"
+          helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
         />
         <InputField
           required
@@ -253,6 +256,7 @@ const OperatorCreate = () => {
           errors={errors?.password}
           type="password"
           label="Password"
+          helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <InputField
           required
@@ -262,8 +266,9 @@ const OperatorCreate = () => {
           errors={errors?.password_confirmation}
           type="password"
           label="Confirm Password"
+          helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
         />
-        <FormLabel>{t("Whitelist IP Address for BO")}</FormLabel>
+        <FormLabel>{t('Whitelist IP Address for BO')}</FormLabel>
         {whitelistIP.map((item, index) => (
           <div className={classes.whitelistIPLine}>
             <IPAddressInput

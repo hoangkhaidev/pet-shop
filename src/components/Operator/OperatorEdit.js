@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import Chip from '@material-ui/core/Chip';
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -13,42 +13,42 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
-import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
+import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
-import {FormattedNumberInputComission} from 'src/components/shared/InputField/InputFieldNumber';
+import { FormattedNumberInputComission } from 'src/components/shared/InputField/InputFieldNumber';
 import InputField from 'src/components/shared/InputField/InputField';
 import Loading from 'src/components/shared/Loading/Loading';
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
-import TitlePage from "src/components/shared/TitlePage/TitlePage";
+import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 
 import ButtonGroup, {
   SubmitButton,
-  ResetButton
+  ResetButton,
 } from 'src/components/shared/Button/Button';
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
 
-import api from "src/utils/api";
+import api from 'src/utils/api';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
     display: 'flex',
     flexWrap: 'wrap',
     '& > *': {
-      margin: `${theme.spacing(0.5)} !important`
-    }
+      margin: `${theme.spacing(0.5)} !important`,
+    },
   },
   operatorAdminLabel: {
     marginTop: '16px !important',
-    fontWeight: '600 !important'
+    fontWeight: '600 !important',
   },
   whitelistIPLine: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between'
-  }
+    justifyContent: 'space-between',
+  },
 }));
 
 const OperatorEdit = () => {
@@ -77,7 +77,9 @@ const OperatorEdit = () => {
 
   useEffect(() => {
     setData(dataResponse);
-    const formatWhitelistIP = dataResponse?.whitelist_ips?.map((ip) => ip.split('.'));
+    const formatWhitelistIP = dataResponse?.whitelist_ips?.map((ip) =>
+      ip.split('.')
+    );
     const formatApiWLIP = dataResponse?.api_white_list_ip?.split('.');
     setFinanceEmail(get(dataResponse, 'finance_emails', []));
     setWhitelistIP(formatWhitelistIP);
@@ -100,26 +102,29 @@ const OperatorEdit = () => {
       api_whitelist_ip: formatWLIPEndpoint,
       whitelist_ips: formatWLIPs,
       finance_email: financeEmail,
-      account_type: 'operator'
+      account_type: 'operator',
     };
     try {
-      let response = await api.post(`/api/operators/${router.query?.id}/update`, form);
+      let response = await api.post(
+        `/api/operators/${router.query?.id}/update`,
+        form
+      );
       if (get(response, 'success', false)) {
-        toast.success("Update operator Success", {
-          onClose: navigate("/operator/list")
+        toast.success('Update operator Success', {
+          onClose: navigate('/operator/list'),
         });
       } else {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
             setError(field, {
               type: 'validate',
-              message: response?.data[field]
+              message: response?.data[field],
             });
           }
         }
       }
     } catch (e) {
-      console.log("e", e);
+      console.log('e', e);
     }
   };
 
@@ -131,11 +136,11 @@ const OperatorEdit = () => {
 
   useEffect(() => {
     if (data) {
-      setValue("name", data?.operator_name);
-      setValue("support_email", data?.support_email);
-      setValue("username", data?.username);
-      setValue("api_endpoint", data?.api_endpoint);
-      setValue("commission", data?.commission);
+      setValue('name', data?.operator_name);
+      setValue('support_email', data?.support_email);
+      setValue('username', data?.username);
+      setValue('api_endpoint', data?.api_endpoint);
+      setValue('commission', data?.commission);
     }
   }, [data, setValue]);
 
@@ -197,8 +202,9 @@ const OperatorEdit = () => {
           type="text"
           label="Name"
           inputProps={{
-            maxLength: 100
+            maxLength: 100,
           }}
+          helperText="Length 3 - 15 chars, allow letter (lowercase), digit and underscore(_)"
         />
         <InputField
           required
@@ -237,8 +243,9 @@ const OperatorEdit = () => {
           errors={errors.commission}
           required
           InputProps={{
-            endAdornment: <InputAdornment position="end">%</InputAdornment>
+            endAdornment: <InputAdornment position="end">%</InputAdornment>,
           }}
+          helperText="From 0% to 100%"
         />
         <InputField
           required
@@ -268,6 +275,7 @@ const OperatorEdit = () => {
           errors={errors?.username}
           type="text"
           label="Username"
+          helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
         />
         <InputField
           nameField="password"
@@ -289,10 +297,7 @@ const OperatorEdit = () => {
         />
         <FormLabel>Whitelist IP Address for BO</FormLabel>
         {(whitelistIP || []).map((item, index) => (
-          <div
-            className={classes.whitelistIPLine}
-            key={index}
-          >
+          <div className={classes.whitelistIPLine} key={index}>
             <IPAddressInput
               apiWLIP={item}
               onChange={onChangeWhitelistIp}

@@ -5,21 +5,21 @@ import FormControl from '@material-ui/core/FormControl';
 import { Controller } from 'react-hook-form';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { makeStyles } from '@material-ui/core/styles';
-import isEmpty from "lodash/isEmpty";
+import isEmpty from 'lodash/isEmpty';
 
 const useStyles = makeStyles(() => ({
   inputField: {
-    margin: '16px 0'
+    margin: '16px 0',
   },
   formControl: {
     width: '100%',
-    paddingLeft: "0 !important",
-    paddingRight: "0 !important"
+    paddingLeft: '0 !important',
+    paddingRight: '0 !important',
   },
 
   labelStyle: {
-    color: 'red'
-  }
+    color: 'red',
+  },
 }));
 
 const NumberFormatCustom = (props) => {
@@ -47,62 +47,66 @@ const NumberFormatCustom = (props) => {
 NumberFormatCustom.propTypes = {
   inputRef: func.isRequired,
   name: string.isRequired,
-  onChange: func.isRequired
+  onChange: func.isRequired,
 };
 
 const FormattedNumberInput = ({
   // eslint-disable-next-line react/prop-types
-  label, control, nameField, styles,
-  errors, required,
+  label,
+  control,
+  nameField,
+  styles,
+  errors,
+  required,
+  helperText,
   ...rest
 }) => {
   const classes = useStyles();
 
   const renderErrors = () => {
     if (isEmpty(errors)) {
-      return "";
+      return '';
     }
-    if (errors.type === "required") {
-      return "Field is required";
+    if (errors.type === 'required') {
+      return 'Field is required';
     }
     return errors.message;
   };
 
   return (
     <div className={classes.inputField}>
-      <FormControl sx={{ px: 2 }} error={!isEmpty(errors)} className={classes.formControl}>
+      <FormControl
+        sx={{ px: 2 }}
+        error={!isEmpty(errors)}
+        className={classes.formControl}
+      >
         <Controller
-          render={({
-            field: { onChange, onBlur, value, name, ref },
-          }) => (
+          render={({ field: { onChange, onBlur, value, name, ref } }) => (
             <NumberFormat
               {...rest}
               value={value}
               error={!isEmpty(errors)}
               name={name}
-              label={`${label}${required ? "*" : ""}`}
+              label={`${label}${required ? '*' : ''}`}
               style={styles}
               maxLength="2"
-              customInput={
-                TextField
-              }
+              customInput={TextField}
               className={classes.inputFieldNumber}
               autoComplete="off"
               type="text"
-              onValueChange={({ value: v }) => onChange({ target: { name, value: v } })}
+              onValueChange={({ value: v }) =>
+                onChange({ target: { name, value: v } })
+              }
+              helperText={helperText}
             />
           )}
           control={control}
           name={nameField}
           rules={{
-            required
+            required,
           }}
         />
-        {!isEmpty(errors) && (
-          <FormHelperText>
-            {renderErrors()}
-          </FormHelperText>
-        )}
+        {!isEmpty(errors) && <FormHelperText>{renderErrors()}</FormHelperText>}
       </FormControl>
     </div>
   );
@@ -114,32 +118,41 @@ FormattedNumberInput.propTypes = {
   nameField: string.isRequired,
   styles: object,
   errors: object,
-  required: bool
+  required: bool,
+  helperText: string,
 };
 
 FormattedNumberInput.defaultProps = {
   maxLength: undefined,
   styles: null,
   errors: {},
-  required: false
+  required: false,
+  helperText: null,
 };
 
 export default FormattedNumberInput;
 
 export const FormattedNumberInputComission = ({
   // eslint-disable-next-line react/prop-types
-  label, control, nameField, styles,
-  errors, required, id, InputProps,
+  label,
+  control,
+  nameField,
+  styles,
+  errors,
+  required,
+  id,
+  InputProps,
+  helperText,
   ...rest
 }) => {
   const classes = useStyles();
 
   const renderErrors = () => {
     if (isEmpty(errors)) {
-      return "";
+      return '';
     }
-    if (errors.type === "required") {
-      return "Field is required";
+    if (errors.type === 'required') {
+      return 'Field is required';
     }
     return errors.message;
   };
@@ -148,43 +161,43 @@ export const FormattedNumberInputComission = ({
     <div className={classes.inputField}>
       <FormControl error={!isEmpty(errors)} className={classes.formControl}>
         <Controller
-          render={({
-            field: { onChange, onBlur, value, name, ref },
-          }) => (
-          <NumberFormat
-            nameField={nameField}
-            label={<div>{label}<span className={classes.labelStyle}>{required ? "*" : ""}</span></div>}
-            id={id}
-            control={control}
-            InputProps={InputProps}
-            // required
-            error={!isEmpty(errors)}
-            style={styles}
-            decimalScale={value >= 100 ? 0 : 2}
-            decimalSeparator=","
-            customInput={
-              TextField
-            }
-            value={value}
-            onValueChange={values => {
-              values?.floatValue > 100
-                ? onChange({ target: { name, value: 100 } })
-                : onChange({ target: { name, value: values.floatValue } })
-            }}
-            maxLength={value >= 100 ? 3 : null}
-          />
+          render={({ field: { onChange, onBlur, value, name, ref } }) => (
+            <NumberFormat
+              nameField={nameField}
+              label={
+                <div>
+                  {label}
+                  <span className={classes.labelStyle}>
+                    {required ? '*' : ''}
+                  </span>
+                </div>
+              }
+              id={id}
+              control={control}
+              InputProps={InputProps}
+              // required
+              error={!isEmpty(errors)}
+              style={styles}
+              decimalScale={value >= 100 ? 0 : 2}
+              decimalSeparator=","
+              customInput={TextField}
+              value={value}
+              onValueChange={(values) => {
+                values?.floatValue > 100
+                  ? onChange({ target: { name, value: 100 } })
+                  : onChange({ target: { name, value: values.floatValue } });
+              }}
+              maxLength={value >= 100 ? 3 : null}
+              helperText={helperText}
+            />
           )}
           control={control}
           name={nameField}
           rules={{
-            required
+            required,
           }}
         />
-        {!isEmpty(errors) && (
-          <FormHelperText>
-            {renderErrors()}
-          </FormHelperText>
-        )}
+        {!isEmpty(errors) && <FormHelperText>{renderErrors()}</FormHelperText>}
       </FormControl>
     </div>
   );
@@ -196,12 +209,12 @@ FormattedNumberInputComission.propTypes = {
   nameField: string.isRequired,
   styles: object,
   errors: object,
-  required: bool
+  required: bool,
 };
 
 FormattedNumberInputComission.defaultProps = {
   maxLength: undefined,
   styles: null,
   errors: {},
-  required: false
+  required: false,
 };

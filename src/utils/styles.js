@@ -1,16 +1,16 @@
 export const colors = {
-  primary: "#5664d2",
+  primary: '#14ca50',
   danger: '#ff1744',
-  labelTab: "#0edec2",
-  warning: "#ffc107",
-  success: "#28a745",
-  inactive: "#a7cad8",
+  labelTab: '#0edec2',
+  warning: '#ffc107',
+  success: '#28a745',
+  inactive: '#6e858e',
 };
 
 export const mixin = {
   flexSpacebetween: {
-    "align-items": "center",
-    "justify-content": "space-between",
-    display: "flex",
-  }
+    'align-items': 'center',
+    'justify-content': 'space-between',
+    display: 'flex',
+  },
 };

@@ -1,17 +1,17 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from 'react';
 // import { toast } from "react-toastify";
-import queryString from "query-string";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import get from "lodash/get";
+import queryString from 'query-string';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import get from 'lodash/get';
 
-import useRouter from "./useRouter";
+import useRouter from './useRouter';
 
 const ROOT_API_URL = process.env.REACT_APP_ROOT_API_URL;
 
 export default function useFetchData(endpoint, objFilter) {
   const router = useRouter();
-  const token = useSelector(state => state.authentication.token);
+  const token = useSelector((state) => state.authentication.token);
 
   const [data, setData] = useState({
     dataResponse: [],
@@ -22,9 +22,9 @@ export default function useFetchData(endpoint, objFilter) {
   });
 
   const fetchData = useCallback(async () => {
-    setData(prevState => ({
+    setData((prevState) => ({
       ...prevState,
-      isLoading: true
+      isLoading: true,
     }));
     const stringified = queryString.stringify(objFilter);
     let url;
@@ -36,27 +36,27 @@ export default function useFetchData(endpoint, objFilter) {
     router.navigate(url);
     try {
       const response = await fetch(`${ROOT_API_URL}${endpoint}`, {
-        method: "POST",
+        method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(objFilter)
+        body: JSON.stringify(objFilter),
       });
       const dataJSON = await response.json();
-      if (get(dataJSON, "success", false)) {
+      if (get(dataJSON, 'success', false)) {
         return setData({
           isLoading: false,
-          dataResponse: get(dataJSON, "data", []),
-          total_size: get(dataJSON, "data.total_size", []),
+          dataResponse: get(dataJSON, 'data', []),
+          total_size: get(dataJSON, 'data.total_size', []),
           isLoaded: false,
           isHasPermission: true,
-          total: get(dataJSON, "data.total", null),
+          total: get(dataJSON, 'data.total', null),
           refetch: false,
         });
       } else {
-        if (dataJSON?.err === "err:no_permission") {
+        if (dataJSON?.err === 'err:no_permission') {
           return setData({
             dataResponse: null,
             total_size: 0,
@@ -65,16 +65,16 @@ export default function useFetchData(endpoint, objFilter) {
             refetch: false,
           });
         }
-          setData(prevState => ({
+        setData((prevState) => ({
           ...prevState,
           isLoading: false,
         }));
-        return toast.error(dataJSON?.err)
+        return toast.error(dataJSON?.err);
       }
     } catch (e) {
-      console.log("e", e);
+      console.log('e', e);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [objFilter, token, router.navigate, endpoint]);
 
   useEffect(() => {

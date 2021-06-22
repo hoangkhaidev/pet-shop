@@ -1,30 +1,33 @@
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import FormLabel from '@material-ui/core/FormLabel';
-import remove from "lodash/remove";
+import remove from 'lodash/remove';
 import get from 'lodash/get';
-import useFetchData from "src/utils/hooks/useFetchData";
+import useFetchData from 'src/utils/hooks/useFetchData';
 
-import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
-import InputField from "src/components/shared/InputField/InputField";
-import SelectField from "src/components/shared/InputField/SelectField";
-import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
+import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
+import InputField from 'src/components/shared/InputField/InputField';
+import SelectField from 'src/components/shared/InputField/SelectField';
+import ButtonGroup, {
+  SubmitButton,
+  ResetButton,
+} from 'src/components/shared/Button/Button';
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
-import TitlePage from "src/components/shared/TitlePage/TitlePage";
+import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import api from 'src/utils/api';
 
 const useStyles = makeStyles(() => ({
   whitelistIPLine: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between'
-  }
+    justifyContent: 'space-between',
+  },
 }));
 
 const SubAccountCreate = () => {
@@ -34,41 +37,46 @@ const SubAccountCreate = () => {
   const [roleData, setRoleData] = useState([]);
   const [brandData, setBrandData] = useState([]);
 
-  const { control, handleSubmit, formState: { errors }, setError } = useForm();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm();
   const navigate = useNavigate();
 
-  const { dataResponse: dataRole } = useFetchData("/api/role");
-  const { dataResponse: dataBrand} = useFetchData("/api/brand");
+  const { dataResponse: dataRole } = useFetchData('/api/role');
+  const { dataResponse: dataBrand } = useFetchData('/api/brand');
 
   useEffect(() => {
     if (dataRole.length <= 0) return;
-    let mapdata = []
-    dataRole.forEach(data => {
+    let mapdata = [];
+    dataRole.forEach((data) => {
       let optionData = {
         id: data.id,
         value: data.id,
         label: data.role_name,
       };
-      mapdata.push(optionData)
+      mapdata.push(optionData);
     });
     setRoleData([...mapdata]);
-  }, [dataRole, setRoleData])
+  }, [dataRole, setRoleData]);
 
   useEffect(() => {
     let mapdata = [];
     let newBrand = dataBrand?.list;
     if (!newBrand) return;
     if (newBrand.length <= 0) return;
-    newBrand.forEach(data => {
+    newBrand.forEach((data) => {
       let optionData = {
         id: data.BrandId,
         value: data.BrandId,
         label: data.username,
       };
-      mapdata.push(optionData)
+      mapdata.push(optionData);
     });
     setBrandData([...mapdata]);
-  }, [dataBrand, setBrandData])
+  }, [dataBrand, setBrandData]);
 
   const onSubmit = async (dataform) => {
     const formatWLIPs = whitelistIP.map((item) => {
@@ -87,13 +95,13 @@ const SubAccountCreate = () => {
     try {
       const response = await api.post('/api/subs/create', form);
       if (get(response, 'success', false)) {
-        navigate("sub/list")
+        navigate('sub/list');
       } else {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
             setError(field, {
               type: 'validate',
-              message: response?.data[field]
+              message: response?.data[field],
             });
           }
         }
@@ -104,7 +112,7 @@ const SubAccountCreate = () => {
   };
 
   const onCancel = () => {
-    navigate("/sub/list");
+    navigate('/sub/list');
   };
 
   const onChangeWhitelistIp = (e, index, rowIndex) => {
@@ -129,7 +137,7 @@ const SubAccountCreate = () => {
   return (
     <ContentCardPage>
       <TitlePage title="Create Sub Account" />
-      <form onSubmit={handleSubmit(onSubmit)} style={{ width: "50%" }}>
+      <form onSubmit={handleSubmit(onSubmit)} style={{ width: '50%' }}>
         {/* <InputField
           required
           nameField="brand"
@@ -146,9 +154,7 @@ const SubAccountCreate = () => {
           fullWidth={false}
           control={control}
           errors={errors?.brand}
-          options={
-            brandData
-          }
+          options={brandData}
           defaultValue=""
         />
         <InputField
@@ -159,6 +165,7 @@ const SubAccountCreate = () => {
           errors={errors?.username}
           type="text"
           label="Username"
+          helperText="length from 3 to 15 chars, allow letter, digit and underscore()"
         />
         <InputField
           nameField="name"
@@ -167,6 +174,7 @@ const SubAccountCreate = () => {
           errors={errors?.name}
           type="text"
           label="Name"
+          helperText="max length 100 chars"
         />
         <InputField
           required
@@ -176,6 +184,7 @@ const SubAccountCreate = () => {
           errors={errors?.password}
           type="password"
           label="Password"
+          helperText="from 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <InputField
           required
@@ -185,6 +194,7 @@ const SubAccountCreate = () => {
           errors={errors?.confirm_password}
           type="password"
           label="Confirm Password"
+          helperText="from 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <SelectField
           id="role"
@@ -193,12 +203,10 @@ const SubAccountCreate = () => {
           nameField="role"
           control={control}
           errors={errors?.role}
-          options={
-            roleData
-          }
+          options={roleData}
           defaultValue=""
         />
-        <FormLabel>{t("Whitelist IP Address")}</FormLabel>
+        <FormLabel>{t('Whitelist IP Address')}</FormLabel>
         {whitelistIP.map((item, index) => (
           <div className={classes.whitelistIPLine}>
             <IPAddressInput

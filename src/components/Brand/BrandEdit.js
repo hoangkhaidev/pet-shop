@@ -18,33 +18,34 @@ import FormattedNumberInput from 'src/components/shared/InputField/InputFieldNum
 import InputField from 'src/components/shared/InputField/InputField';
 import Loading from 'src/components/shared/Loading/Loading';
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
-import TitlePage from "src/components/shared/TitlePage/TitlePage";
-import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
+import TitlePage from 'src/components/shared/TitlePage/TitlePage';
+import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
 
 import ButtonGroup, {
   SubmitButton,
-  ResetButton
+  ResetButton,
 } from 'src/components/shared/Button/Button';
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
+import SelectField from 'src/components/shared/InputField/SelectField';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
     display: 'flex',
     flexWrap: 'wrap',
     '& > *': {
-      margin: `${theme.spacing(0.5)} !important`
-    }
+      margin: `${theme.spacing(0.5)} !important`,
+    },
   },
   operatorAdminLabel: {
     marginTop: '16px !important',
-    fontWeight: '600 !important'
+    fontWeight: '600 !important',
   },
   whitelistIPLine: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between'
-  }
+    justifyContent: 'space-between',
+  },
 }));
 
 const BrandEdit = () => {
@@ -61,17 +62,19 @@ const BrandEdit = () => {
     handleSubmit,
     formState: { errors },
     setValue,
-    watch
+    watch,
   } = useForm();
 
   const { dataResponse, isLoading, isHasPermission } = useFetchData(
-    `/api/operators/${router.query?.id}`,
+    `/api/brand/${router.query?.id}`,
     null
   );
 
   useEffect(() => {
     setData(dataResponse);
-    const formatWhitelistIP = dataResponse?.WhitelistIPs?.map((ip) => ip.split('.'));
+    const formatWhitelistIP = dataResponse?.WhitelistIPs?.map((ip) =>
+      ip.split('.')
+    );
     const formatApiWLIP = dataResponse?.ApiWhitelistIP?.split('.');
     setFinanceEmail(get(dataResponse, 'FinanceEmails', []));
     setWhitelistIP(formatWhitelistIP);
@@ -92,9 +95,9 @@ const BrandEdit = () => {
       api_whitelist_ip: formatWLIPEndpoint,
       whitelist_ips: formatWLIPs,
       finance_email: financeEmail,
-      account_type: 'operator'
+      account_type: 'operator',
     };
-    console.log("form", form);
+    console.log('form', form);
 
     // try {
     //   let response = await api.post(`/api/role/${router.query?.id}/update`, form);
@@ -127,9 +130,9 @@ const BrandEdit = () => {
 
   useEffect(() => {
     if (data) {
-      setValue("name", data?.OperatorName);
-      setValue("support_email", data?.SupportEmail);
-      setValue("username", data?.Username);
+      setValue('name', data?.OperatorName);
+      setValue('support_email', data?.SupportEmail);
+      setValue('username', data?.Username);
     }
   }, [data, setValue]);
 
@@ -179,8 +182,18 @@ const BrandEdit = () => {
 
   return (
     <ContentCardPage>
-      <TitlePage title="Create Operator" />
+      <TitlePage title="Edit Brand" />
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: '50%' }}>
+        <SelectField
+          nameField="operator"
+          id="operator"
+          label="Operator"
+          fullWidth={false}
+          control={control}
+          errors={errors?.operator}
+          // options={operatorData}
+          defaultValue=""
+        />
         <InputField
           autoFocus
           required
@@ -191,8 +204,9 @@ const BrandEdit = () => {
           type="text"
           label="Name"
           inputProps={{
-            maxLength: 100
+            maxLength: 100,
           }}
+          helperText="length 3 - 15 chars, allow letter (lowercase), digit and underscore(_)"
         />
         <InputField
           required
@@ -234,10 +248,10 @@ const BrandEdit = () => {
           errors={errors.commission}
           required
           InputProps={{
-            endAdornment: <InputAdornment position="end">%</InputAdornment>
+            endAdornment: <InputAdornment position="end">%</InputAdornment>,
           }}
           inputProps={{
-            maxLength: 3
+            maxLength: 3,
           }}
         />
         <InputField
@@ -288,10 +302,7 @@ const BrandEdit = () => {
           helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
         />
         {(whitelistIP || []).map((item, index) => (
-          <div
-            className={classes.whitelistIPLine}
-            key={index}
-          >
+          <div className={classes.whitelistIPLine} key={index}>
             <IPAddressInput
               apiWLIP={item}
               onChange={onChangeWhitelistIp}

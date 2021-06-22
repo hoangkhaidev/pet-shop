@@ -1,19 +1,29 @@
-import { useState, useCallback, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useState, useCallback, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import get from 'lodash/get';
-import { toast } from "react-toastify";
-import api from 'src/utils/api';  
-import ChangePassword from "src/icons/ChangePassword";
+import { toast } from 'react-toastify';
+import api from 'src/utils/api';
+import ChangePassword from 'src/icons/ChangePassword';
 
-import InputField from "src/components/shared/InputField/InputField";
-import TooltipIcon from "src/components/shared/TooltipIcon/TooltipIcon";
-import ModalComponent from "src/components/shared/ModalComponent/ModalComponent";
-import TitlePage from "src/components/shared/TitlePage/TitlePage";
-import { SubmitButton } from "src/components/shared/Button/Button";
+import InputField from 'src/components/shared/InputField/InputField';
+import TooltipIcon from 'src/components/shared/TooltipIcon/TooltipIcon';
+import ModalComponent from 'src/components/shared/ModalComponent/ModalComponent';
+import TitlePage from 'src/components/shared/TitlePage/TitlePage';
+import { SubmitButton } from 'src/components/shared/Button/Button';
 
-const ChangePasswordForm = ({linkApi}) => {
+const ChangePasswordForm = ({ linkApi, username }) => {
   const [open, setOpen] = useState(false);
-  const { handleSubmit, formState: { errors }, control, setError } = useForm();
+  const {
+    handleSubmit,
+    formState: { errors },
+    control,
+    setError,
+    setValue,
+  } = useForm();
+
+  useEffect(() => {
+    setValue('username', username);
+  }, []);
 
   const onOpenModal = useCallback(() => {
     setOpen(true);
@@ -28,13 +38,13 @@ const ChangePasswordForm = ({linkApi}) => {
       password: data.password,
       password_confirmation: data.confirm_password,
     };
-    
+
     try {
       const response = await api.post(linkApi, form);
-      
+
       if (get(response, 'success', false)) {
-        toast.success("Update Password Success", {
-          onClose: onClose()
+        toast.success('Update Password Success', {
+          onClose: onClose(),
         });
       } else {
         if (response?.err === 'err:form_validation_failed') {
@@ -42,7 +52,7 @@ const ChangePasswordForm = ({linkApi}) => {
             console.log('field', field);
             setError(field, {
               type: 'validate',
-              message: response?.data[field]
+              message: response?.data[field],
             });
           }
         }
@@ -60,13 +70,19 @@ const ChangePasswordForm = ({linkApi}) => {
         IconComponent={<ChangePassword />}
         onClick={onOpenModal}
       />
-      <ModalComponent
-        open={open}
-        onClose={onClose}
-      >
+      <ModalComponent open={open} onClose={onClose}>
         <div>
           <TitlePage title="Change Password" />
           <form onSubmit={handleSubmit(onSubmit)}>
+            <InputField
+              nameField="username"
+              control={control}
+              id="username"
+              errors={errors?.username}
+              type="text"
+              label="Username"
+              disabled
+            />
             <InputField
               required
               nameField="password"
@@ -75,6 +91,7 @@ const ChangePasswordForm = ({linkApi}) => {
               errors={errors?.password}
               type="password"
               label="Password"
+              helperText="from 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
             />
             <InputField
               required
@@ -84,7 +101,8 @@ const ChangePasswordForm = ({linkApi}) => {
               errors={errors?.confirm_password}
               type="password"
               label="Confirm Password"
-            />  
+              helperText="from 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
+            />
             <SubmitButton />
           </form>
         </div>
