@@ -20,6 +20,8 @@ import { toast } from 'react-toastify';
 
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import InputField from 'src/components/shared/InputField/InputField';
+import SelectField from 'src/components/shared/InputField/SelectField';
+import MultilpleSelectField from 'src/components/shared/InputField/MultipleSelectField';
 import ButtonGroup, {
   SubmitButton,
   ResetButton,
@@ -29,6 +31,7 @@ import { FormattedNumberInputComission } from 'src/components/shared/InputField/
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
 import Loading from 'src/components/shared/Loading/Loading';
 import api from 'src/utils/api';
+import useFetchData from 'src/utils/hooks/useFetchData';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -66,11 +69,28 @@ const OperatorCreate = () => {
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [isLoading, setIsLoading] = useState(false);
   const [apiWLIP, setAPIWLIP] = useState(['', '', '', '']);
+  const [productData, setProductData] = useState([]);
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   const finance_email = watch('finance_email');
   const commission = watch('commission');
+
+  const { dataResponse: dataProduct } = useFetchData('/api/product');
+
+  useEffect(() => {
+    if (dataProduct.length <= 0) return;
+    let mapdata = [];
+    dataProduct.forEach((data) => {
+      let optionData = {
+        id: data.id,
+        value: data.id,
+        label: data.name,
+      };
+      mapdata.push(optionData);
+    });
+    setProductData([...mapdata]);
+  }, [dataProduct]);
 
   const onSubmit = async (data) => {
     const formatWLIPEndpoint = apiWLIP.join('.');
@@ -219,6 +239,26 @@ const OperatorCreate = () => {
           }}
           helperText="From 0% to 100%"
         />
+        <SelectField
+          nameField="product"
+          id="product"
+          label="Product"
+          fullWidth={false}
+          control={control}
+          errors={errors?.product}
+          options={productData}
+          defaultValue=""
+        />
+        {/* <MultilpleSelectField
+          nameField="product"
+          id="product"
+          label="Product"
+          fullWidth={false}
+          control={control}
+          errors={errors?.product}
+          options={productData}
+          defaultValue=""
+        /> */}
         <InputField
           required
           nameField="api_endpoint"
@@ -270,7 +310,7 @@ const OperatorCreate = () => {
         />
         <FormLabel>{t('Whitelist IP Address for BO')}</FormLabel>
         {whitelistIP.map((item, index) => (
-          <div className={classes.whitelistIPLine}>
+          <div className={classes.whitelistIPLine} key={index}>
             <IPAddressInput
               key={index}
               apiWLIP={item}

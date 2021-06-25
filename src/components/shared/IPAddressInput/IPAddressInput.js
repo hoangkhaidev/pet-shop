@@ -1,12 +1,12 @@
-import { useRef, Fragment } from "react";
-import { array, func, number } from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+import { useRef, Fragment } from 'react';
+import { array, func, number } from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
 import NumberFormat from 'react-number-format';
 
 const useStyles = makeStyles((theme) => ({
   listInput: {
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center',
     marginTop: 4,
   },
   inputStyles: {
@@ -16,14 +16,12 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     padding: theme.spacing(1),
-    fontSize: "1rem",
-    border: "1px solid #172b4d"
-  }
+    fontSize: '1rem',
+    border: '1px solid #172b4d',
+  },
 }));
 
-const IPAddressInput = ({
-  apiWLIP, onChange, rowIndex
-}) => {
+const IPAddressInput = ({ apiWLIP, onChange, rowIndex }) => {
   const classes = useStyles();
   const ref = useRef([]);
 
@@ -49,7 +47,7 @@ const IPAddressInput = ({
     <Fragment>
       <div className={classes.listInput}>
         {(apiWLIP || []).map((value, index) => (
-          <Fragment>
+          <Fragment key={index}>
             <NumberFormat
               min={0}
               key={index}
@@ -59,15 +57,11 @@ const IPAddressInput = ({
               allowNegative={false}
               value={value}
               // eslint-disable-next-line no-return-assign
-              getInputRef={el => ref.current[index] = el}
+              getInputRef={(el) => (ref.current[index] = el)}
               onValueChange={(e) => onChangeWLIPAddressForAPI(e, index)}
               onKeyDown={(e) => onKeyPress(e, index)}
             />
-            {index < 3 && (
-              <span>
-                .
-              </span>
-            )}
+            {index < 3 && <span>.</span>}
           </Fragment>
         ))}
       </div>
@@ -78,7 +72,7 @@ const IPAddressInput = ({
 IPAddressInput.propTypes = {
   apiWLIP: array,
   onChange: func,
-  rowIndex: number
+  rowIndex: number,
 };
 
 IPAddressInput.defaultProps = {
