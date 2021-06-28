@@ -249,16 +249,7 @@ const OperatorCreate = () => {
           options={productData}
           defaultValue=""
         />
-        {/* <MultilpleSelectField
-          nameField="product"
-          id="product"
-          label="Product"
-          fullWidth={false}
-          control={control}
-          errors={errors?.product}
-          options={productData}
-          defaultValue=""
-        /> */}
+
         <InputField
           required
           nameField="api_endpoint"

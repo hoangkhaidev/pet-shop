@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import Button from '@material-ui/core/Button';
@@ -10,6 +11,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import remove from 'lodash/remove';
 import get from 'lodash/get';
 import useFetchData from 'src/utils/hooks/useFetchData';
+import { toast } from 'react-toastify';
 
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import InputField from 'src/components/shared/InputField/InputField';
@@ -36,6 +38,7 @@ const SubAccountCreate = () => {
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [roleData, setRoleData] = useState([]);
   const [brandData, setBrandData] = useState([]);
+  const roleUser = useSelector((state) => state.roleUser);
 
   const {
     control,
@@ -60,6 +63,7 @@ const SubAccountCreate = () => {
       mapdata.push(optionData);
     });
     setRoleData([...mapdata]);
+    console.log(roleUser);
   }, [dataRole, setRoleData]);
 
   useEffect(() => {
@@ -85,7 +89,7 @@ const SubAccountCreate = () => {
     });
     const form = {
       username: dataform.username,
-      brand_ids: [dataform.brand],
+      brand_ids: dataform?.brand ? [dataform?.brand] : [],
       display_name: dataform.name,
       password: dataform.password,
       password_confirmation: dataform.confirm_password,
@@ -95,7 +99,9 @@ const SubAccountCreate = () => {
     try {
       const response = await api.post('/api/subs/create', form);
       if (get(response, 'success', false)) {
-        navigate('sub/list');
+        toast.success('Create Subaccount Success', {
+          onClose: navigate('/sub/list'),
+        });
       } else {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
@@ -147,16 +153,18 @@ const SubAccountCreate = () => {
           type="text"
           label="Brand"
         /> */}
-        <SelectField
-          nameField="brand"
-          id="brand"
-          label="Brand"
-          fullWidth={false}
-          control={control}
-          errors={errors?.brand}
-          options={brandData}
-          defaultValue=""
-        />
+        {!(roleUser.account_type === 'admin') && (
+          <SelectField
+            nameField="brand"
+            id="brand"
+            label="Brand"
+            fullWidth={false}
+            control={control}
+            errors={errors?.brand}
+            options={brandData}
+            defaultValue=""
+          />
+        )}
         <InputField
           required
           nameField="username"
@@ -208,7 +216,7 @@ const SubAccountCreate = () => {
         />
         <FormLabel>{t('Whitelist IP Address')}</FormLabel>
         {whitelistIP.map((item, index) => (
-          <div className={classes.whitelistIPLine}>
+          <div className={classes.whitelistIPLine} key={index}>
             <IPAddressInput
               key={index}
               apiWLIP={item}
