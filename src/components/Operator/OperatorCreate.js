@@ -21,7 +21,6 @@ import { toast } from 'react-toastify';
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import InputField from 'src/components/shared/InputField/InputField';
 import SelectField from 'src/components/shared/InputField/SelectField';
-import MultilpleSelectField from 'src/components/shared/InputField/MultipleSelectField';
 import ButtonGroup, {
   SubmitButton,
   ResetButton,
@@ -239,6 +238,7 @@ const OperatorCreate = () => {
           }}
           helperText="From 0% to 100%"
         />
+
         <SelectField
           nameField="product"
           id="product"

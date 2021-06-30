@@ -12,6 +12,11 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import useFetchData from 'src/utils/hooks/useFetchData';
+import ButtonGroup, {
+  SubmitButton,
+  ResetButton,
+} from 'src/components/shared/Button/Button';
+import Loading from 'src/components/shared/Loading/Loading';
 
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import InputField from 'src/components/shared/InputField/InputField';
@@ -31,6 +36,11 @@ const useStyles = makeStyles((theme) => ({
   formStyle: {
     width: '50%',
   },
+  whitelistIPLine: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
 }));
 
 const BrandCreate = () => {
@@ -48,6 +58,7 @@ const BrandCreate = () => {
   const [apiWLIP, setAPIWLIP] = useState(['', '', '', '']);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [operatorData, setOperatorData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const finance_email = watch('finance_email');
   const { dataResponse } = useFetchData('/api/operators');
@@ -108,7 +119,40 @@ const BrandCreate = () => {
   };
 
   const onSubmit = async (dataForm) => {
-    console.log(dataForm);
+    const formatWLIPEndpoint = apiWLIP.join('.');
+    const formatWLIPs = whitelistIP.map((item) => {
+      const joinStr = item.join('.');
+      return joinStr;
+    });
+    setIsLoading(true);
+    // const form = {
+    //   ...data,
+    //   commission: String(data.commission),
+    //   api_whitelist_ip: formatWLIPEndpoint,
+    //   whitelist_ips: formatWLIPs,
+    //   finance_email: financeEmail,
+    //   account_type: 'operator',
+    // };
+    // try {
+    //   const response = await api.post('/api/operators/create', form);
+    //   if (get(response, 'success', false)) {
+    //     toast.success('Update operator Success', {
+    //       onClose: navigate('operator/list'),
+    //     });
+    //   } else {
+    //     if (response?.err === 'err:form_validation_failed') {
+    //       for (const field in response?.data) {
+    //         setError(field, {
+    //           type: 'validate',
+    //           message: response?.data[field],
+    //         });
+    //       }
+    //     }
+    //   }
+    // } catch (e) {
+    //   console.log('e', e);
+    // }
+    setIsLoading(false);
   };
 
   return (
@@ -258,7 +302,12 @@ const BrandCreate = () => {
             )}
           </div>
         ))}
+        <ButtonGroup>
+          <SubmitButton />
+          <ResetButton />
+        </ButtonGroup>
       </form>
+      {isLoading && <Loading />}
     </ContentCardPage>
   );
 };
