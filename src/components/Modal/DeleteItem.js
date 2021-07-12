@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { toast } from "react-toastify";
 import api from 'src/utils/api';  
 import DeleteIcon from '@material-ui/icons/Delete';

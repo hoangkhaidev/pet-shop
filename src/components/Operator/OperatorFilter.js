@@ -9,9 +9,7 @@ import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Bu
 
 import { OPERATOR_STATUS, SORT_ODER } from "src/constants";
 
-const OperatorListFilter = ({
-  onResetFilter
-}) => {
+const OperatorListFilter = ({onResetFilter}) => {
   const { control } = useFormContext();
 
   return (

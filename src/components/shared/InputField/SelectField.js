@@ -40,6 +40,8 @@ const SelectField = ({
     return errors.message;
   };
 
+  // console.log(options);
+
   return (
     <div className={classes.selectField}>
       <FormControl

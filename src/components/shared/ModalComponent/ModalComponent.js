@@ -40,6 +40,7 @@ const ModalComponent = ({ children, open, onClose, width }) => {
     let style = {...modalStyle};
     style.width = width;
     setModalStyle(style)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width])
 
   return (

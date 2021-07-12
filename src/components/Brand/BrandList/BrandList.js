@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { useForm, FormProvider } from 'react-hook-form';
 import get from 'lodash/get';
 import Link from '@material-ui/core/Link';
-
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import TableComponent from 'src/components/shared/TableComponent/TableComponent';
 import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
@@ -11,8 +10,8 @@ import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import Loading from 'src/components/shared/Loading/Loading';
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
-
 import BrandListFilter from './BrandListFilter';
+
 const ChangePasswordForm = lazy(() =>
   import('src/components/Modal/ChangePasswordForm')
 );
@@ -68,6 +67,7 @@ const BrandList = () => {
     defaultValues: router.query,
   });
   const { t } = useTranslation();
+  console.log(t);
 
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
     '/api/brand',

@@ -23,6 +23,7 @@ const ChangePasswordForm = ({ linkApi, username }) => {
 
   useEffect(() => {
     setValue('username', username);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onOpenModal = useCallback(() => {

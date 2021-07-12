@@ -53,6 +53,7 @@ NumberFormatCustom.propTypes = {
 const FormattedNumberInput = ({
   // eslint-disable-next-line react/prop-types
   label,
+  pattern,
   control,
   nameField,
   styles,
@@ -69,6 +70,9 @@ const FormattedNumberInput = ({
     }
     if (errors.type === 'required') {
       return 'Field is required';
+    }
+    if (errors.type === 'pattern') {
+      // return 'Field is required';
     }
     return errors.message;
   };
@@ -90,6 +94,7 @@ const FormattedNumberInput = ({
               label={`${label}${required ? '*' : ''}`}
               style={styles}
               maxLength="2"
+              defaultValue={0}
               customInput={TextField}
               className={classes.inputFieldNumber}
               autoComplete="off"
@@ -104,6 +109,7 @@ const FormattedNumberInput = ({
           name={nameField}
           rules={{
             required,
+            pattern
           }}
         />
         {!isEmpty(errors) && <FormHelperText>{renderErrors()}</FormHelperText>}
@@ -181,11 +187,25 @@ export const FormattedNumberInputComission = ({
               decimalScale={value >= 100 ? 0 : 2}
               decimalSeparator=","
               customInput={TextField}
+              defaultValue={0}
               value={value}
               onValueChange={(values) => {
+                // if (values?.floatValue > 100) {
+                //   onChange({ target: { name, value: 100 } })
+                // } else {
+                //   onChange({ target: { name, value: values.floatValue } });
+                // }
+                // if (values?.floatValue < 0)  {
+                //   onChange({ target: { name, value: 0 } })
+                // } else {
+                //   onChange({ target: { name, value: values.floatValue } });
+                // }
+
                 values?.floatValue > 100
                   ? onChange({ target: { name, value: 100 } })
-                  : onChange({ target: { name, value: values.floatValue } });
+                  : values?.floatValue < 0 
+                    ? onChange({ target: { name, value: 0 } }) 
+                    : onChange({ target: { name, value: values.floatValue } });
               }}
               maxLength={value >= 100 ? 3 : null}
               helperText={helperText}

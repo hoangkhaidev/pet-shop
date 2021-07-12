@@ -17,7 +17,6 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import FormLabel from '@material-ui/core/FormLabel';
 import get from 'lodash/get';
 import { toast } from 'react-toastify';
-
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import InputField from 'src/components/shared/InputField/InputField';
 import SelectField from 'src/components/shared/InputField/SelectField';
@@ -103,11 +102,14 @@ const OperatorCreate = () => {
       commission: String(data.commission),
       api_whitelist_ip: formatWLIPEndpoint,
       whitelist_ips: formatWLIPs,
+      product_ids: [data.product_ids],
       finance_email: financeEmail,
-      account_type: 'operator',
     };
+    console.log(form);
+
     try {
       const response = await api.post('/api/operators/create', form);
+      console.log(response);
       if (get(response, 'success', false)) {
         toast.success('Update operator Success', {
           onClose: navigate('operator/list'),
@@ -152,6 +154,7 @@ const OperatorCreate = () => {
     const { formattedValue } = e;
     const cloneArr = whitelistIP.slice();
     cloneArr[rowIndex][index] = formattedValue;
+    console.log(cloneArr);
     setWhitelistIP(cloneArr);
   };
 
@@ -165,7 +168,8 @@ const OperatorCreate = () => {
   const onAddingWLIPAddress = () => {
     const cloneArr = whitelistIP.slice();
     const newArray = [...cloneArr, ['', '', '', '']];
-    setWhitelistIP(newArray);
+    console.log(newArray);
+    if (newArray.length <= 20 ) setWhitelistIP(newArray);
   };
 
   const onRemoveWLIPAddress = (rowIndex) => {
@@ -173,7 +177,6 @@ const OperatorCreate = () => {
     remove(cloneArr, (item, index) => rowIndex === index);
     setWhitelistIP(cloneArr);
   };
-
   return (
     <ContentCardPage>
       <TitlePage title="Create Operator" />
@@ -187,10 +190,8 @@ const OperatorCreate = () => {
           errors={errors?.name}
           type="text"
           label="Name"
-          inputProps={{
-            maxLength: 100,
-          }}
-          helperText="Length 4 - 15 chars, allow letter, digit and underscore()"
+          pattern={/^[a-z0-9_]{3,15}$/}
+          helperText="Length 3 - 15 chars, allow letter (lowercase), digit and underscore(_)"
         />
         <InputField
           nameField="support_email"
@@ -233,6 +234,7 @@ const OperatorCreate = () => {
           InputProps={{
             endAdornment: <InputAdornment position="end">%</InputAdornment>,
           }}
+          pattern={/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/}
           inputProps={{
             maxLength: 3,
           }}
@@ -240,8 +242,8 @@ const OperatorCreate = () => {
         />
 
         <SelectField
-          nameField="product"
-          id="product"
+          nameField="product_ids"
+          id="product_ids"
           label="Product"
           fullWidth={false}
           control={control}
@@ -260,7 +262,11 @@ const OperatorCreate = () => {
           label="API Endpoint"
         />
         <FormLabel>Whitelist IP Address for API</FormLabel>
-        <IPAddressInput apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} />
+        <IPAddressInput 
+          requiredCheck={true} 
+          apiWLIP={apiWLIP} 
+          onChange={onChangeAPIEndpointIP} 
+        />
         <Typography
           className={classes.operatorAdminLabel}
           variant="h6"
@@ -277,7 +283,8 @@ const OperatorCreate = () => {
           errors={errors?.username}
           type="text"
           label="Username"
-          helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
+          pattern={/^[a-z0-9_]{3,15}$/}
+          helperText="Length 3 - 15 chars, allow letter (lowercase), digit and underscore(_)"
         />
         <InputField
           required
@@ -287,6 +294,7 @@ const OperatorCreate = () => {
           errors={errors?.password}
           type="password"
           label="Password"
+          pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
           helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <InputField
@@ -297,6 +305,7 @@ const OperatorCreate = () => {
           errors={errors?.password_confirmation}
           type="password"
           label="Confirm Password"
+          pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
           helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <FormLabel>{t('Whitelist IP Address for BO')}</FormLabel>

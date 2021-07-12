@@ -1,12 +1,11 @@
 /* eslint-disable arrow-body-style */
 import { Fragment, useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import EditIcon from '@material-ui/icons/Edit';
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
-
 import DeleteItem from "src/components/Modal/DeleteItem";
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
@@ -16,8 +15,6 @@ import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import Loading from "src/components/shared/Loading/Loading";
 import useRouter from "src/utils/hooks/useRouter";
 import useFetchData from "src/utils/hooks/useFetchData";
-import api from "src/utils/api";
-import { toast } from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
   root: {

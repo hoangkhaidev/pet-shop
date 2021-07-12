@@ -111,11 +111,11 @@ const GameTransactionFilter = ({
   };
 
   const onSubmit = async (data) => {
-    const form = {
-      ...data,
-      end: dateRange.end,
-      start: dateRange.start
-    };
+    // const form = {
+    //   ...data,
+    //   end: dateRange.end,
+    //   start: dateRange.start
+    // };
   };
 
   const onReset = () => {

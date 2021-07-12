@@ -64,6 +64,7 @@ const SubAccountCreate = () => {
     });
     setRoleData([...mapdata]);
     console.log(roleUser);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataRole, setRoleData]);
 
   useEffect(() => {

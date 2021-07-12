@@ -1,6 +1,5 @@
 import { useEffect, useCallback, useState } from 'react';
 import get from 'lodash/get';
-
 import api from 'src/utils/api';
 import { func } from 'prop-types';
 
@@ -25,6 +24,7 @@ const Captcha = ({
     } catch (e) {
       console.log('e', e);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

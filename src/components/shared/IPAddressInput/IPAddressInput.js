@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const IPAddressInput = ({ apiWLIP, onChange, rowIndex }) => {
+const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
   const classes = useStyles();
   const ref = useRef([]);
 
@@ -50,6 +50,7 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex }) => {
           <Fragment key={index}>
             <NumberFormat
               min={0}
+              required={requiredCheck}
               key={index}
               className={classes.inputStyles}
               maxLength={3}

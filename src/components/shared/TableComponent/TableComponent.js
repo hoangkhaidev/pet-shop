@@ -64,6 +64,8 @@ TableHeader.propTypes = {
 
 const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
   const classes = useStyles();
+  // console.log(rowData, indexRow);
+  // console.log(cellInfo);
   return (
     <StyledTableRow align={cellInfo.align}>
       {cellInfo.map((info) => (
@@ -97,6 +99,8 @@ const TableComponent = ({
   data, columns, pagination, handleChangePage, handleChangeRowsPerPage
 }) => {
   const classes = useStyles();
+  // console.log(data);
+  // console.log(columns);
   // eslint-disable-next-line camelcase
   const cellInfo = map(columns, ({ data_field, align, formatter }) => ({ data_field, align, formatter }));
 

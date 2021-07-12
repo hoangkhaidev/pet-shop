@@ -8,14 +8,12 @@ import { Helmet } from "react-helmet";
 import useRouter from "src/utils/hooks/useRouter";
 import find from "lodash/find";
 import { ToastContainer } from 'react-toastify';
-
 import GlobalStyles from 'src/components/GlobalStyles';
 import CircularIndeterminate from 'src/components/shared/CircularIndeterminate/CircularIndeterminate';
 import 'src/mixins/chartjs';
 import theme from 'src/theme';
 import routes from 'src/routes';
 import { store, persistor } from "./stores";
-
 import 'react-toastify/dist/ReactToastify.css';
 import "./global.scss";
 

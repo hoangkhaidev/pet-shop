@@ -1,7 +1,6 @@
 import { useState, Fragment } from 'react';
 import {
-  NavLink as RouterLink,
-  useLocation
+  NavLink as RouterLink
 } from 'react-router-dom';
 import PropTypes, { bool } from 'prop-types';
 import {

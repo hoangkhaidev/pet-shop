@@ -24,6 +24,8 @@ const useStyles = makeStyles(() => ({
 
 const InputField = ({
   required,
+  defaultValue,
+  pattern,
   id,
   label,
   rows,
@@ -49,7 +51,16 @@ const InputField = ({
       return '';
     }
     if (errors.type === 'required') {
-      return 'Field is required';
+      return 'Field is required.';
+    }
+    // if (errors.type === 'maxLength') {
+    //   return 'Length 3 - 15 chars.';
+    // }
+    // if (errors.type === 'minLength') {
+    //   return 'Length 3 - 15 chars.';
+    // }
+    if (errors.type === 'pattern') {
+      // return 'Length 3 - 15 chars, allow letter (lowercase), digit and underscore(_).';
     }
     return errors.message;
   };
@@ -106,6 +117,8 @@ const InputField = ({
           )}
           rules={{
             required,
+            pattern,
+            defaultValue
           }}
         />
         {!isEmpty(errors) && <FormHelperText>{renderErrors()}</FormHelperText>}

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
@@ -173,6 +174,7 @@ const SubAccountEdit = () => {
             nameField="brand"
             id="brand"
             label="Brand"
+            // eslint-disable-next-line react/jsx-no-duplicate-props
             control={control}
             errors={errors?.brand}
             options={brandData}

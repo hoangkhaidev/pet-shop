@@ -1,17 +1,13 @@
 import { Fragment, useState, useEffect, lazy } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useForm, FormProvider } from 'react-hook-form';
 import get from 'lodash/get';
 import Link from '@material-ui/core/Link';
-
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import OperatorListFilter from 'src/components/Operator/OperatorFilter';
 import TableComponent from 'src/components/shared/TableComponent/TableComponent';
 import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import Loading from 'src/components/shared/Loading/Loading';
-import StatusBadge from 'src/components/shared/StatusBadge/StatusBadge';
-
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
 
@@ -69,7 +65,6 @@ const OperatorList = () => {
   const methods = useForm({
     defaultValues: router.query,
   });
-  const { t } = useTranslation();
 
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
     '/api/operators',
@@ -83,6 +78,7 @@ const OperatorList = () => {
   }, [dataResponse]);
 
   const onSubmit = async (dataForm) => {
+    // console.log(dataForm);
     const form = {
       ...dataForm,
       status_search:
@@ -93,6 +89,7 @@ const OperatorList = () => {
       page: 1,
       page_size: 30,
     });
+    console.log(1);
   };
 
   if (!isHasPermission) {
@@ -100,6 +97,11 @@ const OperatorList = () => {
   }
 
   const columns = [
+    {
+      data_field: 'indexRow',
+      column_name: 'No',
+      align: 'center',
+    },
     {
       data_field: 'username',
       column_name: 'Username',
@@ -194,8 +196,8 @@ const OperatorList = () => {
           columns={columns}
           pagination={{
             total_size,
-            page: objFilter.page,
-            page_size: objFilter.page_size,
+            page: Number(objFilter.page),
+            page_size: Number(objFilter.page_size),
           }}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}

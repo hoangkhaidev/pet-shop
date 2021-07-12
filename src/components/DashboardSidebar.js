@@ -1,14 +1,11 @@
 /* eslint-disable import/no-cycle */
 import { useEffect, useState, useCallback, useContext } from 'react';
-import { Link as RouterLink, useRoutes } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
-  Avatar,
   Box,
   Divider,
   Drawer,
   List,
-  Typography,
 } from '@material-ui/core';
 import get from "lodash/get";
 import api from "src/utils/api";
@@ -18,11 +15,11 @@ import { getUser } from "src/features/roleUser/roleUser";
 
 import NavItem from './NavItem';
 
-const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith'
-};
+// const user = {
+//   avatar: '/static/images/avatars/avatar_6.png',
+//   jobTitle: 'Senior Developer',
+//   name: 'Katarina Smith'
+// };
 
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const [listNav, setListNav] = useState({});
@@ -50,6 +47,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
 
   useEffect(() => {
     getUserData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {

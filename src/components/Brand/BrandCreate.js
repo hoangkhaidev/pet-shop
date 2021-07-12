@@ -17,7 +17,6 @@ import ButtonGroup, {
   ResetButton,
 } from 'src/components/shared/Button/Button';
 import Loading from 'src/components/shared/Loading/Loading';
-
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import InputField from 'src/components/shared/InputField/InputField';
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
@@ -51,8 +50,7 @@ const BrandCreate = () => {
     handleSubmit,
     formState: { errors },
     watch,
-    setValue,
-    setError,
+    setValue
   } = useForm();
   const [financeEmail, setFinanceEmail] = useState([]);
   const [apiWLIP, setAPIWLIP] = useState(['', '', '', '']);
@@ -124,6 +122,7 @@ const BrandCreate = () => {
       const joinStr = item.join('.');
       return joinStr;
     });
+    console.log(formatWLIPEndpoint,formatWLIPs);
     setIsLoading(true);
     // const form = {
     //   ...data,
