@@ -24,7 +24,7 @@ const SelectField = ({
   defaultValue,
   control,
   errors,
-  nameField,
+  namefileld,
   options,
   label,
 }) => {
@@ -40,8 +40,6 @@ const SelectField = ({
     return errors.message;
   };
 
-  // console.log(options);
-
   return (
     <div className={classes.selectField}>
       <FormControl
@@ -52,7 +50,7 @@ const SelectField = ({
         <InputLabel htmlFor={id}>{label}</InputLabel>
         <Controller
           control={control}
-          name={nameField}
+          name={namefileld}
           render={({ field }) => (
             <Select
               {...field}

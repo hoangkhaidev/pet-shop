@@ -26,7 +26,7 @@ const fakeData = [
   }
 ];
 
-const ChangeStatus = ({newlabel, linkApi, STATUS, username, statuses}) => {
+const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses }) => {
   const [label, setLabel] = useState(newlabel);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
@@ -40,8 +40,8 @@ const ChangeStatus = ({newlabel, linkApi, STATUS, username, statuses}) => {
   });
 
   useEffect(() => {
-    setValue("username", username)
-    setValue("current_status", newlabel)
+    setValue("username", username);
+    setValue("current_status", newlabel);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -61,22 +61,22 @@ const ChangeStatus = ({newlabel, linkApi, STATUS, username, statuses}) => {
     {
       data_field: "at",
       column_name: "Date",
-      align: "center"
+      align: "left"
     },
     {
       data_field: "status",
       column_name: "Status",
-      align: "left"
+      align: "center"
     },
     {
       data_field: "by_user",
       column_name: "By",
-      align: "left",
+      align: "center",
     },
     {
       data_field: "reason",
       column_name: "Reason",
-      align: "left",
+      align: "center",
     },
   ];
 
@@ -102,6 +102,8 @@ const ChangeStatus = ({newlabel, linkApi, STATUS, username, statuses}) => {
     };
     try {
       const response = await api.post(linkApi, form);
+
+      console.log(response);
       
       if (get(response, 'success', false)) {
         setLabel(data.status);
@@ -124,6 +126,7 @@ const ChangeStatus = ({newlabel, linkApi, STATUS, username, statuses}) => {
     }
   };
 
+
   return (
     <div>
       <StatusBadge label={label} onClick={(onOpenModal)}/>
@@ -136,7 +139,7 @@ const ChangeStatus = ({newlabel, linkApi, STATUS, username, statuses}) => {
           <TitlePage title="Change Status" />
           <form onSubmit={handleSubmit(onSubmit)}>
             <InputField
-              nameField="username"
+              namefileld="username"
               control={control}
               id="username"
               errors={errors?.username}
@@ -145,7 +148,7 @@ const ChangeStatus = ({newlabel, linkApi, STATUS, username, statuses}) => {
               disabled
             />  
             <InputField
-              nameField="current_status"
+              namefileld="current_status"
               control={control}
               id="current_status"
               errors={errors?.current_status}
@@ -154,7 +157,7 @@ const ChangeStatus = ({newlabel, linkApi, STATUS, username, statuses}) => {
               disabled
             />  
             <SelectField
-              nameField="status"
+              namefileld="status"
               id="status"
               control={control}
               errors={errors?.status}
@@ -166,7 +169,7 @@ const ChangeStatus = ({newlabel, linkApi, STATUS, username, statuses}) => {
             />
             <InputField
               required
-              nameField="reason"
+              namefileld="reason"
               control={control}
               id="reason"
               errors={errors?.reason}

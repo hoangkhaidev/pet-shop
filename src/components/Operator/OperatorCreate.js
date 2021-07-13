@@ -62,6 +62,7 @@ const OperatorCreate = () => {
     watch,
     setValue,
     setError,
+    reset, 
   } = useForm();
   const [financeEmail, setFinanceEmail] = useState([]);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
@@ -105,7 +106,6 @@ const OperatorCreate = () => {
       product_ids: [data.product_ids],
       finance_email: financeEmail,
     };
-    console.log(form);
 
     try {
       const response = await api.post('/api/operators/create', form);
@@ -154,7 +154,6 @@ const OperatorCreate = () => {
     const { formattedValue } = e;
     const cloneArr = whitelistIP.slice();
     cloneArr[rowIndex][index] = formattedValue;
-    console.log(cloneArr);
     setWhitelistIP(cloneArr);
   };
 
@@ -168,7 +167,6 @@ const OperatorCreate = () => {
   const onAddingWLIPAddress = () => {
     const cloneArr = whitelistIP.slice();
     const newArray = [...cloneArr, ['', '', '', '']];
-    console.log(newArray);
     if (newArray.length <= 20 ) setWhitelistIP(newArray);
   };
 
@@ -177,6 +175,23 @@ const OperatorCreate = () => {
     remove(cloneArr, (item, index) => rowIndex === index);
     setWhitelistIP(cloneArr);
   };
+
+  const onReset = () => {
+    setWhitelistIP([['', '', '', '']]);
+    setAPIWLIP(['', '', '', '']);
+    setFinanceEmail([]);
+    reset({
+        name: '',
+        support_email: '',
+        commission: 0,
+        product_ids: [],
+        api_endpoint: '',
+        username: '',
+        password: '',
+        password_confirmation: '',
+    });
+  }
+
   return (
     <ContentCardPage>
       <TitlePage title="Create Operator" />
@@ -184,7 +199,7 @@ const OperatorCreate = () => {
         <InputField
           autoFocus
           required
-          nameField="name"
+          namefileld="name"
           control={control}
           id="name"
           errors={errors?.name}
@@ -194,7 +209,7 @@ const OperatorCreate = () => {
           helperText="Length 3 - 15 chars, allow letter (lowercase), digit and underscore(_)"
         />
         <InputField
-          nameField="support_email"
+          namefileld="support_email"
           control={control}
           id="support_email"
           errors={errors?.support_email}
@@ -202,7 +217,7 @@ const OperatorCreate = () => {
           label="Support Email"
         />
         <InputField
-          nameField="finance_email"
+          namefileld="finance_email"
           control={control}
           id="finance_email"
           errors={errors?.finance_email}
@@ -222,7 +237,7 @@ const OperatorCreate = () => {
           ))}
         </div>
         <FormattedNumberInputComission
-          nameField="commission"
+          namefileld="commission"
           label="Comission"
           id="commission"
           control={control}
@@ -242,7 +257,7 @@ const OperatorCreate = () => {
         />
 
         <SelectField
-          nameField="product_ids"
+          namefileld="product_ids"
           id="product_ids"
           label="Product"
           fullWidth={false}
@@ -254,7 +269,7 @@ const OperatorCreate = () => {
 
         <InputField
           required
-          nameField="api_endpoint"
+          namefileld="api_endpoint"
           control={control}
           id="api_endpoint"
           errors={errors?.api_endpoint}
@@ -277,7 +292,7 @@ const OperatorCreate = () => {
         </Typography>
         <InputField
           required
-          nameField="username"
+          namefileld="username"
           control={control}
           id="username"
           errors={errors?.username}
@@ -288,7 +303,7 @@ const OperatorCreate = () => {
         />
         <InputField
           required
-          nameField="password"
+          namefileld="password"
           control={control}
           id="password"
           errors={errors?.password}
@@ -299,7 +314,7 @@ const OperatorCreate = () => {
         />
         <InputField
           required
-          nameField="password_confirmation"
+          namefileld="password_confirmation"
           control={control}
           id="password_confirmation"
           errors={errors?.password_confirmation}
@@ -338,7 +353,7 @@ const OperatorCreate = () => {
         ))}
         <ButtonGroup>
           <SubmitButton />
-          <ResetButton />
+          <ResetButton onAction={() => onReset()} />
         </ButtonGroup>
       </form>
       {isLoading && <Loading />}

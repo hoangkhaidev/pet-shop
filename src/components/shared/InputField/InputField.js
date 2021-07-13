@@ -35,7 +35,7 @@ const InputField = ({
   // eslint-disable-next-line react/prop-types
   control,
   errors,
-  nameField,
+  namefileld,
   type,
   styles,
   helperText,
@@ -70,7 +70,7 @@ const InputField = ({
       <FormControl error={!isEmpty(errors)} className={classes.formControl}>
         <Controller
           control={control}
-          name={nameField}
+          name={namefileld}
           render={({ field: { onChange, onBlur, name, ref, value } }) => (
             <TextField
               disabled={disabled}
@@ -131,7 +131,7 @@ InputField.propTypes = {
   type: string,
   rows: number,
   label: string,
-  nameField: string,
+  namefileld: string,
   id: string,
   required: bool,
   styles: object,
@@ -149,7 +149,7 @@ InputField.defaultProps = {
   type: 'text',
   rows: 1,
   label: '',
-  nameField: '',
+  namefileld: '',
   id: '',
   required: false,
   disabled: false,

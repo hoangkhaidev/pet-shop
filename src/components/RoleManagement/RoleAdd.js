@@ -188,7 +188,7 @@ const RoleAdd = () => {
         <InputField
           autoFocus
           required
-          nameField="role_name"
+          namefileld="role_name"
           control={control}
           id="name"
           errors={errors?.role_name}
@@ -201,7 +201,7 @@ const RoleAdd = () => {
         <InputField
           multiline
           rows={4}
-          nameField="description"
+          namefileld="description"
           control={control}
           id="description"
           errors={errors?.description}

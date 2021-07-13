@@ -96,7 +96,7 @@ const PLayerListFilter = ({
             <Grid item xs={12} xl={3} md={4}>
               <InputField
                 control={control}
-                nameField="player_id"
+                namefileld="player_id"
                 type="text"
                 label="Player ID"
                 id="player_id"
@@ -106,7 +106,7 @@ const PLayerListFilter = ({
             <Grid item xs={12} xl={3} md={4}>
               <InputField
                 control={control}
-                nameField="nickname"
+                namefileld="nickname"
                 type="text"
                 label="Nickname"
                 id="nickname"
@@ -116,7 +116,7 @@ const PLayerListFilter = ({
             <Grid item xs={12} xl={3} md={4}>
               <SelectField
                 control={control}
-                nameField="casino_brand"
+                namefileld="casino_brand"
                 id="casino_brand"
                 label="Casino / Brand"
                 fullWidth={false}
@@ -127,7 +127,7 @@ const PLayerListFilter = ({
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
               <InputField
                 control={control}
-                nameField="ip_address"
+                namefileld="ip_address"
                 type="text"
                 label="IP Address"
                 id="ip_address"
@@ -149,7 +149,7 @@ const PLayerListFilter = ({
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
               <SelectField
                 control={control}
-                nameField="currency"
+                namefileld="currency"
                 id="currency"
                 label="Currency"
                 fullWidth={false}
@@ -160,7 +160,7 @@ const PLayerListFilter = ({
             <Grid item xs={12} xl={3} md={4}>
               <SelectField
                 control={control}
-                nameField="language"
+                namefileld="language"
                 id="language"
                 label="Language"
                 fullWidth={false}

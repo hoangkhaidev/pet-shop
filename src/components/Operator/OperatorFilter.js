@@ -18,7 +18,7 @@ const OperatorListFilter = ({onResetFilter}) => {
         <Grid item xs={12} xl={3} md={4}>
           <InputField
             control={control}
-            nameField="name_search"
+            namefileld="name_search"
             type="text"
             label="Name or Username"
             id="name_search"
@@ -28,7 +28,7 @@ const OperatorListFilter = ({onResetFilter}) => {
         <Grid item xs={12} xl={3} md={4}>
           <SelectField
             control={control}
-            nameField="status_search"
+            namefileld="status_search"
             id="status_search"
             label="Status"
             fullWidth={false}
@@ -39,7 +39,7 @@ const OperatorListFilter = ({onResetFilter}) => {
         <Grid item xs={12} xl={3} md={4}>
           <SelectField
             control={control}
-            nameField="sort_field"
+            namefileld="sort_field"
             id="sort_field"
             label="Sort field"
             fullWidth={false}
@@ -63,7 +63,7 @@ const OperatorListFilter = ({onResetFilter}) => {
         <Grid item xs={12} xl={3} md={4}>
           <SelectField
             control={control}
-            nameField="sort_order"
+            namefileld="sort_order"
             id="sort_order"
             label="Sort order"
             options={SORT_ODER}

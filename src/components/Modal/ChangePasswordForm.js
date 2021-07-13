@@ -76,7 +76,7 @@ const ChangePasswordForm = ({ linkApi, username }) => {
           <TitlePage title="Change Password" />
           <form onSubmit={handleSubmit(onSubmit)}>
             <InputField
-              nameField="username"
+              namefileld="username"
               control={control}
               id="username"
               errors={errors?.username}
@@ -86,7 +86,7 @@ const ChangePasswordForm = ({ linkApi, username }) => {
             />
             <InputField
               required
-              nameField="password"
+              namefileld="password"
               control={control}
               id="password"
               errors={errors?.password}
@@ -96,7 +96,7 @@ const ChangePasswordForm = ({ linkApi, username }) => {
             />
             <InputField
               required
-              nameField="confirm_password"
+              namefileld="confirm_password"
               control={control}
               id="confirm_password"
               errors={errors?.confirm_password}

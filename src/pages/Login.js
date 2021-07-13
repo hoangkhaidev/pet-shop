@@ -248,7 +248,7 @@ const Login = () => {
                   Sign in
                 </Typography>
                 <InputField
-                  nameField="username"
+                  namefileld="username"
                   label="Username"
                   id="email-field"
                   required
@@ -256,7 +256,7 @@ const Login = () => {
                   control={control}
                 />
                 <InputField
-                  nameField="password"
+                  namefileld="password"
                   label="Password"
                   id="password-field"
                   type="password"
@@ -269,7 +269,7 @@ const Login = () => {
                     setCaptchaId={setCaptchaId}
                   />
                   <FormattedNumberInput
-                    nameField="captcha"
+                    namefileld="captcha"
                     label="Captcha"
                     id="password-field"
                     control={control}

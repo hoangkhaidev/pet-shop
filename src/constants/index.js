@@ -1,4 +1,4 @@
-export const PER_PAGE_LIST = [10, 30, 50, { label: 'All', value: -1 }];
+export const PER_PAGE_LIST = [30, 50, 100];
 
 export const USER_STATUS = [
   {

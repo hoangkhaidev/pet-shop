@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const DeleteItem = ({title, linkApi}) => {
+const DeleteItem = ({title, linkApi }) => {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
 
@@ -59,7 +59,7 @@ const DeleteItem = ({title, linkApi}) => {
     <div>
       <TooltipIcon
         IconComponent={<DeleteIcon />}
-        title={title}
+        title="Delete"
         color="secondary"
         onClick={onOpenModal}
       />

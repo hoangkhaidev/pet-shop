@@ -171,7 +171,7 @@ const SubAccountEdit = () => {
         {!(roleUser.account_type === 'admin') && (
           <SelectField
             control={control}
-            nameField="brand"
+            namefileld="brand"
             id="brand"
             label="Brand"
             // eslint-disable-next-line react/jsx-no-duplicate-props
@@ -183,7 +183,7 @@ const SubAccountEdit = () => {
         )}
         <InputField
           required
-          nameField="username"
+          namefileld="username"
           control={control}
           id="username"
           errors={errors?.username}
@@ -192,7 +192,7 @@ const SubAccountEdit = () => {
           disabled
         />
         <InputField
-          nameField="name"
+          namefileld="name"
           control={control}
           id="name"
           errors={errors?.name}
@@ -200,7 +200,7 @@ const SubAccountEdit = () => {
           label="Name"
         />
         <InputField
-          nameField="password"
+          namefileld="password"
           control={control}
           id="password"
           errors={errors?.password}
@@ -208,7 +208,7 @@ const SubAccountEdit = () => {
           label="Password"
         />
         <InputField
-          nameField="confirm_password"
+          namefileld="confirm_password"
           control={control}
           id="confirm_password"
           errors={errors?.confirm_password}
@@ -217,7 +217,7 @@ const SubAccountEdit = () => {
         />
         <SelectField
           label="Role"
-          nameField="role"
+          namefileld="role"
           control={control}
           errors={errors?.role}
           options={roleData}

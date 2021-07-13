@@ -16,6 +16,8 @@ const ChangePasswordForm = lazy(() =>
 );
 const ChangeStatus = lazy(() => import('src/components/Modal/ChangeStatus'));
 
+const DeleteItem = lazy(() => import('src/components/Modal/DeleteItem'));
+
 const STATUS = [
   {
     id: 1,
@@ -105,7 +107,7 @@ const OperatorList = () => {
     {
       data_field: 'username',
       column_name: 'Username',
-      align: 'left',
+      align: 'center',
       formatter: (cell, row) => (
         <Link href={`/operator/list/${row.id}/edit`}>{cell}</Link>
       ),
@@ -113,7 +115,7 @@ const OperatorList = () => {
     {
       data_field: 'operator_name',
       column_name: 'Name',
-      align: 'left',
+      align: 'center',
     },
     {
       data_field: 'support_email',
@@ -137,6 +139,37 @@ const OperatorList = () => {
       align: 'left',
     },
     {
+      data_field: 'member_count',
+      column_name: 'Players',
+      align: 'center',
+      formatter: (cell, row) => (
+        <Link href={`/players/list`}>{cell}</Link>
+      ),
+    },
+    {
+      data_field: 'api_endpoint',
+      column_name: 'Api Endpoint',
+      align: 'left'
+    },
+    {
+      data_field: 'product_names',
+      column_name: 'Product',
+      align: 'center'
+    },
+    {
+      data_field: 'commission',
+      column_name: 'Commission',
+      align: 'center'
+    },
+    {
+      data_field: 'brand_count',
+      column_name: 'Brand',
+      align: 'center',
+      formatter: (cell, row) => (
+        <Link href={`/brand/list`}>{cell}</Link>
+      ),
+    },
+    {
       data_field: 'statuses',
       column_name: 'Status',
       align: 'center',
@@ -144,6 +177,7 @@ const OperatorList = () => {
         const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
         return (
           <ChangeStatus
+            key={row.operator_id}
             newlabel={newlabel}
             linkApi={`/api/operators/${row.id}/update_status`}
             STATUS={STATUS}
@@ -160,7 +194,19 @@ const OperatorList = () => {
       formatter: (cell, row) => (
         <ChangePasswordForm
           linkApi={`/api/operators/${row.id}/update_password`}
-          username={row.username}
+          title="delete"
+        />
+      ),
+    },
+    {
+      data_field: 'delete',
+      column_name: 'Delete',
+      align: 'center',
+      formatter: (cell, row) => (
+        <DeleteItem
+          linkApi={`/api/operators/${row.account_id}/delete`}
+          title={row.username}
+          row={row}
         />
       ),
     },
@@ -180,7 +226,6 @@ const OperatorList = () => {
       page_size: parseInt(event.target.value, 10),
     }));
   };
-
   return (
     <Fragment>
       {isLoading && <Loading />}

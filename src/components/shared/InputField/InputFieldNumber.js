@@ -55,7 +55,7 @@ const FormattedNumberInput = ({
   label,
   pattern,
   control,
-  nameField,
+  namefileld,
   styles,
   errors,
   required,
@@ -106,7 +106,7 @@ const FormattedNumberInput = ({
             />
           )}
           control={control}
-          name={nameField}
+          name={namefileld}
           rules={{
             required,
             pattern
@@ -121,7 +121,7 @@ const FormattedNumberInput = ({
 FormattedNumberInput.propTypes = {
   label: string.isRequired,
   maxLength: number,
-  nameField: string.isRequired,
+  namefileld: string.isRequired,
   styles: object,
   errors: object,
   required: bool,
@@ -142,7 +142,7 @@ export const FormattedNumberInputComission = ({
   // eslint-disable-next-line react/prop-types
   label,
   control,
-  nameField,
+  namefileld,
   styles,
   errors,
   required,
@@ -169,7 +169,7 @@ export const FormattedNumberInputComission = ({
         <Controller
           render={({ field: { onChange, onBlur, value, name, ref } }) => (
             <NumberFormat
-              nameField={nameField}
+              namefileld={namefileld}
               label={
                 <div>
                   {label}
@@ -212,7 +212,7 @@ export const FormattedNumberInputComission = ({
             />
           )}
           control={control}
-          name={nameField}
+          name={namefileld}
           rules={{
             required,
           }}
@@ -226,7 +226,7 @@ export const FormattedNumberInputComission = ({
 FormattedNumberInputComission.propTypes = {
   label: string.isRequired,
   maxLength: number,
-  nameField: string.isRequired,
+  namefileld: string.isRequired,
   styles: object,
   errors: object,
   required: bool,

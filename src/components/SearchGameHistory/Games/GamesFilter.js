@@ -144,7 +144,7 @@ const GameFilter = ({
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
               <InputField
                 control={control}
-                nameField="rount_id"
+                namefileld="rount_id"
                 type="text"
                 label="Round ID"
                 id="rount_id"
@@ -154,7 +154,7 @@ const GameFilter = ({
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
               <SelectField
                 control={control}
-                nameField="time_zone"
+                namefileld="time_zone"
                 id="time_zone"
                 label="Time Zone"
                 fullWidth={false}
@@ -165,7 +165,7 @@ const GameFilter = ({
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
               <SelectField
                 control={control}
-                nameField="game_type"
+                namefileld="game_type"
                 id="game_type"
                 label="Game Type"
                 fullWidth={false}
@@ -176,7 +176,7 @@ const GameFilter = ({
             <Grid item xs={12} xl={3} md={4}>
               <SelectField
                 control={control}
-                nameField="game_name"
+                namefileld="game_name"
                 id="game_name"
                 label="Game Name"
                 fullWidth={false}

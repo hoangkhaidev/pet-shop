@@ -31,6 +31,7 @@ import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
 
 import api from 'src/utils/api';
+import SelectField from '../shared/InputField/SelectField';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -57,6 +58,7 @@ const OperatorEdit = () => {
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [apiWLIP, setAPIWLIP] = useState(['', '', '', '']);
   const [financeEmail, setFinanceEmail] = useState([]);
+  const [productData, setProductData] = useState([]);
   const [data, setData] = useState(null);
   const router = useRouter();
   const navigate = useNavigate();
@@ -68,6 +70,7 @@ const OperatorEdit = () => {
     setValue,
     watch,
     setError,
+    reset
   } = useForm();
 
   const { dataResponse, isLoading, isHasPermission } = useFetchData(
@@ -82,14 +85,33 @@ const OperatorEdit = () => {
     );
     const formatApiWLIP = dataResponse?.api_white_list_ip?.split('.');
     setFinanceEmail(get(dataResponse, 'finance_emails', []));
-    setWhitelistIP(formatWhitelistIP);
+    if (formatWhitelistIP?.length && formatWhitelistIP?.length !== 0) {
+      setWhitelistIP(formatWhitelistIP);
+    };
     setAPIWLIP(formatApiWLIP);
   }, [dataResponse]);
+
+  const { dataResponse: dataProduct } = useFetchData('/api/product');
+  
+  useEffect(() => {
+    if (dataProduct.length <= 0) return;
+    let mapdata = [];
+    dataProduct.forEach((data) => {
+      let optionData = {
+        id: data.id,
+        value: data.id,
+        label: data.name,
+      };
+      mapdata.push(optionData);
+    });
+    setProductData([...mapdata]);
+  }, [dataProduct]);
 
   const finance_email = watch('finance_email', '');
   const commission = watch('commission', '');
 
   const onSubmit = async (dataForm) => {
+    console.log(dataForm);
     const formatWLIPEndpoint = apiWLIP.join('.');
     const formatWLIPs = whitelistIP.map((item) => {
       const joinStr = item.join('.');
@@ -168,7 +190,7 @@ const OperatorEdit = () => {
   const onAddingWLIPAddress = () => {
     const cloneArr = whitelistIP.slice();
     const newArray = [...cloneArr, ['', '', '', '']];
-    setWhitelistIP(newArray);
+    if (newArray.length <= 20 ) setWhitelistIP(newArray);
   };
 
   const onChangeAPIEndpointIP = (e, index) => {
@@ -188,6 +210,22 @@ const OperatorEdit = () => {
     return <NoPermissionPage />;
   }
 
+  const onReset = () => {
+    setWhitelistIP([['', '', '', '']]);
+    setAPIWLIP(['', '', '', '']);
+    setFinanceEmail([]);
+    reset({
+        name: '',
+        support_email: '',
+        commission: 0,
+        product_ids: [],
+        api_endpoint: '',
+        username: '',
+        password: '',
+        password_confirmation: '',
+    });
+  }
+
   return (
     <ContentCardPage>
       <TitlePage title="Edit Operator" />
@@ -195,7 +233,7 @@ const OperatorEdit = () => {
         <InputField
           autoFocus
           required
-          nameField="name"
+          namefileld="name"
           control={control}
           id="name"
           errors={errors?.name}
@@ -204,11 +242,12 @@ const OperatorEdit = () => {
           inputProps={{
             maxLength: 100,
           }}
+          pattern={/^[a-z0-9_]{3,15}$/}
           helperText="Length 3 - 15 chars, allow letter (lowercase), digit and underscore(_)"
         />
         <InputField
           required
-          nameField="support_email"
+          namefileld="support_email"
           control={control}
           id="support_email"
           errors={errors?.support_email}
@@ -216,7 +255,7 @@ const OperatorEdit = () => {
           label="Support Email"
         />
         <InputField
-          nameField="finance_email"
+          namefileld="finance_email"
           control={control}
           id="finance_email"
           errors={errors?.finance_email}
@@ -236,7 +275,7 @@ const OperatorEdit = () => {
           ))}
         </div>
         <FormattedNumberInputComission
-          nameField="commission"
+          namefileld="commission"
           label="Comission"
           id="commission"
           control={control}
@@ -245,11 +284,24 @@ const OperatorEdit = () => {
           InputProps={{
             endAdornment: <InputAdornment position="end">%</InputAdornment>,
           }}
+          pattern={/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/}
           helperText="From 0% to 100%"
         />
+
+        { productData?.length && <SelectField
+          namefileld="product_ids"
+          id="product_ids"
+          label="Product"
+          fullWidth={false}
+          control={control}
+          errors={errors?.product}
+          options={productData}
+          defaultValue={productData?.[0]?.value}
+        />}
+
         <InputField
           required
-          nameField="api_endpoint"
+          namefileld="api_endpoint"
           control={control}
           id="api_endpoint"
           errors={errors?.api_endpoint}
@@ -269,32 +321,35 @@ const OperatorEdit = () => {
         <InputField
           required
           readOnly
-          nameField="username"
+          namefileld="username"
           control={control}
           id="username"
           errors={errors?.username}
           type="text"
           label="Username"
+          pattern={/^[a-z0-9_]{3,15}$/}
           helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
         />
-        <InputField
-          nameField="password"
+        {/* <InputField
+          namefileld="password"
           control={control}
           id="password"
           errors={errors?.password}
           type="password"
           label="Password"
+          pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
           helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <InputField
-          nameField="password_confirmation"
+          namefileld="password_confirmation"
           control={control}
           id="password_confirmation"
           errors={errors?.password_confirmation}
           type="password"
           label="Confirm Password"
+          pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
           helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
-        />
+        /> */}
         <FormLabel>Whitelist IP Address for BO</FormLabel>
         {(whitelistIP || []).map((item, index) => (
           <div className={classes.whitelistIPLine} key={index}>
@@ -324,7 +379,7 @@ const OperatorEdit = () => {
         ))}
         <ButtonGroup>
           <SubmitButton />
-          <ResetButton />
+          <ResetButton onAction={() => onReset()}/>
         </ButtonGroup>
       </form>
       {isLoading && <Loading />}

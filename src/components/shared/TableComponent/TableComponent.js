@@ -20,6 +20,7 @@ const useStyles = makeStyles({
     backgroundColor: "#5664d2",
   },
   tableCellHeader: {
+    fontWeight: '600 !important',
     color: "#ffffff !important"
   },
   tableCellBody: {
@@ -64,23 +65,22 @@ TableHeader.propTypes = {
 
 const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
   const classes = useStyles();
-  // console.log(rowData, indexRow);
-  // console.log(cellInfo);
   return (
     <StyledTableRow align={cellInfo.align}>
-      {cellInfo.map((info) => (
+      {cellInfo.map((info, index) => (
         <TableCell
           sx={{
             padding: 1
           }}
           className={classes.tableCellBody}
-          key={info.data_field}
+          // key={info.data_field}
+          key={index}
           align={info.align ? info.align : "left"}
         >
           {info.formatter ? (
             info.formatter(rowData[info.data_field], rowData, indexRow)
           ) : (
-            rowData[info.data_field]
+            info.data_field === 'indexRow' ? indexRow + 1 : rowData[info.data_field]
           )}
         </TableCell>
       ))}
@@ -102,7 +102,8 @@ const TableComponent = ({
   // console.log(data);
   // console.log(columns);
   // eslint-disable-next-line camelcase
-  const cellInfo = map(columns, ({ data_field, align, formatter }) => ({ data_field, align, formatter }));
+  const cellInfo = map(columns, ({ data_field, align, formatter, fontWeight }) => ({ data_field, align, formatter, fontWeight
+   }));
 
   return (
     <TableContainer component={Paper}>
@@ -110,7 +111,7 @@ const TableComponent = ({
         <TableHeader headers={columns.map(item => item.column_name)} />
         <TableBody>
           {data.map((row, index) => (
-            <TableRowComponent indexRow={index} key={row.id} rowData={row} cellInfo={cellInfo} />
+            <TableRowComponent indexRow={index} key={index} rowData={row} cellInfo={cellInfo} />
           ))}
         </TableBody>
         <TablePagination

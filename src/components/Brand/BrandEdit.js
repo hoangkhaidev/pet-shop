@@ -185,7 +185,7 @@ const BrandEdit = () => {
       <TitlePage title="Edit Brand" />
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: '50%' }}>
         <SelectField
-          nameField="operator"
+          namefileld="operator"
           id="operator"
           label="Operator"
           fullWidth={false}
@@ -197,7 +197,7 @@ const BrandEdit = () => {
         <InputField
           autoFocus
           required
-          nameField="name"
+          namefileld="name"
           control={control}
           id="name"
           errors={errors?.name}
@@ -210,7 +210,7 @@ const BrandEdit = () => {
         />
         <InputField
           required
-          nameField="support_email"
+          namefileld="support_email"
           control={control}
           id="support_email"
           errors={errors?.support_email}
@@ -218,7 +218,7 @@ const BrandEdit = () => {
           label="Support Email"
         />
         <InputField
-          nameField="finance_email"
+          namefileld="finance_email"
           control={control}
           id="finance_email"
           errors={errors?.finance_email}
@@ -238,7 +238,7 @@ const BrandEdit = () => {
           ))}
         </div>
         <FormattedNumberInput
-          nameField="commission"
+          namefileld="commission"
           label="Comission"
           id="commission"
           control={control}
@@ -256,7 +256,7 @@ const BrandEdit = () => {
         />
         <InputField
           required
-          nameField="api_endpoint"
+          namefileld="api_endpoint"
           control={control}
           id="api_endpoint"
           errors={errors?.api_endpoint}
@@ -276,7 +276,7 @@ const BrandEdit = () => {
         <InputField
           required
           readOnly
-          nameField="username"
+          namefileld="username"
           control={control}
           id="username"
           errors={errors?.username}
@@ -284,7 +284,7 @@ const BrandEdit = () => {
           label="Username"
         />
         <InputField
-          nameField="password"
+          namefileld="password"
           control={control}
           id="password"
           errors={errors?.password}
@@ -293,7 +293,7 @@ const BrandEdit = () => {
           helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <InputField
-          nameField="password_confirmation"
+          namefileld="password_confirmation"
           control={control}
           id="password_confirmation"
           errors={errors?.password_confirmation}

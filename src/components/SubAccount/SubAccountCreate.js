@@ -147,7 +147,7 @@ const SubAccountCreate = () => {
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: '50%' }}>
         {/* <InputField
           required
-          nameField="brand"
+          namefileld="brand"
           control={control}
           id="brand"
           errors={errors?.brand}
@@ -156,7 +156,7 @@ const SubAccountCreate = () => {
         /> */}
         {!(roleUser.account_type === 'admin') && (
           <SelectField
-            nameField="brand"
+            namefileld="brand"
             id="brand"
             label="Brand"
             fullWidth={false}
@@ -168,7 +168,7 @@ const SubAccountCreate = () => {
         )}
         <InputField
           required
-          nameField="username"
+          namefileld="username"
           control={control}
           id="username"
           errors={errors?.username}
@@ -177,7 +177,7 @@ const SubAccountCreate = () => {
           helperText="length from 3 to 15 chars, allow letter, digit and underscore()"
         />
         <InputField
-          nameField="name"
+          namefileld="name"
           control={control}
           id="name"
           errors={errors?.name}
@@ -187,7 +187,7 @@ const SubAccountCreate = () => {
         />
         <InputField
           required
-          nameField="password"
+          namefileld="password"
           control={control}
           id="password"
           errors={errors?.password}
@@ -197,7 +197,7 @@ const SubAccountCreate = () => {
         />
         <InputField
           required
-          nameField="confirm_password"
+          namefileld="confirm_password"
           control={control}
           id="confirm_password"
           errors={errors?.confirm_password}
@@ -209,7 +209,7 @@ const SubAccountCreate = () => {
           id="role"
           fullWidth={false}
           label="Role"
-          nameField="role"
+          namefileld="role"
           control={control}
           errors={errors?.role}
           options={roleData}

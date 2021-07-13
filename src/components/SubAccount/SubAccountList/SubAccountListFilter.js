@@ -44,7 +44,7 @@ const SubAccountListFilter = ({
         <Grid item xs={12} xl={3} md={4}>
           <InputField
             control={control}
-            nameField="name_search"
+            namefileld="name_search"
             type="text"
             label="Name or Username"
             id="name_search"
@@ -54,7 +54,7 @@ const SubAccountListFilter = ({
         <Grid item xs={12} xl={3} md={4}>
           <SelectField
             control={control}
-            nameField="brand"
+            namefileld="brand"
             id="brand"
             label="Brand"
             fullWidth={false}
@@ -65,7 +65,7 @@ const SubAccountListFilter = ({
         <Grid item xs={12} xl={3} md={4}>
           <SelectField
             control={control}
-            nameField="status_search"
+            namefileld="status_search"
             label="Status"
             id="status_search"
             fullWidth={false}
@@ -76,7 +76,7 @@ const SubAccountListFilter = ({
         <Grid item xs={12} xl={3} md={4}>
           <SelectField
             control={control}
-            nameField="sort_order"
+            namefileld="sort_order"
             label="Sort Order"
             id="sort_order"
             fullWidth={false}

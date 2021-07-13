@@ -159,7 +159,7 @@ const BrandCreate = () => {
       <TitlePage title="Create Brand" />
       <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle}>
         <SelectField
-          nameField="operator"
+          namefileld="operator"
           id="operator"
           label="Operator"
           fullWidth={false}
@@ -171,7 +171,7 @@ const BrandCreate = () => {
         <InputField
           autoFocus
           required
-          nameField="name"
+          namefileld="name"
           control={control}
           id="name"
           errors={errors?.name}
@@ -183,7 +183,7 @@ const BrandCreate = () => {
           helperText="length 3 - 15 chars, allow letter (lowercase), digit and underscore(_)"
         />
         <InputField
-          nameField="support_email"
+          namefileld="support_email"
           control={control}
           id="support_email"
           errors={errors?.support_email}
@@ -191,7 +191,7 @@ const BrandCreate = () => {
           label="Support Email"
         />
         <InputField
-          nameField="finance_email"
+          namefileld="finance_email"
           control={control}
           id="finance_email"
           errors={errors?.finance_email}
@@ -211,7 +211,7 @@ const BrandCreate = () => {
           ))}
         </div>
         <FormattedNumberInput
-          nameField="commission"
+          namefileld="commission"
           label="Comission"
           id="commission"
           control={control}
@@ -229,7 +229,7 @@ const BrandCreate = () => {
         />
         <InputField
           required
-          nameField="api_endpoint"
+          namefileld="api_endpoint"
           control={control}
           id="api_endpoint"
           errors={errors?.api_endpoint}
@@ -248,7 +248,7 @@ const BrandCreate = () => {
         </Typography>
         <InputField
           required
-          nameField="username"
+          namefileld="username"
           control={control}
           id="username"
           errors={errors?.username}
@@ -257,7 +257,7 @@ const BrandCreate = () => {
         />
         <InputField
           required
-          nameField="password"
+          namefileld="password"
           control={control}
           id="password"
           errors={errors?.password}
@@ -266,7 +266,7 @@ const BrandCreate = () => {
         />
         <InputField
           required
-          nameField="password_confirmation"
+          namefileld="password_confirmation"
           control={control}
           id="password_confirmation"
           errors={errors?.password_confirmation}
