@@ -194,6 +194,7 @@ const OperatorList = () => {
       formatter: (cell, row) => (
         <ChangePasswordForm
           linkApi={`/api/operators/${row.id}/update_password`}
+          username={row.username}
           title="delete"
         />
       ),
@@ -213,6 +214,7 @@ const OperatorList = () => {
   ];
 
   const handleChangePage = (page) => {
+    // console.log(page)
     setObjFilter((prevState) => ({
       ...prevState,
       page,
@@ -220,12 +222,14 @@ const OperatorList = () => {
   };
 
   const handleChangeRowsPerPage = (event) => {
+    // console.log(event.target.value);
     setObjFilter((prevState) => ({
       ...prevState,
-      page: 1,
+      page: 0,
       page_size: parseInt(event.target.value, 10),
     }));
   };
+
   return (
     <Fragment>
       {isLoading && <Loading />}

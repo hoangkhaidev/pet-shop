@@ -99,8 +99,6 @@ const TableComponent = ({
   data, columns, pagination, handleChangePage, handleChangeRowsPerPage
 }) => {
   const classes = useStyles();
-  // console.log(data);
-  // console.log(columns);
   // eslint-disable-next-line camelcase
   const cellInfo = map(columns, ({ data_field, align, formatter, fontWeight }) => ({ data_field, align, formatter, fontWeight
    }));
@@ -116,9 +114,9 @@ const TableComponent = ({
         </TableBody>
         <TablePagination
           count={pagination.total_size}
-          page={pagination.page - 1}
+          page={Number(pagination.page)}
           rowsPerPage={pagination.page_size}
-          onChangePage={handleChangePage}
+          onPageChange={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Table>

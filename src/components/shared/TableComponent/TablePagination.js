@@ -16,27 +16,32 @@ const useStyles = makeStyles((theme) => ({
     flexShrink: 0,
     marginLeft: theme.spacing(2.5),
   },
+  abc: {
+    '& .MuiTablePagination-toolbar.css-11bfvty-MuiToolbar-root-MuiTablePagination-toolbar':{
+      float: 'left',
+    }
+  }
 }));
 
 const TablePaginationActions = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const { count, page, rowsPerPage, onChangePage } = props;
+  const { count, page, rowsPerPage, onPageChange } = props;
 
   const handleFirstPageButtonClick = (event) => {
-    onChangePage(event, 0);
+    onPageChange(0);
   };
 
   const handleBackButtonClick = (event) => {
-    onChangePage(event, page - 1);
+    onPageChange(page - 1);
   };
 
   const handleNextButtonClick = (event) => {
-    onChangePage(event, page + 1);
+    onPageChange(page + 1);
   };
 
   const handleLastPageButtonClick = (event) => {
-    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    onPageChange(Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
 
   return (
@@ -71,7 +76,7 @@ const TablePaginationActions = (props) => {
 
 TablePaginationActions.propTypes = {
   count: number.isRequired,
-  onChangePage: func,
+  onPageChange: func,
   page: number,
   rowsPerPage: number,
 };
@@ -79,31 +84,35 @@ TablePaginationActions.propTypes = {
 TablePaginationActions.defaultProps = {
   rowsPerPage: 30,
   page: 1,
-  onChangePage: () => {}
+  onPageChange: () => {}
 };
 
 const CustomTablePagination = ({
   count, page, rowsPerPage, onPageChange, handleChangeRowsPerPage
-}) => (
-  <TableFooter>
-    <TableRow>
-      <TablePagination
-        rowsPerPageOptions={PER_PAGE_LIST}
-        colSpan={3}
-        count={count}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        SelectProps={{
-          inputProps: { 'aria-label': 'rows per page' },
-          native: true,
-        }}
-        onPageChange={onPageChange}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        ActionsComponent={TablePaginationActions}
-      />
-    </TableRow>
-  </TableFooter>
-);
+}) => {
+  const classes = useStyles();
+  return (
+    <TableFooter>
+      <TableRow>
+        <TablePagination
+          className={classes.abc}
+          rowsPerPageOptions={PER_PAGE_LIST}
+          colSpan={4}
+          count={count}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          SelectProps={{
+            inputProps: { 'aria-label': 'rows per page' },
+            native: true,
+          }}
+          onPageChange={onPageChange}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          ActionsComponent={TablePaginationActions}
+        />
+      </TableRow>
+    </TableFooter>
+  )
+}
 
 CustomTablePagination.propTypes = {
   count: number.isRequired,

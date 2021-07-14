@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Chip from '@material-ui/core/Chip';
 import { makeStyles } from '@material-ui/core/styles';
-import InputAdornment from '@material-ui/core/InputAdornment';
+// import InputAdornment from '@material-ui/core/InputAdornment';
 import Typography from '@material-ui/core/Typography';
 import remove from 'lodash/remove';
 import get from 'lodash/get';
@@ -17,7 +17,7 @@ import { toast } from 'react-toastify';
 
 import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
-import { FormattedNumberInputComission } from 'src/components/shared/InputField/InputFieldNumber';
+// import { FormattedNumberInputComission } from 'src/components/shared/InputField/InputFieldNumber';
 import InputField from 'src/components/shared/InputField/InputField';
 import Loading from 'src/components/shared/Loading/Loading';
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
@@ -111,7 +111,6 @@ const OperatorEdit = () => {
   const commission = watch('commission', '');
 
   const onSubmit = async (dataForm) => {
-    console.log(dataForm);
     const formatWLIPEndpoint = apiWLIP.join('.');
     const formatWLIPs = whitelistIP.map((item) => {
       const joinStr = item.join('.');
@@ -119,14 +118,17 @@ const OperatorEdit = () => {
     });
     const form = {
       ...dataForm,
-      commission: String(data.commission),
-      accountId: data.accountId,
+      // commission: String(data.commission),
+      // accountId: data.accountId,
       api_whitelist_ip: formatWLIPEndpoint,
       whitelist_ips: formatWLIPs,
       finance_email: financeEmail,
-      account_type: 'operator',
+      password: data?.password,
+      password_confirmation: data?.password_confirmation,
+      product_ids: [...data.product_ids],
     };
     try {
+      console.log(form);
       let response = await api.post(
         `/api/operators/${router.query?.id}/update`,
         form
@@ -163,6 +165,8 @@ const OperatorEdit = () => {
       setValue('username', data?.username);
       setValue('api_endpoint', data?.api_endpoint);
       setValue('commission', data?.commission);
+      setValue('password', data?.password);
+      setValue('password_confirmation', data?.password_confirmation);
     }
   }, [data, setValue]);
 
@@ -217,7 +221,7 @@ const OperatorEdit = () => {
     reset({
         name: '',
         support_email: '',
-        commission: 0,
+        // commission: 0,
         product_ids: [],
         api_endpoint: '',
         username: '',
@@ -274,7 +278,7 @@ const OperatorEdit = () => {
             />
           ))}
         </div>
-        <FormattedNumberInputComission
+        {/* <FormattedNumberInputComission
           namefileld="commission"
           label="Comission"
           id="commission"
@@ -286,7 +290,7 @@ const OperatorEdit = () => {
           }}
           pattern={/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/}
           helperText="From 0% to 100%"
-        />
+        /> */}
 
         { productData?.length && <SelectField
           namefileld="product_ids"
@@ -322,17 +326,18 @@ const OperatorEdit = () => {
           required
           readOnly
           namefileld="username"
-          control={control}
           id="username"
+          control={control}
           errors={errors?.username}
           type="text"
           label="Username"
           pattern={/^[a-z0-9_]{3,15}$/}
           helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
         />
-        {/* <InputField
+        <InputField
           namefileld="password"
           control={control}
+          required
           id="password"
           errors={errors?.password}
           type="password"
@@ -343,13 +348,14 @@ const OperatorEdit = () => {
         <InputField
           namefileld="password_confirmation"
           control={control}
+          required
           id="password_confirmation"
           errors={errors?.password_confirmation}
           type="password"
           label="Confirm Password"
           pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
           helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
-        /> */}
+        />
         <FormLabel>Whitelist IP Address for BO</FormLabel>
         {(whitelistIP || []).map((item, index) => (
           <div className={classes.whitelistIPLine} key={index}>
