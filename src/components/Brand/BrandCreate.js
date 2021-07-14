@@ -23,6 +23,11 @@ import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
 import FormattedNumberInput from 'src/components/shared/InputField/InputFieldNumber';
 import SelectField from 'src/components/shared/InputField/SelectField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -40,6 +45,22 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  w40: {
+    width: '40%'
+  },
+  w60: {
+    width: '60%'
+  },
+  checkHidden: {
+    display: 'none',
+    transition: '0.3s all',
+    transform: 'translate3d(-2000px, 0px, 0px)',
+  },
+  checkShow: {
+    display: 'block !important',
+    transform: 'translate3d(0px, 0px, 0px) !important',
+  }
+  
 }));
 
 const BrandCreate = () => {
@@ -57,9 +78,37 @@ const BrandCreate = () => {
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [operatorData, setOperatorData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [productData, setProductData] = useState([]);
+
+  const [checkbox, setCheckbox] = useState({
+    checkboxB: false,
+    checkboxC: false,
+    checkboxD: false,
+  });
+
+  const handleChange = (event) => {
+    setCheckbox({ ...checkbox, [event.target.name]: event.target.checked });
+  };
 
   const finance_email = watch('finance_email');
   const { dataResponse } = useFetchData('/api/operators');
+  const commission = watch('commission');
+
+  const { dataResponse: dataProduct } = useFetchData('/api/product');
+
+  useEffect(() => {
+    if (dataProduct.length <= 0) return;
+    let mapdata = [];
+    dataProduct.forEach((data) => {
+      let optionData = {
+        id: data.id,
+        value: data.id,
+        label: data.name,
+      };
+      mapdata.push(optionData);
+    });
+    setProductData([...mapdata]);
+  }, [dataProduct]);
 
   useEffect(() => {
     const data = dataResponse?.list;
@@ -75,6 +124,13 @@ const BrandCreate = () => {
     });
     setOperatorData([...mapdata]);
   }, [dataResponse]);
+
+  useEffect(() => {
+    if (commission > 100) {
+      setValue('commission', 100);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [commission, setValue]);
 
   const onRemoveFinanceEmail = (email) => {
     const cloneArr = financeEmail.slice();
@@ -117,21 +173,20 @@ const BrandCreate = () => {
   };
 
   const onSubmit = async (dataForm) => {
+    console.log(dataForm);
     const formatWLIPEndpoint = apiWLIP.join('.');
     const formatWLIPs = whitelistIP.map((item) => {
       const joinStr = item.join('.');
       return joinStr;
     });
-    console.log(formatWLIPEndpoint,formatWLIPs);
     setIsLoading(true);
-    // const form = {
-    //   ...data,
-    //   commission: String(data.commission),
-    //   api_whitelist_ip: formatWLIPEndpoint,
-    //   whitelist_ips: formatWLIPs,
-    //   finance_email: financeEmail,
-    //   account_type: 'operator',
-    // };
+    const form = {
+      ...dataForm,
+      api_whitelist_ip: formatWLIPEndpoint,
+      whitelist_ips: formatWLIPs,
+      finance_email: financeEmail,
+    };
+    console.log(form);
     // try {
     //   const response = await api.post('/api/operators/create', form);
     //   if (get(response, 'success', false)) {
@@ -159,9 +214,10 @@ const BrandCreate = () => {
       <TitlePage title="Create Brand" />
       <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle}>
         <SelectField
-          namefileld="operator"
+          namefileld="operator_id"
           id="operator"
           label="Operator"
+          required
           fullWidth={false}
           control={control}
           errors={errors?.operator}
@@ -180,6 +236,7 @@ const BrandCreate = () => {
           inputProps={{
             maxLength: 100,
           }}
+          pattern={/^[a-z0-9_]{3,15}$/}
           helperText="length 3 - 15 chars, allow letter (lowercase), digit and underscore(_)"
         />
         <InputField
@@ -210,23 +267,122 @@ const BrandCreate = () => {
             />
           ))}
         </div>
-        <FormattedNumberInput
-          namefileld="commission"
-          label="Comission"
-          id="commission"
-          control={control}
-          allowLeadingZeros
-          allowNegative={false}
-          decimalScale={0}
-          errors={errors.commission}
-          required
-          InputProps={{
-            endAdornment: <InputAdornment position="end">%</InputAdornment>,
-          }}
-          inputProps={{
-            maxLength: 3,
-          }}
-        />
+        
+        <FormLabel component="legend">Product</FormLabel>
+        <FormControl className={classes.w40}>
+          <FormGroup>
+            {productData.map((item, index) => (
+              <FormControlLabel
+                key={index}
+                style={{padding: '30px'}}
+                value={item?.value}
+                control={
+                  <Checkbox
+                    checked={checkbox.checkboxB}
+                    onChange={handleChange}
+                    name="product_id"
+                    color="primary"
+                  />
+                }
+                label={item?.label}
+              />
+            ))}
+            
+            {/* <FormControlLabel
+              style={{padding: '30px'}}
+              control={
+                <Checkbox
+                  checked={checkbox.checkboxC}
+                  onChange={handleChange}
+                  name="checkboxC"
+                  color="primary"
+                />
+              }
+              label="Slot 1"
+            />
+            <FormControlLabel
+              style={{padding: '30px'}}
+              control={
+                <Checkbox
+                  checked={checkbox.checkboxD}
+                  onChange={handleChange}
+                  name="checkboxD"
+                  color="primary"
+                />
+              }
+              label="Slot 2"
+            /> */}
+          </FormGroup>
+        </FormControl>
+        <FormControl className={classes.w60}>
+          <FormGroup>
+            {productData.map((item, index) => (
+              <FormControl key={index} className={clsx(classes.margin, classes.checkHidden, checkbox.checkboxB === true ? classes.checkShow : '')} variant="outlined">
+                <FormattedNumberInput
+                    namefileld="commission"
+                    label="Comission"
+                    id="commission"
+                    control={control}
+                    allowLeadingZeros
+                    allowNegative={false}
+                    decimalScale={0}
+                    errors={errors.commission}
+                    required
+                    InputProps={{
+                      endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                    }}
+                    pattern={/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/}
+                    inputProps={{
+                      maxLength: 3,
+                    }}
+                    helperText="From 0% to 100%"
+                  />
+              </FormControl>
+            ))}
+            {/* <FormControl className={clsx(classes.margin, classes.checkHidden, checkbox.checkboxC === true ? classes.checkShow : '')} variant="outlined">
+              <FormattedNumberInput
+                namefileld="commission"
+                label="Comission"
+                id="commission"
+                control={control}
+                allowLeadingZeros
+                allowNegative={false}
+                decimalScale={0}
+                errors={errors.commission}
+                required
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                }}
+                inputProps={{
+                  maxLength: 3,
+                }}
+                helperText="From 0% to 100%"
+              />
+            </FormControl>
+            <FormControl className={clsx(classes.margin, classes.checkHidden, checkbox.checkboxD === true ? classes.checkShow : '')} variant="outlined">
+              <FormattedNumberInput
+                namefileld="commission"
+                label="Comission"
+                id="commission"
+                control={control}
+                allowLeadingZeros
+                allowNegative={false}
+                decimalScale={0}
+                errors={errors.commission}
+                required
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                }}
+                inputProps={{
+                  maxLength: 3,
+                }}
+                helperText="From 0% to 100%"
+              />
+            </FormControl> */}
+            
+          </FormGroup>
+        </FormControl>
+
         <InputField
           required
           namefileld="api_endpoint"
@@ -254,6 +410,8 @@ const BrandCreate = () => {
           errors={errors?.username}
           type="text"
           label="Username"
+          pattern={/^[a-z0-9_]{3,15}$/}
+          helperText="Length 3 - 15 chars, allow letter (lowercase), digit and underscore(_)"
         />
         <InputField
           required
@@ -263,6 +421,8 @@ const BrandCreate = () => {
           errors={errors?.password}
           type="password"
           label="Password"
+          pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
+          helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <InputField
           required
@@ -272,10 +432,12 @@ const BrandCreate = () => {
           errors={errors?.password_confirmation}
           type="password"
           label="Confirm Password"
+          pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
+          helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <FormLabel>{t('Whitelist IP Address for BO')}</FormLabel>
         {whitelistIP.map((item, index) => (
-          <div className={classes.whitelistIPLine}>
+          <div key={index} className={classes.whitelistIPLine}>
             <IPAddressInput
               key={index}
               apiWLIP={item}

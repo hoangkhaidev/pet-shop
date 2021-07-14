@@ -56,9 +56,11 @@ const FormattedNumberInput = ({
   pattern,
   control,
   namefileld,
+  id,
   styles,
   errors,
   required,
+  InputProps,
   helperText,
   ...rest
 }) => {
@@ -87,21 +89,45 @@ const FormattedNumberInput = ({
         <Controller
           render={({ field: { onChange, onBlur, value, name, ref } }) => (
             <NumberFormat
-              {...rest}
-              value={value}
-              error={!isEmpty(errors)}
-              name={name}
-              label={`${label}${required ? '*' : ''}`}
-              style={styles}
-              maxLength="2"
-              defaultValue={0}
-              customInput={TextField}
-              className={classes.inputFieldNumber}
-              autoComplete="off"
-              type="text"
-              onValueChange={({ value: v }) =>
-                onChange({ target: { name, value: v } })
+              namefileld={namefileld}
+              label={
+                <div>
+                  {label}
+                  <span className={classes.labelStyle}>
+                    {required ? '*' : ''}
+                  </span>
+                </div>
               }
+              id={id}
+              control={control}
+              InputProps={InputProps}
+              // required
+              error={!isEmpty(errors)}
+              style={styles}
+              decimalScale={value >= 100 ? 0 : 2}
+              decimalSeparator=","
+              customInput={TextField}
+              defaultValue={0}
+              value={value}
+              onValueChange={(values) => {
+                // if (values?.floatValue > 100) {
+                //   onChange({ target: { name, value: 100 } })
+                // } else {
+                //   onChange({ target: { name, value: values.floatValue } });
+                // }
+                // if (values?.floatValue < 0)  {
+                //   onChange({ target: { name, value: 0 } })
+                // } else {
+                //   onChange({ target: { name, value: values.floatValue } });
+                // }
+
+                values?.floatValue > 100
+                  ? onChange({ target: { name, value: 100 } })
+                  : values?.floatValue < 0 
+                    ? onChange({ target: { name, value: 0 } }) 
+                    : onChange({ target: { name, value: values.floatValue } });
+              }}
+              maxLength={value >= 100 ? 3 : null}
               helperText={helperText}
             />
           )}
