@@ -120,7 +120,7 @@ const FormattedNumberInput = ({
                 // } else {
                 //   onChange({ target: { name, value: values.floatValue } });
                 // }
-
+                // console.log(values);
                 values?.floatValue > 100
                   ? onChange({ target: { name, value: 100 } })
                   : values?.floatValue < 0 
@@ -216,17 +216,7 @@ export const FormattedNumberInputComission = ({
               defaultValue={0}
               value={value}
               onValueChange={(values) => {
-                // if (values?.floatValue > 100) {
-                //   onChange({ target: { name, value: 100 } })
-                // } else {
-                //   onChange({ target: { name, value: values.floatValue } });
-                // }
-                // if (values?.floatValue < 0)  {
-                //   onChange({ target: { name, value: 0 } })
-                // } else {
-                //   onChange({ target: { name, value: values.floatValue } });
-                // }
-
+                console.log(values);
                 values?.floatValue > 100
                   ? onChange({ target: { name, value: 100 } })
                   : values?.floatValue < 0 

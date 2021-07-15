@@ -45,6 +45,7 @@ export default function useFetchData(endpoint, objFilter) {
         body: JSON.stringify(objFilter),
       });
       const dataJSON = await response.json();
+
       if (get(dataJSON, 'success', false)) {
         return setData({
           isLoading: false,

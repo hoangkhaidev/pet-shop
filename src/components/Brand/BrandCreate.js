@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-duplicate-props */
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Chip from '@material-ui/core/Chip';
 import { makeStyles } from '@material-ui/core/styles';
@@ -28,6 +28,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import clsx from 'clsx';
+import get from 'lodash/get';
+import api from 'src/utils/api';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -52,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     width: '60%'
   },
   checkHidden: {
-    display: 'none',
+    display: 'none !important',
     transition: '0.3s all',
     transform: 'translate3d(-2000px, 0px, 0px)',
   },
@@ -64,37 +68,40 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BrandCreate = () => {
+  const { dataResponse } = useFetchData('/api/operators');
+  const { dataResponse: dataProduct } = useFetchData('/api/product');
+
   const classes = useStyles();
+  const navigate = useNavigate();
   const { t } = useTranslation();
+
   const {
     control,
     handleSubmit,
     formState: { errors },
     watch,
-    setValue
+    setValue,
+    register,
+    setError,
+    reset
   } = useForm();
+
+  const finance_email = watch('finance_email');
+  const commission = watch('commission');
+
+  useFieldArray({
+    control, // control props comes from useForm (optional: if you are using FormContext)
+    name: "commission", // unique name for your Field Array
+    // keyName: "id", default to "id", you can change the key name
+  });
+
   const [financeEmail, setFinanceEmail] = useState([]);
   const [apiWLIP, setAPIWLIP] = useState(['', '', '', '']);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [operatorData, setOperatorData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [productData, setProductData] = useState([]);
-
-  const [checkbox, setCheckbox] = useState({
-    checkboxB: false,
-    checkboxC: false,
-    checkboxD: false,
-  });
-
-  const handleChange = (event) => {
-    setCheckbox({ ...checkbox, [event.target.name]: event.target.checked });
-  };
-
-  const finance_email = watch('finance_email');
-  const { dataResponse } = useFetchData('/api/operators');
-  const commission = watch('commission');
-
-  const { dataResponse: dataProduct } = useFetchData('/api/product');
+  const [checkboxListCheck, setCheckboxListCheck] = useState(productData.map((item) => false ));
 
   useEffect(() => {
     if (dataProduct.length <= 0) return;
@@ -174,40 +181,66 @@ const BrandCreate = () => {
 
   const onSubmit = async (dataForm) => {
     console.log(dataForm);
+    const product_form = dataForm.commission.filter((item) => item.checked === true );
+    const product_commission = product_form.map((item) => {
+      let arr = {
+        product_id: Number(item.product_id),
+        commission: String(item.value)
+      }
+      return arr;
+    });
     const formatWLIPEndpoint = apiWLIP.join('.');
     const formatWLIPs = whitelistIP.map((item) => {
       const joinStr = item.join('.');
       return joinStr;
     });
     setIsLoading(true);
+    delete dataForm.commission;
     const form = {
       ...dataForm,
       api_whitelist_ip: formatWLIPEndpoint,
       whitelist_ips: formatWLIPs,
-      finance_email: financeEmail,
+      finance_emails: financeEmail,
+      product_commission: product_commission,
     };
     console.log(form);
-    // try {
-    //   const response = await api.post('/api/operators/create', form);
-    //   if (get(response, 'success', false)) {
-    //     toast.success('Update operator Success', {
-    //       onClose: navigate('operator/list'),
-    //     });
-    //   } else {
-    //     if (response?.err === 'err:form_validation_failed') {
-    //       for (const field in response?.data) {
-    //         setError(field, {
-    //           type: 'validate',
-    //           message: response?.data[field],
-    //         });
-    //       }
-    //     }
-    //   }
-    // } catch (e) {
-    //   console.log('e', e);
-    // }
+    try {
+      const response = await api.post('/api/brand/create', form);
+      if (get(response, 'success', false)) {
+        toast.success('Update brand Success', {
+          onClose: navigate('brand/list'),
+        });
+      } else {
+        if (response?.err === 'err:form_validation_failed') {
+          for (const field in response?.data) {
+            setError(field, {
+              type: 'validate',
+              message: response?.data[field],
+            });
+          }
+        }
+      }
+    } catch (e) {
+      console.log('e', e);
+    }
     setIsLoading(false);
   };
+
+  const onReset = () => {
+    setWhitelistIP([['', '', '', '']]);
+    setAPIWLIP(['', '', '', '']);
+    setFinanceEmail([]);
+    setCheckboxListCheck([]);
+    reset({
+        name: '',
+        support_email: '',
+        api_endpoint: '',
+        username: '',
+        password: '',
+        password_confirmation: '',
+        commission: []
+    });
+  }
 
   return (
     <ContentCardPage>
@@ -223,6 +256,7 @@ const BrandCreate = () => {
           errors={errors?.operator}
           options={operatorData}
           defaultValue=""
+          helperText="Operator is required"
         />
         <InputField
           autoFocus
@@ -269,118 +303,76 @@ const BrandCreate = () => {
         </div>
         
         <FormLabel component="legend">Product</FormLabel>
-        <FormControl className={classes.w40}>
-          <FormGroup>
-            {productData.map((item, index) => (
-              <FormControlLabel
-                key={index}
-                style={{padding: '30px'}}
-                value={item?.value}
-                control={
-                  <Checkbox
-                    checked={checkbox.checkboxB}
-                    onChange={handleChange}
-                    name="product_id"
-                    color="primary"
+        <FormControl className={classes.w100}>
+            {productData.map((item, index) => {
+              return (
+                <div key={item.id} style={{display: 'flex', width: '100%'}}>
+                  <FormControlLabel
+                    className={checkboxListCheck[index] ? classes.w40 : ''}
+                    key={item.id}
+                    style={{padding: '30px'}}
+                    label={item?.label}
+                    // name={`commission.${index}.checked`}
+                    // value={item?.id}
+                    control={
+                      <Controller
+                          name={`commission.${index}.checked`}
+                          control={control}
+                          inputRef={register}
+                          render={(props) => {
+                            return (
+                              <Checkbox
+                                checked={props.field.value === true}
+                                value={item?.id}
+                                onChange={(e) => {
+                                    props.field.onChange(e.target.checked);
+                                    let ticked = [...checkboxListCheck];
+                                    ticked[index] = e.target.checked;
+                                    setCheckboxListCheck(ticked);
+                                  }
+                                }
+                              />
+                            )
+                          }}
+                        />
+                      }                  
                   />
-                }
-                label={item?.label}
-              />
-            ))}
-            
-            {/* <FormControlLabel
-              style={{padding: '30px'}}
-              control={
-                <Checkbox
-                  checked={checkbox.checkboxC}
-                  onChange={handleChange}
-                  name="checkboxC"
-                  color="primary"
-                />
-              }
-              label="Slot 1"
-            />
-            <FormControlLabel
-              style={{padding: '30px'}}
-              control={
-                <Checkbox
-                  checked={checkbox.checkboxD}
-                  onChange={handleChange}
-                  name="checkboxD"
-                  color="primary"
-                />
-              }
-              label="Slot 2"
-            /> */}
-          </FormGroup>
-        </FormControl>
-        <FormControl className={classes.w60}>
-          <FormGroup>
-            {productData.map((item, index) => (
-              <FormControl key={index} className={clsx(classes.margin, classes.checkHidden, checkbox.checkboxB === true ? classes.checkShow : '')} variant="outlined">
-                <FormattedNumberInput
-                    namefileld="commission"
-                    label="Comission"
-                    id="commission"
-                    control={control}
-                    allowLeadingZeros
-                    allowNegative={false}
-                    decimalScale={0}
-                    errors={errors.commission}
-                    required
-                    InputProps={{
-                      endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                    }}
-                    pattern={/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/}
-                    inputProps={{
-                      maxLength: 3,
-                    }}
-                    helperText="From 0% to 100%"
+                  <input 
+                    type="hidden"
+                    defaultValue={item.id}
+                    {...register(`commission.${index}.product_id`)} 
                   />
-              </FormControl>
-            ))}
-            {/* <FormControl className={clsx(classes.margin, classes.checkHidden, checkbox.checkboxC === true ? classes.checkShow : '')} variant="outlined">
-              <FormattedNumberInput
-                namefileld="commission"
-                label="Comission"
-                id="commission"
-                control={control}
-                allowLeadingZeros
-                allowNegative={false}
-                decimalScale={0}
-                errors={errors.commission}
-                required
-                InputProps={{
-                  endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                }}
-                inputProps={{
-                  maxLength: 3,
-                }}
-                helperText="From 0% to 100%"
-              />
-            </FormControl>
-            <FormControl className={clsx(classes.margin, classes.checkHidden, checkbox.checkboxD === true ? classes.checkShow : '')} variant="outlined">
-              <FormattedNumberInput
-                namefileld="commission"
-                label="Comission"
-                id="commission"
-                control={control}
-                allowLeadingZeros
-                allowNegative={false}
-                decimalScale={0}
-                errors={errors.commission}
-                required
-                InputProps={{
-                  endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                }}
-                inputProps={{
-                  maxLength: 3,
-                }}
-                helperText="From 0% to 100%"
-              />
-            </FormControl> */}
-            
-          </FormGroup>
+                  <FormGroup 
+                    className={clsx(classes.w60, checkboxListCheck[index] ? classes.checkShow : classes.checkHidden)} 
+                    key={index}
+                  >
+                    {checkboxListCheck[index] ?
+                      <FormattedNumberInput
+                        namefileld={`commission.${index}.value`}
+                        label="Commission"
+                        id={`commission_${item.id}`}
+                        control={control}
+                        allowLeadingZeros
+                        allowNegative={false}
+                        decimalScale={0}
+                        errors={get(errors, `commission[${index}].value`)}
+                        required
+                        InputProps={{
+                          endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                        }}
+                        pattern={/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/}
+                        inputProps={{
+                          maxLength: 3,
+                        }}
+                        helperText="From 0% to 100%"
+                        // register={register}
+                        {...register(`commission.${index}.value`)}
+                      />
+                    : ''}
+                  </FormGroup>
+                </div>
+              )
+            })}
         </FormControl>
 
         <InputField
@@ -465,7 +457,7 @@ const BrandCreate = () => {
         ))}
         <ButtonGroup>
           <SubmitButton />
-          <ResetButton />
+          <ResetButton onAction={() => onReset()} />
         </ButtonGroup>
       </form>
       {isLoading && <Loading />}
