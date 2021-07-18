@@ -89,7 +89,7 @@ const FormattedNumberInput = ({
       >
         <Controller
           render={({ field: { onChange, onBlur, value, name, ref } }) => {
-            // console.log(name);
+            // console.log(value);
             // console.log(defaultValue);
             return (
               <NumberFormat
@@ -113,7 +113,7 @@ const FormattedNumberInput = ({
                 decimalSeparator=","
                 customInput={TextField}
                 defaultValue={defaultValue}
-                value={defaultValue}
+                value={value}
                 onValueChange={(values) => {
                   // console.log(values)
                   // if (values?.floatValue > 100) {

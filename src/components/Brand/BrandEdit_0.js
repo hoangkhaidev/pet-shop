@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/jsx-no-duplicate-props */
@@ -153,7 +152,7 @@ const BrandEdit = () => {
       value: Number(item.commission),
       checked: true
     }
-  }), [product_commission]);
+  }), [product_commission])
 
   const {
     control,
@@ -168,13 +167,16 @@ const BrandEdit = () => {
     defaultValues: {commission : product_commission_new}
   });
 
-  useFieldArray({
+  const { fields } = useFieldArray({
     control, // control props comes from useForm (optional: if you are using FormContext)
     name: "commission", // unique name for your Field Array
     // keyName: "id", default to "id", you can change the key name
   });
 
+  // console.log(fields);
+
   const finance_emails = watch('finance_emails', '');
+  // const commission = watch('commission');
 
   useEffect(() => {
     if (dataProduct.length <= 0) return;
@@ -212,8 +214,10 @@ const BrandEdit = () => {
 
   useEffect(() => {
     if (formState.data) {
-        setValue('commission', product_commission_new);
-      
+      setTimeout(() => {
+
+        setValue('commission', product_commission_new );
+      }, 1000);
         setValue('operator', formState.data?.operator_name);
         setValue('name', formState.data?.name);
         setValue('support_email', formState.data?.support_email);
@@ -221,27 +225,27 @@ const BrandEdit = () => {
         setValue('api_endpoint', formState.data?.api_endpoint);
         setValue('password', formState.data?.password);
         setValue('password_confirmation', formState.data?.password_confirmation);
+
     }
   }, [formState, setValue]);
 
+  
+  // useEffect(() => {
+  //   // setValue('commission', cloneDeep(product_commission_new));
+  //   setValue('commission', [{ test: '1' }, { test: '2' }]); // 
+  // }, [product_commission_new, setValue]);
+
+
   const onSubmit = async (dataForm) => {
-    const defaultPro = cloneDeep(formState.data.product_commission);
+    console.log(dataForm);
     // const commissionValue = getValues(`commission.0.value`);
     const product_form = dataForm.commission.filter((item) => item.checked === true );
-
     const product_commission = product_form.map((item) => {
-      if (item.value) {
-        return {
-          product_id: Number(item.product_id),
-          commission: String(item.value)
-        };
-      } else {
-        let index = defaultPro.findIndex((test) => String(test.product_id) === String(item.product_id));
-        return {
-          product_id: Number(item.product_id),
-          commission: String(defaultPro[index].commission)
-        };
-      }
+      
+      return {
+        product_id: Number(item.product_id),
+        commission: String(item.value)
+      };
     }); 
 
     const formatWLIPEndpoint = formState.apiWLIP.join('.');
@@ -266,26 +270,26 @@ const BrandEdit = () => {
     delete form.username;
 
     console.log(form);
-    try {
-      let response = await api.post(`/api/brand/${router.query?.id}/update`, form);
+    // try {
+    //   let response = await api.post(`/api/brand/${router.query?.id}/update`, form);
 
-      if (get(response, 'data.success', false)) {
-        toast.success("Update Brand Success", {
-          onClose: navigate("/brand/list")
-        });
-      } else {
-        if (response?.err === 'err:form_validation_failed') {
-          for (const field in response?.data) {
-            setError(field, {
-              type: 'validate',
-              message: response?.data[field]
-            });
-          }
-        }
-      }
-    } catch (e) {
-      console.log("e", e);
-    }
+    //   if (get(response, 'data.success', false)) {
+    //     toast.success("Update Brand Success", {
+    //       onClose: navigate("/brand/list")
+    //     });
+    //   } else {
+    //     if (response?.err === 'err:form_validation_failed') {
+    //       for (const field in response?.data) {
+    //         setError(field, {
+    //           type: 'validate',
+    //           message: response?.data[field]
+    //         });
+    //       }
+    //     }
+    //   }
+    // } catch (e) {
+    //   console.log("e", e);
+    // }
   };
 
   const addingFinanceEmail = () => {
@@ -415,8 +419,8 @@ const BrandEdit = () => {
           {formState.productData.map((item, index) => {
             const checked = watch(`commission.${index}.checked`) ? true : false;
             const commissionValue = watch(`commission.${index}.value`);
-            // console.log(JSON.stringify(watch('commission')));
-            console.log(commissionValue);
+            // console.log(commissionValue);
+            console.log(checked);
             return (
               <div key={item.id} style={{display: 'flex', width: '100%', alignItems: 'center'}}>
                 <FormControlLabel
@@ -432,6 +436,7 @@ const BrandEdit = () => {
                       inputRef={register}
                       defaultValue={checked}
                       render={(props) => {
+                        // console.log(props);
                         return (
                           <Checkbox
                             checked={props.field.value}
@@ -470,7 +475,6 @@ const BrandEdit = () => {
                       inputProps={{
                         maxLength: 3,
                       }}
-                      required
                       defaultValue={commissionValue}
                       helperText="From 0% to 100%"
                       {...register(`commission.${index}.value`)} 
