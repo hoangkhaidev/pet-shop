@@ -67,7 +67,7 @@ const BrandList = () => {
     defaultValues: router.query,
   });
   const { t } = useTranslation();
-  console.log(t);
+  // console.log(t);
 
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
     '/api/brand',
@@ -75,8 +75,14 @@ const BrandList = () => {
   );
 
   useEffect(() => {
-    setData(get(dataResponse, 'list', []));
+    const mapData = get(dataResponse, 'list', []);
+    mapData.map((data) => (data.id = data.account_id));
+    setData(mapData);
   }, [dataResponse]);
+
+  useEffect(() => {
+    console.log(data);
+  }, []);
 
   const onSubmit = async (dataForm) => {
     const form = {
@@ -101,7 +107,7 @@ const BrandList = () => {
       column_name: 'Username',
       align: 'left',
       formatter: (cell, row) => (
-        <Link href={`/brand/list/${row.BrandId}/edit`}>{cell}</Link>
+        <Link href={`/brand/list/${row.id}/edit`}>{cell}</Link>
       ),
     },
     {

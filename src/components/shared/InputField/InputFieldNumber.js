@@ -62,6 +62,7 @@ const FormattedNumberInput = ({
   required,
   InputProps,
   helperText,
+  defaultValue,
   ...rest
 }) => {
   const classes = useStyles();
@@ -87,56 +88,63 @@ const FormattedNumberInput = ({
         className={classes.formControl}
       >
         <Controller
-          render={({ field: { onChange, onBlur, value, name, ref } }) => (
-            <NumberFormat
-              namefileld={namefileld}
-              label={
-                <div>
-                  {label}
-                  <span className={classes.labelStyle}>
-                    {required ? '*' : ''}
-                  </span>
-                </div>
-              }
-              id={id}
-              control={control}
-              InputProps={InputProps}
-              // required
-              error={!isEmpty(errors)}
-              style={styles}
-              decimalScale={value >= 100 ? 0 : 2}
-              decimalSeparator=","
-              customInput={TextField}
-              defaultValue={0}
-              value={value}
-              onValueChange={(values) => {
-                // if (values?.floatValue > 100) {
-                //   onChange({ target: { name, value: 100 } })
-                // } else {
-                //   onChange({ target: { name, value: values.floatValue } });
-                // }
-                // if (values?.floatValue < 0)  {
-                //   onChange({ target: { name, value: 0 } })
-                // } else {
-                //   onChange({ target: { name, value: values.floatValue } });
-                // }
-                // console.log(values);
-                values?.floatValue > 100
-                  ? onChange({ target: { name, value: 100 } })
-                  : values?.floatValue < 0 
-                    ? onChange({ target: { name, value: 0 } }) 
-                    : onChange({ target: { name, value: values.floatValue } });
-              }}
-              maxLength={value >= 100 ? 3 : null}
-              helperText={helperText}
-            />
-          )}
+          render={({ field: { onChange, onBlur, value, name, ref } }) => {
+            // console.log(name);
+            // console.log(defaultValue);
+            return (
+              <NumberFormat
+                getInputRef={ref}
+                namefileld={namefileld}
+                label={
+                  <div>
+                    {label}
+                    <span className={classes.labelStyle}>
+                      {required ? '*' : ''}
+                    </span>
+                  </div>
+                }
+                id={id}
+                control={control}
+                InputProps={InputProps}
+                // required
+                error={!isEmpty(errors)}
+                style={styles}
+                decimalScale={value >= 100 ? 0 : 2}
+                decimalSeparator=","
+                customInput={TextField}
+                defaultValue={defaultValue}
+                value={defaultValue}
+                onValueChange={(values) => {
+                  // console.log(values)
+                  // if (values?.floatValue > 100) {
+                  //   onChange({ target: { name, value: 100 } })
+                  // } else {
+                  //   onChange({ target: { name, value: values.floatValue } });
+                  // }
+                  // if (values?.floatValue < 0)  {
+                  //   onChange({ target: { name, value: 0 } })
+                  // } else {
+                  //   onChange({ target: { name, value: values.floatValue } });
+                  // }
+                  values?.floatValue > 100
+                    ? onChange({ target: { name, value: 100 } })
+                    : values?.floatValue < 0 
+                      ? onChange({ target: { name, value: 0 } }) 
+                      : onChange({ target: { name, value: values.floatValue } });
+                }}
+                maxLength={value >= 100 ? 3 : null}
+                helperText={helperText}
+              />
+            )
+          } 
+        }
           control={control}
           name={namefileld}
           rules={{
             required,
             pattern
           }}
+          {...rest}
         />
         {!isEmpty(errors) && <FormHelperText>{renderErrors()}</FormHelperText>}
       </FormControl>

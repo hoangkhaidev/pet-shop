@@ -29,7 +29,7 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
     const { formattedValue } = e;
     if (formattedValue.length === 3 && index < 3) {
       setTimeout(() => {
-        ref.current[index + 1].focus();
+        ref.current[index + 1]?.focus();
       }, 0);
     }
     onChange(e, index, rowIndex);

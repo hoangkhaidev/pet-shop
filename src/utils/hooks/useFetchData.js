@@ -26,14 +26,13 @@ export default function useFetchData(endpoint, objFilter) {
       ...prevState,
       isLoading: true,
     }));
+
     const stringified = queryString.stringify(objFilter);
-    let url;
-    if (stringified) {
-      url = `${router.location.pathname}?${stringified}`;
-    } else {
-      url = `${router.location.pathname}`;
-    }
+
+    let url = `${router.location.pathname}?${stringified}`;
+
     router.navigate(url);
+
     try {
       const response = await fetch(`${ROOT_API_URL}${endpoint}`, {
         method: 'POST',
@@ -44,6 +43,7 @@ export default function useFetchData(endpoint, objFilter) {
         },
         body: JSON.stringify(objFilter),
       });
+
       const dataJSON = await response.json();
 
       if (get(dataJSON, 'success', false)) {
@@ -56,6 +56,7 @@ export default function useFetchData(endpoint, objFilter) {
           total: get(dataJSON, 'data.total', null),
           refetch: false,
         });
+
       } else {
         if (dataJSON?.err === 'err:no_permission') {
           return setData({
@@ -66,10 +67,12 @@ export default function useFetchData(endpoint, objFilter) {
             refetch: false,
           });
         }
+
         setData((prevState) => ({
           ...prevState,
           isLoading: false,
         }));
+
         return toast.error(dataJSON?.err);
       }
     } catch (e) {
