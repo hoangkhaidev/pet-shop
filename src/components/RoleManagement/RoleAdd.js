@@ -69,6 +69,11 @@ const RoleAdd = () => {
     '/api/role/permissions'
   );
 
+
+  // useEffect(() => {
+  //   console.log(dataResponse);
+  // }, [dataResponse])
+
   useEffect(() => {
     const cloneArr = dataResponse.slice();
     forEach(cloneArr, (item, index) => {
@@ -111,7 +116,7 @@ const RoleAdd = () => {
   };
 
   const onCancel = () => {
-    navigate('/role/list');
+    navigate('/role');
   };
 
   const onChange = (e, permissionName, permissionAction) => {
@@ -150,7 +155,7 @@ const RoleAdd = () => {
     if (isAllPermissionsAreSameColumn) {
       setSelectedColumn(name);
     }
-    console.log(cloneArr);
+    // console.log(cloneArr);
     setPermissionGroup(cloneArr);
   };
 
@@ -194,9 +199,11 @@ const RoleAdd = () => {
           errors={errors?.role_name}
           type="text"
           label="Role Name"
+          pattern
           inputProps={{
             maxLength: 100,
           }}
+          helperText="Max length 100 chars"
         />
         <InputField
           multiline

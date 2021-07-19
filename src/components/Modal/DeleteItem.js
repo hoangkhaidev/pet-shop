@@ -69,7 +69,7 @@ const DeleteItem = ({title, linkApi }) => {
       >
         <div>
           <TitlePage title={title} />
-            <div className={classes.title__text}>{`Do you want ${title}?`}</div>
+            <div className={classes.title__text}>{`Do you want delete ${title}?`}</div>
             <div className={classes.title__groupButton}>
                 <Button variant="contained" color="primary" onClick={() => deleteSubAccount(linkApi, title)}>
                     Submit

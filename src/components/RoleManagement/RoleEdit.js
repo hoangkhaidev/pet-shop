@@ -76,21 +76,29 @@ const RoleEdit = () => {
   const { dataResponse, isLoading, isHasPermission } = useFetchData(`/api/role/${router.query?.id}`);
 
   useEffect(() => {
-    setValue("role_name", get(dataResponse, "role_name", ""));
-    setValue("description", get(dataResponse, "description", ""));
-    setPermissionGroup(get(dataResponse, "permission_group", []));
-    console.log(dataResponse)
+    console.log(permissionGroup);
+  }, [permissionGroup]);
+  
+  useEffect(() => {
+    setValue("role_name", dataResponse?.role_name);
+    setValue("description", dataResponse?.description);
+    
+    setPermissionGroup(dataResponse?.permission_group);
+    // console.log(dataResponse)
   }, [dataResponse, setValue]);
 
   useEffect(() => {
     let name;
-    if (permissionGroup.length > 0) {
+    if (permissionGroup) {
       LIST_PERMISSIONS.forEach(permission => {
+        // console.log(permission);
         const arr = map(permissionGroup, item => item.permissions.every(itemPermission => itemPermission[permission.value]));
+        // console.log(arr);
         if (every(arr, item => item)) {
           name = permission.value;
         }
       });
+      console.log(name);
       setSelectedColumn(name);
     }
   }, [permissionGroup]);
@@ -101,25 +109,26 @@ const RoleEdit = () => {
       description: dataForm.description,
       permission_group: permissionGroup
     };
-    try {
-      let response = await api.post(`/api/role/${router.query?.id}/update`, form);
-      if (get(response, 'success', false)) {
-        toast.success("Update Role Success", {
-          onClose: navigate("/role")
-        });
-      } else {
-        if (response?.err === 'err:form_validation_failed') {
-          for (const field in response?.data) {
-            setError(field, {
-              type: 'validate',
-              message: response?.data[field]
-            });
-          }
-        }
-      }
-    } catch (e) {
-      console.log("e", e);
-    }
+    console.log(form);
+    // try {
+    //   let response = await api.post(`/api/role/${router.query?.id}/update`, form);
+    //   if (get(response, 'success', false)) {
+    //     toast.success("Update Role Success", {
+    //       onClose: navigate("/role")
+    //     });
+    //   } else {
+    //     if (response?.err === 'err:form_validation_failed') {
+    //       for (const field in response?.data) {
+    //         setError(field, {
+    //           type: 'validate',
+    //           message: response?.data[field]
+    //         });
+    //       }
+    //     }
+    //   }
+    // } catch (e) {
+    //   console.log("e", e);
+    // }
   };
 
   const onCancel = () => {

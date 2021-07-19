@@ -28,7 +28,7 @@ import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 
 import ButtonGroup, {
   SubmitButton,
-  ResetButton,
+  // ResetButton,
 } from 'src/components/shared/Button/Button';
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
@@ -114,7 +114,7 @@ const OperatorEdit = () => {
     setValue,
     register,
     setError,
-    reset,
+    // reset,
   } = useForm({
     defaultValues: {commission : product_commission_new}
   });

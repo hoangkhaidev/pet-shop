@@ -24,7 +24,7 @@ const SubAccountListFilter = ({
     if(dataBrand?.list) {
       newBrand = [...dataBrand?.list];
     }
-    console.log(newBrand)
+    // console.log(newBrand)
     if (!newBrand) return;
     if (newBrand.length <= 0) return;
     newBrand.forEach(data => {

@@ -1,5 +1,5 @@
 import { Fragment, useState, useEffect, lazy } from 'react';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 import { useForm, FormProvider } from 'react-hook-form';
 import get from 'lodash/get';
 import Link from '@material-ui/core/Link';
@@ -16,6 +16,8 @@ const ChangePasswordForm = lazy(() =>
   import('src/components/Modal/ChangePasswordForm')
 );
 const ChangeStatus = lazy(() => import('src/components/Modal/ChangeStatus'));
+
+const DeleteItem = lazy(() => import('src/components/Modal/DeleteItem'));
 
 const STATUS = [
   {
@@ -56,23 +58,54 @@ const BrandList = () => {
   const [objFilter, setObjFilter] = useState({
     name_search: '',
     status_search: '',
+    operator_id: 0,
     sort_field: 'username',
     sort_order: 'asc',
     page: 1,
     page_size: 30,
-    ...router.query,
+    ...{
+      ...router.query,
+      operator_id: router.query.operator_id ? Number(router.query.operator_id) : 0,
+    },
   });
-
+  
   const methods = useForm({
     defaultValues: router.query,
   });
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   // console.log(t);
-
+  
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
     '/api/brand',
     objFilter
-  );
+    );
+    
+  const [operatorData, setOperatorData] = useState([]);
+
+  const onResetFilter = () => {
+    methods.reset({
+      name_search: '',
+      status_search: '',
+      operator_id: 0,
+      sort_field: 'username',
+      sort_order: 'asc',
+      page: 1,
+      page_size: 30,
+    });
+    setObjFilter({
+      name_search: '',
+      status_search: '',
+      operator_id: 0,
+      sort_field: 'username',
+      sort_order: 'asc',
+      page: 1,
+      page_size: 30,
+    });
+  }
+
+  // useEffect(() => {
+  //   console.log(objFilter);
+  // }, [objFilter]);
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
@@ -81,15 +114,36 @@ const BrandList = () => {
   }, [dataResponse]);
 
   useEffect(() => {
-    console.log(data);
-  }, []);
+    const data = dataResponse?.list;
+    if (!data) return;
+    let mapData = [{
+      id: 0,
+      value: 'all',
+      label: 'All',
+    }];
+    data.forEach((data) => {
+      let optionData = {
+        id: data.operator_id,
+        value: data.operator_id,
+        label: data.username,
+      };
+      mapData.push(optionData);
+    });
+    setOperatorData([...mapData]);
+  }, [dataResponse]);
 
   const onSubmit = async (dataForm) => {
     const form = {
       ...dataForm,
+      name_search:
+        dataForm?.name_search ? dataForm?.name_search : '',
       status_search:
         dataForm?.status_search === 'all' ? '' : dataForm?.status_search,
+      operator_id:
+        dataForm?.operator_id === 'all' ? 0 : Number(dataForm.operator_id),
     };
+    // console.log(form)
+
     setObjFilter({
       ...form,
       page: 1,
@@ -101,7 +155,12 @@ const BrandList = () => {
     return <NoPermissionPage />;
   }
 
-  const columns = [
+  const columns = [ 
+    {
+      data_field: 'indexRow',
+      column_name: 'No',
+      align: 'center',
+    },
     {
       data_field: 'username',
       column_name: 'Username',
@@ -136,24 +195,22 @@ const BrandList = () => {
       align: 'left',
     },
     {
-      data_field: 'players',
+      data_field: 'member_count',
       column_name: 'Players',
-      align: 'center',
+      align: 'right',
+      formatter: (cell, row) => (
+        <Link href={`/player/list`}>{cell}</Link>
+      ),
     },
     {
-      data_field: 'api_endpoints',
+      data_field: 'api_endpoint',
       column_name: 'Api Endpoint',
-      align: 'center',
+      align: 'left',
     },
     {
-      data_field: 'product',
+      data_field: 'product_names',
       column_name: 'Product',
-      align: 'center',
-    },
-    {
-      data_field: 'comission',
-      column_name: 'Commission',
-      align: 'center',
+      align: 'left',
     },
     {
       data_field: 'statuses',
@@ -164,7 +221,7 @@ const BrandList = () => {
         return (
           <ChangeStatus
             newlabel={newlabel}
-            linkApi={`/api/brand/${row.BrandId}/update_status`}
+            linkApi={`/api/brand/${row.account_id}/update_status`}
             STATUS={STATUS}
             username={row.username}
             statuses={row.statuses}
@@ -178,8 +235,20 @@ const BrandList = () => {
       align: 'center',
       formatter: (cell, row) => (
         <ChangePasswordForm
-          linkApi={`/api/brand/${row.BrandId}/update_password`}
+          linkApi={`/api/brand/${row.account_id}/update_password`}
           username={row.username}
+        />
+      ),
+    },
+    {
+      data_field: 'delete',
+      column_name: 'Delete',
+      align: 'center',
+      formatter: (cell, row) => (
+        <DeleteItem
+          linkApi={`/api/operators/${row.account_id}/delete`}
+          title={row.username}
+          row={row}
         />
       ),
     },
@@ -195,7 +264,7 @@ const BrandList = () => {
   const handleChangeRowsPerPage = (event) => {
     setObjFilter((prevState) => ({
       ...prevState,
-      page: 1,
+      page: 0,
       page_size: parseInt(event.target.value, 10),
     }));
   };
@@ -205,7 +274,7 @@ const BrandList = () => {
       {isLoading && <Loading />}
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <BrandListFilter />
+          <BrandListFilter onResetFilter={onResetFilter} operatorData={operatorData} />
         </form>
       </FormProvider>
       <ContentCardPage>
@@ -215,8 +284,8 @@ const BrandList = () => {
           columns={columns}
           pagination={{
             total_size,
-            page: objFilter.page,
-            page_size: objFilter.page_size,
+            page: Number(objFilter.page),
+            page_size: Number(objFilter.page_size),
           }}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}

@@ -58,11 +58,14 @@ const SelectField = ({
               label={label}
               labelId={id}
             >
-              {options.map((option) => (
-                <MenuItem key={option.id} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
+              {options.map((option) => {
+                // console.log(option)
+                return (
+                  <MenuItem key={option.id} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                )
+              })}
             </Select>
           )}
           rules={{

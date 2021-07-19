@@ -100,6 +100,7 @@ const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses }) => {
       action: data.status,
       reason: data.reason,
     };
+
     try {
       const response = await api.post(linkApi, form);
 

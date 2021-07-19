@@ -5,10 +5,10 @@ import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import InputField from "src/components/shared/InputField/InputField";
 import SelectField from "src/components/shared/InputField/SelectField";
 import { OPERATOR_STATUS, SORT_ODER } from "src/constants";
+import { ButtonGroup } from "@material-ui/core";
+import { ResetButton, SubmitButton } from "src/components/shared/Button/Button";
 
-const BrandListFilter = ({
-  onResetFilter
-}) => {
+const BrandListFilter = ({onResetFilter, operatorData}) => {
   const { control } = useFormContext();
 
   return (
@@ -22,6 +22,7 @@ const BrandListFilter = ({
             label="Name or Username"
             id="name_search"
             fullWidth={false}
+            defaultValue=''
           />
         </Grid>
         <Grid item xs={12} xl={3} md={4}>
@@ -38,25 +39,12 @@ const BrandListFilter = ({
         <Grid item xs={12} xl={3} md={4}>
           <SelectField
             control={control}
-            namefileld="operator"
-            id="operator"
+            namefileld="operator_id"
+            id="operator_id"
             label="Operator"
             fullWidth={false}
-            options={
-              [
-                {
-                  id: 1,
-                  value: "operator 1",
-                  label: "Operator 1"
-                },
-                {
-                  id: 2,
-                  value: "operator 2",
-                  label: "Operator 2"
-                }
-              ]
-            }
-            defaultValue="username"
+            options={operatorData}
+            defaultValue="all"
           />
         </Grid>
         <Grid item xs={12} xl={3} md={4}>
@@ -95,6 +83,10 @@ const BrandListFilter = ({
           />
         </Grid>
       </Grid>
+      <ButtonGroup style={{ display: 'flex', justifyContent: 'flex-end', }}>
+        <SubmitButton text="Search"/>
+        <ResetButton onAction={onResetFilter} />
+      </ButtonGroup>
     </ContentCardPage>
   );
 };

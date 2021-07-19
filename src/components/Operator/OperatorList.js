@@ -73,6 +73,10 @@ const OperatorList = () => {
     objFilter
   );
 
+  // useEffect(() => {
+  //   console.log(dataResponse);
+  // }, [dataResponse]);
+
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
     mapData.map((data) => (data.id = data.account_id));
@@ -107,7 +111,7 @@ const OperatorList = () => {
     {
       data_field: 'username',
       column_name: 'Username',
-      align: 'center',
+      align: 'left',
       formatter: (cell, row) => (
         <Link href={`/operator/list/${row.id}/edit`}>{cell}</Link>
       ),
@@ -115,7 +119,7 @@ const OperatorList = () => {
     {
       data_field: 'operator_name',
       column_name: 'Name',
-      align: 'center',
+      align: 'left',
     },
     {
       data_field: 'support_email',
@@ -141,7 +145,7 @@ const OperatorList = () => {
     {
       data_field: 'member_count',
       column_name: 'Players',
-      align: 'center',
+      align: 'right',
       formatter: (cell, row) => (
         <Link href={`/players/list`}>{cell}</Link>
       ),
@@ -154,19 +158,19 @@ const OperatorList = () => {
     {
       data_field: 'product_names',
       column_name: 'Product',
-      align: 'center'
+      align: 'left'
     },
     {
       data_field: 'commission',
       column_name: 'Commission',
-      align: 'center'
+      align: 'right'
     },
     {
       data_field: 'brand_count',
       column_name: 'Brand',
-      align: 'center',
+      align: 'right',
       formatter: (cell, row) => (
-        <Link href={`/brand/list`}>{cell}</Link>
+        <Link href={`/brand/list?name_search=&operator_id=${row.operator_id}&page=1&page_size=30&sort_field=username&sort_order=asc&status_search=`}>{cell}</Link>
       ),
     },
     {
@@ -230,12 +234,31 @@ const OperatorList = () => {
     }));
   };
 
+  const onResetFilter = () => {
+    methods.reset({
+      name_search: '',
+      status_search: '',
+      sort_field: 'username',
+      sort_order: 'asc',
+      page: 1,
+      page_size: 30,
+    });
+    setObjFilter({
+      name_search: '',
+      status_search: '',
+      sort_field: 'username',
+      sort_order: 'asc',
+      page: 1,
+      page_size: 30,
+    });
+  }
+
   return (
     <Fragment>
       {isLoading && <Loading />}
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <OperatorListFilter />
+          <OperatorListFilter onResetFilter={onResetFilter} />
         </form>
       </FormProvider>
       <ContentCardPage>

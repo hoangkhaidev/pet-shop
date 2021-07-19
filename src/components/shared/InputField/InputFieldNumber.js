@@ -262,3 +262,89 @@ FormattedNumberInputComission.defaultProps = {
   errors: {},
   required: false,
 };
+
+export const FormattedNumberInputCaptcha = ({
+  // eslint-disable-next-line react/prop-types
+  label,
+  pattern,
+  control,
+  namefileld,
+  styles,
+  errors,
+  required,
+  helperText,
+  ...rest
+}) => {
+  const classes = useStyles();
+
+  const renderErrors = () => {
+    if (isEmpty(errors)) {
+      return '';
+    }
+    if (errors.type === 'required') {
+      return 'Field is required';
+    }
+    if (errors.type === 'pattern') {
+      // return 'Field is required';
+    }
+    return errors.message;
+  };
+
+  return (
+    <div className={classes.inputField}>
+      <FormControl
+        sx={{ px: 2 }}
+        error={!isEmpty(errors)}
+        className={classes.formControl}
+      >
+        <Controller
+          render={({ field: { onChange, onBlur, value, name, ref } }) => (
+            <NumberFormat
+              {...rest}
+              value={value}
+              error={!isEmpty(errors)}
+              name={name}
+              label={`${label}${required ? '*' : ''}`}
+              style={styles}
+              maxLength="2"
+              defaultValue={0}
+              customInput={TextField}
+              className={classes.inputFieldNumber}
+              autoComplete="off"
+              type="text"
+              onValueChange={({ value: v }) =>
+                onChange({ target: { name, value: v } })
+              }
+              helperText={helperText}
+            />
+          )}
+          control={control}
+          name={namefileld}
+          rules={{
+            required,
+            pattern
+          }}
+        />
+        {!isEmpty(errors) && <FormHelperText>{renderErrors()}</FormHelperText>}
+      </FormControl>
+    </div>
+  );
+};
+
+FormattedNumberInputCaptcha.propTypes = {
+  label: string.isRequired,
+  maxLength: number,
+  namefileld: string.isRequired,
+  styles: object,
+  errors: object,
+  required: bool,
+  helperText: string,
+};
+
+FormattedNumberInputCaptcha.defaultProps = {
+  maxLength: undefined,
+  styles: null,
+  errors: {},
+  required: false,
+  helperText: null,
+};
