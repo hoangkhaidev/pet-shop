@@ -40,6 +40,7 @@ import api from 'src/utils/api';
 import { toast } from 'react-toastify';
 import isEmpty from 'lodash/isEmpty';
 import { useNavigate } from 'react-router-dom';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -352,6 +353,10 @@ const BrandEdit = () => {
     return <NoPermissionPage />;
   }
 
+  const onCancel = () => {
+    navigate('/brand/list');
+  }
+  
   return (
     <ContentCardPage>
       <TitlePage title="Edit Brand" />
@@ -415,8 +420,6 @@ const BrandEdit = () => {
           {formState.productData.map((item, index) => {
             const checked = watch(`commission.${index}.checked`) ? true : false;
             const commissionValue = watch(`commission.${index}.value`);
-            // console.log(JSON.stringify(watch('commission')));
-            console.log(commissionValue);
             return (
               <div key={item.id} style={{display: 'flex', width: '100%', alignItems: 'center'}}>
                 <FormControlLabel
@@ -560,7 +563,18 @@ const BrandEdit = () => {
         ))}
         <ButtonGroup>
           <SubmitButton />
-          <ResetButton />
+          <Button
+            startIcon={<ClearAllIcon fontSize="small" />}
+            variant="contained"
+            type="button"
+            color="secondary"
+            onClick={() => onCancel()}
+            sx={{
+              ml: 1
+            }}
+          >
+            Cancel
+          </Button>
         </ButtonGroup>
       </form>
       {isLoading && <Loading />}

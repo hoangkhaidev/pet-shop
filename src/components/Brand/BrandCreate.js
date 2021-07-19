@@ -139,10 +139,10 @@ const BrandCreate = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commission, setValue]);
 
-  useEffect(() => {
-    console.log(operatorData);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [operatorData]);
+  // useEffect(() => {
+  //   console.log(operatorData);
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [operatorData]);
 
   const onRemoveFinanceEmail = (email) => {
     const cloneArr = financeEmail.slice();

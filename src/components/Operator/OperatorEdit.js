@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-duplicate-props */
-import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useState, useEffect, useMemo } from 'react';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Chip from '@material-ui/core/Chip';
@@ -14,6 +14,9 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import { toast } from 'react-toastify';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import clsx from 'clsx';
 
 import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
@@ -31,7 +34,11 @@ import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
 
 import api from 'src/utils/api';
-import SelectField from '../shared/InputField/SelectField';
+// import SelectField from '../shared/InputField/SelectField';
+import { Checkbox, FormControlLabel, InputAdornment } from '@material-ui/core';
+import FormattedNumberInput from '../shared/InputField/InputFieldNumber';
+import { cloneDeep, map } from 'lodash';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -50,82 +57,156 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  checkHidden: {
+    display: 'none !important',
+    transition: '0.3s all',
+    transform: 'translate3d(-2000px, 0px, 0px)',
+  },
+  checkShow: {
+    display: 'block !important',
+    transform: 'translate3d(0px, 0px, 0px) !important',
+  },
+  w40: {
+    width: '40%'
+  },
+  w60: {
+    width: '60%'
+  },
 }));
 
 const OperatorEdit = () => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
-  const [apiWLIP, setAPIWLIP] = useState(['', '', '', '']);
-  const [financeEmail, setFinanceEmail] = useState([]);
-  const [productData, setProductData] = useState([]);
-  const [data, setData] = useState(null);
   const router = useRouter();
   const navigate = useNavigate();
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-    setError,
-    reset
-  } = useForm();
 
   const { dataResponse, isLoading, isHasPermission } = useFetchData(
     `/api/operators/${router.query?.id}`,
     null
   );
 
-  useEffect(() => {
-    setData(dataResponse);
-    const formatWhitelistIP = dataResponse?.whitelist_ips?.map((ip) =>
-      ip.split('.')
-    );
-    const formatApiWLIP = dataResponse?.api_white_list_ip?.split('.');
-    setFinanceEmail(get(dataResponse, 'finance_emails', []));
-    if (formatWhitelistIP?.length && formatWhitelistIP?.length !== 0) {
-      setWhitelistIP(formatWhitelistIP);
-    };
-    setAPIWLIP(formatApiWLIP);
-  }, [dataResponse]);
-
   const { dataResponse: dataProduct } = useFetchData('/api/product');
+
+  const initFormState = {
+    apiWLIP: ['', '', '', ''],
+    data: [],
+    financeEmails: [],
+    productData: [],
+    whitelistIP: [['', '', '', '']]
+  }
+
+  const [formState, setFormState] = useState(initFormState);
+
+  const product_commission = useMemo(() => formState.data?.product_commission, [formState]);
+  const product_commission_new = useMemo(() => map(product_commission, (item) => {
+    return {
+      product_id: String(item.product_id),
+      value: Number(item.commission),
+      checked: true
+    }
+  }), [product_commission]);
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setValue,
+    register,
+    setError,
+    reset,
+  } = useForm({
+    defaultValues: {commission : product_commission_new}
+  });
+
+  useFieldArray({
+    control, // control props comes from useForm (optional: if you are using FormContext)
+    name: "commission", // unique name for your Field Array
+    // keyName: "id", default to "id", you can change the key name
+  });
+
+  const finance_emails = watch('finance_emails', '');
+
+  useEffect(() => {
+    const formatWhitelistIP = dataResponse?.whitelist_ips?.map((ip) => ip.split('.'));
+    const formatApiWLIP = dataResponse?.api_whitelist_ip?.split('.');
+    const newFormState = {
+      ...formState,
+      apiWLIP: formatApiWLIP,
+      data: dataResponse,
+      financeEmails: get(dataResponse, 'finance_emails', []),
+      whitelistIP: formatWhitelistIP?.length > 0 ? formatWhitelistIP : formState.formatWhitelistIP,
+    }
+    setFormState(newFormState);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataResponse]);
   
   useEffect(() => {
     if (dataProduct.length <= 0) return;
-    let mapdata = [];
+    let mapData = [];
     dataProduct.forEach((data) => {
       let optionData = {
         id: data.id,
         value: data.id,
         label: data.name,
       };
-      mapdata.push(optionData);
+      mapData.push(optionData);
     });
-    setProductData([...mapdata]);
+    const newFormState = {
+      ...formState,
+      productData: mapData
+    };
+    setFormState(newFormState);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataProduct]);
 
-  const finance_email = watch('finance_email', '');
-  const commission = watch('commission', '');
+  useEffect(() => {
+    if (formState.data) {
+      setValue('commission', product_commission_new);
+
+      setValue('name', formState.data?.operator_name);
+      setValue('support_email', formState.data?.support_email);
+      setValue('username', formState.data?.username);
+      setValue('api_endpoint', formState.data?.api_endpoint);
+      setValue('password', formState.data?.password);
+      setValue('password_confirmation', formState.data?.password_confirmation);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formState, setValue]);
 
   const onSubmit = async (dataForm) => {
-    const formatWLIPEndpoint = apiWLIP.join('.');
-    const formatWLIPs = whitelistIP.map((item) => {
+    const defaultPro = cloneDeep(formState.data.product_commission);
+    const product_form = dataForm.commission.filter((item) => item.checked === true );
+
+    const product_commission = product_form.map((item) => {
+      if (item.value) {
+        return {
+          product_id: Number(item.product_id),
+          commission: String(item.value)
+        };
+      } else {
+        let index = defaultPro.findIndex((test) => String(test.product_id) === String(item.product_id));
+        return {
+          product_id: Number(item.product_id),
+          commission: String(defaultPro[index].commission)
+        };
+      }
+    });
+
+    const formatWLIPEndpoint = formState.apiWLIP.join('.');
+    const formatWLIPs = formState.whitelistIP.map((item) => {
       const joinStr = item.join('.');
       return joinStr;
     });
     const form = {
       ...dataForm,
-      // commission: String(data.commission),
-      // accountId: data.accountId,
       api_whitelist_ip: formatWLIPEndpoint,
       whitelist_ips: formatWLIPs,
-      finance_email: financeEmail,
-      password: data?.password,
-      password_confirmation: data?.password_confirmation,
-      product_ids: [...data.product_ids],
+      finance_emails: formState.financeEmails,
+      password: formState.data?.password,
+      password_confirmation: formState.data?.password_confirmation,
+      product_commission: product_commission,
     };
     try {
       console.log(form);
@@ -152,82 +233,72 @@ const OperatorEdit = () => {
     }
   };
 
-  useEffect(() => {
-    if (commission > 100) {
-      setValue('commission', 100);
-    }
-  }, [commission, setValue]);
-
-  useEffect(() => {
-    if (data) {
-      setValue('name', data?.operator_name);
-      setValue('support_email', data?.support_email);
-      setValue('username', data?.username);
-      setValue('api_endpoint', data?.api_endpoint);
-      setValue('commission', data?.commission);
-      setValue('password', data?.password);
-      setValue('password_confirmation', data?.password_confirmation);
-    }
-  }, [data, setValue]);
-
   const addingFinanceEmail = () => {
-    if (finance_email) {
-      const arrCloneFinanceEmail = financeEmail.slice();
-      setFinanceEmail([...arrCloneFinanceEmail, finance_email]);
-      setValue('finance_email', '');
+    if (finance_emails) {
+      const arrCloneFinanceEmail = formState.financeEmails.slice();
+      setFormState({
+        ...formState,
+        financeEmails: [...arrCloneFinanceEmail, finance_emails]
+      });
+      setValue('finance_emails', '');
     }
   };
 
   const onRemoveFinanceEmail = (email) => {
-    const cloneArr = financeEmail.slice();
+    const cloneArr = formState.financeEmails.slice();
     remove(cloneArr, (item) => item === email);
-    setFinanceEmail(cloneArr);
+    setFormState({
+      ...formState,
+      financeEmails: cloneArr
+    });
   };
 
   const onChangeWhitelistIp = (e, index, rowIndex) => {
     const { formattedValue } = e;
-    const cloneArr = whitelistIP.slice();
+    const cloneArr = formState.whitelistIP.slice();
     cloneArr[rowIndex][index] = formattedValue;
-    setWhitelistIP(cloneArr);
+    setFormState({
+      ...formState,
+      whitelistIP: cloneArr
+    });
   };
 
   const onAddingWLIPAddress = () => {
-    const cloneArr = whitelistIP.slice();
+    const cloneArr = formState.whitelistIP.slice();
     const newArray = [...cloneArr, ['', '', '', '']];
-    if (newArray.length <= 20 ) setWhitelistIP(newArray);
+    if (newArray.length <= 20 ){
+      setFormState({
+        ...formState,
+        whitelistIP: newArray
+      });
+    }
   };
 
   const onChangeAPIEndpointIP = (e, index) => {
     const { formattedValue } = e;
-    const cloneArr = apiWLIP.slice();
+    const cloneArr = formState.apiWLIP.slice();
     cloneArr[index] = formattedValue;
-    setAPIWLIP(cloneArr);
+    setFormState({
+      ...formState,
+      apiWLIP: cloneArr
+    });
   };
 
   const onRemoveWLIPAddress = (rowIndex) => {
-    const cloneArr = whitelistIP.slice();
+    const cloneArr = formState.whitelistIP.slice();
     remove(cloneArr, (item, index) => rowIndex === index);
-    setWhitelistIP(cloneArr);
+    setFormState({
+      ...formState,
+      whitelistIP: cloneArr
+    });
   };
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
   }
 
-  const onReset = () => {
-    setWhitelistIP([['', '', '', '']]);
-    setAPIWLIP(['', '', '', '']);
-    setFinanceEmail([]);
-    reset({
-        name: '',
-        support_email: '',
-        // commission: 0,
-        product_ids: [],
-        api_endpoint: '',
-        username: '',
-        password: '',
-        password_confirmation: '',
-    });
+  const onCancel = () => {
+    navigate('/operator/list');
   }
 
   return (
@@ -259,17 +330,17 @@ const OperatorEdit = () => {
           label="Support Email"
         />
         <InputField
-          namefileld="finance_email"
+          namefileld="finance_emails"
           control={control}
-          id="finance_email"
-          errors={errors?.finance_email}
+          id="finance_emails"
+          errors={errors?.finance_emails}
           type="text"
           label="Finance Email"
           callbackInputProps={addingFinanceEmail}
           isHasInputProps
         />
         <div className={classes.rootChip}>
-          {financeEmail.map((email) => (
+          {formState.financeEmails.map((email) => (
             <Chip
               className={classes.financeEmailItem}
               key={email}
@@ -278,6 +349,7 @@ const OperatorEdit = () => {
             />
           ))}
         </div>
+
         {/* <FormattedNumberInputComission
           namefileld="commission"
           label="Comission"
@@ -292,7 +364,7 @@ const OperatorEdit = () => {
           helperText="From 0% to 100%"
         /> */}
 
-        { productData?.length && <SelectField
+        {/* { productData?.length && <SelectField
           namefileld="product_ids"
           id="product_ids"
           label="Product"
@@ -301,7 +373,77 @@ const OperatorEdit = () => {
           errors={errors?.product}
           options={productData}
           defaultValue={productData?.[0]?.value}
-        />}
+        />} */}
+
+        <FormLabel component="legend">Product</FormLabel>
+        <FormControl className={classes.w100}>
+          {formState.productData.map((item, index) => {
+            const checked = watch(`commission.${index}.checked`) ? true : false;
+            const commissionValue = watch(`commission.${index}.value`);
+            return (
+              <div key={item.id} style={{display: 'flex', width: '100%', alignItems: 'center'}}>
+                <FormControlLabel
+                  className={checked ? classes.w40 : ''}
+                  style={{padding: '30px'}}
+                  label={item?.label}
+                  name={`commission.${index}.checked`}
+                  value={item?.id}
+                  control={
+                    <Controller
+                      name={`commission.${index}.checked`}
+                      control={control}
+                      inputRef={register}
+                      defaultValue={checked}
+                      render={(props) => {
+                        return (
+                          <Checkbox
+                            checked={props.field.value}
+                            value={item.id}
+                            onChange={(e) => props.field.onChange(e.target.checked)}
+                          />
+                        )
+                      }}
+                    />
+                  }                  
+                />
+                <input 
+                  type="hidden"
+                  value={item.id}
+                  {...register(`commission.${index}.product_id`)} 
+                />
+                <FormGroup 
+                  className={clsx(classes.w60, checked === true ? classes.checkShow : classes.checkHidden)} 
+                  key={item.id}
+                >
+                  {checked && 
+                    <FormattedNumberInput
+                      key={item.id}
+                      namefileld={`commission.${index}.value`}
+                      label="Commission"
+                      id={`commission.${index}.value`}
+                      control={control}
+                      allowLeadingZeros
+                      allowNegative={false}
+                      decimalScale={0}
+                      errors={get(errors, `commission[${index}].value`)}
+                      InputProps={{
+                        endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                      }}  
+                      pattern={/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/}
+                      inputProps={{
+                        maxLength: 3,
+                      }}
+                      required
+                      defaultValue={commissionValue}
+                      helperText="From 0% to 100%"
+                      {...register(`commission.${index}.value`)} 
+                    />
+                  }
+                </FormGroup>
+              </div>
+            )
+          })}
+        </FormControl>
 
         <InputField
           required
@@ -313,7 +455,7 @@ const OperatorEdit = () => {
           label="API Endpoint"
         />
         <FormLabel>Whitelist IP Address for API</FormLabel>
-        <IPAddressInput apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} />
+        <IPAddressInput apiWLIP={formState.apiWLIP} onChange={onChangeAPIEndpointIP} />
         <Typography
           className={classes.operatorAdminLabel}
           variant="h6"
@@ -357,14 +499,14 @@ const OperatorEdit = () => {
           helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <FormLabel>Whitelist IP Address for BO</FormLabel>
-        {(whitelistIP || []).map((item, index) => (
+        {(formState.whitelistIP || []).map((item, index) => (
           <div className={classes.whitelistIPLine} key={index}>
             <IPAddressInput
               apiWLIP={item}
               onChange={onChangeWhitelistIp}
               rowIndex={index}
             />
-            {whitelistIP.length - 1 === index ? (
+            {formState.whitelistIP.length - 1 === index ? (
               <Button
                 color="primary"
                 variant="contained"
@@ -385,7 +527,19 @@ const OperatorEdit = () => {
         ))}
         <ButtonGroup>
           <SubmitButton />
-          <ResetButton onAction={() => onReset()}/>
+          {/* <ResetButton onAction={() => onReset()}/> */}
+          <Button
+            startIcon={<ClearAllIcon fontSize="small" />}
+            variant="contained"
+            type="button"
+            color="secondary"
+            onClick={() => onCancel()}
+            sx={{
+              ml: 1
+            }}
+          >
+            Cancel
+          </Button>
         </ButtonGroup>
       </form>
       {isLoading && <Loading />}

@@ -3,7 +3,7 @@
 /* eslint-disable no-lonely-if */
 /* eslint-disable react/jsx-no-duplicate-props */
 import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -19,17 +19,22 @@ import get from 'lodash/get';
 import { toast } from 'react-toastify';
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import InputField from 'src/components/shared/InputField/InputField';
-import SelectField from 'src/components/shared/InputField/SelectField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
 import ButtonGroup, {
   SubmitButton,
   ResetButton,
 } from 'src/components/shared/Button/Button';
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
-import { FormattedNumberInputComission } from 'src/components/shared/InputField/InputFieldNumber';
+// import { FormattedNumberInputComission } from 'src/components/shared/InputField/InputFieldNumber';
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
 import Loading from 'src/components/shared/Loading/Loading';
 import api from 'src/utils/api';
 import useFetchData from 'src/utils/hooks/useFetchData';
+import FormattedNumberInput from '../shared/InputField/InputFieldNumber';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -62,18 +67,27 @@ const OperatorCreate = () => {
     watch,
     setValue,
     setError,
+    register,
     reset, 
   } = useForm();
+
   const [financeEmail, setFinanceEmail] = useState([]);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [isLoading, setIsLoading] = useState(false);
   const [apiWLIP, setAPIWLIP] = useState(['', '', '', '']);
   const [productData, setProductData] = useState([]);
+  const [checkboxListCheck, setCheckboxListCheck] = useState(productData.map((item) => false ));
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   const finance_email = watch('finance_email');
   const commission = watch('commission');
+
+  useFieldArray({
+    control, // control props comes from useForm (optional: if you are using FormContext)
+    name: "commission", // unique name for your Field Array
+    // keyName: "id", default to "id", you can change the key name
+  });
 
   const { dataResponse: dataProduct } = useFetchData('/api/product');
 
@@ -92,6 +106,14 @@ const OperatorCreate = () => {
   }, [dataProduct]);
 
   const onSubmit = async (data) => {
+    // console.log(data);
+    const product_form = data.commission.filter((item) => item.checked === true );
+    const product_commission = product_form.map((item) => {
+      return {
+        product_id: Number(item.product_id),
+        commission: String(item.value)
+      };
+    });
     const formatWLIPEndpoint = apiWLIP.join('.');
     const formatWLIPs = whitelistIP.map((item) => {
       const joinStr = item.join('.');
@@ -100,16 +122,19 @@ const OperatorCreate = () => {
     setIsLoading(true);
     const form = {
       ...data,
-      commission: String(data.commission),
       api_whitelist_ip: formatWLIPEndpoint,
       whitelist_ips: formatWLIPs,
       product_ids: [data.product_ids],
       finance_email: financeEmail,
+      product_commission: product_commission,
     };
+    delete form.commission;
+    delete form.product_ids;
+    console.log(form);
 
     try {
       const response = await api.post('/api/operators/create', form);
-      console.log(response);
+      // console.log(response);
       if (get(response, 'success', false)) {
         toast.success('Update operator Success', {
           onClose: navigate('operator/list'),
@@ -180,11 +205,11 @@ const OperatorCreate = () => {
     setWhitelistIP([['', '', '', '']]);
     setAPIWLIP(['', '', '', '']);
     setFinanceEmail([]);
+    setCheckboxListCheck([]);
     reset({
         name: '',
         support_email: '',
-        commission: 0,
-        product_ids: [],
+        commission: [],
         api_endpoint: '',
         username: '',
         password: '',
@@ -236,7 +261,7 @@ const OperatorCreate = () => {
             />
           ))}
         </div>
-        <FormattedNumberInputComission
+        {/* <FormattedNumberInputComission
           namefileld="commission"
           label="Comission"
           id="commission"
@@ -265,7 +290,80 @@ const OperatorCreate = () => {
           errors={errors?.product}
           options={productData}
           defaultValue=""
-        />
+        /> */}
+
+        <FormLabel component="legend">Product</FormLabel>
+        <FormControl className={classes.w100}>
+            {productData.map((item, index) => {
+              return (
+                <div key={item.id} style={{display: 'flex', width: '100%'}}>
+                  <FormControlLabel
+                    className={checkboxListCheck[index] ? classes.w40 : ''}
+                    key={item.id}
+                    style={{padding: '30px'}}
+                    label={item?.label}
+                    // name={`commission.${index}.checked`}
+                    // value={item?.id}
+                    control={
+                      <Controller
+                          name={`commission.${index}.checked`}
+                          control={control}
+                          inputRef={register}
+                          render={(props) => {
+                            return (
+                              <Checkbox
+                                checked={props.field.value === true}
+                                value={item?.id}
+                                onChange={(e) => {
+                                    props.field.onChange(e.target.checked);
+                                    let ticked = [...checkboxListCheck];
+                                    ticked[index] = e.target.checked;
+                                    setCheckboxListCheck(ticked);
+                                  }
+                                }
+                              />
+                            )
+                          }}
+                        />
+                      }                  
+                  />
+                  <input 
+                    type="hidden"
+                    defaultValue={item.id}
+                    {...register(`commission.${index}.product_id`)} 
+                  />
+                  <FormGroup 
+                    className={clsx(classes.w60, checkboxListCheck[index] ? classes.checkShow : classes.checkHidden)} 
+                    key={index}
+                  >
+                    {checkboxListCheck[index] ?
+                      <FormattedNumberInput
+                        namefileld={`commission.${index}.value`}
+                        label="Commission"
+                        id={`commission_${item.id}`}
+                        control={control}
+                        allowLeadingZeros
+                        allowNegative={false}
+                        decimalScale={0}
+                        errors={get(errors, `commission[${index}].value`)}
+                        required
+                        InputProps={{
+                          endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                        }}
+                        pattern={/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/}
+                        inputProps={{
+                          maxLength: 3,
+                        }}
+                        helperText="From 0% to 100%"
+                        // register={register}
+                        {...register(`commission.${index}.value`)}
+                      />
+                    : ''}
+                  </FormGroup>
+                </div>
+              )
+            })}
+        </FormControl>
 
         <InputField
           required
