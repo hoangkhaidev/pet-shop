@@ -195,10 +195,22 @@ const BrandCreate = () => {
       return arr;
     });
     const formatWLIPEndpoint = apiWLIP.join('.');
+    // const formatWLIPs = whitelistIP.map((item) => {
+    //   const joinStr = item.join('.');
+    //   return joinStr;
+    // });
+
     const formatWLIPs = whitelistIP.map((item) => {
-      const joinStr = item.join('.');
-      return joinStr;
-    });
+      let check = false;
+      item.map((item1) => {
+        if (item1 === '') check = true;
+        return item1;
+      })
+      if (check === true) item = null;
+      else item = item.join('.');
+      return item;
+    }).filter((item) => item)
+
     setIsLoading(true);
     delete dataForm.commission;
     const form = {
@@ -253,15 +265,14 @@ const BrandCreate = () => {
       <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle}>
         <SelectField
           namefileld="operator_id"
-          id="operator"
+          id="operator_id"
           label="Operator"
           required
           fullWidth={false}
           control={control}
-          errors={errors?.operator}
+          errors={errors?.operator_id}
           options={operatorData}
           defaultValue=""
-          helperText="Operator is required"
         />
         <InputField
           autoFocus
@@ -390,7 +401,7 @@ const BrandCreate = () => {
           label="API Endpoint"
         />
         <FormLabel>{t('Whitelist IP Address for API')}</FormLabel>
-        <IPAddressInput apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} />
+        <IPAddressInput requiredCheck={true} apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} />
         <Typography
           className={classes.operatorAdminLabel}
           variant="h6"

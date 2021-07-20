@@ -11,6 +11,9 @@ import Loading from 'src/components/shared/Loading/Loading';
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
 import BrandListFilter from './BrandListFilter';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import TooltipIcon from 'src/components/shared/TooltipIcon/TooltipIcon';
+import { makeStyles } from '@material-ui/core';
 
 const ChangePasswordForm = lazy(() =>
   import('src/components/Modal/ChangePasswordForm')
@@ -52,8 +55,20 @@ const STATUS = [
   },
 ];
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  addRoleButton: {
+    float: 'right',
+  },
+}));
+
 const BrandList = () => {
   const router = useRouter();
+  const classes = useStyles();
   const [data, setData] = useState([]);
   const [objFilter, setObjFilter] = useState({
     name_search: '',
@@ -234,24 +249,19 @@ const BrandList = () => {
       column_name: 'Action',
       align: 'center',
       formatter: (cell, row) => (
-        <ChangePasswordForm
-          linkApi={`/api/brand/${row.account_id}/update_password`}
-          username={row.username}
-        />
+        <ButtonGroup className={classes.root}>
+          <ChangePasswordForm
+            linkApi={`/api/brand/${row.account_id}/update_password`}
+            username={row.username}
+          />
+          <DeleteItem
+            linkApi={`/api/brand/${row.account_id}/delete`}
+            title={`Delete ${row.username} Brand`}
+          />
+          <TooltipIcon />
+        </ButtonGroup>
       ),
-    },
-    {
-      data_field: 'delete',
-      column_name: 'Delete',
-      align: 'center',
-      formatter: (cell, row) => (
-        <DeleteItem
-          linkApi={`/api/operators/${row.account_id}/delete`}
-          title={row.username}
-          row={row}
-        />
-      ),
-    },
+    }
   ];
 
   const handleChangePage = (page) => {

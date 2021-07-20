@@ -40,6 +40,8 @@ const SubAccountCreate = () => {
   const [brandData, setBrandData] = useState([]);
   const roleUser = useSelector((state) => state.roleUser);
 
+  // console.log(roleUser);
+
   const {
     control,
     handleSubmit,
@@ -63,7 +65,6 @@ const SubAccountCreate = () => {
       mapdata.push(optionData);
     });
     setRoleData([...mapdata]);
-    console.log(roleUser);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataRole, setRoleData]);
 
@@ -85,9 +86,16 @@ const SubAccountCreate = () => {
 
   const onSubmit = async (dataform) => {
     const formatWLIPs = whitelistIP.map((item) => {
-      const joinStr = item.join('.');
-      return joinStr;
-    });
+      let check = false;
+      item.map((item1) => {
+        if (item1 === '') check = true;
+        return item1;
+      })
+      if (check === true) item = null;
+      else item = item.join('.');
+      return item;
+    }).filter((item) => item)
+
     const form = {
       username: dataform.username,
       brand_ids: dataform?.brand ? [dataform?.brand] : [],
@@ -97,10 +105,11 @@ const SubAccountCreate = () => {
       role_id: dataform.role,
       whitelist_ips: formatWLIPs,
     };
+    console.log(form)
     try {
       const response = await api.post('/api/subs/create', form);
       if (get(response, 'success', false)) {
-        toast.success('Create Subaccount Success', {
+        toast.success('Create SubAccount Success', {
           onClose: navigate('/sub/list'),
         });
       } else {
@@ -132,7 +141,8 @@ const SubAccountCreate = () => {
   const onAddingWLIPAddress = () => {
     const cloneArr = whitelistIP.slice();
     const newArray = [...cloneArr, ['', '', '', '']];
-    setWhitelistIP(newArray);
+    // setWhitelistIP(newArray);
+    if (newArray.length <= 20 ) setWhitelistIP(newArray);
   };
 
   const onRemoveWLIPAddress = (rowIndex) => {
@@ -174,6 +184,7 @@ const SubAccountCreate = () => {
           errors={errors?.username}
           type="text"
           label="Username"
+          pattern={/^[a-z0-9_]{3,15}$/}
           helperText="length from 3 to 15 chars, allow letter, digit and underscore()"
         />
         <InputField
@@ -183,6 +194,7 @@ const SubAccountCreate = () => {
           errors={errors?.name}
           type="text"
           label="Name"
+          maxLength={100}
           helperText="max length 100 chars"
         />
         <InputField
@@ -193,6 +205,7 @@ const SubAccountCreate = () => {
           errors={errors?.password}
           type="password"
           label="Password"
+          pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
           helperText="from 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <InputField
@@ -203,6 +216,7 @@ const SubAccountCreate = () => {
           errors={errors?.confirm_password}
           type="password"
           label="Confirm Password"
+          pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
           helperText="from 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <SelectField
@@ -212,6 +226,7 @@ const SubAccountCreate = () => {
           namefileld="role"
           control={control}
           errors={errors?.role}
+          required
           options={roleData}
           defaultValue=""
         />

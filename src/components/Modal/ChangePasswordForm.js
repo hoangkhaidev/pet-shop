@@ -92,6 +92,7 @@ const ChangePasswordForm = ({ linkApi, username }) => {
               errors={errors?.password}
               type="password"
               label="Password"
+              pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
               helperText="from 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
             />
             <InputField
@@ -102,6 +103,7 @@ const ChangePasswordForm = ({ linkApi, username }) => {
               errors={errors?.confirm_password}
               type="password"
               label="Confirm Password"
+              pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
               helperText="from 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
             />
             <SubmitButton />

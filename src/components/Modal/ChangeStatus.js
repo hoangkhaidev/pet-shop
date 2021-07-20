@@ -26,7 +26,7 @@ const fakeData = [
   }
 ];
 
-const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses }) => {
+const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses, types }) => {
   const [label, setLabel] = useState(newlabel);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
@@ -50,7 +50,9 @@ const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses }) => {
   }, [statuses])
 
   const onOpenModal = useCallback(() => {
-    setOpen(true);
+    // setOpen(true);
+    if (types !== 'viewStatus') setOpen(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onClose = () => {
@@ -96,6 +98,8 @@ const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses }) => {
   };
 
   const onSubmit = async (data) => {
+    console.log(data);
+    console.log(linkApi);
     const form = {
       action: data.status,
       reason: data.reason,

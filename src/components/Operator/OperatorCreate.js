@@ -115,10 +115,21 @@ const OperatorCreate = () => {
       };
     });
     const formatWLIPEndpoint = apiWLIP.join('.');
+    // const formatWLIPs = whitelistIP.map((item) => {
+    //   const joinStr = item.join('.');
+    //   return joinStr;
+    // });
     const formatWLIPs = whitelistIP.map((item) => {
-      const joinStr = item.join('.');
-      return joinStr;
-    });
+      let check = false;
+      item.map((item1) => {
+        if (item1 === '') check = true;
+        return item1;
+      })
+      if (check === true) item = null;
+      else item = item.join('.');
+      return item;
+    }).filter((item) => item)
+
     setIsLoading(true);
     const form = {
       ...data,

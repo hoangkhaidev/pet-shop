@@ -48,6 +48,16 @@ const STATUS = [
     value: 'locked',
     label: 'locked',
   },
+  {
+    id: 3,
+    value: 'unsuspended',
+    label: 'unsuspended',
+  },
+  {
+    id: 4,
+    value: 'unlocked',
+    label: 'unlocked',
+  }
 ];
 
 const SubAccountList = () => {
@@ -58,12 +68,18 @@ const SubAccountList = () => {
     status_search: '',
     sort_field: 'username',
     sort_order: 'asc',
+    filter_type: "all",
+    brand_ids: [1],
     page: 1,
     page_size: 30,
-    ...router.query,
+    ...{
+      ...router.query,
+      brand_ids: router.query.brand_ids ? [Number(router.query.brand_ids)] : [1],
+    },
   });
   const navigate = useNavigate();
   const classes = useStyles();
+
   const methods = useForm({
     defaultValues: router.query,
   });
@@ -78,6 +94,11 @@ const SubAccountList = () => {
   }, [dataResponse]);
 
   const columns = [
+    {
+      data_field: 'indexRow',
+      column_name: 'No',
+      align: 'center',
+    },
     {
       data_field: 'username',
       column_name: 'Username',
@@ -102,6 +123,20 @@ const SubAccountList = () => {
       align: 'left',
     },
     {
+      data_field: 'statuses',
+      column_name: 'Status',
+      align: 'center',
+      formatter: (cell, row) => {
+        const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
+        return (
+          <ChangeStatus
+            types='viewStatus'
+            newlabel={newlabel}
+          />
+        );
+      },
+    },
+    {
       data_field: 'created_at',
       column_name: 'Created At',
       align: 'left',
@@ -112,39 +147,32 @@ const SubAccountList = () => {
       align: 'left',
     },
     {
-      data_field: 'statuses',
-      column_name: 'Status',
+      data_field: 'action',
+      column_name: 'Action',
       align: 'center',
       formatter: (cell, row) => {
         const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
         return (
-          <ChangeStatus
-            newlabel={newlabel}
-            linkApi={`/api/subs/${row.id}/update_status`}
-            STATUS={STATUS}
-            username={row.username}
-            statuses={row.statuses}
-          />
-        );
-      },
-    },
-    {
-      data_field: 'action',
-      column_name: 'Action',
-      align: 'center',
-      formatter: (cell, row) => (
-        <ButtonGroup className={classes.root}>
-          <ChangePasswordForm
-            linkApi={`/api/subs/${row.id}/update_password`}
-            username={row.username}
-          />
-          <DeleteItem
-            linkApi={`/api/subs/${row.id}/delete`}
-            title="Delete Sub Account"
-          />
-          <TooltipIcon />
-        </ButtonGroup>
-      ),
+          <ButtonGroup className={classes.root}>
+            <ChangeStatus
+              newlabel={newlabel}
+              linkApi={`/api/subs/${row.id}/update_status`}
+              STATUS={STATUS}
+              username={row.username}
+              statuses={row.statuses}
+            />
+            <ChangePasswordForm
+              linkApi={`/api/subs/${row.id}/update_password`}
+              username={row.username}
+            />
+            <DeleteItem
+              linkApi={`/api/subs/${row.id}/delete`}
+              title={`Delete ${row.username} Account`}
+            />
+            <TooltipIcon />
+          </ButtonGroup>
+        )
+      }
     },
   ];
 
@@ -165,23 +193,28 @@ const SubAccountList = () => {
 
   const onSubmit = (dataSubmit) => {
     let data = {
-      name_search: dataSubmit.name_search,
+      ...dataSubmit,
+      name_search: dataSubmit.name_search ? dataSubmit.name_search : '',
       status_search: dataSubmit.status_search,
       sort_order: dataSubmit.sort_order,
-      refetch: true,
+      page: 1,
+      page_size: 30
     };
     if (dataSubmit?.brand === 'all') {
       data = {
         ...data,
         filter_type: dataSubmit?.brand,
+        brand_ids: [1],
       };
     } else {
       data = {
         ...data,
         filter_type: 'brand',
-        brand_id: dataSubmit?.brand,
+        brand_ids: dataSubmit?.brand ? [Number(dataSubmit?.brand)] : [1],
       };
     }
+    delete data.brand;
+    console.log(data)
     setObjFilter((prevState) => ({
       ...prevState,
       ...data,
@@ -193,13 +226,18 @@ const SubAccountList = () => {
       name_search: '',
       sort_field: 'username',
       sort_order: 'asc',
+      filter_type: "all",
+      brand_ids: [1],
       page: 1,
       page_size: 30,
+      status_search: ''
     });
     methods.reset({
       name_search: '',
       sort_order: 'asc',
-      status_search: 'all',
+      filter_type: "all",
+      brand_ids: [1],
+      status_search: '',
     });
   };
 

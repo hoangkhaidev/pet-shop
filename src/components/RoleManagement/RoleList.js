@@ -62,8 +62,12 @@ const RoleList = () => {
     setData(dataResponse);
   }, [dataResponse]);
 
-
   const columns = [
+    {
+      data_field: "indexRow",
+      column_name: "No",
+      align: "center"
+    },
     {
       data_field: "role_name",
       column_name: "Role Name",
@@ -132,6 +136,7 @@ const RoleList = () => {
         <TableComponent
           data={data}
           columns={columns}
+          types="RoleList"
           pagination={{
             total_size: fakeData.length,
             page: +objFilter.page,

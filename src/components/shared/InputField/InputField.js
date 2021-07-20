@@ -26,6 +26,7 @@ const InputField = ({
   required,
   defaultValue,
   pattern,
+  maxLength,
   id,
   label,
   rows,
@@ -53,9 +54,8 @@ const InputField = ({
     if (errors.type === 'required') {
       return 'Field is required.';
     }
-    // if (errors.type === 'maxLength') {
-    //   return 'Length 3 - 15 chars.';
-    // }
+    if (errors.type === 'maxLength') {
+    }
     // if (errors.type === 'minLength') {
     //   return 'Length 3 - 15 chars.';
     // }
@@ -117,6 +117,7 @@ const InputField = ({
           )}
           rules={{
             required,
+            maxLength,
             pattern,
             defaultValue
           }}

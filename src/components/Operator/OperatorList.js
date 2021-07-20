@@ -10,6 +10,9 @@ import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import Loading from 'src/components/shared/Loading/Loading';
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import TooltipIcon from 'src/components/shared/TooltipIcon/TooltipIcon';
+import { makeStyles } from '@material-ui/core';
 
 const ChangePasswordForm = lazy(() =>
   import('src/components/Modal/ChangePasswordForm')
@@ -51,8 +54,20 @@ const STATUS = [
   },
 ];
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  addRoleButton: {
+    float: 'right',
+  },
+}));
+
 const OperatorList = () => {
   const router = useRouter();
+  const classes = useStyles();
   const [data, setData] = useState([]);
   const [objFilter, setObjFilter] = useState({
     name_search: '',
@@ -188,6 +203,7 @@ const OperatorList = () => {
             username={row.username}
             statuses={row.statuses}
           />
+          
         );
       },
     },
@@ -196,25 +212,25 @@ const OperatorList = () => {
       column_name: 'Action',
       align: 'center',
       formatter: (cell, row) => (
-        <ChangePasswordForm
-          linkApi={`/api/operators/${row.id}/update_password`}
-          username={row.username}
-          title="delete"
-        />
+        // <ChangePasswordForm
+        //   linkApi={`/api/operators/${row.id}/update_password`}
+        //   username={row.username}
+        //   title="delete"
+        // />
+        <ButtonGroup className={classes.root}>
+          <ChangePasswordForm
+            linkApi={`/api/operators/${row.id}/update_password`}
+            username={row.username}
+          />
+          <DeleteItem
+            linkApi={`/api/operators/${row.id}/delete`}
+            title={`Delete ${row.username} Operator`}
+
+          />
+          <TooltipIcon />
+        </ButtonGroup>
       ),
-    },
-    {
-      data_field: 'delete',
-      column_name: 'Delete',
-      align: 'center',
-      formatter: (cell, row) => (
-        <DeleteItem
-          linkApi={`/api/operators/${row.account_id}/delete`}
-          title={row.username}
-          row={row}
-        />
-      ),
-    },
+    }
   ];
 
   const handleChangePage = (page) => {

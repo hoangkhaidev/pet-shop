@@ -75,9 +75,9 @@ const RoleEdit = () => {
 
   const { dataResponse, isLoading, isHasPermission } = useFetchData(`/api/role/${router.query?.id}`);
 
-  useEffect(() => {
-    console.log(permissionGroup);
-  }, [permissionGroup]);
+  // useEffect(() => {
+  //   console.log(dataResponse);
+  // }, [dataResponse]);
   
   useEffect(() => {
     setValue("role_name", dataResponse?.role_name);
@@ -98,7 +98,7 @@ const RoleEdit = () => {
           name = permission.value;
         }
       });
-      console.log(name);
+      // console.log(name);
       setSelectedColumn(name);
     }
   }, [permissionGroup]);
@@ -109,26 +109,25 @@ const RoleEdit = () => {
       description: dataForm.description,
       permission_group: permissionGroup
     };
-    console.log(form);
-    // try {
-    //   let response = await api.post(`/api/role/${router.query?.id}/update`, form);
-    //   if (get(response, 'success', false)) {
-    //     toast.success("Update Role Success", {
-    //       onClose: navigate("/role")
-    //     });
-    //   } else {
-    //     if (response?.err === 'err:form_validation_failed') {
-    //       for (const field in response?.data) {
-    //         setError(field, {
-    //           type: 'validate',
-    //           message: response?.data[field]
-    //         });
-    //       }
-    //     }
-    //   }
-    // } catch (e) {
-    //   console.log("e", e);
-    // }
+    try {
+      let response = await api.post(`/api/role/${router.query?.id}/update`, form);
+      if (get(response, 'success', false)) {
+        toast.success("Update Role Success", {
+          onClose: navigate("/role")
+        });
+      } else {
+        if (response?.err === 'err:form_validation_failed') {
+          for (const field in response?.data) {
+            setError(field, {
+              type: 'validate',
+              message: response?.data[field]
+            });
+          }
+        }
+      }
+    } catch (e) {
+      console.log("e", e);
+    }
   };
 
   const onCancel = () => {

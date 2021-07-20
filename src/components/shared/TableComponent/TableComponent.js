@@ -67,23 +67,26 @@ const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
   const classes = useStyles();
   return (
     <StyledTableRow align={cellInfo.align}>
-      {cellInfo.map((info, index) => (
-        <TableCell
-          sx={{
-            padding: 1
-          }}
-          className={classes.tableCellBody}
-          // key={info.data_field}
-          key={index}
-          align={info.align ? info.align : "left"}
-        >
-          {info.formatter ? (
-            info.formatter(rowData[info.data_field], rowData, indexRow)
-          ) : (
-            info.data_field === 'indexRow' ? indexRow + 1 : rowData[info.data_field]
-          )}
-        </TableCell>
-      ))}
+      {cellInfo.map((info, index) => {
+        console.log(rowData[info.data_field])
+        return (
+          <TableCell
+            sx={{
+              padding: 1
+            }}
+            className={classes.tableCellBody}
+            // key={info.data_field}
+            key={index}
+            align={info.align ? info.align : "left"}
+          >
+            {info.formatter ? (
+              info.formatter(rowData[info.data_field], rowData, indexRow)
+            ) : (
+              info.data_field === 'indexRow' ? indexRow + 1 : rowData[info.data_field]
+            )}
+          </TableCell>
+        )} 
+      )}
     </StyledTableRow>
   );
 };
@@ -96,7 +99,7 @@ TableRowComponent.propTypes = {
 
 const TableComponent = ({
   // eslint-disable-next-line react/prop-types
-  data, columns, pagination, handleChangePage, handleChangeRowsPerPage
+  data, columns, pagination, handleChangePage, handleChangeRowsPerPage, types
 }) => {
   const classes = useStyles();
   // eslint-disable-next-line camelcase
@@ -112,13 +115,15 @@ const TableComponent = ({
             <TableRowComponent indexRow={index} key={index} rowData={row} cellInfo={cellInfo} />
           ))}
         </TableBody>
-        <TablePagination
-          count={pagination.total_size}
-          page={Number(pagination.page)}
-          rowsPerPage={pagination.page_size}
-          onPageChange={handleChangePage}
-          handleChangeRowsPerPage={handleChangeRowsPerPage}
-        />
+        {types !== 'RoleList' && 
+          <TablePagination
+            count={pagination.total_size}
+            page={Number(pagination.page)}
+            rowsPerPage={pagination.page_size}
+            onPageChange={handleChangePage}
+            handleChangeRowsPerPage={handleChangeRowsPerPage}
+          />
+        }
       </Table>
     </TableContainer>
   );

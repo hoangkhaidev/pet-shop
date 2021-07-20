@@ -138,16 +138,13 @@ const BrandEdit = () => {
   );
   const { dataResponse: dataProduct } = useFetchData('/api/product');
 
-  const initFormState = {
-    apiWLIP: ['', '', '', ''],
-    data: [],
-    financeEmails: [],
-    productData: [],
-    whitelistIP: [['', '', '', '']]
-  }
-  const [formState, setFormState] = useState(initFormState);
+  const [apiWLIP, setApiWLIP] = useState(['', '', '', '']);
+  const [data, setData] = useState([]);
+  const [financeEmails, setFinanceEmails] = useState([]);
+  const [productData, setProductData] = useState([]);
+  const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
 
-  const product_commission = useMemo(() => formState.data?.product_commission, [formState]);
+  const product_commission = useMemo(() => data?.product_commission, [data]);
   const product_commission_new = useMemo(() => map(product_commission, (item) => {
     return {
       product_id: String(item.product_id),
@@ -189,44 +186,37 @@ const BrandEdit = () => {
       };
       mapData.push(optionData);
     });
-    const newFormState = {
-      ...formState,
-      productData: mapData
-    };
 
-    setFormState(newFormState);
+    setProductData(mapData);
   }, [dataProduct]);
 
   useEffect(() => {
     const formatWhitelistIP = dataResponse?.whitelist_ips?.map((ip) => ip.split('.'));
     const formatApiWLIP = dataResponse?.api_whitelist_ip?.split('.');
-    const newFormState = {
-      ...formState,
-      apiWLIP: formatApiWLIP,
-      data: dataResponse,
-      financeEmails: get(dataResponse, 'finance_emails', []),
-      whitelistIP: formatWhitelistIP?.length > 0 ? formatWhitelistIP : formState.formatWhitelistIP,
-    }
 
-    setFormState(newFormState);
+    setApiWLIP(formatApiWLIP?.length > 0 ? formatApiWLIP : apiWLIP);
+    setData(dataResponse);
+    setFinanceEmails(get(dataResponse, 'finance_emails', []));
+    setWhitelistIP(formatWhitelistIP?.length > 0 ? formatWhitelistIP : whitelistIP);
+
   }, [dataResponse]);
 
   useEffect(() => {
-    if (formState.data) {
+    if (data) {
         setValue('commission', product_commission_new);
       
-        setValue('operator', formState.data?.operator_name);
-        setValue('name', formState.data?.name);
-        setValue('support_email', formState.data?.support_email);
-        setValue('username', formState.data?.username);
-        setValue('api_endpoint', formState.data?.api_endpoint);
-        setValue('password', formState.data?.password);
-        setValue('password_confirmation', formState.data?.password_confirmation);
+        setValue('operator', data?.operator_name);
+        setValue('name', data?.name);
+        setValue('support_email', data?.support_email);
+        setValue('username', data?.username);
+        setValue('api_endpoint', data?.api_endpoint);
+        setValue('password', data?.password);
+        setValue('password_confirmation', data?.password_confirmation);
     }
-  }, [formState, setValue]);
+  }, [data, setValue]);
 
   const onSubmit = async (dataForm) => {
-    const defaultPro = cloneDeep(formState.data.product_commission);
+    const defaultPro = cloneDeep(data.product_commission);
     // const commissionValue = getValues(`commission.0.value`);
     const product_form = dataForm.commission.filter((item) => item.checked === true );
 
@@ -245,18 +235,29 @@ const BrandEdit = () => {
       }
     }); 
 
-    const formatWLIPEndpoint = formState.apiWLIP.join('.');
-    const formatWLIPs = (formState.whitelistIP || []).map((item) => {
-      const joinStr = item.join('.');
-      return joinStr;
-    });
+    const formatWLIPEndpoint = apiWLIP.join('.');
+    // const formatWLIPs = (whitelistIP || []).map((item) => {
+    //   const joinStr = item.join('.');
+    //   return joinStr;
+    // });
+
+    const formatWLIPs = (whitelistIP || []).map((item) => {
+      let check = false;
+      item.map((item1) => {
+        if (item1 === '') check = true;
+        return item1;
+      })
+      if (check === true) item = null;
+      else item = item.join('.');
+      return item;
+    }).filter((item) => item)
     
     const form = {
       ...dataForm,
       display_name: dataForm.name,
       api_whitelist_ip: formatWLIPEndpoint,
       whitelist_ips: formatWLIPs,
-      finance_emails: formState.financeEmails,
+      finance_emails: financeEmails,
       operator_id: 0,
       product_commission: product_commission,
     };
@@ -266,11 +267,10 @@ const BrandEdit = () => {
     delete form.name;
     delete form.username;
 
-    console.log(form);
     try {
       let response = await api.post(`/api/brand/${router.query?.id}/update`, form);
 
-      if (get(response, 'data.success', false)) {
+      if (get(response, 'success', false)) {
         toast.success("Update Brand Success", {
           onClose: navigate("/brand/list")
         });
@@ -291,62 +291,44 @@ const BrandEdit = () => {
 
   const addingFinanceEmail = () => {
     if (finance_emails) {
-      const arrCloneFinanceEmail = formState.financeEmails.slice();
-      setFormState({
-        ...formState,
-        financeEmails: [...arrCloneFinanceEmail, finance_emails]
-      });
+      const arrCloneFinanceEmail = financeEmails.slice();
+      setFinanceEmails([...arrCloneFinanceEmail, finance_emails])
       setValue('finance_emails', '');
     }
   };
 
   const onRemoveFinanceEmail = (email) => {
-    const cloneArr = formState.financeEmails.slice();
+    const cloneArr = financeEmails.slice();
     remove(cloneArr, (item) => item === email);
-    setFormState({
-      ...formState,
-      financeEmails: cloneArr
-    });
+    setFinanceEmails(cloneArr)
   };
 
   const onChangeWhitelistIp = (e, index, rowIndex) => {
     const { formattedValue } = e;
-    const cloneArr = formState.whitelistIP.slice();
+    const cloneArr = whitelistIP.slice();
     cloneArr[rowIndex][index] = formattedValue;
-    setFormState({
-      ...formState,
-      whitelistIP: cloneArr
-    });
+    setWhitelistIP(cloneArr)
   };
 
   const onAddingWLIPAddress = () => {
-    const cloneArr = formState.whitelistIP.slice();
+    const cloneArr = whitelistIP.slice();
     const newArray = [...cloneArr, ['', '', '', '']];
     if (newArray.length <= 20 ){
-      setFormState({
-        ...formState,
-        whitelistIP: newArray
-      });
+      setWhitelistIP(newArray)
     }
   };
 
   const onChangeAPIEndpointIP = (e, index) => {
     const { formattedValue } = e;
-    const cloneArr = formState.apiWLIP.slice();
+    const cloneArr = apiWLIP.slice();
     cloneArr[index] = formattedValue;
-    setFormState({
-      ...formState,
-      apiWLIP: cloneArr
-    });
+    setApiWLIP(cloneArr);
   };
 
   const onRemoveWLIPAddress = (rowIndex) => {
-    const cloneArr = formState.whitelistIP.slice();
+    const cloneArr = whitelistIP.slice();
     remove(cloneArr, (item, index) => rowIndex === index);
-    setFormState({
-      ...formState,
-      whitelistIP: cloneArr
-    });
+    setWhitelistIP(cloneArr);
   };
 
   if (!isHasPermission) {
@@ -387,7 +369,6 @@ const BrandEdit = () => {
           helperText="length 3 - 15 chars, allow letter (lowercase), digit and underscore(_)"
         />
         <InputField
-          required
           namefileld="support_email"
           control={control}
           id="support_email"
@@ -406,7 +387,7 @@ const BrandEdit = () => {
           isHasInputProps
         />
         <div className={classes.rootChip}>
-          {formState.financeEmails.map((email) => (
+          {financeEmails.map((email) => (
             <Chip
               className={classes.financeEmailItem}
               key={email}
@@ -417,7 +398,7 @@ const BrandEdit = () => {
         </div>
         <FormLabel component="legend">Product</FormLabel>
         <FormControl className={classes.w100}>
-          {formState.productData.map((item, index) => {
+          {productData.map((item, index) => {
             const checked = watch(`commission.${index}.checked`) ? true : false;
             const commissionValue = watch(`commission.${index}.value`);
             return (
@@ -473,7 +454,6 @@ const BrandEdit = () => {
                       inputProps={{
                         maxLength: 3,
                       }}
-                      required
                       defaultValue={commissionValue}
                       helperText="From 0% to 100%"
                       {...register(`commission.${index}.value`)} 
@@ -495,7 +475,7 @@ const BrandEdit = () => {
           label="API Endpoint"
         />
         <FormLabel>Whitelist IP Address for API</FormLabel>
-        <IPAddressInput apiWLIP={formState.apiWLIP} onChange={onChangeAPIEndpointIP} />
+        <IPAddressInput requiredCheck={true} apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} />
         <Typography
           className={classes.operatorAdminLabel}
           variant="h6"
@@ -535,14 +515,14 @@ const BrandEdit = () => {
           helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <FormLabel>Whitelist IP Address for BO</FormLabel>
-        {(formState.whitelistIP || []).map((item, index) => (
+        {(whitelistIP || []).map((item, index) => (
           <div className={classes.whitelistIPLine} key={index}>
             <IPAddressInput
               apiWLIP={item}
               onChange={onChangeWhitelistIp}
               rowIndex={index}
             />
-            {formState.whitelistIP.length - 1 === index ? (
+            {whitelistIP.length - 1 === index ? (
               <Button
                 color="primary"
                 variant="contained"
