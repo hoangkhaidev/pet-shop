@@ -93,6 +93,10 @@ const SubAccountList = () => {
     setData(get(dataResponse, 'list', []));
   }, [dataResponse]);
 
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
+
   const columns = [
     {
       data_field: 'indexRow',
@@ -128,6 +132,7 @@ const SubAccountList = () => {
       align: 'center',
       formatter: (cell, row) => {
         const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
+        // console.log(row.statuses)
         return (
           <ChangeStatus
             types='viewStatus'
@@ -214,7 +219,7 @@ const SubAccountList = () => {
       };
     }
     delete data.brand;
-    console.log(data)
+    // console.log(data)
     setObjFilter((prevState) => ({
       ...prevState,
       ...data,

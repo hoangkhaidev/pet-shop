@@ -40,6 +40,11 @@ const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses, types }) 
   });
 
   useEffect(() => {
+    setLabel(newlabel);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newlabel])
+
+  useEffect(() => {
     setValue("username", username);
     setValue("current_status", newlabel);
   // eslint-disable-next-line react-hooks/exhaustive-deps

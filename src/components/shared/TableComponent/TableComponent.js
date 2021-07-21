@@ -65,10 +65,11 @@ TableHeader.propTypes = {
 
 const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
   const classes = useStyles();
+  // console.log(rowData)
+  // console.log(rowData)
   return (
     <StyledTableRow align={cellInfo.align}>
       {cellInfo.map((info, index) => {
-        console.log(rowData[info.data_field])
         return (
           <TableCell
             sx={{
@@ -80,7 +81,7 @@ const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
             align={info.align ? info.align : "left"}
           >
             {info.formatter ? (
-              info.formatter(rowData[info.data_field], rowData, indexRow)
+              info.formatter(rowData[info.data_field], rowData)
             ) : (
               info.data_field === 'indexRow' ? indexRow + 1 : rowData[info.data_field]
             )}
@@ -111,9 +112,12 @@ const TableComponent = ({
       <Table className={classes.table} aria-label="table-component">
         <TableHeader headers={columns.map(item => item.column_name)} />
         <TableBody>
-          {data.map((row, index) => (
-            <TableRowComponent indexRow={index} key={index} rowData={row} cellInfo={cellInfo} />
-          ))}
+          {data.map((row, index) => {
+            // console.log(row);
+            return (
+              <TableRowComponent indexRow={index} key={index} rowData={row} cellInfo={cellInfo} />
+            )
+          })}
         </TableBody>
         {types !== 'RoleList' && 
           <TablePagination

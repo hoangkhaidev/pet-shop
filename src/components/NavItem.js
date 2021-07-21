@@ -47,15 +47,16 @@ const NavItem = ({
     setIsOpen((open) => !open);
   };
 
+  // console.log(router);
   // const active = href ? !!matchPath({
   //   path: href,
   //   end: false
   // }, location?.pathname) : false;
 
   return (
-    <Fragment>
+    <>
       {item?.children ? (
-        <Fragment>
+        <>
           <ListItem
             disableGutters
             sx={{
@@ -114,7 +115,7 @@ const NavItem = ({
               ))}
             </List>
           </Collapse>
-        </Fragment>
+        </>
       ) : (
         // <Button
         //   sx={{
@@ -152,7 +153,7 @@ const NavItem = ({
           {item.name}
         </ListItem>
       )}
-    </Fragment>
+    </>
   );
 };
 

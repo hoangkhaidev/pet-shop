@@ -159,8 +159,8 @@ const routes = (isLoggedIn) => [
     element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
     children: [
       {
-        path: 'list',
-        fullpath: '/players/edit',
+        path: '/players',
+        fullpath: '/players/players',
         name: 'Players List',
         element: <PlayersList />,
       },

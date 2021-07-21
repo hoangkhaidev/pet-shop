@@ -29,7 +29,7 @@ const fakeData = [
   }
 ];
 
-const PlayerList = () => {
+const PlayersList = () => {
   const router = useRouter();
   const [objFilter, setObjFilter] = useState({
     name_search: "",
@@ -63,11 +63,6 @@ const PlayerList = () => {
       align: "center",
     },
     {
-      data_field: "currency",
-      column_name: "Currency",
-      align: "center",
-    },
-    {
       data_field: "language",
       column_name: "Language",
       align: "center"
@@ -84,7 +79,7 @@ const PlayerList = () => {
     },
     {
       data_field: "action",
-      column_name: "",
+      column_name: "Action",
       align: "center",
       formatter: (cell, row) => (
         <Link href={`/history/${row.id}`}>
@@ -136,4 +131,4 @@ const PlayerList = () => {
   );
 };
 
-export default PlayerList;
+export default PlayersList;
