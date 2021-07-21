@@ -122,7 +122,7 @@ const TableComponent = ({
         {types !== 'RoleList' && 
           <TablePagination
             count={pagination.total_size}
-            page={Number(pagination.page)}
+            page={Number(pagination.page) - 1}
             rowsPerPage={pagination.page_size}
             onPageChange={handleChangePage}
             handleChangeRowsPerPage={handleChangeRowsPerPage}

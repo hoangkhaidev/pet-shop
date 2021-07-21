@@ -56,6 +56,11 @@ const useStyles = makeStyles((theme) => ({
   formStyle: {
     width: '50%',
   },
+  checkHelperText: {
+    color: 'red !important',
+    fontSize: '12px !important',
+    marginLeft: '15px',
+  }
 }));
 
 const OperatorCreate = () => {
@@ -79,9 +84,10 @@ const OperatorCreate = () => {
   const [checkboxListCheck, setCheckboxListCheck] = useState(productData.map((item) => false ));
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [checkProduct, setCheckProduct] = useState(false);
 
   const finance_email = watch('finance_email');
-  const commission = watch('commission');
+  // const commission = watch('commission');
 
   useFieldArray({
     control, // control props comes from useForm (optional: if you are using FormContext)
@@ -93,84 +99,89 @@ const OperatorCreate = () => {
 
   useEffect(() => {
     if (dataProduct.length <= 0) return;
-    let mapdata = [];
+    let mapData = [];
     dataProduct.forEach((data) => {
       let optionData = {
         id: data.id,
         value: data.id,
         label: data.name,
       };
-      mapdata.push(optionData);
+      mapData.push(optionData);
     });
-    setProductData([...mapdata]);
+    setProductData([...mapData]);
   }, [dataProduct]);
 
   const onSubmit = async (data) => {
-    // console.log(data);
-    const product_form = data.commission.filter((item) => item.checked === true );
-    const product_commission = product_form.map((item) => {
-      return {
-        product_id: Number(item.product_id),
-        commission: String(item.value)
+    if (checkboxListCheck.findIndex((item) => item === true) !== -1) {
+      const product_form = data.commission.filter((item) => item.checked === true );
+      const product_commission = product_form.map((item) => {
+        return {
+          product_id: Number(item.product_id),
+          commission: String(item.value)
+        };
+      });
+      const formatWLIPEndpoint = apiWLIP.join('.');
+      // const formatWLIPs = whitelistIP.map((item) => {
+      //   const joinStr = item.join('.');
+      //   return joinStr;
+      // });
+      const formatWLIPs = whitelistIP.map((item) => {
+        let check = false;
+        item.map((item1) => {
+          if (item1 === '') check = true;
+          return item1;
+        })
+        if (check === true) item = null;
+        else item = item.join('.');
+        return item;
+      }).filter((item) => item)
+
+      setIsLoading(true);
+      const form = {
+        ...data,
+        api_whitelist_ip: formatWLIPEndpoint,
+        whitelist_ips: formatWLIPs,
+        product_ids: [data.product_ids],
+        finance_email: financeEmail,
+        product_commission: product_commission,
       };
-    });
-    const formatWLIPEndpoint = apiWLIP.join('.');
-    // const formatWLIPs = whitelistIP.map((item) => {
-    //   const joinStr = item.join('.');
-    //   return joinStr;
-    // });
-    const formatWLIPs = whitelistIP.map((item) => {
-      let check = false;
-      item.map((item1) => {
-        if (item1 === '') check = true;
-        return item1;
-      })
-      if (check === true) item = null;
-      else item = item.join('.');
-      return item;
-    }).filter((item) => item)
+      delete form.commission;
+      delete form.product_ids;
+      console.log(form);
 
-    setIsLoading(true);
-    const form = {
-      ...data,
-      api_whitelist_ip: formatWLIPEndpoint,
-      whitelist_ips: formatWLIPs,
-      product_ids: [data.product_ids],
-      finance_email: financeEmail,
-      product_commission: product_commission,
-    };
-    delete form.commission;
-    delete form.product_ids;
-    console.log(form);
-
-    try {
-      const response = await api.post('/api/operators/create', form);
-      // console.log(response);
-      if (get(response, 'success', false)) {
-        toast.success('Update operator Success', {
-          onClose: navigate('operator/list'),
-        });
-      } else {
-        if (response?.err === 'err:form_validation_failed') {
-          for (const field in response?.data) {
-            setError(field, {
-              type: 'validate',
-              message: response?.data[field],
-            });
+      try {
+        const response = await api.post('/api/operators/create', form);
+        // console.log(response);
+        if (get(response, 'success', false)) {
+          toast.success('Update operator Success', {
+            onClose: navigate('operator/list'),
+          });
+        } else {
+          if (response?.err === 'err:form_validation_failed') {
+            for (const field in response?.data) {
+              setError(field, {
+                type: 'validate',
+                message: response?.data[field],
+              });
+            }
           }
         }
+      } catch (e) {
+        console.log('e', e);
       }
-    } catch (e) {
-      console.log('e', e);
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
-  useEffect(() => {
-    if (commission > 100) {
-      setValue('commission', 100);
-    }
-  }, [commission, setValue]);
+  // useEffect(() => {
+  //   console.log(checkboxListCheck)
+  // }, [checkboxListCheck]);
+
+  // useEffect(() => {
+  //   if (commission > 100) {
+  //     setValue('commission', 100);
+  //   }
+  // }, [commission, setValue]);
 
   const addingFinanceEmail = () => {
     if (finance_email) {
@@ -211,6 +222,7 @@ const OperatorCreate = () => {
     remove(cloneArr, (item, index) => rowIndex === index);
     setWhitelistIP(cloneArr);
   };
+
 
   const onReset = () => {
     setWhitelistIP([['', '', '', '']]);
@@ -303,8 +315,12 @@ const OperatorCreate = () => {
           defaultValue=""
         /> */}
 
-        <FormLabel component="legend">Product</FormLabel>
+        <FormLabel component="legend">Product<span style={{color: 'red'}}>*</span></FormLabel>
         <FormControl className={classes.w100}>
+          { (checkboxListCheck.findIndex((item) => item === true) === -1) &&
+            checkProduct &&
+            <FormLabel component="legend" className={classes.checkHelperText}>Product cannot be empty.</FormLabel>
+          }
             {productData.map((item, index) => {
               return (
                 <div key={item.id} style={{display: 'flex', width: '100%'}}>
@@ -313,8 +329,6 @@ const OperatorCreate = () => {
                     key={item.id}
                     style={{padding: '30px'}}
                     label={item?.label}
-                    // name={`commission.${index}.checked`}
-                    // value={item?.id}
                     control={
                       <Controller
                           name={`commission.${index}.checked`}
@@ -357,7 +371,6 @@ const OperatorCreate = () => {
                         allowNegative={false}
                         decimalScale={0}
                         errors={get(errors, `commission[${index}].value`)}
-                        required
                         InputProps={{
                           endAdornment: <InputAdornment position="end">%</InputAdornment>,
                         }}
@@ -366,6 +379,7 @@ const OperatorCreate = () => {
                           maxLength: 3,
                         }}
                         helperText="From 0% to 100%"
+                        required
                         // register={register}
                         {...register(`commission.${index}.value`)}
                       />
@@ -375,7 +389,6 @@ const OperatorCreate = () => {
               )
             })}
         </FormControl>
-
         <InputField
           required
           namefileld="api_endpoint"
@@ -461,7 +474,7 @@ const OperatorCreate = () => {
           </div>
         ))}
         <ButtonGroup>
-          <SubmitButton />
+          <SubmitButton onClick={() => setCheckProduct(true)}/>
           <ResetButton onAction={() => onReset()} />
         </ButtonGroup>
       </form>

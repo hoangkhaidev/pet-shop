@@ -19,7 +19,7 @@ const SubAccountListFilter = ({
   const { dataResponse: dataBrand} = useFetchData("/api/brand");
 
   useEffect(() => {
-    let mapdata = [{id: 0, value: "all", label: "All"}];
+    let mapData = [{id: 0, value: "all", label: "All"}];
     let newBrand;
     if(dataBrand?.list) {
       newBrand = [...dataBrand?.list];
@@ -32,9 +32,9 @@ const SubAccountListFilter = ({
         value: data.BrandId,
         label: data.username,
       };
-      mapdata.push(optionData)
+      mapData.push(optionData)
     });
-    setBrandData([...mapdata]);
+    setBrandData([...mapData]);
   }, [dataBrand, setBrandData])
 
   return (

@@ -4,7 +4,6 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
-import TooltipIcon from 'src/components/shared/TooltipIcon/TooltipIcon';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
@@ -137,6 +136,10 @@ const SubAccountList = () => {
           <ChangeStatus
             types='viewStatus'
             newlabel={newlabel}
+            linkApi={`/api/subs/${row.id}/update_status`}
+            STATUS={STATUS}
+            username={row.username}
+            statuses={row.statuses}
           />
         );
       },
@@ -174,7 +177,6 @@ const SubAccountList = () => {
               linkApi={`/api/subs/${row.id}/delete`}
               title={`Delete ${row.username} Account`}
             />
-            <TooltipIcon />
           </ButtonGroup>
         )
       }
@@ -197,7 +199,7 @@ const SubAccountList = () => {
   };
 
   const onSubmit = (dataSubmit) => {
-    let data = {
+    let dataForm = {
       ...dataSubmit,
       name_search: dataSubmit.name_search ? dataSubmit.name_search : '',
       status_search: dataSubmit.status_search,
@@ -206,23 +208,23 @@ const SubAccountList = () => {
       page_size: 30
     };
     if (dataSubmit?.brand === 'all') {
-      data = {
-        ...data,
+      dataForm = {
+        ...dataForm,
         filter_type: dataSubmit?.brand,
         brand_ids: [1],
       };
     } else {
-      data = {
-        ...data,
+      dataForm = {
+        ...dataForm,
         filter_type: 'brand',
         brand_ids: dataSubmit?.brand ? [Number(dataSubmit?.brand)] : [1],
       };
     }
-    delete data.brand;
-    // console.log(data)
+    delete dataForm.brand;
+    // console.log(dataForm)
     setObjFilter((prevState) => ({
       ...prevState,
-      ...data,
+      ...dataForm,
     }));
   };
 
@@ -278,8 +280,8 @@ const SubAccountList = () => {
           columns={columns}
           pagination={{
             total_size,
-            page: objFilter.page,
-            page_size: objFilter.page_size,
+            page: Number(objFilter.page),
+            page_size: Number(objFilter.page_size),
           }}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}

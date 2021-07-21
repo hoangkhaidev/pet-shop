@@ -11,7 +11,6 @@ import Loading from 'src/components/shared/Loading/Loading';
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import TooltipIcon from 'src/components/shared/TooltipIcon/TooltipIcon';
 import { makeStyles } from '@material-ui/core';
 
 const ChangePasswordForm = lazy(() =>
@@ -221,13 +220,13 @@ const OperatorList = () => {
           <ChangePasswordForm
             linkApi={`/api/operators/${row.id}/update_password`}
             username={row.username}
+            title="Change password"
           />
           <DeleteItem
             linkApi={`/api/operators/${row.id}/delete`}
             title={`Delete ${row.username} Operator`}
 
           />
-          <TooltipIcon />
         </ButtonGroup>
       ),
     }
@@ -245,7 +244,7 @@ const OperatorList = () => {
     // console.log(event.target.value);
     setObjFilter((prevState) => ({
       ...prevState,
-      page: 0,
+      page: 1,
       page_size: parseInt(event.target.value, 10),
     }));
   };

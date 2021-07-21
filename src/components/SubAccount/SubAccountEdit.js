@@ -234,9 +234,11 @@ const SubAccountEdit = () => {
         <SelectField
           label="Role"
           namefileld="role"
+          id="role"
           control={control}
           errors={errors?.role}
           options={roleData}
+          required
           defaultValue=""
         />
         <FormLabel>Whitelist IP Address</FormLabel>

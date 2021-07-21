@@ -63,6 +63,11 @@ const useStyles = makeStyles((theme) => ({
   checkShow: {
     display: 'block !important',
     transform: 'translate3d(0px, 0px, 0px) !important',
+  },
+  checkHelperText: {
+    color: 'red !important',
+    fontSize: '12px !important',
+    marginLeft: '15px',
   }
   
 }));
@@ -87,7 +92,7 @@ const BrandCreate = () => {
   } = useForm();
 
   const finance_email = watch('finance_email');
-  const commission = watch('commission');
+  // const commission = watch('commission');
 
   useFieldArray({
     control, // control props comes from useForm (optional: if you are using FormContext)
@@ -102,6 +107,7 @@ const BrandCreate = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [productData, setProductData] = useState([]);
   const [checkboxListCheck, setCheckboxListCheck] = useState(productData.map((item) => false ));
+  const [checkProduct, setCheckProduct] = useState(false);
 
   useEffect(() => {
     if (dataProduct.length <= 0) return;
@@ -132,17 +138,17 @@ const BrandCreate = () => {
     setOperatorData([...mapdata]);
   }, [dataResponse]);
 
-  useEffect(() => {
-    if (commission > 100) {
-      setValue('commission', 100);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [commission, setValue]);
+  // useEffect(() => {
+  //   if (commission > 100) {
+  //     setValue('commission', 100);
+  //   }
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [commission, setValue]);
 
   // useEffect(() => {
-  //   console.log(operatorData);
+  //   console.log(whitelistIP);
   // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [operatorData]);
+  // }, [whitelistIP]);
 
   const onRemoveFinanceEmail = (email) => {
     const cloneArr = financeEmail.slice();
@@ -185,62 +191,64 @@ const BrandCreate = () => {
   };
 
   const onSubmit = async (dataForm) => {
-    console.log(dataForm);
-    const product_form = dataForm.commission.filter((item) => item.checked === true );
-    const product_commission = product_form.map((item) => {
-      let arr = {
-        product_id: Number(item.product_id),
-        commission: String(item.value)
-      }
-      return arr;
-    });
-    const formatWLIPEndpoint = apiWLIP.join('.');
-    // const formatWLIPs = whitelistIP.map((item) => {
-    //   const joinStr = item.join('.');
-    //   return joinStr;
-    // });
+    // console.log(dataForm);
+    if (checkboxListCheck.findIndex((item) => item === true) !== -1) {
+      const product_form = dataForm.commission.filter((item) => item.checked === true );
+      const product_commission = product_form.map((item) => {
+        let arr = {
+          product_id: Number(item.product_id),
+          commission: String(item.value)
+        }
+        return arr;
+      });
+      const formatWLIPEndpoint = apiWLIP.join('.');
+      // const formatWLIPs = whitelistIP.map((item) => {
+      //   const joinStr = item.join('.');
+      //   return joinStr;
+      // });
 
-    const formatWLIPs = whitelistIP.map((item) => {
-      let check = false;
-      item.map((item1) => {
-        if (item1 === '') check = true;
-        return item1;
-      })
-      if (check === true) item = null;
-      else item = item.join('.');
-      return item;
-    }).filter((item) => item)
+      const formatWLIPs = whitelistIP.map((item) => {
+        let check = false;
+        item.map((item1) => {
+          if (item1 === '') check = true;
+          return item1;
+        })
+        if (check === true) item = null;
+        else item = item.join('.');
+        return item;
+      }).filter((item) => item)
 
-    setIsLoading(true);
-    delete dataForm.commission;
-    const form = {
-      ...dataForm,
-      api_whitelist_ip: formatWLIPEndpoint,
-      whitelist_ips: formatWLIPs,
-      finance_emails: financeEmail,
-      product_commission: product_commission,
-    };
-    console.log(form);
-    try {
-      const response = await api.post('/api/brand/create', form);
-      if (get(response, 'success', false)) {
-        toast.success('Update brand Success', {
-          onClose: navigate('brand/list'),
-        });
-      } else {
-        if (response?.err === 'err:form_validation_failed') {
-          for (const field in response?.data) {
-            setError(field, {
-              type: 'validate',
-              message: response?.data[field],
-            });
+      setIsLoading(true);
+      delete dataForm.commission;
+      const form = {
+        ...dataForm,
+        api_whitelist_ip: formatWLIPEndpoint,
+        whitelist_ips: formatWLIPs,
+        finance_emails: financeEmail,
+        product_commission: product_commission,
+      };
+      console.log(form);
+      try {
+        const response = await api.post('/api/brand/create', form);
+        if (get(response, 'success', false)) {
+          toast.success('Update brand Success', {
+            onClose: navigate('brand/list'),
+          });
+        } else {
+          if (response?.err === 'err:form_validation_failed') {
+            for (const field in response?.data) {
+              setError(field, {
+                type: 'validate',
+                message: response?.data[field],
+              });
+            }
           }
         }
+      } catch (e) {
+        console.log('e', e);
       }
-    } catch (e) {
-      console.log('e', e);
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const onReset = () => {
@@ -319,6 +327,10 @@ const BrandCreate = () => {
         </div>
         
         <FormLabel component="legend">Product</FormLabel>
+        { (checkboxListCheck.findIndex((item) => item === true) === -1) && 
+          checkProduct && 
+          <FormLabel component="legend" className={classes.checkHelperText}>Product cannot be empty.</FormLabel>
+        }
         <FormControl className={classes.w100}>
             {productData.map((item, index) => {
               return (
@@ -472,7 +484,7 @@ const BrandCreate = () => {
           </div>
         ))}
         <ButtonGroup>
-          <SubmitButton />
+          <SubmitButton onClick={() => setCheckProduct(true)} />
           <ResetButton onAction={() => onReset()} />
         </ButtonGroup>
       </form>

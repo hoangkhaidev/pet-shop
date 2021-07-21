@@ -1,8 +1,8 @@
 /* eslint-disable import/no-cycle */
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
-import DashboardLayout from 'src/components/DashboardLayout';
-import MainLayout from 'src/components/MainLayout';
+// import DashboardLayout from 'src/components/DashboardLayout';
+// import MainLayout from 'src/components/MainLayout';
 // import Account from 'src/pages/Account';
 // import CustomerList from 'src/pages/CustomerList';
 // import Dashboard from 'src/pages/Dashboard';
@@ -12,6 +12,8 @@ import MainLayout from 'src/components/MainLayout';
 // import Register from 'src/pages/Register';
 // import Settings from 'src/pages/Settings';
 
+const MainLayout = lazy(() => import('src/components/MainLayout'));
+const DashboardLayout = lazy(() => import('src/components/DashboardLayout'));
 const Login = lazy(() => import('src/pages/Login'));
 const Dashboard = lazy(() => import('src/pages/Dashboard'));
 const NotFound = lazy(() => import('src/pages/NotFound'));
@@ -99,7 +101,7 @@ const routes = (isLoggedIn) => [
       {
         path: '/list',
         fullpath: '/operator/list',
-        name: 'Sub Account List',
+        name: 'Operator List',
         element: <OperatorList />,
       },
       {

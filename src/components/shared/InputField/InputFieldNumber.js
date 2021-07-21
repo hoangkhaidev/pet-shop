@@ -89,7 +89,6 @@ const FormattedNumberInput = ({
       >
         <Controller
           render={({ field: { onChange, onBlur, value, name, ref } }) => {
-            // console.log(value);
             // console.log(defaultValue);
             return (
               <NumberFormat
@@ -106,7 +105,6 @@ const FormattedNumberInput = ({
                 id={id}
                 control={control}
                 InputProps={InputProps}
-                // required
                 error={!isEmpty(errors)}
                 style={styles}
                 decimalScale={value >= 100 ? 0 : 2}

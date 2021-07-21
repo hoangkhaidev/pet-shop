@@ -7,7 +7,6 @@ const TooltipIcon = memo(({
   IconComponent, title, arialLabel, onClick,
   color
 }) => {
-
   return (
     <div>
       <Tooltip title={title}>

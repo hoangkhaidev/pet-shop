@@ -12,7 +12,6 @@ import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
 import BrandListFilter from './BrandListFilter';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import TooltipIcon from 'src/components/shared/TooltipIcon/TooltipIcon';
 import { makeStyles } from '@material-ui/core';
 
 const ChangePasswordForm = lazy(() =>
@@ -148,6 +147,7 @@ const BrandList = () => {
   }, [dataResponse]);
 
   const onSubmit = async (dataForm) => {
+    console.log(dataForm)
     const form = {
       ...dataForm,
       name_search:
@@ -157,7 +157,7 @@ const BrandList = () => {
       operator_id:
         dataForm?.operator_id === 'all' ? 0 : Number(dataForm.operator_id),
     };
-    // console.log(form)
+    console.log(form)
 
     setObjFilter({
       ...form,
@@ -258,7 +258,6 @@ const BrandList = () => {
             linkApi={`/api/brand/${row.account_id}/delete`}
             title={`Delete ${row.username} Brand`}
           />
-          <TooltipIcon />
         </ButtonGroup>
       ),
     }
@@ -274,7 +273,7 @@ const BrandList = () => {
   const handleChangeRowsPerPage = (event) => {
     setObjFilter((prevState) => ({
       ...prevState,
-      page: 0,
+      page: 1,
       page_size: parseInt(event.target.value, 10),
     }));
   };

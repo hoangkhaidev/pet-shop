@@ -63,7 +63,7 @@ const App = () => (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <GlobalStyles />
-        <Suspense fallback={CircularIndeterminate}>
+        <Suspense fallback={CircularIndeterminate()}>
           <ToastContainer />
           <Routes />
         </Suspense>
