@@ -92,7 +92,7 @@ const FormattedNumberInput = ({
             // console.log(defaultValue);
             return (
               <NumberFormat
-                getInputRef={ref}
+                // getInputRef={ref}
                 namefileld={namefileld}
                 label={
                   <div>
@@ -108,7 +108,7 @@ const FormattedNumberInput = ({
                 error={!isEmpty(errors)}
                 style={styles}
                 decimalScale={value >= 100 ? 0 : 2}
-                decimalSeparator=","
+                decimalSeparator="."
                 customInput={TextField}
                 defaultValue={defaultValue}
                 value={value}

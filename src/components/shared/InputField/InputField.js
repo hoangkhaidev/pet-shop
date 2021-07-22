@@ -51,6 +51,37 @@ const InputField = ({
     if (isEmpty(errors)) {
       return '';
     }
+    if (errors.message === 'err:duplicate_role_name') {
+      return errors.message = 'Duplicate role name';
+    }
+    if (errors.message === 'err:invalid_role_name') {
+      return errors.message = 'Invalid role name (Max 100 characters)';
+    }
+    if (errors.message === 'err:invalid_password') {
+      return errors.message = 'Invalid password';
+    }
+    // console.log(errors)
+    if (errors.message === 'err:confirm_password_mismatch') {
+      return errors.message = 'Confirm Password mismatch';
+    }
+    if (errors.message === 'err:invalid_brand_ids') {
+      return errors.message = 'Please select brand';
+    }
+    if (errors.message === 'err:duplicate_username') {
+      return errors.message = 'Duplicate username';
+    }
+    if (errors.message === 'err:duplicate_operator_name') {
+      return errors.message = 'Duplicate name';
+    }
+    if (errors.message === 'err:invalid_email') {
+      return errors.message = 'Invalid email';
+    }
+    if (errors.message === 'err:invalid_product_ids') {
+      return errors.message = 'Invalid product';
+    }
+    if (errors.message === 'err:invalid_ip_address') {
+      return errors.message = 'Invalid IP address';
+    }
     if (errors.type === 'required') {
       return 'Field is required.';
     }

@@ -30,6 +30,12 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  checkHelperText: {
+    color: 'red !important',
+    fontSize: '12px !important',
+    marginLeft: '15px',
+    marginTop: '5px',
+  }
 }));
 
 const SubAccountCreate = () => {
@@ -38,6 +44,7 @@ const SubAccountCreate = () => {
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [roleData, setRoleData] = useState([]);
   const [brandData, setBrandData] = useState([]);
+  const [checkWhiteIP, setCheckWhiteIP] = useState('');
   const roleUser = useSelector((state) => state.roleUser);
 
   // console.log(roleUser);
@@ -46,7 +53,6 @@ const SubAccountCreate = () => {
     control,
     handleSubmit,
     formState: { errors },
-    reset,
     setError,
   } = useForm();
   const navigate = useNavigate();
@@ -86,58 +92,63 @@ const SubAccountCreate = () => {
   }, [dataBrand, setBrandData]);
 
   const onSubmit = async (dataform) => {
+    console.log(whitelistIP);
     const formatWLIPs = whitelistIP.map((item) => {
-      let check = false;
-      item.map((item1) => {
-        if (item1 === '') check = true;
-        return item1;
-      })
-      if (check === true) item = null;
-      else item = item.join('.');
+      item = item.join('.');
+      if (item === '...') return null;
       return item;
-    }).filter((item) => item)
-
+    }).filter((item) => item);
+   
     const form = {
       username: dataform.username,
       brand_ids: dataform?.brand ? [dataform?.brand] : [],
       display_name: dataform.name,
       password: dataform.password,
-      password_confirmation: dataform.confirm_password,
+      password_confirmation: dataform.password_confirmation,
       role_id: dataform.role,
       whitelist_ips: formatWLIPs,
     };
     console.log(form)
-    try {
-      const response = await api.post('/api/subs/create', form);
-      if (get(response, 'success', false)) {
-        toast.success('Create SubAccount Success', {
-          onClose: navigate('/sub/list'),
-        });
-      } else {
-        if (response?.err === 'err:form_validation_failed') {
-          for (const field in response?.data) {
-            setError(field, {
-              type: 'validate',
-              message: response?.data[field],
-            });
+      try {
+        const response = await api.post('/api/subs/create', form);
+        if (get(response, 'success', false)) {
+          toast.success('Create SubAccount Success', {
+            onClose: navigate('/sub/list'),
+          });
+        } else {
+          if (response?.err === 'err:form_validation_failed') {
+            for (const field in response?.data) {
+              console.log(response?.data[field]);
+              if (response?.data[field] === 'err:invalid_ip_address') {
+                setCheckWhiteIP('Invalid IP address');
+              } else {
+                setError(field, {
+                  type: 'validate',
+                  message: response?.data[field],
+                });
+              }
+            }
           }
         }
+      } catch (e) {
+        console.log('e', e);
       }
-    } catch (e) {
-      console.log('e', e);
-    }
   };
 
   const onCancel = () => {
-    // navigate('/sub/list');
-    setWhitelistIP([['', '', '', '']]);
-    reset({
-      role: '',
-      username: '',
-      password: '',
-      password_confirmation: '',
-    });
+    navigate('/sub/list');
+    // setWhitelistIP([['', '', '', '']]);
+    // reset({
+    //   role: '',
+    //   username: '',
+    //   password: '',
+    //   password_confirmation: '',
+    // });
   };
+
+  // useEffect(() => {
+  //  console.log(whitelistIP);
+  // }, [whitelistIP]);
 
   const onChangeWhitelistIp = (e, index, rowIndex) => {
     const { formattedValue } = e;
@@ -193,7 +204,7 @@ const SubAccountCreate = () => {
           type="text"
           label="Username"
           pattern={/^[a-z0-9_]{3,15}$/}
-          helperText="length from 3 to 15 chars, allow letter, digit and underscore()"
+          helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
         />
         <InputField
           namefileld="name"
@@ -203,7 +214,7 @@ const SubAccountCreate = () => {
           type="text"
           label="Name"
           maxLength={100}
-          helperText="max length 100 chars"
+          helperText="Max length 100 chars"
         />
         <InputField
           required
@@ -214,18 +225,18 @@ const SubAccountCreate = () => {
           type="password"
           label="Password"
           pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
-          helperText="from 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
+          helperText="From 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <InputField
           required
-          namefileld="confirm_password"
+          namefileld="password_confirmation"
           control={control}
-          id="confirm_password"
-          errors={errors?.confirm_password}
+          id="password_confirmation"
+          errors={errors?.password_confirmation}
           type="password"
           label="Confirm Password"
           pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
-          helperText="from 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
+          helperText="From 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <SelectField
           id="role"
@@ -266,6 +277,7 @@ const SubAccountCreate = () => {
             )}
           </div>
         ))}
+        <FormLabel component="legend" className={classes.checkHelperText}>{checkWhiteIP}</FormLabel>
         <ButtonGroup>
           <SubmitButton />
           <ResetButton text="Cancel" onAction={onCancel} />

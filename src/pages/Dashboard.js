@@ -5,13 +5,13 @@ import {
   Grid
 } from '@material-ui/core';
 import Budget from 'src/components/dashboard//Budget';
-import LatestOrders from 'src/components/dashboard//LatestOrders';
-import LatestProducts from 'src/components/dashboard//LatestProducts';
-import Sales from 'src/components/dashboard//Sales';
-import TasksProgress from 'src/components/dashboard//TasksProgress';
-import TotalCustomers from 'src/components/dashboard//TotalCustomers';
-import TotalProfit from 'src/components/dashboard//TotalProfit';
-import TrafficByDevice from 'src/components/dashboard//TrafficByDevice';
+// import LatestOrders from 'src/components/dashboard//LatestOrders';
+// import LatestProducts from 'src/components/dashboard//LatestProducts';
+// import Sales from 'src/components/dashboard//Sales';
+// import TasksProgress from 'src/components/dashboard//TasksProgress';
+// import TotalCustomers from 'src/components/dashboard//TotalCustomers';
+// import TotalProfit from 'src/components/dashboard//TotalProfit';
+// import TrafficByDevice from 'src/components/dashboard//TrafficByDevice';
 
 const Dashboard = () => (
   <>
@@ -32,14 +32,14 @@ const Dashboard = () => (
         >
           <Grid
             item
-            lg={3}
-            sm={6}
-            xl={3}
+            lg={12}
+            sm={12}
+            xl={12}
             xs={12}
           >
             <Budget />
           </Grid>
-          <Grid
+          {/* <Grid
             item
             lg={3}
             sm={6}
@@ -101,7 +101,7 @@ const Dashboard = () => (
             xs={12}
           >
             <LatestOrders />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </Box>

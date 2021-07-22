@@ -82,16 +82,18 @@ const RoleList = () => {
       data_field: "action",
       column_name: "Action",
       align: "center",
-      formatter: (cell, row) => (
-        <ButtonGroup className={classes.root}>
-          <TooltipIcon
-            IconComponent={<EditIcon />}
-            title="Edit Role"
-            onClick={() => navigate(`${row.id}/edit`)}
-          />
-          <DeleteItem title="Delete Role" linkApi={`/api/role/${row.id}/delete`}/>
-        </ButtonGroup>
-      )
+      formatter: (cell, row) => {
+        return (
+          <ButtonGroup className={classes.root}>
+            <TooltipIcon
+              IconComponent={<EditIcon />}
+              title="Edit Role"
+              onClick={() => navigate(`${row.id}/edit`)}
+            />
+            <DeleteItem title={row.role_name} linkApi={`/api/role/${row.id}/delete`} types='role' />
+          </ButtonGroup>
+        )
+      }
     }
   ];
 
@@ -125,7 +127,7 @@ const RoleList = () => {
         <Button
           className={classes.addRoleButton}
           variant="contained"
-          color="primary"
+          style={{ backgroundColor: '#1cb13c' }}
           startIcon={<AddIcon />}
           onClick={onGotoAddRolePage}
         >

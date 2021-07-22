@@ -25,6 +25,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import ButtonGroup, {
   SubmitButton,
+  ResetButton,
 } from 'src/components/shared/Button/Button';
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 // import { FormattedNumberInputComission } from 'src/components/shared/InputField/InputFieldNumber';
@@ -34,7 +35,6 @@ import api from 'src/utils/api';
 import useFetchData from 'src/utils/hooks/useFetchData';
 import FormattedNumberInput from '../shared/InputField/InputFieldNumber';
 import clsx from 'clsx';
-import ClearAllIcon from '@material-ui/icons/ClearAll';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -73,6 +73,7 @@ const OperatorCreate = () => {
     setValue,
     setError,
     register,
+    reset, 
   } = useForm();
 
   const [financeEmail, setFinanceEmail] = useState([]);
@@ -223,21 +224,20 @@ const OperatorCreate = () => {
   };
 
 
-  const onCancel = () => {
-    navigate('/operator/list');
-    // setWhitelistIP([['', '', '', '']]);
-    // setAPIWLIP(['', '', '', '']);
-    // setFinanceEmail([]);
-    // setCheckboxListCheck([]);
-    // reset({
-    //     name: '',
-    //     support_email: '',
-    //     commission: [],
-    //     api_endpoint: '',
-    //     username: '',
-    //     password: '',
-    //     password_confirmation: '',
-    // });
+  const onReset = () => {
+    setWhitelistIP([['', '', '', '']]);
+    setAPIWLIP(['', '', '', '']);
+    setFinanceEmail([]);
+    setCheckboxListCheck([]);
+    reset({
+        name: '',
+        support_email: '',
+        commission: [],
+        api_endpoint: '',
+        username: '',
+        password: '',
+        password_confirmation: '',
+    });
   }
 
   return (
@@ -254,7 +254,7 @@ const OperatorCreate = () => {
           type="text"
           label="Name"
           pattern={/^[a-z0-9_]{3,15}$/}
-          helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
+          helperText="Length 3 - 15 chars, allow letter (lowercase), digit and underscore(_)"
         />
         <InputField
           namefileld="support_email"
@@ -333,7 +333,7 @@ const OperatorCreate = () => {
                       <Controller
                           name={`commission.${index}.checked`}
                           control={control}
-                          // noRef={true}
+                          inputRef={register}
                           render={(props) => {
                             return (
                               <Checkbox
@@ -380,9 +380,8 @@ const OperatorCreate = () => {
                         }}
                         helperText="From 0% to 100%"
                         required
-                        // noRef={true}
                         // register={register}
-                        // {...register(`commission.${index}.value`)}
+                        {...register(`commission.${index}.value`)}
                       />
                     : ''}
                   </FormGroup>
@@ -422,7 +421,7 @@ const OperatorCreate = () => {
           type="text"
           label="Username"
           pattern={/^[a-z0-9_]{3,15}$/}
-          helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
+          helperText="Length 3 - 15 chars, allow letter (lowercase), digit and underscore(_)"
         />
         <InputField
           required
@@ -476,18 +475,7 @@ const OperatorCreate = () => {
         ))}
         <ButtonGroup>
           <SubmitButton onClick={() => setCheckProduct(true)}/>
-          <Button
-            startIcon={<ClearAllIcon fontSize="small" />}
-            variant="contained"
-            type="button"
-            color="secondary"
-            onClick={() => onCancel()}
-            sx={{
-              ml: 1
-            }}
-          >
-            Cancel
-          </Button>
+          <ResetButton onAction={() => onReset()} />
         </ButtonGroup>
       </form>
       {isLoading && <Loading />}

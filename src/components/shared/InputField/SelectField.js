@@ -16,6 +16,9 @@ const useStyles = makeStyles(() => ({
   formControl: {
     width: '100%',
   },
+  labelStyle: {
+    color: 'red',
+  },
 }));
 
 const SelectField = ({
@@ -47,7 +50,11 @@ const SelectField = ({
         error={!isEmpty(errors)}
         className={classes.formControl}
       >
-        <InputLabel htmlFor={id}>{label}</InputLabel>
+        <InputLabel htmlFor={id}>{label}
+            <span className={classes.labelStyle}>
+              {required ? '*' : ''}
+            </span>
+        </InputLabel>
         <Controller
           control={control}
           name={namefileld}
@@ -55,7 +62,14 @@ const SelectField = ({
             <Select
               {...field}
               defaultValue={defaultValue}
-              label={label}
+              label={
+                <div>
+                  {label}
+                  <span className={classes.labelStyle}>
+                    {required ? '*' : ''}
+                  </span>
+                </div>
+              }
               labelId={id}
             >
               {options.map((option) => {

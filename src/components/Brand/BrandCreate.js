@@ -14,7 +14,6 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import useFetchData from 'src/utils/hooks/useFetchData';
 import ButtonGroup, {
   SubmitButton,
-  ResetButton,
 } from 'src/components/shared/Button/Button';
 import Loading from 'src/components/shared/Loading/Loading';
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
@@ -32,6 +31,7 @@ import get from 'lodash/get';
 import api from 'src/utils/api';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -88,7 +88,6 @@ const BrandCreate = () => {
     setValue,
     register,
     setError,
-    reset
   } = useForm();
 
   const finance_email = watch('finance_email');
@@ -251,20 +250,21 @@ const BrandCreate = () => {
     }
   };
 
-  const onReset = () => {
-    setWhitelistIP([['', '', '', '']]);
-    setAPIWLIP(['', '', '', '']);
-    setFinanceEmail([]);
-    setCheckboxListCheck([]);
-    reset({
-        name: '',
-        support_email: '',
-        api_endpoint: '',
-        username: '',
-        password: '',
-        password_confirmation: '',
-        commission: []
-    });
+  const onCancel = () => {
+    navigate('/brand/list');
+    // setWhitelistIP([['', '', '', '']]);
+    // setAPIWLIP(['', '', '', '']);
+    // setFinanceEmail([]);
+    // setCheckboxListCheck([]);
+    // reset({
+    //     name: '',
+    //     support_email: '',
+    //     api_endpoint: '',
+    //     username: '',
+    //     password: '',
+    //     password_confirmation: '',
+    //     commission: []
+    // });
   }
 
   return (
@@ -295,7 +295,7 @@ const BrandCreate = () => {
             maxLength: 100,
           }}
           pattern={/^[a-z0-9_]{3,15}$/}
-          helperText="length 3 - 15 chars, allow letter (lowercase), digit and underscore(_)"
+          helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
         />
         <InputField
           namefileld="support_email"
@@ -346,7 +346,7 @@ const BrandCreate = () => {
                       <Controller
                           name={`commission.${index}.checked`}
                           control={control}
-                          inputRef={register}
+                          // inputRef={register}
                           render={(props) => {
                             return (
                               <Checkbox
@@ -377,7 +377,7 @@ const BrandCreate = () => {
                     {checkboxListCheck[index] ?
                       <FormattedNumberInput
                         namefileld={`commission.${index}.value`}
-                        label="Commission"
+                        label="Comission"
                         id={`commission_${item.id}`}
                         control={control}
                         allowLeadingZeros
@@ -394,7 +394,7 @@ const BrandCreate = () => {
                         }}
                         helperText="From 0% to 100%"
                         // register={register}
-                        {...register(`commission.${index}.value`)}
+                        // {...register(`commission.${index}.value`)}
                       />
                     : ''}
                   </FormGroup>
@@ -431,7 +431,7 @@ const BrandCreate = () => {
           type="text"
           label="Username"
           pattern={/^[a-z0-9_]{3,15}$/}
-          helperText="Length 3 - 15 chars, allow letter (lowercase), digit and underscore(_)"
+          helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
         />
         <InputField
           required
@@ -485,7 +485,19 @@ const BrandCreate = () => {
         ))}
         <ButtonGroup>
           <SubmitButton onClick={() => setCheckProduct(true)} />
-          <ResetButton onAction={() => onReset()} />
+          {/* <ResetButton onAction={() => onReset()} /> */}
+          <Button
+            startIcon={<ClearAllIcon fontSize="small" />}
+            variant="contained"
+            type="button"
+            color="secondary"
+            onClick={() => onCancel()}
+            sx={{
+              ml: 1
+            }}
+          >
+            Cancel
+          </Button>
         </ButtonGroup>
       </form>
       {isLoading && <Loading />}

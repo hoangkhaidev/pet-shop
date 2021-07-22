@@ -15,9 +15,12 @@ export default function CircularIndeterminate() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <CircularProgress />
-      <CircularProgress color="secondary" />
+    <div className={classes.root} >
+      <div style={{display: 'flex', position: 'fixed', top: '45%', left: '45%', alignItems: 'center', justifyContent: 'center'}}>
+        <CircularProgress value={100} />
+        <span>&nbsp; Loading ...</span>
+      </div>      
+      {/* <CircularProgress color="secondary" /> */}
     </div>
   );
 }

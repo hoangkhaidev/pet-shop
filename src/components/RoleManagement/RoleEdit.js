@@ -202,6 +202,7 @@ const RoleEdit = () => {
           inputProps={{
             maxLength: 100
           }}
+          helperText="Max length 100 chars"
         />
         <InputField
           multiline
@@ -212,9 +213,6 @@ const RoleEdit = () => {
           errors={errors?.description}
           type="text"
           label="Description"
-          inputProps={{
-            maxLength: 100
-          }}
         />
         <FormLabel>{t("Permission List")}</FormLabel>
         {permissionGroup && (

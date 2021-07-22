@@ -75,21 +75,19 @@ const OperatorList = () => {
     sort_order: 'asc',
     page: 1,
     page_size: 30,
-    ...router.query,
   });
 
   const methods = useForm({
     defaultValues: router.query,
   });
-
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
     '/api/operators',
     objFilter
   );
 
   // useEffect(() => {
-  //   console.log(dataResponse);
-  // }, [dataResponse]);
+  //   console.log(objFilter);
+  // }, [objFilter]);
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
@@ -119,7 +117,7 @@ const OperatorList = () => {
   const columns = [
     {
       data_field: 'indexRow',
-      column_name: 'No',
+      column_name: '#',
       align: 'center',
     },
     {
@@ -224,8 +222,8 @@ const OperatorList = () => {
           />
           <DeleteItem
             linkApi={`/api/operators/${row.id}/delete`}
-            title={`Delete ${row.username} Operator`}
-
+            title={`Confirmation`}
+            types='operator'
           />
         </ButtonGroup>
       ),
@@ -234,9 +232,10 @@ const OperatorList = () => {
 
   const handleChangePage = (page) => {
     // console.log(page)
+    let pageNew = page + 1;
     setObjFilter((prevState) => ({
       ...prevState,
-      page,
+      page: pageNew,
     }));
   };
 
@@ -244,8 +243,8 @@ const OperatorList = () => {
     // console.log(event.target.value);
     setObjFilter((prevState) => ({
       ...prevState,
-      page: 1,
       page_size: parseInt(event.target.value, 10),
+      page: 1,
     }));
   };
 

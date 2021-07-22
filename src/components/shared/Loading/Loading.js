@@ -37,9 +37,6 @@ const Loading = () => {
     <div className={classes.overlay}>
       <div className="loadingio-spinner-pulse-lns2lqi38z">
         <div className="ldio-u8hwp9ljmor">
-          <div />
-          <div />
-          <div />
         </div>
       </div>
     </div>

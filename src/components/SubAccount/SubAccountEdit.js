@@ -34,6 +34,12 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  checkHelperText: {
+    color: 'red !important',
+    fontSize: '12px !important',
+    marginLeft: '15px',
+    marginTop: '5px',
+  }
 }));
 
 const SubAccountEdit = () => {
@@ -56,6 +62,7 @@ const SubAccountEdit = () => {
   const [data, setData] = useState(null);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [brandData, setBrandData] = useState([]);
+  const [checkWhiteIP, setCheckWhiteIP] = useState('');
 
   const { dataResponse: dataBrand } = useFetchData('/api/brand');
 
@@ -104,26 +111,31 @@ const SubAccountEdit = () => {
   }, [dataRole, setRoleData]);
 
   const onSubmit = async (dataform) => {
+    // const formatWLIPs = whitelistIP.map((item) => {
+    //   let check = false;
+    //   item.map((item1) => {
+    //     if (item1 === '') check = true;
+    //     return item1;
+    //   })
+    //   if (check === true) item = null;
+    //   else item = item.join('.');
+    //   return item;
+    // }).filter((item) => item)
     const formatWLIPs = whitelistIP.map((item) => {
-      let check = false;
-      item.map((item1) => {
-        if (item1 === '') check = true;
-        return item1;
-      })
-      if (check === true) item = null;
-      else item = item.join('.');
+      item = item.join('.');
+      if (item === '...') return null;
       return item;
-    }).filter((item) => item)
+    }).filter((item) => item);
 
     const form = {
       brand_ids: dataform?.brand ? [+dataform.brand] : [],
       display_name: dataform.name,
       password: dataform.password,
-      password_confirmation: dataform.confirm_password,
+      password_confirmation: dataform.password_confirmation,
       role_id: dataform.role,
       whitelist_ips: formatWLIPs,
     };
-    console.log(form)
+    // console.log(form)
     try {
       let response = await api.post(
         `/api/subs/${router.query?.id}/update`,
@@ -136,10 +148,14 @@ const SubAccountEdit = () => {
       } else {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
-            setError(field, {
-              type: 'validate',
-              message: response?.data[field],
-            });
+            if (response?.data[field] === 'err:invalid_ip_address') {
+              setCheckWhiteIP('Invalid IP address');
+            } else {
+              setError(field, {
+                type: 'validate',
+                message: response?.data[field],
+              });
+            }
           }
         }
       }
@@ -186,11 +202,11 @@ const SubAccountEdit = () => {
             control={control}
             errors={errors?.brand}
             options={brandData}
+            required
             defaultValue=""
           />
         )}
         <InputField
-          required
           namefileld="username"
           control={control}
           id="username"
@@ -221,10 +237,10 @@ const SubAccountEdit = () => {
           helperText="from 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <InputField
-          namefileld="confirm_password"
+          namefileld="password_confirmation"
           control={control}
-          id="confirm_password"
-          errors={errors?.confirm_password}
+          id="password_confirmation"
+          errors={errors?.password_confirmation}
           type="password"
           label="Confirm Password"
           required
@@ -269,6 +285,7 @@ const SubAccountEdit = () => {
             )}
           </div>
         ))}
+        <FormLabel component="legend" className={classes.checkHelperText}>{checkWhiteIP}</FormLabel>
         <ButtonGroup>
           <SubmitButton />
           <ResetButton text="Cancel" onAction={onCancel} />

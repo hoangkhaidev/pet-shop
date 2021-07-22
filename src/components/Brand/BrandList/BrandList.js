@@ -173,7 +173,7 @@ const BrandList = () => {
   const columns = [ 
     {
       data_field: 'indexRow',
-      column_name: 'No',
+      column_name: '#',
       align: 'center',
     },
     {
@@ -256,7 +256,8 @@ const BrandList = () => {
           />
           <DeleteItem
             linkApi={`/api/brand/${row.account_id}/delete`}
-            title={`Delete ${row.username} Brand`}
+            title={`Confirmation`}
+            types='brand'
           />
         </ButtonGroup>
       ),
@@ -264,9 +265,10 @@ const BrandList = () => {
   ];
 
   const handleChangePage = (page) => {
+    let pageNew = page + 1;
     setObjFilter((prevState) => ({
       ...prevState,
-      page,
+      page: pageNew,
     }));
   };
 

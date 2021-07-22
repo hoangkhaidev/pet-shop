@@ -377,7 +377,7 @@ const OperatorEdit = () => {
                     <Controller
                       name={`commission.${index}.checked`}
                       control={control}
-                      inputRef={register}
+                      // inputRef={register}
                       defaultValue={checked}
                       render={(props) => {
                         return (
@@ -420,7 +420,7 @@ const OperatorEdit = () => {
                       }}
                       defaultValue={commissionValue}
                       helperText="From 0% to 100%"
-                      {...register(`commission.${index}.value`)} 
+                      // {...register(`commission.${index}.value`)} 
                     />
                   }
                 </FormGroup>

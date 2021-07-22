@@ -214,9 +214,6 @@ const RoleAdd = () => {
           errors={errors?.description}
           type="text"
           label="Description"
-          inputProps={{
-            maxLength: 100,
-          }}
         />
         <FormLabel>{t('Permission List')}</FormLabel>
         <TableContainer component={Paper}>

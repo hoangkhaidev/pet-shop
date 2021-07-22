@@ -99,7 +99,7 @@ const SubAccountList = () => {
   const columns = [
     {
       data_field: 'indexRow',
-      column_name: 'No',
+      column_name: '#',
       align: 'center',
     },
     {
@@ -175,7 +175,9 @@ const SubAccountList = () => {
             />
             <DeleteItem
               linkApi={`/api/subs/${row.id}/delete`}
-              title={`Delete ${row.username} Account`}
+              title={`Confirmation`}
+              username={row.username}
+              types='account'
             />
           </ButtonGroup>
         )
@@ -184,9 +186,10 @@ const SubAccountList = () => {
   ];
 
   const handleChangePage = (page) => {
+    let pageNew = page + 1;
     setObjFilter((prevState) => ({
       ...prevState,
-      page,
+      page: pageNew,
     }));
   };
 
@@ -268,7 +271,7 @@ const SubAccountList = () => {
         <Button
           className={classes.addRoleButton}
           variant="contained"
-          color="primary"
+          style={{ backgroundColor: '#1cb13c' }}
           startIcon={<AddIcon />}
           onClick={onGotoAddSubPage}
         >

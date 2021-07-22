@@ -32,6 +32,17 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
         ref.current[index + 1]?.focus();
       }, 0);
     }
+    // console.log(formattedValue)
+    // if (formattedValue > 256) {
+    //   onChange({ target: { value: 255 } })
+    // } else {
+    //   onChange({ target: { value: formattedValue } });
+    // }
+    // if (formattedValue < 0)  {
+    //   onChange({ target: { value: 0 } })
+    // } else {
+    //   onChange({ target: { value: formattedValue } });
+    // }
     onChange(e, index, rowIndex);
   };
 
@@ -50,6 +61,7 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
           <Fragment key={index}>
             <NumberFormat
               min={0}
+              max={255}
               required={requiredCheck}
               key={index}
               className={classes.inputStyles}
@@ -59,7 +71,11 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
               value={value}
               // eslint-disable-next-line no-return-assign
               getInputRef={(el) => (ref.current[index] = el)}
-              onValueChange={(e) => onChangeWLIPAddressForAPI(e, index)}
+              onValueChange={(values) => {
+                if (values.formattedValue > 256) values.formattedValue = 255;
+                if (values.formattedValue < 0) values.formattedValue = 0;
+                onChangeWLIPAddressForAPI(values, index)
+              }}
               onKeyDown={(e) => onKeyPress(e, index)}
             />
             {index < 3 && <span>.</span>}

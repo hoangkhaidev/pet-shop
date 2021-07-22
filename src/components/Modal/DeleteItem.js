@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const DeleteItem = ({title, linkApi }) => {
+const DeleteItem = ({title, linkApi, types, username }) => {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
 
@@ -38,11 +38,12 @@ const DeleteItem = ({title, linkApi }) => {
     setOpen(false);
   };
 
-  const deleteSubAccount = async (linkApi, title) => {
+  const deleteSubAccount = async (linkApi, title ) => {
     try {
       let data = await api.post(linkApi);
       if(!data?.success) {
-        toast.warn(`${title} not Success`)
+        if (data.err === 'err:role_in_use') toast.warn(`Role in use`)
+        else toast.warn(`Failed to Delete`);
       } else {
         toast.success(`${title} Success`, {
             onClose: setTimeout(() => {
@@ -69,10 +70,10 @@ const DeleteItem = ({title, linkApi }) => {
       >
         <div>
           <TitlePage title={title} />
-            <div className={classes.title__text}>{`Do you want delete ${title}?`}</div>
-            <div className={classes.title__groupButton}>
-                <Button variant="contained" color="primary" onClick={() => deleteSubAccount(linkApi, title)}>
-                    Submit
+            <div className={classes.title__text}>{`Are you sure you want to delete this ${types ? types : ''} : ${username}?`}</div>
+            <div className={classes.title__groupButton} style={{ justifyContent: 'flex-end' }}>
+                <Button style={{ marginRight: '10px' }} variant="contained" color="primary" onClick={() => deleteSubAccount(linkApi, title)}>
+                    OK
                 </Button>
                 <Button variant="contained" color="secondary" onClick={() => onClose()}>
                     Cancel

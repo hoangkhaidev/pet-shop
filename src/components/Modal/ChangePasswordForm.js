@@ -10,6 +10,7 @@ import TooltipIcon from 'src/components/shared/TooltipIcon/TooltipIcon';
 import ModalComponent from 'src/components/shared/ModalComponent/ModalComponent';
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import { SubmitButton } from 'src/components/shared/Button/Button';
+import Button from '@material-ui/core/Button';
 
 const ChangePasswordForm = ({ linkApi, username }) => {
   const [open, setOpen] = useState(false);
@@ -18,13 +19,12 @@ const ChangePasswordForm = ({ linkApi, username }) => {
     formState: { errors },
     control,
     setError,
-    setValue,
   } = useForm();
 
-  useEffect(() => {
-    setValue('username', username);
+  // useEffect(() => {
+    // setValue('username', username);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // }, []);
 
   const onOpenModal = useCallback(() => {
     setOpen(true);
@@ -75,7 +75,7 @@ const ChangePasswordForm = ({ linkApi, username }) => {
         <div>
           <TitlePage title="Change Password" />
           <form onSubmit={handleSubmit(onSubmit)}>
-            <InputField
+            {/* <InputField
               namefileld="username"
               control={control}
               id="username"
@@ -83,7 +83,10 @@ const ChangePasswordForm = ({ linkApi, username }) => {
               type="text"
               label="Username"
               disabled
-            />
+            /> */}
+            <div style={{color: '#747f93', fontSize: '18px', paddingTop: '10px'}}>
+              Username:<b> {username}</b>
+            </div>
             <InputField
               required
               namefileld="password"
@@ -106,7 +109,12 @@ const ChangePasswordForm = ({ linkApi, username }) => {
               pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
               helperText="from 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
             />
-            <SubmitButton />
+            <div style={{textAlign: 'right'}}>
+              <SubmitButton />
+              <Button style={{marginLeft: '10px'}} variant="contained" color="secondary" onClick={() => onClose()}>
+                  Cancel
+              </Button>
+            </div>
           </form>
         </div>
       </ModalComponent>
