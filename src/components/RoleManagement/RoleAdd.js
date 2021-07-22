@@ -224,8 +224,8 @@ const RoleAdd = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Permission</TableCell>
-                {LIST_PERMISSIONS.map((permission) => (
-                  <TableCell>
+                {LIST_PERMISSIONS.map((permission, index) => (
+                  <TableCell key={index}>
                     <Radio
                       checked={selectedColumn === permission.value}
                       name={permission.value}

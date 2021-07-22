@@ -46,6 +46,7 @@ const SubAccountCreate = () => {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
     setError,
   } = useForm();
   const navigate = useNavigate();
@@ -128,7 +129,14 @@ const SubAccountCreate = () => {
   };
 
   const onCancel = () => {
-    navigate('/sub/list');
+    // navigate('/sub/list');
+    setWhitelistIP([['', '', '', '']]);
+    reset({
+      role: '',
+      username: '',
+      password: '',
+      password_confirmation: '',
+    });
   };
 
   const onChangeWhitelistIp = (e, index, rowIndex) => {
