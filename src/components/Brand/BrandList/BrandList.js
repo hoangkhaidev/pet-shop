@@ -147,7 +147,7 @@ const BrandList = () => {
   }, [dataResponse]);
 
   const onSubmit = async (dataForm) => {
-    console.log(dataForm)
+    // console.log(dataForm)
     const form = {
       ...dataForm,
       name_search:
@@ -157,7 +157,7 @@ const BrandList = () => {
       operator_id:
         dataForm?.operator_id === 'all' ? 0 : Number(dataForm.operator_id),
     };
-    console.log(form)
+    // console.log(form)
 
     setObjFilter({
       ...form,

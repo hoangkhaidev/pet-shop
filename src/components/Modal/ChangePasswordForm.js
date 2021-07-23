@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import get from 'lodash/get';
 import { toast } from 'react-toastify';
@@ -37,7 +37,7 @@ const ChangePasswordForm = ({ linkApi, username }) => {
   const onSubmit = async (data) => {
     const form = {
       password: data.password,
-      password_confirmation: data.confirm_password,
+      password_confirmation: data.password_confirmation,
     };
 
     try {
@@ -50,7 +50,7 @@ const ChangePasswordForm = ({ linkApi, username }) => {
       } else {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
-            console.log('field', field);
+            // console.log('field', field);
             setError(field, {
               type: 'validate',
               message: response?.data[field],
@@ -96,18 +96,18 @@ const ChangePasswordForm = ({ linkApi, username }) => {
               type="password"
               label="Password"
               pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
-              helperText="from 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
+              helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 digit."
             />
             <InputField
               required
-              namefileld="confirm_password"
+              namefileld="password_confirmation"
               control={control}
-              id="confirm_password"
-              errors={errors?.confirm_password}
+              id="password_confirmation"
+              errors={errors?.password_confirmation}
               type="password"
               label="Confirm Password"
               pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
-              helperText="from 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
+              helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 digit."
             />
             <div style={{textAlign: 'right'}}>
               <SubmitButton />

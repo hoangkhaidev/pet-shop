@@ -72,6 +72,12 @@ const useStyles = makeStyles((theme) => ({
   w60: {
     width: '60%'
   },
+  checkHelperText: {
+    color: 'red !important',
+    fontSize: '12px !important',
+    marginLeft: '15px',
+    paddingTop: '5px !important'
+  }
 }));
 
 const OperatorEdit = () => {
@@ -92,6 +98,12 @@ const OperatorEdit = () => {
   const [financeEmails, setFinanceEmails] = useState([]);
   const [productData, setProductData] = useState([]);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
+
+  const [errorWhiteIP, setErrorWhiteIP] = useState('');
+  const [errorApiWLIP, setErrorApiWLIP] = useState('');
+  const [errorFinanceEmail, setErrorFinanceEmail] = useState('');
+  const [errorProductCommission, setErrorProductCommission] = useState('');
+  const [checkboxListCheck, setCheckboxListCheck] = useState(productData.map((item) => false ));
 
   const product_commission = useMemo(() => data?.product_commission, [data]);
   const product_commission_new = useMemo(() => map(product_commission, (item) => {
@@ -128,6 +140,22 @@ const OperatorEdit = () => {
   //   console.log(apiWLIP)
   // // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [dataResponse]);
+
+  useEffect(() => {
+    setErrorWhiteIP('');
+  }, [whitelistIP]);
+
+  useEffect(() => {
+    setErrorApiWLIP('');
+  }, [apiWLIP]);
+
+  useEffect(() => {
+    setErrorFinanceEmail('');
+  }, [financeEmails]);
+  
+  useEffect(() => {
+    setErrorProductCommission('');
+  }, [checkboxListCheck]);
 
   useEffect(() => {
     const formatWhitelistIP = dataResponse?.whitelist_ips?.map((ip) => ip.split('.'));
@@ -195,16 +223,21 @@ const OperatorEdit = () => {
     //   return joinStr;
     // });
 
+    // const formatWLIPs = whitelistIP.map((item) => {
+    //   let check = false;
+    //   item.map((item1) => {
+    //     if (item1 === '') check = true;
+    //     return item1;
+    //   })
+    //   if (check === true) item = null;
+    //   else item = item.join('.');
+    //   return item;
+    // }).filter((item) => item)
     const formatWLIPs = whitelistIP.map((item) => {
-      let check = false;
-      item.map((item1) => {
-        if (item1 === '') check = true;
-        return item1;
-      })
-      if (check === true) item = null;
-      else item = item.join('.');
+      item = item.join('.');
+      if (item === '...') return null;
       return item;
-    }).filter((item) => item)
+    }).filter((item) => item);
 
     const form = {
       ...dataForm,
@@ -227,10 +260,20 @@ const OperatorEdit = () => {
       } else {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
-            setError(field, {
-              type: 'validate',
-              message: response?.data[field],
-            });
+            if (response?.data['product_commission'] === 'err:invalid_product') {
+              setErrorProductCommission('Invalid product');
+            } else if (response?.data['finance_emails'] === 'err:invalid_email') {
+              setErrorFinanceEmail('Invalid email');
+            } else if (response?.data['api_whitelist_ip'] === 'err:invalid_ip_address') {
+              setErrorApiWLIP('Invalid IP address');
+            } else if (response?.data['whitelist_ips'] === 'err:invalid_ip_address') {
+              setErrorWhiteIP('Invalid IP address');
+            } else {
+              setError(field, {
+                type: 'validate',
+                message: response?.data[field],
+              });
+            }
           }
         }
       }
@@ -240,6 +283,7 @@ const OperatorEdit = () => {
   };
 
   const addingFinanceEmail = () => {
+    // console.log(finance_emails);
     if (finance_emails) {
       const arrCloneFinanceEmail = financeEmails.slice();
       setFinanceEmails([...arrCloneFinanceEmail, finance_emails]);
@@ -306,7 +350,6 @@ const OperatorEdit = () => {
           helperText="Length 3 - 15 chars, allow letter (lowercase), digit and underscore(_)"
         />
         <InputField
-          required
           namefileld="support_email"
           control={control}
           id="support_email"
@@ -315,15 +358,16 @@ const OperatorEdit = () => {
           label="Support Email"
         />
         <InputField
-          namefileld="finance_email"
+          namefileld="finance_emails"
           control={control}
-          id="finance_email"
+          id="finance_emails"
           errors={errors?.finance_emails}
           type="text"
           label="Finance Email"
           callbackInputProps={addingFinanceEmail}
           isHasInputProps
         />
+        <FormLabel style={{marginTop: '-15px'}} component="legend" className={classes.checkHelperText}>{errorFinanceEmail}</FormLabel>
         <div className={classes.rootChip}>
           {financeEmails.map((email) => (
             <Chip
@@ -360,8 +404,9 @@ const OperatorEdit = () => {
           defaultValue={productData?.[0]?.value}
         />} */}
 
-        <FormLabel component="legend">Product</FormLabel>
+        <FormLabel style={{paddingTop: '10px'}} component="legend">Product<span style={{color: 'red'}}>*</span></FormLabel>
         <FormControl className={classes.w100}>
+          <FormLabel component="legend" className={classes.checkHelperText}>{errorProductCommission}</FormLabel>
           {productData.map((item, index) => {
             const checked = watch(`commission.${index}.checked`) ? true : false;
             const commissionValue = watch(`commission.${index}.value`);
@@ -384,7 +429,12 @@ const OperatorEdit = () => {
                           <Checkbox
                             checked={props.field.value}
                             value={item.id}
-                            onChange={(e) => props.field.onChange(e.target.checked)}
+                            onChange={(e) => {
+                              props.field.onChange(e.target.checked);
+                              let ticked = [...checkboxListCheck];
+                              ticked[index] = e.target.checked;
+                              setCheckboxListCheck(ticked);
+                            }}
                           />
                         )
                       }}
@@ -438,8 +488,9 @@ const OperatorEdit = () => {
           type="text"
           label="API Endpoint"
         />
-        <FormLabel>Whitelist IP Address for API</FormLabel>
-        <IPAddressInput requiredCheck={true} apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} />
+        <FormLabel>Whitelist IP Address for API<span style={{color: 'red'}}>*</span></FormLabel>
+        <IPAddressInput apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} />
+        <FormLabel component="legend" className={classes.checkHelperText}>{errorApiWLIP}</FormLabel>
         <Typography
           className={classes.operatorAdminLabel}
           variant="h6"
@@ -509,6 +560,11 @@ const OperatorEdit = () => {
             )}
           </div>
         ))}
+        <FormLabel 
+          component="legend" 
+          className={classes.checkHelperText} 
+          style={{paddingTop: '5px'}}
+        >{errorWhiteIP}</FormLabel>
         <ButtonGroup>
           <SubmitButton />
           {/* <ResetButton onAction={() => onReset()}/> */}

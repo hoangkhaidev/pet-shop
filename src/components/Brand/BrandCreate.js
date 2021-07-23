@@ -68,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'red !important',
     fontSize: '12px !important',
     marginLeft: '15px',
+    paddingTop: '5px !important'
   }
   
 }));
@@ -90,7 +91,7 @@ const BrandCreate = () => {
     setError,
   } = useForm();
 
-  const finance_email = watch('finance_email');
+  const finance_email = watch('finance_emails');
   // const commission = watch('commission');
 
   useFieldArray({
@@ -105,8 +106,14 @@ const BrandCreate = () => {
   const [operatorData, setOperatorData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [productData, setProductData] = useState([]);
+
+  const [errorWhiteIP, setErrorWhiteIP] = useState('');
+  const [errorApiWLIP, setErrorApiWLIP] = useState('');
+  const [errorFinanceEmail, setErrorFinanceEmail] = useState('');
+  const [errorProductCommission, setErrorProductCommission] = useState('');
+
   const [checkboxListCheck, setCheckboxListCheck] = useState(productData.map((item) => false ));
-  const [checkProduct, setCheckProduct] = useState(false);
+  // const [checkProduct, setCheckProduct] = useState(false);
 
   useEffect(() => {
     if (dataProduct.length <= 0) return;
@@ -123,31 +130,35 @@ const BrandCreate = () => {
   }, [dataProduct]);
 
   useEffect(() => {
+    setErrorWhiteIP('');
+  }, [whitelistIP]);
+
+  useEffect(() => {
+    setErrorApiWLIP('');
+  }, [apiWLIP]);
+
+  useEffect(() => {
+    setErrorFinanceEmail('');
+  }, [financeEmail]);
+  
+  useEffect(() => {
+    setErrorProductCommission('');
+  }, [checkboxListCheck]);
+
+  useEffect(() => {
     const data = dataResponse?.list;
     if (!data) return;
-    let mapdata = [];
+    let mapData = [];
     data.forEach((data) => {
       let optionData = {
         id: data.operator_id,
         value: data.operator_id,
         label: data.username,
       };
-      mapdata.push(optionData);
+      mapData.push(optionData);
     });
-    setOperatorData([...mapdata]);
+    setOperatorData([...mapData]);
   }, [dataResponse]);
-
-  // useEffect(() => {
-  //   if (commission > 100) {
-  //     setValue('commission', 100);
-  //   }
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [commission, setValue]);
-
-  // useEffect(() => {
-  //   console.log(whitelistIP);
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [whitelistIP]);
 
   const onRemoveFinanceEmail = (email) => {
     const cloneArr = financeEmail.slice();
@@ -173,7 +184,7 @@ const BrandCreate = () => {
     if (finance_email) {
       const arrCloneFinanceEmail = financeEmail.slice();
       setFinanceEmail([...arrCloneFinanceEmail, finance_email]);
-      setValue('finance_email', '');
+      setValue('finance_emails', '');
     }
   };
 
@@ -191,7 +202,6 @@ const BrandCreate = () => {
 
   const onSubmit = async (dataForm) => {
     // console.log(dataForm);
-    if (checkboxListCheck.findIndex((item) => item === true) !== -1) {
       const product_form = dataForm.commission.filter((item) => item.checked === true );
       const product_commission = product_form.map((item) => {
         let arr = {
@@ -201,21 +211,12 @@ const BrandCreate = () => {
         return arr;
       });
       const formatWLIPEndpoint = apiWLIP.join('.');
-      // const formatWLIPs = whitelistIP.map((item) => {
-      //   const joinStr = item.join('.');
-      //   return joinStr;
-      // });
 
       const formatWLIPs = whitelistIP.map((item) => {
-        let check = false;
-        item.map((item1) => {
-          if (item1 === '') check = true;
-          return item1;
-        })
-        if (check === true) item = null;
-        else item = item.join('.');
+        item = item.join('.');
+        if (item === '...') return null;
         return item;
-      }).filter((item) => item)
+      }).filter((item) => item);
 
       setIsLoading(true);
       delete dataForm.commission;
@@ -226,20 +227,30 @@ const BrandCreate = () => {
         finance_emails: financeEmail,
         product_commission: product_commission,
       };
-      console.log(form);
+      // console.log(form);
       try {
         const response = await api.post('/api/brand/create', form);
         if (get(response, 'success', false)) {
-          toast.success('Update brand Success', {
+          toast.success('Create brand Success', {
             onClose: navigate('brand/list'),
           });
         } else {
           if (response?.err === 'err:form_validation_failed') {
             for (const field in response?.data) {
-              setError(field, {
-                type: 'validate',
-                message: response?.data[field],
-              });
+              if (response?.data['product_commission'] === 'err:invalid_product') {
+                setErrorProductCommission('Invalid product');
+              } else if (response?.data['finance_emails'] === 'err:invalid_email') {
+                setErrorFinanceEmail('Invalid email');
+              } else if (response?.data['api_whitelist_ip'] === 'err:invalid_ip_address') {
+                setErrorApiWLIP('Invalid IP address');
+              } else if (response?.data['whitelist_ips'] === 'err:invalid_ip_address') {
+                setErrorWhiteIP('Invalid IP address');
+              } else {
+                setError(field, {
+                  type: 'validate',
+                  message: response?.data[field],
+                });
+              }
             }
           }
         }
@@ -247,24 +258,10 @@ const BrandCreate = () => {
         console.log('e', e);
       }
       setIsLoading(false);
-    }
   };
 
   const onCancel = () => {
     navigate('/brand/list');
-    // setWhitelistIP([['', '', '', '']]);
-    // setAPIWLIP(['', '', '', '']);
-    // setFinanceEmail([]);
-    // setCheckboxListCheck([]);
-    // reset({
-    //     name: '',
-    //     support_email: '',
-    //     api_endpoint: '',
-    //     username: '',
-    //     password: '',
-    //     password_confirmation: '',
-    //     commission: []
-    // });
   }
 
   return (
@@ -306,15 +303,16 @@ const BrandCreate = () => {
           label="Support Email"
         />
         <InputField
-          namefileld="finance_email"
+          namefileld="finance_emails"
           control={control}
-          id="finance_email"
-          errors={errors?.finance_email}
+          id="finance_emails"
+          errors={errors?.finance_emails}
           type="text"
           label="Finance Email"
           callbackInputProps={addingFinanceEmail}
           isHasInputProps
         />
+        <FormLabel style={{marginTop: '-15px'}} component="legend" className={classes.checkHelperText}>{errorFinanceEmail}</FormLabel>
         <div className={classes.rootChip}>
           {financeEmail.map((email) => (
             <Chip
@@ -326,12 +324,9 @@ const BrandCreate = () => {
           ))}
         </div>
         
-        <FormLabel component="legend">Product</FormLabel>
-        { (checkboxListCheck.findIndex((item) => item === true) === -1) && 
-          checkProduct && 
-          <FormLabel component="legend" className={classes.checkHelperText}>Product cannot be empty.</FormLabel>
-        }
+        <FormLabel style={{paddingTop: '10px'}} component="legend">Product<span style={{color: 'red'}}>*</span></FormLabel>
         <FormControl className={classes.w100}>
+          <FormLabel component="legend" className={classes.checkHelperText}>{errorProductCommission}</FormLabel>
             {productData.map((item, index) => {
               return (
                 <div key={item.id} style={{display: 'flex', width: '100%'}}>
@@ -412,13 +407,16 @@ const BrandCreate = () => {
           type="text"
           label="API Endpoint"
         />
-        <FormLabel>{t('Whitelist IP Address for API')}</FormLabel>
-        <IPAddressInput requiredCheck={true} apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} />
+        {/* <FormLabel>{t('Whitelist IP Address for API')}</FormLabel> */}
+        <FormLabel>Whitelist IP Address for API<span style={{color: 'red'}}>*</span></FormLabel>
+        <IPAddressInput apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} />
+        <FormLabel component="legend" className={classes.checkHelperText}>{errorApiWLIP}</FormLabel>
         <Typography
           className={classes.operatorAdminLabel}
           variant="h6"
           component="h6"
           gutterBottom
+          style={{paddingTop: '10px'}}
         >
           {t('Brand Admin Account')}
         </Typography>
@@ -483,9 +481,15 @@ const BrandCreate = () => {
             )}
           </div>
         ))}
+        <FormLabel 
+          component="legend" 
+          className={classes.checkHelperText} 
+          style={{paddingTop: '5px'}}
+        >
+          {errorWhiteIP}
+        </FormLabel>
         <ButtonGroup>
-          <SubmitButton onClick={() => setCheckProduct(true)} />
-          {/* <ResetButton onAction={() => onReset()} /> */}
+          <SubmitButton />
           <Button
             startIcon={<ClearAllIcon fontSize="small" />}
             variant="contained"

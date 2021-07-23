@@ -222,7 +222,7 @@ export const FormattedNumberInputComission = ({
               defaultValue={0}
               value={value}
               onValueChange={(values) => {
-                console.log(values);
+                // console.log(values);
                 values?.floatValue > 100
                   ? onChange({ target: { name, value: 100 } })
                   : values?.floatValue < 0 

@@ -90,7 +90,12 @@ const RoleList = () => {
               title="Edit Role"
               onClick={() => navigate(`${row.id}/edit`)}
             />
-            <DeleteItem title={row.role_name} linkApi={`/api/role/${row.id}/delete`} types='role' />
+            <DeleteItem 
+              username={row.role_name}
+              title={`Confirmation`} 
+              linkApi={`/api/role/${row.id}/delete`} 
+              types='role' 
+            />
           </ButtonGroup>
         )
       }

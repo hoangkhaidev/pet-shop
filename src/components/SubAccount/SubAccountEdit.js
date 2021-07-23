@@ -110,6 +110,10 @@ const SubAccountEdit = () => {
     setRoleData([...mapdata]);
   }, [dataRole, setRoleData]);
 
+  useEffect(() => {
+    setCheckWhiteIP('');
+  }, [whitelistIP]);
+
   const onSubmit = async (dataform) => {
     // const formatWLIPs = whitelistIP.map((item) => {
     //   let check = false;

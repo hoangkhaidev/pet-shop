@@ -92,7 +92,7 @@ const SubAccountCreate = () => {
   }, [dataBrand, setBrandData]);
 
   const onSubmit = async (dataform) => {
-    console.log(whitelistIP);
+    // console.log(whitelistIP);
     const formatWLIPs = whitelistIP.map((item) => {
       item = item.join('.');
       if (item === '...') return null;
@@ -108,7 +108,7 @@ const SubAccountCreate = () => {
       role_id: dataform.role,
       whitelist_ips: formatWLIPs,
     };
-    console.log(form)
+    // console.log(form)
       try {
         const response = await api.post('/api/subs/create', form);
         if (get(response, 'success', false)) {
@@ -118,7 +118,7 @@ const SubAccountCreate = () => {
         } else {
           if (response?.err === 'err:form_validation_failed') {
             for (const field in response?.data) {
-              console.log(response?.data[field]);
+              // console.log(response?.data[field]);
               if (response?.data[field] === 'err:invalid_ip_address') {
                 setCheckWhiteIP('Invalid IP address');
               } else {
@@ -149,6 +149,10 @@ const SubAccountCreate = () => {
   // useEffect(() => {
   //  console.log(whitelistIP);
   // }, [whitelistIP]);
+
+  useEffect(() => {
+    setCheckWhiteIP('');
+  }, [whitelistIP]);
 
   const onChangeWhitelistIp = (e, index, rowIndex) => {
     const { formattedValue } = e;
@@ -277,7 +281,11 @@ const SubAccountCreate = () => {
             )}
           </div>
         ))}
-        <FormLabel component="legend" className={classes.checkHelperText}>{checkWhiteIP}</FormLabel>
+        <FormLabel 
+          component="legend" 
+          className={classes.checkHelperText} 
+          style={{paddingTop: '5px'}}
+        >{checkWhiteIP}</FormLabel>
         <ButtonGroup>
           <SubmitButton />
           <ResetButton text="Cancel" onAction={onCancel} />

@@ -10,23 +10,37 @@ import { array, object, number } from "prop-types";
 import { TableBody } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 
-import TablePagination from "./TablePagination";
+// import TablePagination from "./TablePagination";
 import moment from "moment";
 
 const useStyles = makeStyles({
   table: {
     minWidth: 700,
+    padding: '0',
+    boxShadow: 'unset'
   },
   tableHeader: {
-    backgroundColor: "#5664d2",
+    // backgroundColor: "#",
   },
   tableCellHeader: {
     fontWeight: '600 !important',
-    color: "#ffffff !important"
+    color: "black",
+    border: '1px solid #c8ced3',
   },
   tableCellBody: {
     minWidth: 150,
+    backgroundColor: '#f2f2f2',
+    border: '1px solid #c8ced3',
+    '&:MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label': {
+      color: '#fff'
+    }
+  },
+  rootTable: {
+    boxShadow: 'unset', 
+    padding: '0',
   }
+  
+  
 });
 
 const StyledTableRow = withStyles((theme) => ({
@@ -34,6 +48,7 @@ const StyledTableRow = withStyles((theme) => ({
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,
     },
+    
   },
 }))(TableRow);
 
@@ -102,9 +117,9 @@ TableRowComponent.propTypes = {
   indexRow: number.isRequired
 };
 
-const TableComponent = ({
+const TableComponentStatus = ({
   // eslint-disable-next-line react/prop-types
-  data, columns, pagination, handleChangePage, handleChangeRowsPerPage, types
+  data, columns
 }) => {
   const classes = useStyles();
   // eslint-disable-next-line camelcase
@@ -112,7 +127,7 @@ const TableComponent = ({
    }));
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper}  className={classes.rootTable}>
       <Table className={classes.table} aria-label="table-component">
         <TableHeader headers={columns.map(item => item.column_name)} />
         <TableBody>
@@ -123,28 +138,19 @@ const TableComponent = ({
             )
           })}
         </TableBody>
-        {types !== 'RoleList' && 
-          <TablePagination
-            count={pagination.total_size}
-            page={Number(pagination.page) - 1}
-            rowsPerPage={pagination.page_size}
-            onPageChange={handleChangePage}
-            handleChangeRowsPerPage={handleChangeRowsPerPage}
-          />
-        }
       </Table>
     </TableContainer>
   );
 };
 
-TableComponent.propTypes = {
+TableComponentStatus.propTypes = {
   data: array.isRequired,
   columns: array.isRequired,
   pagination: object
 };
 
-TableComponent.defaultProps = {
+TableComponentStatus.defaultProps = {
   pagination: {}
 };
 
-export default TableComponent;
+export default TableComponentStatus;

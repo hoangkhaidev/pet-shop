@@ -40,6 +40,9 @@ const SelectField = ({
     if (errors.type === 'required') {
       return 'Field is required';
     }
+    if (errors.message === 'err:invalid_brand_ids') {
+      return errors.message = 'Please select brand';
+    }
     return errors.message;
   };
 

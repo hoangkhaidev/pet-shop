@@ -9,46 +9,48 @@ import StatusBadge from "src/components/shared/StatusBadge/StatusBadge";
 import ModalComponent from "src/components/shared/ModalComponent/ModalComponent";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import { SubmitButton } from "src/components/shared/Button/Button";
-import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
-import TableComponent from "src/components/shared/TableComponent/TableComponent";
-import useRouter from "src/utils/hooks/useRouter";
+// import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
+// import TableComponent from "src/components/shared/TableComponent/TableComponent";
+// import useRouter from "src/utils/hooks/useRouter";
+import { Button } from "@material-ui/core";
+import TableComponentStatus from "../shared/TableComponent/TableComponentStatus";
 
-const fakeData = [
-  {
-    id: 1,
-    role_name: "Sub Account",
-    description: "Access Sub Account Page",
-  },
-  {
-    id: 2,
-    role_name: "Operator",
-    description: "Access Operator Page"
-  }
-];
+// const fakeData = [
+//   {
+//     id: 1,
+//     role_name: "Sub Account",
+//     description: "Access Sub Account Page",
+//   },
+//   {
+//     id: 2,
+//     role_name: "Operator",
+//     description: "Access Operator Page"
+//   }
+// ];
 
 const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses, types }) => {
   const [label, setLabel] = useState(newlabel);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const { handleSubmit, formState: { errors }, control, setError, setValue } = useForm();
-  const router = useRouter();
+  // const router = useRouter();
 
-  const [objFilter, setObjFilter] = useState({
-    page: 1,
-    page_size: 30,
-    ...router.query
-  });
+  // const [objFilter, setObjFilter] = useState({
+  //   page: 1,
+  //   page_size: 30,
+  //   ...router.query
+  // });
 
   useEffect(() => {
     setLabel(newlabel);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newlabel])
 
-  useEffect(() => {
-    setValue("username", username);
-    setValue("current_status", newlabel);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  // useEffect(() => {
+  //   setValue("username", username);
+  //   setValue("current_status", newlabel);
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [])
 
   useEffect(() => {
     setData(statuses)
@@ -67,44 +69,58 @@ const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses, types }) 
   const columns = [
     {
       data_field: "at",
-      column_name: "Date",
+      column_name: "At",
       align: "left"
     },
     {
       data_field: "status",
       column_name: "Status",
-      align: "center"
+      align: "left",
+      formatter: (cell, row) => {
+        // console.log(row);
+        const newlabel = row?.status ;
+        return (
+          <ChangeStatus
+            types='viewStatus'
+            newlabel={newlabel}
+            linkApi={`/api/subs/${row.id}/update_status`}
+            STATUS={STATUS}
+            username={row.username}
+            statuses={row.statuses}
+          />
+        );
+      },
     },
     {
       data_field: "by_user",
       column_name: "By",
-      align: "center",
+      align: "left",
     },
     {
       data_field: "reason",
       column_name: "Reason",
-      align: "center",
+      align: "left",
     },
   ];
 
-  const handleChangePage = (page) => {
-    setObjFilter(prevState => ({
-      ...prevState,
-      page
-    }));
-  };
+  // const handleChangePage = (page) => {
+  //   setObjFilter(prevState => ({
+  //     ...prevState,
+  //     page
+  //   }));
+  // };
 
-  const handleChangeRowsPerPage = (event) => {
-    setObjFilter(prevState => ({
-      ...prevState,
-      page: 1,
-      page_size: parseInt(event.target.value, 10)
-    }));
-  };
+  // const handleChangeRowsPerPage = (event) => {
+  //   setObjFilter(prevState => ({
+  //     ...prevState,
+  //     page: 1,
+  //     page_size: parseInt(event.target.value, 10)
+  //   }));
+  // };
 
   const onSubmit = async (data) => {
-    console.log(data);
-    console.log(linkApi);
+    // console.log(data);
+    // console.log(linkApi);
     const form = {
       action: data.status,
       reason: data.reason,
@@ -113,7 +129,7 @@ const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses, types }) 
     try {
       const response = await api.post(linkApi, form);
 
-      console.log(response);
+      // console.log(response);
       
       if (get(response, 'success', false)) {
         setLabel(data.status);
@@ -136,7 +152,6 @@ const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses, types }) 
     }
   };
 
-
   return (
     <div>
       <StatusBadge label={label} onClick={(onOpenModal)}/>
@@ -148,7 +163,7 @@ const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses, types }) 
         <div>
           <TitlePage title="Change Status" />
           <form onSubmit={handleSubmit(onSubmit)}>
-            <InputField
+            {/* <InputField
               namefileld="username"
               control={control}
               id="username"
@@ -165,7 +180,13 @@ const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses, types }) 
               type="text"
               label="Current Status"
               disabled
-            />  
+            />   */}
+            <div style={{color: '#747f93', fontSize: '18px', paddingTop: '10px'}}>
+              Username:<b> {username}</b>
+            </div>
+            <div style={{color: '#747f93', fontSize: '18px'}}>
+              Current Status:<b> {newlabel}</b>
+            </div>
             <SelectField
               namefileld="status"
               id="status"
@@ -174,7 +195,7 @@ const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses, types }) 
               options={
                 STATUS
               }
-              label="Status"
+              label="New Status"
               defaultValue="active"
             />
             <InputField
@@ -188,11 +209,16 @@ const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses, types }) 
               multiline
               rows={4}
             />  
-            <SubmitButton />
+            <div style={{textAlign: 'right'}}>
+              <SubmitButton />
+              <Button style={{marginLeft: '10px'}} variant="contained" color="secondary" onClick={() => onClose()}>
+                    Cancel
+              </Button>
+            </div>
           </form>
-          <ContentCardPage>
-            <TitlePage title="Role List" />
-            <TableComponent
+          {/* <ContentCardPage> */}
+            <TitlePage title="Status History" />
+            {/* <TableComponent
               data={data}
               columns={columns}
               pagination={{
@@ -202,8 +228,12 @@ const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses, types }) 
               }}
               handleChangePage={handleChangePage}
               handleChangeRowsPerPage={handleChangeRowsPerPage}
+            /> */}
+            <TableComponentStatus 
+              data={data}
+              columns={columns}
             />
-          </ContentCardPage>
+          {/* </ContentCardPage> */}
         </div>
       </ModalComponent>
     </div>

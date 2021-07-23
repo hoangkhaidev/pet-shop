@@ -87,42 +87,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'block !important',
     transform: 'translate3d(0px, 0px, 0px) !important',
   },
-  // inputCommission: {
-  //   padding: '16.5px 14px',
-  //   borderRadius: '4px',
-  //   border: '1px solid #c4c4c4',
-  //   fontWeight: '400',
-  //   fontSize: '1rem',
-  //   lineHeight: '1.4375em',
-  //   color: '#172b4d',
-  //   boxSizing: 'border-box',
-  //   position: 'relative',
-  //   cursor: 'text',
-  // },
-  // helperTextCommission: {
-  //   marginLeft: '14px',
-  //   marginRight: '14px',
-  //   color: 'rgba(0, 0, 0, 0.54)',
-  //   fontSize: '0.75rem',
-  //   marginTop: '3px',
-  //   textAlign: 'left',
-  //   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-  //   fontWeight: '400',
-  //   lineHeight: '1.66',
-  //   letterSpacing: '0.03333em',
-  //   "&input[type=text]:focus": {
-  //     outline: 'none !important',
-  //     color: '#3f51b5',
-  //     border:'1px solid blue !important',
-  //     boxShadow: '0 0 10px #719ECE',
-  //   }
-  // }
-  // endAdornmentCommission: {
-  //   position: 'absolute', 
-  //   top: '20px', 
-  //   right: '0', 
-  //   color: 'rgba(0, 0, 0, 0.54)'
-  // }
+  checkHelperText: {
+    color: 'red !important',
+    fontSize: '12px !important',
+    marginLeft: '15px',
+    paddingTop: '5px !important'
+  }
   
 }));
 
@@ -140,9 +110,16 @@ const BrandEdit = () => {
 
   const [apiWLIP, setApiWLIP] = useState(['', '', '', '']);
   const [data, setData] = useState([]);
-  const [financeEmails, setFinanceEmails] = useState([]);
+  const [financeEmail, setFinanceEmail] = useState([]);
   const [productData, setProductData] = useState([]);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
+
+  const [errorWhiteIP, setErrorWhiteIP] = useState('');
+  const [errorApiWLIP, setErrorApiWLIP] = useState('');
+  const [errorFinanceEmail, setErrorFinanceEmail] = useState('');
+  const [errorProductCommission, setErrorProductCommission] = useState('');
+
+  const [checkboxListCheck, setCheckboxListCheck] = useState(productData.map((item) => false ));
 
   const product_commission = useMemo(() => data?.product_commission, [data]);
   const product_commission_new = useMemo(() => map(product_commission, (item) => {
@@ -196,10 +173,26 @@ const BrandEdit = () => {
 
     setApiWLIP(formatApiWLIP?.length > 0 ? formatApiWLIP : apiWLIP);
     setData(dataResponse);
-    setFinanceEmails(get(dataResponse, 'finance_emails', []));
+    setFinanceEmail(get(dataResponse, 'finance_emails', []));
     setWhitelistIP(formatWhitelistIP?.length > 0 ? formatWhitelistIP : whitelistIP);
 
   }, [dataResponse]);
+
+  useEffect(() => {
+    setErrorWhiteIP('');
+  }, [whitelistIP]);
+
+  useEffect(() => {
+    setErrorApiWLIP('');
+  }, [apiWLIP]);
+
+  useEffect(() => {
+    setErrorFinanceEmail('');
+  }, [financeEmail]);
+  
+  useEffect(() => {
+    setErrorProductCommission('');
+  }, [checkboxListCheck]);
 
   useEffect(() => {
     if (data) {
@@ -236,28 +229,19 @@ const BrandEdit = () => {
     }); 
 
     const formatWLIPEndpoint = apiWLIP.join('.');
-    // const formatWLIPs = (whitelistIP || []).map((item) => {
-    //   const joinStr = item.join('.');
-    //   return joinStr;
-    // });
 
-    const formatWLIPs = (whitelistIP || []).map((item) => {
-      let check = false;
-      item.map((item1) => {
-        if (item1 === '') check = true;
-        return item1;
-      })
-      if (check === true) item = null;
-      else item = item.join('.');
+    const formatWLIPs = whitelistIP.map((item) => {
+      item = item.join('.');
+      if (item === '...') return null;
       return item;
-    }).filter((item) => item)
+    }).filter((item) => item);
     
     const form = {
       ...dataForm,
       display_name: dataForm.name,
       api_whitelist_ip: formatWLIPEndpoint,
       whitelist_ips: formatWLIPs,
-      finance_emails: financeEmails,
+      finance_emails: financeEmail,
       operator_id: 0,
       product_commission: product_commission,
     };
@@ -277,10 +261,20 @@ const BrandEdit = () => {
       } else {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
-            setError(field, {
-              type: 'validate',
-              message: response?.data[field]
-            });
+            if (response?.data['product_commission'] === 'err:invalid_product') {
+              setErrorProductCommission('Invalid product');
+            } else if (response?.data['finance_emails'] === 'err:invalid_email') {
+              setErrorFinanceEmail('Invalid email');
+            } else if (response?.data['api_whitelist_ip'] === 'err:invalid_ip_address') {
+              setErrorApiWLIP('Invalid IP address');
+            } else if (response?.data['whitelist_ips'] === 'err:invalid_ip_address') {
+              setErrorWhiteIP('Invalid IP address');
+            } else {
+              setError(field, {
+                type: 'validate',
+                message: response?.data[field],
+              });
+            }
           }
         }
       }
@@ -291,16 +285,16 @@ const BrandEdit = () => {
 
   const addingFinanceEmail = () => {
     if (finance_emails) {
-      const arrCloneFinanceEmail = financeEmails.slice();
-      setFinanceEmails([...arrCloneFinanceEmail, finance_emails])
+      const arrCloneFinanceEmail = financeEmail.slice();
+      setFinanceEmail([...arrCloneFinanceEmail, finance_emails])
       setValue('finance_emails', '');
     }
   };
 
   const onRemoveFinanceEmail = (email) => {
-    const cloneArr = financeEmails.slice();
+    const cloneArr = financeEmail.slice();
     remove(cloneArr, (item) => item === email);
-    setFinanceEmails(cloneArr)
+    setFinanceEmail(cloneArr)
   };
 
   const onChangeWhitelistIp = (e, index, rowIndex) => {
@@ -344,7 +338,6 @@ const BrandEdit = () => {
       <TitlePage title="Edit Brand" />
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: '50%' }}>
         <InputField
-          required
           readOnly
           namefileld="operator"
           control={control}
@@ -366,7 +359,7 @@ const BrandEdit = () => {
           inputProps={{
             maxLength: 100,
           }}
-          helperText="length 3 - 15 chars, allow letter (lowercase), digit and underscore(_)"
+          helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
         />
         <InputField
           namefileld="support_email"
@@ -386,8 +379,9 @@ const BrandEdit = () => {
           callbackInputProps={addingFinanceEmail}
           isHasInputProps
         />
+        <FormLabel style={{marginTop: '-15px'}} component="legend" className={classes.checkHelperText}>{errorFinanceEmail}</FormLabel>
         <div className={classes.rootChip}>
-          {financeEmails.map((email) => (
+          {financeEmail.map((email) => (
             <Chip
               className={classes.financeEmailItem}
               key={email}
@@ -396,8 +390,9 @@ const BrandEdit = () => {
             />
           ))}
         </div>
-        <FormLabel component="legend">Product</FormLabel>
+        <FormLabel style={{paddingTop: '10px'}} component="legend">Product<span style={{color: 'red'}}>*</span></FormLabel>
         <FormControl className={classes.w100}>
+          <FormLabel component="legend" className={classes.checkHelperText}>{errorProductCommission}</FormLabel>
           {productData.map((item, index) => {
             const checked = watch(`commission.${index}.checked`) ? true : false;
             const commissionValue = watch(`commission.${index}.value`);
@@ -420,7 +415,12 @@ const BrandEdit = () => {
                           <Checkbox
                             checked={props.field.value}
                             value={item.id}
-                            onChange={(e) => props.field.onChange(e.target.checked)}
+                            onChange={(e) => {
+                              props.field.onChange(e.target.checked);
+                              let ticked = [...checkboxListCheck];
+                              ticked[index] = e.target.checked;
+                              setCheckboxListCheck(ticked);
+                            }}
                           />
                         )
                       }}
@@ -474,13 +474,16 @@ const BrandEdit = () => {
           type="text"
           label="API Endpoint"
         />
-        <FormLabel>Whitelist IP Address for API</FormLabel>
-        <IPAddressInput requiredCheck={true} apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} />
+        {/* <FormLabel>Whitelist IP Address for API</FormLabel> */}
+        <FormLabel>Whitelist IP Address for API<span style={{color: 'red'}}>*</span></FormLabel>
+        <IPAddressInput apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} />
+        <FormLabel component="legend" className={classes.checkHelperText}>{errorApiWLIP}</FormLabel>
         <Typography
           className={classes.operatorAdminLabel}
           variant="h6"
           component="h6"
           gutterBottom
+          style={{paddingTop: '10px'}}
         >
           {t('Brand Admin Account')}
         </Typography>
@@ -493,6 +496,7 @@ const BrandEdit = () => {
           errors={errors?.username}
           type="text"
           label="Username"
+          helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
         />
         <InputField
           namefileld="password"
@@ -541,6 +545,13 @@ const BrandEdit = () => {
             )}
           </div>
         ))}
+        <FormLabel 
+          component="legend" 
+          className={classes.checkHelperText} 
+          style={{paddingTop: '5px'}}
+        >
+          {errorWhiteIP}
+        </FormLabel>
         <ButtonGroup>
           <SubmitButton />
           <Button
