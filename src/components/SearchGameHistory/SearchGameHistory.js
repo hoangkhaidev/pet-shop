@@ -36,7 +36,13 @@ const useStyles = makeStyles((theme) => ({
   labelTab: {
     fontWeight: "bold !important",
     color: `${colors.labelTab} !important`
+  },
+  aaaaaaaaa: {
+    '& .MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.Mui-selected.makeStyles-labelTab-6.css-1760dni-MuiButtonBase-root-MuiTab-root': {
+      color: '#fff !important',
+    },
   }
+
 }));
 
 const SearchGameHistory = () => {
@@ -61,6 +67,7 @@ const SearchGameHistory = () => {
           onChange={handleChange}
           aria-label="Search game history"
           indicatorColor="secondary"
+          className={classes.aaaaaaaaa}
         >
           <Tab className={classes.labelTab} label="Player Infomation" {...a11yProps(0)} />
           <Tab className={classes.labelTab} label={t("Games")} {...a11yProps(1)} />

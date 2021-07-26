@@ -44,17 +44,17 @@ const GamesList = () => {
     {
       data_field: "game",
       column_name: "Game",
-      align: "center"
+      align: "left"
     },
     {
       data_field: "start_time",
-      column_name: "Start Time",
-      align: "center"
+      column_name: "Round Data",
+      align: "left"
     },
     {
       data_field: "sessions_count",
       column_name: "Sessions Count",
-      align: "center"
+      align: "right"
     },
     {
       data_field: "bet",

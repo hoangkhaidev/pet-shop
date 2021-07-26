@@ -43,6 +43,9 @@ const RoleEdit = lazy(() => import('src/components/RoleManagement/RoleEdit'));
 const PlayersList = lazy(() =>
   import('src/components/PlayersList/PlayersList')
 );
+// const PlayerInformation = lazy(() =>
+//   import('src/components/PlayerInformation/PlayerInformation')
+// );
 const SearchGameHistory = lazy(() =>
   import('src/components/SearchGameHistory/SearchGameHistory')
 );
@@ -167,11 +170,18 @@ const routes = (isLoggedIn) => [
         element: <PlayersList />,
       },
       {
-        path: 'search-game-history',
-        fullpath: '/players/search-game-history',
-        name: 'Search game history',
+        path: '/:id/information',
+        fullpath: '/players/:id/information',
+        name: 'Player Information',
         element: <SearchGameHistory />,
       },
+
+      // {
+      //   path: '/game-history',
+      //   fullpath: '/players/game-history',
+      //   name: 'Search game history',
+      //   element: <PlayerInformation />,
+      // },
       {
         path: 'transaction-details',
         fullpath: '/players/transaction-details',

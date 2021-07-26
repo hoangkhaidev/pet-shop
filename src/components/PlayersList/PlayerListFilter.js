@@ -12,6 +12,7 @@ import DateRangePickerComponent from "src/components/shared/DateRangePickerCompo
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
 import { func } from "prop-types";
 import useFetchData from "src/utils/hooks/useFetchData";
+// import { FormattedNumberInputCaptcha } from "../shared/InputField/InputFieldNumber";
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -23,18 +24,18 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const fakeLanguages = [
-  {
-    id: 1,
-    label: "Vietnamese",
-    value: "vietnamese"
-  },
-  {
-    id: 2,
-    label: "English",
-    value: "english"
-  }
-];
+// const fakeLanguages = [
+//   {
+//     id: 1,
+//     label: "Vietnamese",
+//     value: "vietnamese"
+//   },
+//   {
+//     id: 2,
+//     label: "English",
+//     value: "english"
+//   }
+// ];
 
 const PLayerListFilter = ({
   onResetFilter, onSubmitProps
@@ -55,7 +56,7 @@ const PLayerListFilter = ({
   const [currencyData, setCurrencyData] = useState([]);
 
 
-  // useEffect(() => {
+ // useEffect(() => {
   //   console.log(currencyData);
   // }, [currencyData])
 
@@ -96,17 +97,26 @@ const PLayerListFilter = ({
   }, [dataBrand, setBrandData]);
 
   const onChangeDateRange = (startDate, endDate) => {
+    // console.log(startDate, endDate);
     setDateRange({
       start: startDate,
       end: endDate
     });
   };
 
+  // useEffect(() => {
+  //   console.log(dateRange);
+  // }, [dateRange])
+
   const onSubmit = async (data) => {
     const form = {
       ...data,
-      end: dateRange.end,
-      start: dateRange.start
+      brand_id: data.brand_id === 'all' ? 0 : Number(data.brand_id),
+      ip_address: data.ip_address ? data.ip_address : '',
+      nick_name: data.nick_name ? data.nick_name : '',
+      player_id: data.player_id ? Number(data.player_id) : 0,
+      from_date: moment(dateRange.start).format("DD/MM/YYYY"),
+      to_date: moment(dateRange.end).format("DD/MM/YYYY"),
     };
     onSubmitProps(form);
   };
@@ -129,11 +139,12 @@ const PLayerListFilter = ({
             <Grid item xs={12} xl={3} md={3}>
               <InputField
                 control={control}
-                namefileld="nickname"
+                namefileld="nick_name"
                 type="text"
                 label="Nickname"
-                id="nickname"
+                id="nick_name"
                 fullWidth={false}
+                defaultValue=""
               />
             </Grid>
             
@@ -145,6 +156,7 @@ const PLayerListFilter = ({
                 label="IP Address"
                 id="ip_address"
                 fullWidth={false}
+                defaultValue=""
               />
             </Grid>
             <Grid className={classes.dateRangeInput} item xs={12} xl={3} md={3}>
@@ -154,8 +166,9 @@ const PLayerListFilter = ({
                 </FormLabel>
                 <DateRangePickerComponent
                   control={control}
-                  onChangeDateRange={onChangeDateRange}
-                  dateRangeProps={dateRange}
+                  handleCallback={onChangeDateRange}
+                  startDate={dateRange.start}
+                  endDate={dateRange.end}
                 />
               </FormControl>
             </Grid>
@@ -163,9 +176,9 @@ const PLayerListFilter = ({
             <Grid item xs={12} xl={3} md={3}>
               <SelectField
                 control={control}
-                namefileld="casino_brand"
-                id="casino_brand"
-                label="Casino / Brand"
+                namefileld="brand_id"
+                id="brand_id"
+                label="Brand"
                 fullWidth={false}
                 options={brandData}
                 defaultValue="all"
@@ -189,13 +202,12 @@ const PLayerListFilter = ({
                 id="language"
                 label="Language"
                 fullWidth={false}
-                options={fakeLanguages}
                 defaultValue=""
               />
             </Grid>
           </Grid>
           <ButtonGroup>
-            <SubmitButton />
+            <SubmitButton text={'Search'} />
             <ResetButton onAction={onResetFilter} />
           </ButtonGroup>
         </form>

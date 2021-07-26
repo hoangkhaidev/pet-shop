@@ -1,8 +1,14 @@
-import { makeStyles } from "@material-ui/core";
-import PersonIcon from '@material-ui/icons/Person';
+import { Button, makeStyles } from "@material-ui/core";
+// import PersonIcon from '@material-ui/icons/Person';
 import Grid from "@material-ui/core/Grid";
-
+import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
+import { useNavigate } from "react-router";
+import useFetchData from "src/utils/hooks/useFetchData";
+import { useEffect, useState } from "react";
+import useRouter from "src/utils/hooks/useRouter";
+import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
+import Loading from "../shared/Loading/Loading";
 
 const useStyles = makeStyles(() => ({
   playerInfoName: {
@@ -12,6 +18,10 @@ const useStyles = makeStyles(() => ({
   playerNameDisplay: {
     textTransform: "uppercase",
     marginLeft: 16,
+    marginRight: '5px',
+    fontWeight: "bold"
+  },
+  profileNameDisplay: {
     fontWeight: "bold"
   },
   infoContainer: {
@@ -25,116 +35,171 @@ const useStyles = makeStyles(() => ({
   infoLine: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-between"
+    marginBottom: '2rem',
+    // justifyContent: "space-between"
   },
   labelLine: {
     fontWeight: "bold",
+    width: '40%',
+  },
+  w50: {
+    width: '60%',
+    lineBreak: 'anywhere',
   }
+ 
 }));
-
-const player_common_info = {
-  player_id: {
-    label: "Player ID",
-    info: "2427465"
-  },
-  nickname: {
-    label: "Nickname",
-    info: "tri7_sinh"
-  },
-  casino_brand: {
-    label: "Casino / Brand",
-    info: "tri7"
-  }
-};
-
-const player_system_info = {
-  signup: {
-    label: "Sign UP",
-    info: "5 May 2021 17:06:00"
-  },
-  currency: {
-    label: "Currency",
-    info: "IDR"
-  },
-  language: {
-    label: "Language",
-    info: "English"
-  },
-  country: {
-    label: "Country",
-    info: "Vietnam"
-  }
-};
-
-const last_login_info = {
-  last_login_time: {
-    label: "Last Login Time",
-    info: "5 May 2021 17:06:00"
-  },
-  last_login_ip: {
-    label: "Last Login IP",
-    info: "118.69.55.180"
-  },
-  last_login_country: {
-    label: "Last Login Country",
-    info: "Vietnam"
-  },
-  last_login_client_information: {
-    label: "Last Login Client Information",
-    info: "Instant client, Chrome 90.0.4430, iOS"
-  }
-};
 
 const PlayerInformation = () => {
   const classes = useStyles();
+  const router = useRouter();
+
+  const { dataResponse, isLoading, isHasPermission } = useFetchData(
+    `/api/members/${router.query?.id}`,
+    null
+  );
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    setData(dataResponse);
+  }, [dataResponse]);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  const navigate = useNavigate();
+  const onCancel = () => {
+    navigate('/players/players');
+  }
+
+  if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
 
   return (
-    <ContentCardPage>
-      <div className={classes.playerInfoName}>
-        <PersonIcon />
-        <span className={classes.playerNameDisplay}>
-          SON1234
-        </span>
-      </div>
-      <Grid className={classes.infoContainer} sx={{ mt: 1 }} container spacing={2}>
-        <Grid className={classes.infoColumn} item xs={12} xl={4} md={6}>
-          {Object.keys(player_common_info).map(key => (
-            <div className={classes.infoLine}>
-              <span className={classes.labelLine}>
-                {player_common_info[key].label}
-              </span>
-              <span>
-                {player_common_info[key].info}
-              </span>
-            </div>
-          ))}
+    <>
+      <Button
+        startIcon={<ClearAllIcon fontSize="small" />}
+        variant="contained"
+        type="button"
+        color="secondary"
+        onClick={() => onCancel()}
+        sx={{
+          ml: 1
+        }}
+      >
+        Back
+      </Button>
+      <ContentCardPage>
+        <div className={classes.playerInfoName}>
+          <span className={classes.profileNameDisplay}>
+            Profile:
+          </span>
+          <span className={classes.playerNameDisplay}>
+            {data?.id}  
+          </span>
+          <span> ({data?.username}, signed up {data?.created_at})</span>
+        </div>
+        <Grid className={classes.infoContainer} sx={{ mt: 1 }} container spacing={3}>
+          <Grid className={classes.infoColumn} item xs={12} xl={4} md={4}>
+              <div className={classes.infoLine}>
+                <span className={classes.labelLine}>
+                  Player ID
+                </span>
+                <span className={classes.w50}>
+                  {data?.id} 
+                </span>
+              </div>
+              <div className={classes.infoLine}>
+                <span className={classes.labelLine}>
+                  Nickname
+                </span>
+                <span className={classes.w50}>
+                  {data?.username} 
+                </span>
+              </div>
+              <div className={classes.infoLine}>
+                <span className={classes.labelLine}>
+                  Brand
+                </span>
+                <span className={classes.w50}>
+                  {data?.brand_id} 
+                </span>
+              </div>
+          </Grid>
+          <Grid className={classes.infoColumn} item xs={12} xl={4} md={4}>
+              <div className={classes.infoLine}>
+                <span className={classes.labelLine}>
+                  Sign Up
+                </span>
+                <span className={classes.w50}>
+                  {data?.created_at}
+                </span>
+              </div>
+              <div className={classes.infoLine}>
+                <span className={classes.labelLine}>
+                  Currency
+                </span>
+                <span className={classes.w50}>
+                  {data?.currency_code}
+                </span>
+              </div>
+              <div className={classes.infoLine}>
+                <span className={classes.labelLine}>
+                  Language
+                </span>
+                <span className={classes.w50}>
+                  {data?.language}
+                </span>
+              </div>
+              <div className={classes.infoLine}>
+                <span className={classes.labelLine}>
+                  Country
+                </span>
+                <span className={classes.w50}>
+                  {data?.country}
+                </span>
+              </div>
+          </Grid>
+          <Grid className={classes.infoColumn} item xs={12} xl={4} md={4}>
+              <div className={classes.infoLine}>
+                <span className={classes.labelLine}>
+                  Last Login Time
+                </span>
+                <span className={classes.w50}>
+                  {data?.last_logged_in}
+                </span>
+              </div>
+              <div className={classes.infoLine}>
+                <span className={classes.labelLine}>
+                  Last Login IP
+                </span>
+                <span className={classes.w50}>
+                  {data?.last_logged_ip}
+                </span>
+              </div>
+              <div className={classes.infoLine}>
+                <span className={classes.labelLine}>
+                  Last Login Country
+                </span>
+                <span className={classes.w50}>
+                  {data?.last_logged_in_country}
+                </span>
+              </div>
+              <div className={classes.infoLine}>
+                <span className={classes.labelLine}>
+                  Last Login Client Information
+                </span>
+                <span className={classes.w50}>
+                  Instant client, Chrome 90.0.4430, iOS
+                </span>
+              </div>
+          </Grid>
         </Grid>
-        <Grid className={classes.infoColumn} item xs={12} xl={4} md={6}>
-          {Object.keys(player_system_info).map(key => (
-            <div className={classes.infoLine}>
-              <span className={classes.labelLine}>
-                {player_system_info[key].label}
-              </span>
-              <span>
-                {player_system_info[key].info}
-              </span>
-            </div>
-          ))}
-        </Grid>
-        <Grid className={classes.infoColumn} item xs={12} xl={4} md={6}>
-          {Object.keys(last_login_info).map(key => (
-            <div className={classes.infoLine}>
-              <span className={classes.labelLine}>
-                {last_login_info[key].label}
-              </span>
-              <span>
-                {last_login_info[key].info}
-              </span>
-            </div>
-          ))}
-        </Grid>
-      </Grid>
-    </ContentCardPage>
+        {isLoading && <Loading />}
+      </ContentCardPage>
+    </>
   );
 };
 

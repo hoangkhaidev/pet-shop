@@ -1,98 +1,127 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Link from "@material-ui/core/Link";
 
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
-import useRouter from "src/utils/hooks/useRouter";
+// import useRouter from "src/utils/hooks/useRouter";
 import PlayerListFilter from "./PlayerListFilter";
+import useFetchData from "src/utils/hooks/useFetchData";
+import get from 'lodash/get';
+import Loading from "../shared/Loading/Loading";
+import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
+import moment from "moment";
 
-const fakeData = [
-  {
-    id: 1,
-    player_id: 1,
-    nickname: "Rambo",
-    signup: "18/04/1996",
-    currency: "usd",
-    language: "English",
-    last_login_time: "20/08/2021",
-    last_login_ip: "192.168.1.1",
-  },
-  {
-    id: 2,
-    player_id: 2,
-    nickname: "Rudo",
-    signup: "18/05/1996",
-    currency: "usd",
-    language: "English",
-    last_login_time: "20/08/2021",
-    last_login_ip: "192.168.1.1",
-  }
-];
+// const fakeData = [
+//   {
+//     id: 1,
+//     player_id: 1,
+//     nickname: "Rambo",
+//     signup: "18/04/1996",
+//     currency: "usd",
+//     language: "English",
+//     last_login_time: "20/08/2021",
+//     last_login_ip: "192.168.1.1",
+//   },
+//   {
+//     id: 2,
+//     player_id: 2,
+//     nickname: "Rudo",
+//     signup: "18/05/1996",
+//     currency: "usd",
+//     language: "English",
+//     last_login_time: "20/08/2021",
+//     last_login_ip: "192.168.1.1",
+//   }
+// ];
 
 const PlayersList = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const [objFilter, setObjFilter] = useState({
-    name_search: "",
-    status_search: "",
-    sort_field: "username",
-    sort_order: "asc",
+    player_id: 0,
+    nick_name: "",
+    brand_id: 0,
+    ip_address: "",
+    from_date: moment().format("DD/MM/YYYY"),
+    to_date: moment().format("DD/MM/YYYY"),
+    language: "",
+    currency: "",
+    sort_field: "id",
+    sort_order: "desc",
     page: 1,
     page_size: 30,
-    ...router.query
   });
+  const [data, setData] = useState([]);
+
+  const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
+    '/api/members',
+    objFilter
+  );
+
+  useEffect(() => {
+    const mapData = get(dataResponse, 'list', []);
+    setData(mapData);
+  }, [dataResponse]);
+
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   const columns = [
     {
-      data_field: "player_id",
+      data_field: "id",
       column_name: "Player ID",
-      align: "center",
+      align: "left",
+      formatter: (cell, row) => (
+        <Link href={`/players/${row.id}/information`}>{cell}</Link>
+      ),
     },
     {
-      data_field: "nickname",
+      data_field: "username",
       column_name: "Nickname",
-      align: "center",
+      align: "left",
     },
     {
-      data_field: "signup",
+      data_field: "created_at",
       column_name: "Signup",
-      align: "center",
+      align: "right",
     },
     {
-      data_field: "currency",
+      data_field: "currency_code",
       column_name: "Currency",
-      align: "center",
+      align: "left",
     },
     {
       data_field: "language",
       column_name: "Language",
-      align: "center"
+      align: "left"
     },
     {
-      data_field: "last_login_time",
+      data_field: "last_logged_in",
       column_name: "Last Login Time",
-      align: "center"
+      align: "right"
     },
     {
-      data_field: "last_login_ip",
+      data_field: "last_logged_ip",
       column_name: "Last Login IP",
-      align: "center"
+      align: "left"
     },
     {
-      data_field: "action",
+      data_field: "Action",
       column_name: "Action",
-      align: "center",
+      align: "left",
       formatter: (cell, row) => (
         <Link href={`/history/${row.id}`}>
-          {row.id}
+          [Game History]
         </Link>
       )
     }
   ];
 
   const handleChangePage = (page) => {
+    let pageNew = page + 1;
     setObjFilter(prevState => ({
       ...prevState,
-      page
+      page: pageNew,
     }));
   };
 
@@ -104,6 +133,10 @@ const PlayersList = () => {
     }));
   };
 
+  // useEffect(() => {
+  //   console.log(objFilter);
+  // }, [objFilter])
+
   const onSubmit = async (data) => {
     setObjFilter(prevState => ({
       ...prevState,
@@ -111,17 +144,39 @@ const PlayersList = () => {
     }));
   };
 
+  const onResetFilter = () => {
+    setObjFilter({
+      player_id: 0,
+      nick_name: "",
+      brand_id: 0,
+      ip_address: "",
+      from_date: moment().format("DD/MM/YYYY"),
+      to_date: moment().format("DD/MM/YYYY"),
+      language: "",
+      currency: "",
+      sort_field: "id",
+      sort_order: "desc",
+      page: 1,
+      page_size: 30,
+    })
+  }
+
+  if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
+
   return (
     <Fragment>
-      <PlayerListFilter onSubmitProps={onSubmit} />
+      {isLoading && <Loading />}
+      <PlayerListFilter onSubmitProps={onSubmit} onResetFilter={onResetFilter} />
       <ContentCardPage>
         <TableComponent
-          data={fakeData}
+          data={data}
           columns={columns}
           pagination={{
-            total_size: fakeData.length,
-            page: objFilter.page,
-            page_size: objFilter.page_size
+            total_size,
+            page: Number(objFilter.page),
+            page_size: Number(objFilter.page_size),
           }}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}

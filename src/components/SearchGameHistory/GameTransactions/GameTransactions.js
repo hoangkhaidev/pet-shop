@@ -53,17 +53,17 @@ const GameTransactions = () => {
     {
       data_field: "round_id",
       column_name: "Round ID",
-      align: "center",
+      align: "left",
     },
     {
       data_field: "start_date",
       column_name: "Start Date",
-      align: "center"
+      align: "left"
     },
     {
       data_field: "end_date",
       column_name: "End Date",
-      align: "center"
+      align: "left"
     },
     {
       data_field: "bet",
@@ -92,12 +92,12 @@ const GameTransactions = () => {
     {
       data_field: "game_status",
       column_name: "Game Status",
-      align: "center",
+      align: "left",
     },
     {
       data_field: "game",
       column_name: "Game",
-      align: "center"
+      align: "left"
     }
   ];
 
@@ -119,8 +119,8 @@ const GameTransactions = () => {
   return (
     <Fragment>
       <PlayerInformation />
+      <TitlePage title="Game Transaction" />
       <GameTransactionsFilter />
-      <TitlePage title="Game Transaction List" />
       <TableComponent
         data={fakeData}
         columns={columns}

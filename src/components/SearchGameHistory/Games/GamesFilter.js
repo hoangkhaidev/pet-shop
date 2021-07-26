@@ -1,6 +1,6 @@
 import { Fragment, useState, useContext } from "react";
 import { useForm } from "react-hook-form";
-import FormControl from "@material-ui/core/FormControl";
+// import FormControl from "@material-ui/core/FormControl";
 import { useTranslation } from "react-i18next";
 import moment from 'moment';
 import Grid from "@material-ui/core/Grid";
@@ -74,7 +74,10 @@ const useStyles = makeStyles(() => ({
   },
   formControlDateTimePicker: {
     width: "100%"
-  }
+  },
+  inputDataPicked: {
+    paddingTop: "32px !important"
+  },
 }));
 
 const GameFilter = ({
@@ -128,18 +131,16 @@ const GameFilter = ({
       <ContentCardPage>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
-            <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
-              <FormControl className={classes.formControlDateTimePicker}>
-                <FormLabel>
-                  {t("Form - To")}
-                </FormLabel>
-                <DateRangePickerComponent
-                  startDate={dateRange.start}
-                  endDate={dateRange.end}
-                  handleCallback={onChangeDateRange}
-                  format="DD/MM/YYYY"
-                />
-              </FormControl>
+            <Grid className={classes.inputDataPicked} item xs={12} xl={3} md={4}>
+              <DateRangePickerComponent
+                startDate={dateRange.start}
+                endDate={dateRange.end}
+                handleCallback={onChangeDateRange}
+                format="DD/MM/YYYY"
+              />
+              <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>
+                {t("Form - To")}
+              </FormLabel>
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
               <InputField
@@ -149,6 +150,15 @@ const GameFilter = ({
                 label="Round ID"
                 id="rount_id"
                 fullWidth={false}
+              />
+              <SelectField
+                control={control}
+                namefileld="game_type"
+                id="game_type"
+                label="Game Type"
+                fullWidth={false}
+                options={fakeGameTypes}
+                defaultValue="all"
               />
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
@@ -161,19 +171,6 @@ const GameFilter = ({
                 options={fakeTimezones}
                 defaultValue="+07:00"
               />
-            </Grid>
-            <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
-              <SelectField
-                control={control}
-                namefileld="game_type"
-                id="game_type"
-                label="Game Type"
-                fullWidth={false}
-                options={fakeGameTypes}
-                defaultValue="all"
-              />
-            </Grid>
-            <Grid item xs={12} xl={3} md={4}>
               <SelectField
                 control={control}
                 namefileld="game_name"
@@ -184,9 +181,10 @@ const GameFilter = ({
                 defaultValue="all"
               />
             </Grid>
+           
           </Grid>
           <ButtonGroup>
-            <SubmitButton />
+            <SubmitButton text='Search' />
             <ResetButton onAction={onReset} />
           </ButtonGroup>
         </form>

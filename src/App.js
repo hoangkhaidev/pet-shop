@@ -16,6 +16,7 @@ import routes from 'src/routes';
 import { store, persistor } from "./stores";
 import 'react-toastify/dist/ReactToastify.css';
 import "./global.scss";
+import "./index.scss";
 
 export const CurrentPageContext = createContext({
   currentMenu: null
@@ -34,6 +35,9 @@ const Routes = () => {
     });
     return listUrl;
   }, []);
+  // console.log(isLoggedIn)
+  // console.log(curPage)
+  // console.log(routerHasUrl)
 
   useEffect(() => {
     const currentPage = find(routerHasUrl, item => item.fullpath === router.pathname);

@@ -7,14 +7,16 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 const DateRangePickerComponent = ({
   timePicker, startDate, endDate,
-  handleCallback, format
+  handleCallback, format, 
 }) => {
   return (
     <DateRangePicker
+      className={'itemA'}
+      style={{paddingTop: "32px !important"}}
       initialSettings={{
         startDate,
         endDate,
-        timePicker,
+        timePicker: true,
         locale: {
           format
         }
