@@ -65,7 +65,7 @@ const RoleList = () => {
   const columns = [
     {
       data_field: "indexRow",
-      column_name: "No",
+      column_name: "#",
       align: "center"
     },
     {
@@ -143,6 +143,8 @@ const RoleList = () => {
           data={data}
           columns={columns}
           types="RoleList"
+          page = { Number(objFilter.page) }
+          page_size = { Number(objFilter.page_size) }
           pagination={{
             total_size: fakeData.length,
             page: +objFilter.page,

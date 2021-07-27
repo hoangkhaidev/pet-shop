@@ -87,7 +87,7 @@ const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
             {info.formatter ? (
               info.formatter(rowData[info.data_field], rowData)
             ) : (
-              info.data_field === 'indexRow' ? indexRow + 1 : rowData[info.data_field]
+              info.data_field === 'indexRow' ? indexRow : rowData[info.data_field]
             )}
           </TableCell>
         )} 
@@ -104,7 +104,7 @@ TableRowComponent.propTypes = {
 
 const TableComponent = ({
   // eslint-disable-next-line react/prop-types
-  data, columns, pagination, handleChangePage, handleChangeRowsPerPage, types
+  data, columns, pagination, handleChangePage, handleChangeRowsPerPage, types, page, page_size
 }) => {
   const classes = useStyles();
   // eslint-disable-next-line camelcase
@@ -116,12 +116,15 @@ const TableComponent = ({
       <Table className={classes.table} aria-label="table-component">
         <TableHeader headers={columns.map(item => item.column_name)} />
         <TableBody>
-          {data.map((row, index) => {
-            // console.log(row);
-            return (
-              <TableRowComponent indexRow={index} key={index} rowData={row} cellInfo={cellInfo} />
-            )
-          })}
+
+          {data.length > 0 ? data.map((row, index) => {
+              // console.log(row);
+              let startIndex = (page - 1) * page_size + 1; 
+              return (
+                <TableRowComponent indexRow={startIndex + index} key={index} rowData={row} cellInfo={cellInfo} />
+              )
+            }) : "No result found"
+          }
         </TableBody>
         {types !== 'RoleList' && 
           <TablePagination

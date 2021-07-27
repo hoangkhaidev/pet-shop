@@ -3,13 +3,14 @@ import Link from "@material-ui/core/Link";
 
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
-// import useRouter from "src/utils/hooks/useRouter";
+import useRouter from "src/utils/hooks/useRouter";
 import PlayerListFilter from "./PlayerListFilter";
 import useFetchData from "src/utils/hooks/useFetchData";
 import get from 'lodash/get';
 import Loading from "../shared/Loading/Loading";
 import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
 import moment from "moment";
+// import { useForm } from "react-hook-form";
 
 // const fakeData = [
 //   {
@@ -35,7 +36,7 @@ import moment from "moment";
 // ];
 
 const PlayersList = () => {
-  // const router = useRouter();
+  const router = useRouter();
   const [objFilter, setObjFilter] = useState({
     player_id: 0,
     nick_name: "",
@@ -49,6 +50,11 @@ const PlayersList = () => {
     sort_order: "desc",
     page: 1,
     page_size: 30,
+    ...{
+      ...router.query,
+      player_id: router.query.player_id ? Number(router.query.player_id) : 0,
+      brand_id: router.query.brand_id ? Number(router.query.brand_id) : 0,
+    },
   });
   const [data, setData] = useState([]);
 
@@ -133,33 +139,18 @@ const PlayersList = () => {
     }));
   };
 
-  // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter])
+  useEffect(() => {
+    console.log(objFilter);
+  }, [objFilter])
 
   const onSubmit = async (data) => {
+    // console.log(data)
+    
     setObjFilter(prevState => ({
       ...prevState,
       ...data,
     }));
   };
-
-  const onResetFilter = () => {
-    setObjFilter({
-      player_id: 0,
-      nick_name: "",
-      brand_id: 0,
-      ip_address: "",
-      from_date: moment().format("DD/MM/YYYY"),
-      to_date: moment().format("DD/MM/YYYY"),
-      language: "",
-      currency: "",
-      sort_field: "id",
-      sort_order: "desc",
-      page: 1,
-      page_size: 30,
-    })
-  }
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
@@ -168,11 +159,13 @@ const PlayersList = () => {
   return (
     <Fragment>
       {isLoading && <Loading />}
-      <PlayerListFilter onSubmitProps={onSubmit} onResetFilter={onResetFilter} />
+      <PlayerListFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <ContentCardPage>
         <TableComponent
           data={data}
           columns={columns}
+          page = { Number(objFilter.page) }
+          page_size = { Number(objFilter.page_size) }
           pagination={{
             total_size,
             page: Number(objFilter.page),

@@ -8,7 +8,7 @@ import moment from 'moment';
 
 import TabPanel from "src/components/shared/TabPanel/TabPanel";
 import Loading from "src/components/shared/Loading/Loading";
-import { colors } from "src/utils/styles";
+// import { colors } from "src/utils/styles";
 
 const GameTransactions = lazy(() => import("./GameTransactions/GameTransactions"));
 const GamesList = lazy(() => import("./Games/GamesList"));
@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
   },
   labelTab: {
     fontWeight: "bold !important",
-    color: `${colors.labelTab} !important`
   },
   aaaaaaaaa: {
     '& .MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.Mui-selected.makeStyles-labelTab-6.css-1760dni-MuiButtonBase-root-MuiTab-root': {

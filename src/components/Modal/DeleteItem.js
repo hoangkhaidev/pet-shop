@@ -42,7 +42,8 @@ const DeleteItem = ({title, linkApi, types, username }) => {
     try {
       let data = await api.post(linkApi);
       if(!data?.success) {
-        if (data.err === 'err:role_in_use') toast.warn('Failed to Delete \n Role in use');
+        let mess = 'Failed to Delete';
+        if (data.err === 'err:role_in_use') toast.warn(<div>{mess}<br /> <div style={{fontSize: '14px'}}>Role in use</div></div>, { position: toast.POSITION.UPPER_RIGHT });
         else toast.warn(`Failed to Delete`);
       } else {
         toast.success(`${title} Success`, {

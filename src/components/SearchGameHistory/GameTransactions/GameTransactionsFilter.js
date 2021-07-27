@@ -1,4 +1,4 @@
-import { Fragment, useState, useContext } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
 import { useTranslation } from "react-i18next";
@@ -14,56 +14,9 @@ import InputField from "src/components/shared/InputField/InputField";
 import SelectField from "src/components/shared/InputField/SelectField";
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
 
-import { DateRangeContext } from "../SearchGameHistory";
-
-const fakeTimezones = [
-  {
-    id: 1,
-    value: "+07:00",
-    label: "Asia/Ho_Chi_Minh"
-  },
-  {
-    id: 2,
-    value: "+00:00",
-    label: "Europe/London"
-  }
-];
-
-const fakeGameTypes = [
-  {
-    id: 1,
-    value: "all",
-    label: "All"
-  },
-  {
-    id: 2,
-    value: "game_type1",
-    label: "Game Type 1"
-  },
-  {
-    id: 3,
-    value: "game_type2",
-    label: "Game Type 2"
-  }
-];
-
-const fakeGameNames = [
-  {
-    id: 1,
-    value: "all",
-    label: "All"
-  },
-  {
-    id: 2,
-    value: "game_name2",
-    label: "Game Name 2"
-  },
-  {
-    id: 3,
-    value: "game_name3",
-    label: "Game Name 3"
-  }
-];
+// import { DateRangeContext } from "../SearchGameHistory";
+import useFetchData from "src/utils/hooks/useFetchData";
+import useRouter from "src/utils/hooks/useRouter";
 
 const useStyles = makeStyles(() => ({
   inputDataPicked: {
@@ -78,48 +31,162 @@ const useStyles = makeStyles(() => ({
 }));
 
 const GameTransactionFilter = ({
-  onResetFilter
+  onResetFilter, onSubmitProps, setObjFilter
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const router = useRouter();
+
+  const { dataResponse: dataGame} = useFetchData("/api/games");
+  const { dataResponse: dataTimezone} = useFetchData("/api/timezones");
+
+  const [gameTypeData, setGameTypeData] = useState([]);
+  const [gameNameData, setGameNameData] = useState([]);
+  const [timezoneData, setTimezoneData] = useState([]);
+
+  const pad = (number, length) => {
+    let str = "" + number
+    while (str.length < length) {
+        str = '0' + str
+    }
+    return str;
+  }
+
+  let tz = new Date().getTimezoneOffset()
+  tz = ((tz <0 ? '+' : '-') + pad(parseInt(Math.abs(tz / 60)), 2) + pad(Math.abs(tz % 60), 2));
+
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       round_id: "",
-      time_zone: "+07:00",
+      time_zone: tz,
       game_type: "all",
-      game_name: "all"
+      game_name: ""
     }
   });
-  const [dateRange, setDateRange] = useState({
-    start: moment().startOf("day").format("DD/MM/YYYY HH:mm:ss"),
-    end: moment().endOf("day")
-  });
-  const { setDateRange: setDateRangeCont } = useContext(DateRangeContext);
 
-  const onChangeDateRange = (start, end) => {
-    const startTimeFormat = moment(start).format("DD/MM/YYYY HH:mm:ss");
-    const endTimeFormat = moment(end).format("DD/MM/YYYY HH:mm:ss");
+  useEffect(() => {
+    let mapData = [{id: 0, value: "all", label: "All"}];
+    let newGameType;
+    newGameType = dataGame.game_type_list;
+    if (!newGameType) return;
+    if (newGameType.length <= 0) return;
+    newGameType.map((data) => {
+      let optionData = {
+        id: data,
+        value: data,
+        label: data,
+      };
+      mapData.push(optionData);
+      return data;
+    });
+    setGameTypeData([...mapData]);
+  }, [dataGame, setGameTypeData]);
+
+  useEffect(() => {
+    let mapData = [];
+    let newGameName;
+    newGameName = dataGame?.games;
+    if (!newGameName) return;
+    if (newGameName.length <= 0) return;
+    newGameName.map((data) => {
+      let optionData = {
+        id: data.game_name,
+        value: data.game_name,
+        label: data.game_name,
+      };
+      mapData.push(optionData);
+      return data;
+    });
+    setGameNameData([...mapData]);
+  }, [dataGame, setGameNameData]);
+
+  useEffect(() => {
+    let mapData = [];
+    let newTimezone;
+    if(dataTimezone) {
+      newTimezone = [...dataTimezone];
+    }
+    if (!newTimezone) return;
+    if (newTimezone.length <= 0) return;
+    newTimezone.forEach(data => {
+      let optionData = {
+        id: data.offset,
+        value: data.offset,
+        label: data.name,
+      };
+      mapData.push(optionData)
+    });
+    setTimezoneData([...mapData]);
+  }, [dataTimezone, setTimezoneData]);
+
+  // useEffect(() => {
+  //   console.log(gameNameData)
+  // }, [gameNameData]);
+
+  const [dateRange, setDateRange] = useState({
+    start: moment().format("DD/MM/YYYY 00:00"),
+    end: moment().format("DD/MM/YYYY 23:59"),
+  });
+  // const { setDateRange: setDateRangeCont } = useContext(DateRangeContext);
+
+  const onChangeDateRange = (startDate, endDate) => {
     setDateRange({
-      start: startTimeFormat,
-      end: endTimeFormat
+      start: moment(startDate).format("DD/MM/YYYY hh:mm"),
+      end: moment(endDate).format("DD/MM/YYYY hh:mm")
     });
-    setDateRangeCont({
-      start: moment(start).format("DD/MM/YYYY"),
-      end: moment(end).format("DD/MM/YYYY")
-    });
+    // setDateRangeCont({
+    //   start: moment(start).format("DD/MM/YYYY"),
+    //   end: moment(end).format("DD/MM/YYYY")
+    // });
   };
 
   const onSubmit = async (data) => {
-    // const form = {
-    //   ...data,
-    //   end: dateRange.end,
-    //   start: dateRange.start
-    // };
+    const form = {
+      ...data,
+      game_type: data.game_type === 'all' ? '' : data.game_type,
+      from_date: dateRange.start,
+      to_date: dateRange.end,
+    };
+    // console.log(dateRange.start);
+    // console.log(form);
+    onSubmitProps(form);
   };
 
+  useEffect(() => {
+    console.log(dateRange);
+  }, [dateRange])
+
   const onReset = () => {
-    reset();
-    onResetFilter();
+    // reset();
+    // onResetFilter();
+    reset({
+      page: 1,
+      page_size: 30,
+      time_zone: tz,
+      sort_field: "start_at",
+      sort_order: "DESC",
+      player_id: Number(router.query.id),
+      round_id: "",
+      game_type: "all",
+      game_name: "",
+    });
+    setObjFilter({
+      page: 1,
+      page_size: 30,
+      time_zone: tz,
+      sort_field: "start_at",
+      sort_order: "DESC",
+      player_id: Number(router.query.id),
+      round_id: "",
+      game_type: "",
+      game_name: "",
+      from_date: moment().format("DD/MM/YYYY 00:00"),
+      to_date: moment().format("DD/MM/YYYY 23:59"),
+    });
+    setDateRange({
+      start: moment().format("DD/MM/YYYY 00:00"),
+      end: moment().format("DD/MM/YYYY 23:59")
+    });
   };
 
   return (
@@ -143,10 +210,10 @@ const GameTransactionFilter = ({
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
               <InputField
                 control={control}
-                namefileld="rount_id"
+                namefileld="round_id"
                 type="text"
                 label="Round ID"
-                id="rount_id"
+                id="round_id"
                 fullWidth={false}
               />
               <SelectField
@@ -155,7 +222,7 @@ const GameTransactionFilter = ({
                 id="time_zone"
                 label="Time Zone"
                 fullWidth={false}
-                options={fakeTimezones}
+                options={timezoneData}
                 defaultValue="+07:00"
               />
             </Grid>
@@ -166,7 +233,7 @@ const GameTransactionFilter = ({
                 id="game_type"
                 label="Game Type"
                 fullWidth={false}
-                options={fakeGameTypes}
+                options={gameTypeData}
                 defaultValue="all"
               />
               <SelectField
@@ -175,7 +242,7 @@ const GameTransactionFilter = ({
                 id="game_name"
                 label="Game Name"
                 fullWidth={false}
-                options={fakeGameNames}
+                options={gameNameData}
                 defaultValue="all"
               />
             </Grid>

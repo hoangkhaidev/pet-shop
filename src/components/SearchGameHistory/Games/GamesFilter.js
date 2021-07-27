@@ -1,4 +1,4 @@
-import { Fragment, useState, useContext } from "react";
+import { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 // import FormControl from "@material-ui/core/FormControl";
 import { useTranslation } from "react-i18next";
@@ -13,7 +13,7 @@ import DateRangePickerComponent from "src/components/shared/DateRangePickerCompo
 import InputField from "src/components/shared/InputField/InputField";
 import SelectField from "src/components/shared/InputField/SelectField";
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
-import { DateRangeContext } from "../SearchGameHistory";
+// import { DateRangeContext } from "../SearchGameHistory";
 
 const fakeTimezones = [
   {
@@ -81,48 +81,48 @@ const useStyles = makeStyles(() => ({
 }));
 
 const GameFilter = ({
-  onResetFilter
+  onResetFilter, onSubmitProps
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      rount_id: "",
-      time_zone: "+07:00",
-      game_type: "all",
-      game_name: "all"
+      round_id: "",
+      time_zone: "+0700",
+      game_type: "",
+      game_name: ""
     }
   });
-  const { dateRange: dateRangeCont } = useContext(DateRangeContext);
+  // const { dateRange: dateRangeCont } = useContext(DateRangeContext);
 
   const [dateRange, setDateRange] = useState({
-    start: dateRangeCont.start,
-    end: dateRangeCont.end
+    start: moment().format("DD/MM/YYYY"),
+    end: moment().format("DD/MM/YYYY")
   });
 
-  const onChangeDateRange = (start, end) => {
-    const startTimeFormat = moment(start).format("DD/MM/YYYY");
-    const endTimeFormat = moment(end).format("DD/MM/YYYY");
+  const onChangeDateRange = (startDate, endDate) => {
     setDateRange({
-      start: startTimeFormat,
-      end: endTimeFormat
+      start: startDate,
+      end: endDate
     });
   };
 
   const onSubmit = async (data) => {
-    // const form = {
-    //   ...data,
-    //   end: dateRange.end,
-    //   start: dateRange.start
-    // };
+    console.log(data);
+    const form = {
+      ...data,
+      from_date: moment(dateRange.start).format("DD/MM/YYYY"),
+      to_date: moment(dateRange.end).format("DD/MM/YYYY"),
+    };
+    onSubmitProps(form);
   };
 
   const onReset = () => {
     reset();
     onResetFilter();
     setDateRange({
-      start: moment().format("DD/MM/YYYY"),
-      end: moment().format("DD/MM/YYYY")
+      from_date: moment().format("DD/MM/YYYY"),
+      to_date: moment().format("DD/MM/YYYY")
     });
   };
 
@@ -145,10 +145,10 @@ const GameFilter = ({
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
               <InputField
                 control={control}
-                namefileld="rount_id"
+                namefileld="round_id"
                 type="text"
                 label="Round ID"
-                id="rount_id"
+                id="round_id"
                 fullWidth={false}
               />
               <SelectField
@@ -158,7 +158,7 @@ const GameFilter = ({
                 label="Game Type"
                 fullWidth={false}
                 options={fakeGameTypes}
-                defaultValue="all"
+                defaultValue=""
               />
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
@@ -169,7 +169,7 @@ const GameFilter = ({
                 label="Time Zone"
                 fullWidth={false}
                 options={fakeTimezones}
-                defaultValue="+07:00"
+                defaultValue="+0700"
               />
               <SelectField
                 control={control}
@@ -178,7 +178,7 @@ const GameFilter = ({
                 label="Game Name"
                 fullWidth={false}
                 options={fakeGameNames}
-                defaultValue="all"
+                defaultValue=""
               />
             </Grid>
            

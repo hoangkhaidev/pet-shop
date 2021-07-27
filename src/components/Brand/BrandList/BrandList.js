@@ -100,7 +100,7 @@ const BrandList = () => {
     methods.reset({
       name_search: '',
       status_search: '',
-      operator_id: 0,
+      operator_id: 'all',
       sort_field: 'username',
       sort_order: 'asc',
       page: 1,
@@ -117,9 +117,9 @@ const BrandList = () => {
     });
   }
 
-  // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter]);
+  useEffect(() => {
+    console.log(objFilter);
+  }, [objFilter]);
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
@@ -293,6 +293,8 @@ const BrandList = () => {
         <TableComponent
           data={data}
           columns={columns}
+          page = { Number(objFilter.page) }
+          page_size = { Number(objFilter.page_size) }
           pagination={{
             total_size,
             page: Number(objFilter.page),

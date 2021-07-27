@@ -64,9 +64,9 @@ const PlayerInformation = () => {
     setData(dataResponse);
   }, [dataResponse]);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   const navigate = useNavigate();
   const onCancel = () => {

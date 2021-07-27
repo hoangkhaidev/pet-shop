@@ -1,53 +1,93 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import moment from "moment";
 
 import useRouter from "src/utils/hooks/useRouter";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import { formatNumberWithComma } from "src/utils/function";
-
+// import get from 'lodash/get';
 import GamesFilter from "./GamesFilter";
+import useFetchData from "src/utils/hooks/useFetchData";
+import Loading from "src/components/shared/Loading/Loading";
+import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 
-const fakeData = [
-  {
-    id: 1,
-    game: "COD",
-    start_time: moment().format("DD/MM/YYYY"),
-    sessions_count: 1,
-    bet: 100000,
-    win: 2000000
-  },
-  {
-    id: 2,
-    game: "PUBG",
-    start_time: moment().format("DD/MM/YYYY"),
-    sessions_count: 2,
-    bet: 100000,
-    win: 2000000
-  },
-];
+// const fakeData = [
+//   {
+//     id: 1,
+//     game: "COD",
+//     start_time: moment().format("DD/MM/YYYY"),
+//     sessions_count: 1,
+//     bet: 100000,
+//     win: 2000000
+//   },
+//   {
+//     id: 2,
+//     game: "PUBG",
+//     start_time: moment().format("DD/MM/YYYY"),
+//     sessions_count: 2,
+//     bet: 100000,
+//     win: 2000000
+//   },
+// ];
 
 const GamesList = () => {
   const router = useRouter();
+
+  const pad = (number, length) => {
+    let str = "" + number
+    while (str.length < length) {
+        str = '0' + str
+    }
+    return str;
+  }
+
+  let tz = new Date().getTimezoneOffset()
+  tz = ((tz <0 ? '+' : '-') + pad(parseInt(Math.abs(tz / 60)), 2) + pad(Math.abs(tz % 60), 2));
+
   const [objFilter, setObjFilter] = useState({
     round_id: "",
-    time_zone: "",
+    time_zone: tz,
     game_type: "",
     game_name: "",
-    page: 1,
-    page_size: 30,
-    ...router.query
+    sort_field: "start_at",
+    sort_order: "DESC",
+    player_id: Number(router.query.id),
+    from_date:  moment().format("DD/MM/YYYY"),
+    to_date: moment().format("DD/MM/YYYY"),
   });
+
+  const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
+    '/api/transaction/player_game_history_group',
+    objFilter
+  );
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    setData(dataResponse);
+  }, [dataResponse]);
+
+  // useEffect(() => {
+  //   console.log(dataResponse);
+  // }, [dataResponse]);
+
+  const onSubmit = async (data) => {
+    console.log(data)
+    setObjFilter(prevState => ({
+      ...prevState,
+      ...data,
+    }));
+  };
 
   const columns = [
     {
-      data_field: "game",
+      data_field: "game_name",
       column_name: "Game",
-      align: "left"
+      align: "left",
     },
     {
-      data_field: "start_time",
+      data_field: "round_date",
       column_name: "Round Data",
       align: "left"
     },
@@ -85,17 +125,23 @@ const GamesList = () => {
     }));
   };
 
+  if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
+
   return (
     <Fragment>
-      <GamesFilter />
+      {isLoading && <Loading />}
+      <GamesFilter onSubmitProps={onSubmit} />
       <TitlePage title="Games" />
       <TableComponent
-        data={fakeData}
+        data={data}
         columns={columns}
+        types="RoleList"
         pagination={{
-          total_size: fakeData.length,
-          page: objFilter.page,
-          page_size: objFilter.page_size
+          total_size,
+          page: Number(objFilter.page),
+          page_size: Number(objFilter.page_size),
         }}
         handleChangePage={handleChangePage}
         handleChangeRowsPerPage={handleChangeRowsPerPage}

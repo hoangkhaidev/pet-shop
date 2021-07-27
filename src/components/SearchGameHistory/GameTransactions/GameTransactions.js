@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import moment from "moment";
 import toString from "lodash/toString";
 
@@ -7,53 +7,91 @@ import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import PlayerInformation from "src/components/PlayerInformation/PlayerInformation";
 import { formatNumberWithComma } from "src/utils/function";
-
+import get from 'lodash/get';
 import GameTransactionsFilter from "./GameTransactionsFilter";
+import useFetchData from "src/utils/hooks/useFetchData";
+import Loading from "src/components/shared/Loading/Loading";
+import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
+// import { Link } from "react-router-dom";
 
-const fakeData = [
-  {
-    id: 1,
-    round_id: "12345",
-    start_date: moment().format("DD/MM/YYYY"),
-    end_date: moment().format("DD/MM/YYYY"),
-    bet: 1000000,
-    win: 25000,
-    jackpot: 300000,
-    balance: 21298312,
-    game_status: "In-Game",
-    game: "COD"
-  },
-  {
-    id: 2,
-    round_id: "54321",
-    start_date: moment().format("DD/MM/YYYY"),
-    end_date: moment().format("DD/MM/YYYY"),
-    bet: 1000000,
-    win: 25000,
-    jackpot: 300000,
-    balance: 21298312,
-    game_status: "In-Game",
-    game: "COD"
-  }
-];
+// const fakeData = [
+//   {
+//     id: 1,
+//     round_id: "12345",
+//     start_date: moment().format("DD/MM/YYYY"),
+//     end_date: moment().format("DD/MM/YYYY"),
+//     bet: 1000000,
+//     win: 25000,
+//     jackpot: 300000,
+//     balance: 21298312,
+//     game_status: "In-Game",
+//     game: "COD"
+//   },
+//   {
+//     id: 2,
+//     round_id: "54321",
+//     start_date: moment().format("DD/MM/YYYY"),
+//     end_date: moment().format("DD/MM/YYYY"),
+//     bet: 1000000,
+//     win: 25000,
+//     jackpot: 300000,
+//     balance: 21298312,
+//     game_status: "In-Game",
+//     game: "COD"
+//   }
+// ];
 
 const GameTransactions = () => {
   const router = useRouter();
+  // console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
+
+  const pad = (number, length) => {
+    let str = "" + number
+    while (str.length < length) {
+        str = '0' + str
+    }
+    return str;
+  }
+
+  let tz = new Date().getTimezoneOffset()
+  tz = ((tz <0 ? '+' : '-') + pad(parseInt(Math.abs(tz / 60)), 2) + pad(Math.abs(tz % 60), 2));
+
   const [objFilter, setObjFilter] = useState({
     round_id: "",
-    time_zone: "",
+    time_zone: tz,
+    sort_field: "start_at",
+    sort_order: "DESC",
+    player_id: Number(router.query.id),
     game_type: "",
     game_name: "",
+    from_date: moment().format("DD/MM/YYYY 00:00"),
+    to_date: moment().format("DD/MM/YYYY 23:59"),
     page: 1,
     page_size: 30,
-    ...router.query
   });
+
+  const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
+    '/api/transaction/player_game_history',
+    objFilter
+  );
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const mapData = get(dataResponse, 'list', []);
+    setData(mapData);
+  }, [dataResponse]);
+
+  useEffect(() => {
+    console.log(objFilter);
+  }, [objFilter]);
 
   const columns = [
     {
       data_field: "round_id",
       column_name: "Round ID",
       align: "left",
+      formatter: cell => formatNumberWithComma(toString(cell))
     },
     {
       data_field: "start_date",
@@ -84,27 +122,36 @@ const GameTransactions = () => {
       formatter: cell => formatNumberWithComma(toString(cell))
     },
     {
-      data_field: "balance",
+      data_field: "balance_after",
       column_name: "Balance",
       align: "right",
       formatter: cell => formatNumberWithComma(toString(cell))
     },
     {
-      data_field: "game_status",
+      data_field: "status",
       column_name: "Game Status",
       align: "left",
     },
     {
-      data_field: "game",
+      data_field: "game_name",
       column_name: "Game",
       align: "left"
     }
   ];
 
-  const handleChangePage = (page) => {
+  const onSubmit = async (data) => {
+    
     setObjFilter(prevState => ({
       ...prevState,
-      page
+      ...data,
+    }));
+  };
+
+  const handleChangePage = (page) => {
+    let pageNew = page + 1;
+    setObjFilter(prevState => ({
+      ...prevState,
+      page: pageNew,
     }));
   };
 
@@ -116,18 +163,25 @@ const GameTransactions = () => {
     }));
   };
 
+  if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
+
   return (
     <Fragment>
+      {isLoading && <Loading />}
       <PlayerInformation />
       <TitlePage title="Game Transaction" />
-      <GameTransactionsFilter />
+      <GameTransactionsFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <TableComponent
-        data={fakeData}
+        data={data}
         columns={columns}
+        page = { Number(objFilter.page) }
+        page_size = { Number(objFilter.page_size) }
         pagination={{
-          total_size: fakeData.length,
-          page: objFilter.page,
-          page_size: objFilter.page_size
+          total_size,
+          page: Number(objFilter.page),
+          page_size: Number(objFilter.page_size),
         }}
         handleChangePage={handleChangePage}
         handleChangeRowsPerPage={handleChangeRowsPerPage}

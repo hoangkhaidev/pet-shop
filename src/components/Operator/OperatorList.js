@@ -170,7 +170,8 @@ const OperatorList = () => {
     {
       data_field: 'product_names',
       column_name: 'Product',
-      align: 'left'
+      align: 'left',
+      formatter: (cell) => cell.join(', '),
     },
     {
       data_field: 'commission',
@@ -280,6 +281,8 @@ const OperatorList = () => {
         <TableComponent
           data={data}
           columns={columns}
+          page = { Number(objFilter.page) }
+          page_size = { Number(objFilter.page_size) }
           pagination={{
             total_size,
             page: Number(objFilter.page),

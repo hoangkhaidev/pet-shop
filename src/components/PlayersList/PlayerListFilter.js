@@ -12,6 +12,7 @@ import DateRangePickerComponent from "src/components/shared/DateRangePickerCompo
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
 import { func } from "prop-types";
 import useFetchData from "src/utils/hooks/useFetchData";
+// import useRouter from "src/utils/hooks/useRouter";
 // import { FormattedNumberInputCaptcha } from "../shared/InputField/InputFieldNumber";
 
 const useStyles = makeStyles(() => ({
@@ -38,28 +39,50 @@ const useStyles = makeStyles(() => ({
 // ];
 
 const PLayerListFilter = ({
-  onResetFilter, onSubmitProps
+  onResetFilter, onSubmitProps, setObjFilter
 }) => {
   const { t } = useTranslation();
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, reset } = useForm();
   const [dateRange, setDateRange] = useState({
     start: moment().format("DD/MM/YYYY"),
     end: moment().format("DD/MM/YYYY")
   });
   const classes = useStyles();
+  // const router = useRouter();
 
-  
   const { dataResponse: dataBrand} = useFetchData("/api/brand");
   const { dataResponse: dataCurrency} = useFetchData("/api/currency");
+  const { dataResponse: dataLanguage} = useFetchData("/api/language");
   
   const [brandData, setBrandData] = useState([]);
   const [currencyData, setCurrencyData] = useState([]);
+  const [languageData, setLanguageData] = useState([]);
 
+  // const methods = useForm({
+  //   defaultValues: router.query,
+  // });
 
  // useEffect(() => {
   //   console.log(currencyData);
   // }, [currencyData])
 
+  useEffect(() => {
+    let mapData = [];
+    let newLanguage;
+    newLanguage = [...dataLanguage];
+    if (!newLanguage) return;
+    if (newLanguage.length <= 0) return;
+    newLanguage.forEach((data, index) => {
+      let optionData = {
+        id: data.code,
+        value: data.code,
+        label: data.name,
+      };
+      mapData.push(optionData)
+    });
+    setLanguageData([...mapData]);
+  }, [dataLanguage, setLanguageData]);
+  
   useEffect(() => {
     let mapData = [];
     let newCurrency;
@@ -99,8 +122,8 @@ const PLayerListFilter = ({
   const onChangeDateRange = (startDate, endDate) => {
     // console.log(startDate, endDate);
     setDateRange({
-      start: startDate,
-      end: endDate
+      start: moment(startDate).format("DD/MM/YYYY"),
+      end: moment(endDate).format("DD/MM/YYYY")
     });
   };
 
@@ -109,17 +132,50 @@ const PLayerListFilter = ({
   // }, [dateRange])
 
   const onSubmit = async (data) => {
+    // console.log(data)
     const form = {
       ...data,
       brand_id: data.brand_id === 'all' ? 0 : Number(data.brand_id),
       ip_address: data.ip_address ? data.ip_address : '',
       nick_name: data.nick_name ? data.nick_name : '',
       player_id: data.player_id ? Number(data.player_id) : 0,
-      from_date: moment(dateRange.start).format("DD/MM/YYYY"),
-      to_date: moment(dateRange.end).format("DD/MM/YYYY"),
+      from_date: dateRange.start,
+      to_date: dateRange.end,
     };
     onSubmitProps(form);
   };
+
+  const onResetFilterPlayer = () => {
+    reset({
+      player_id: "",
+      nick_name: "",
+      brand_id: "all",
+      ip_address: "",
+      from_date: moment().format("DD/MM/YYYY"),
+      to_date: moment().format("DD/MM/YYYY"),
+      language: "",
+      currency: "",
+      sort_field: "id",
+      sort_order: "desc",
+      page: 1,
+      page_size: 30,
+    });
+    setObjFilter({
+      player_id: 0,
+      nick_name: "",
+      brand_id: 0,
+      ip_address: "",
+      from_date: moment().format("DD/MM/YYYY"),
+      to_date: moment().format("DD/MM/YYYY"),
+      language: "",
+      currency: "",
+      sort_field: "id",
+      sort_order: "desc",
+      page: 1,
+      page_size: 30,
+    });
+   
+  }
 
   return (
     <Fragment>
@@ -201,6 +257,7 @@ const PLayerListFilter = ({
                 namefileld="language"
                 id="language"
                 label="Language"
+                options={languageData}
                 fullWidth={false}
                 defaultValue=""
               />
@@ -208,7 +265,7 @@ const PLayerListFilter = ({
           </Grid>
           <ButtonGroup>
             <SubmitButton text={'Search'} />
-            <ResetButton onAction={onResetFilter} />
+            <ResetButton onAction={onResetFilterPlayer} />
           </ButtonGroup>
         </form>
       </ContentCardPage>
