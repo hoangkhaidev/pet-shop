@@ -158,7 +158,13 @@ const OperatorEdit = () => {
   }, [checkboxListCheck]);
 
   useEffect(() => {
-    const formatWhitelistIP = dataResponse?.whitelist_ips?.map((ip) => ip.split('.'));
+    let dataWhitelist_ips = get(dataResponse, 'whitelist_ips', ['...']);
+    dataWhitelist_ips.push('...');
+    // console.log(data)
+    if (!dataWhitelist_ips.length) {
+      dataWhitelist_ips = ['...'];
+    }
+    const formatWhitelistIP = dataWhitelist_ips.map((ip) => ip.split('.'));
     const formatApiWLIP = dataResponse?.api_white_list_ip?.split('.');
  
     setApiWLIP(formatApiWLIP?.length > 0 ? formatApiWLIP : apiWLIP);
@@ -242,6 +248,8 @@ const OperatorEdit = () => {
     const form = {
       ...dataForm,
       api_whitelist_ip: formatWLIPEndpoint,
+      password: dataForm.password ? dataForm.password : '',
+      password_confirmation: dataForm.password_confirmation ? dataForm.password_confirmation : '',
       whitelist_ips: formatWLIPs,
       finance_email: financeEmails,
       product_commission: product_commission,
@@ -514,7 +522,6 @@ const OperatorEdit = () => {
         <InputField
           namefileld="password"
           control={control}
-          required
           id="password"
           errors={errors?.password}
           type="password"
@@ -525,13 +532,11 @@ const OperatorEdit = () => {
         <InputField
           namefileld="password_confirmation"
           control={control}
-          required
           id="password_confirmation"
           errors={errors?.password_confirmation}
           type="password"
           label="Confirm Password"
           pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
-          helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <FormLabel>Whitelist IP Address for BO</FormLabel>
         {(whitelistIP || []).map((item, index) => (

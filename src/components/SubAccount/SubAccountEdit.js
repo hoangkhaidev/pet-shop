@@ -67,6 +67,12 @@ const SubAccountEdit = () => {
   const { dataResponse: dataBrand } = useFetchData('/api/brand');
 
   useEffect(() => {
+    console.log(dataResponse)
+ 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataResponse]);
+
+  useEffect(() => {
     let mapdata = [];
     let newBrand = dataBrand?.list;
     if (!newBrand) return;
@@ -88,11 +94,17 @@ const SubAccountEdit = () => {
     setValue('name', get(dataResponse, 'name', ''));
     setValue('role', get(dataResponse, 'role_id', ''));
     setData(dataResponse);
+    // let mapdata = [['', '', '', '']];
     let data = get(dataResponse, 'whitelist_ips', ['...']);
+    data.push('...');
+    // console.log(data)
     if (!data.length) {
       data = ['...'];
     }
     const formatWhitelistIP = data.map((ip) => ip.split('.'));
+    
+    // console.log(formatWhitelistIP)
+    // mapdata.push(formatWhitelistIP);
     setWhitelistIP(formatWhitelistIP);
   }, [dataResponse, setValue]);
 
@@ -134,8 +146,8 @@ const SubAccountEdit = () => {
     const form = {
       brand_ids: dataform?.brand ? [+dataform.brand] : [],
       display_name: dataform.name,
-      password: dataform.password,
-      password_confirmation: dataform.password_confirmation,
+      password: dataform.password ? dataform.password : '',
+      password_confirmation: dataform.password_confirmation ? dataform.password_confirmation : '',
       role_id: dataform.role,
       whitelist_ips: formatWLIPs,
     };
@@ -192,6 +204,8 @@ const SubAccountEdit = () => {
     setWhitelistIP(cloneArr);
   };
 
+  console.log(roleUser)
+
   return (
     <ContentCardPage>
       <TitlePage title="Edit Sub Account" />
@@ -227,7 +241,7 @@ const SubAccountEdit = () => {
           type="text"
           label="Name"
           maxLength={100}
-          helperText="max length 100 chars"
+          helperText="Max length 100 chars"
         />
         <InputField
           namefileld="password"
@@ -236,9 +250,8 @@ const SubAccountEdit = () => {
           errors={errors?.password}
           type="password"
           label="Password"
-          required
           pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
-          helperText="from 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
+          helperText="From 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <InputField
           namefileld="password_confirmation"
@@ -247,9 +260,7 @@ const SubAccountEdit = () => {
           errors={errors?.password_confirmation}
           type="password"
           label="Confirm Password"
-          required
           pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
-          helperText="from 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <SelectField
           label="Role"

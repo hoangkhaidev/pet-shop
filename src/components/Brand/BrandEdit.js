@@ -168,7 +168,13 @@ const BrandEdit = () => {
   }, [dataProduct]);
 
   useEffect(() => {
-    const formatWhitelistIP = dataResponse?.whitelist_ips?.map((ip) => ip.split('.'));
+    let dataWhitelist_ips = get(dataResponse, 'whitelist_ips', ['...']);
+    dataWhitelist_ips.push('...');
+    // console.log(data)
+    if (!dataWhitelist_ips.length) {
+      dataWhitelist_ips = ['...'];
+    }
+    const formatWhitelistIP = dataWhitelist_ips.map((ip) => ip.split('.'));
     const formatApiWLIP = dataResponse?.api_whitelist_ip?.split('.');
 
     setApiWLIP(formatApiWLIP?.length > 0 ? formatApiWLIP : apiWLIP);
@@ -240,6 +246,8 @@ const BrandEdit = () => {
       ...dataForm,
       display_name: dataForm.name,
       api_whitelist_ip: formatWLIPEndpoint,
+      password: dataForm.password ? dataForm.password : '',
+      password_confirmation: dataForm.password_confirmation ? dataForm.password_confirmation : '',
       whitelist_ips: formatWLIPs,
       finance_emails: financeEmail,
       operator_id: 0,
@@ -505,7 +513,6 @@ const BrandEdit = () => {
           errors={errors?.password}
           type="password"
           label="Password"
-          required
           helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <InputField
@@ -515,8 +522,6 @@ const BrandEdit = () => {
           errors={errors?.password_confirmation}
           type="password"
           label="Confirm Password"
-          required
-          helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <FormLabel>Whitelist IP Address for BO</FormLabel>
         {(whitelistIP || []).map((item, index) => (

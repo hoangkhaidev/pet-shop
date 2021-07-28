@@ -137,18 +137,7 @@ const SubAccountCreate = () => {
 
   const onCancel = () => {
     navigate('/sub/list');
-    // setWhitelistIP([['', '', '', '']]);
-    // reset({
-    //   role: '',
-    //   username: '',
-    //   password: '',
-    //   password_confirmation: '',
-    // });
   };
-
-  // useEffect(() => {
-  //  console.log(whitelistIP);
-  // }, [whitelistIP]);
 
   useEffect(() => {
     setCheckWhiteIP('');
@@ -196,6 +185,7 @@ const SubAccountCreate = () => {
             control={control}
             errors={errors?.brand}
             options={brandData}
+            required
             defaultValue=""
           />
         )}
@@ -240,7 +230,6 @@ const SubAccountCreate = () => {
           type="password"
           label="Confirm Password"
           pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
-          helperText="From 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <SelectField
           id="role"

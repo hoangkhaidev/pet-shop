@@ -85,9 +85,6 @@ const PlayerInformation = () => {
         type="button"
         color="secondary"
         onClick={() => onCancel()}
-        sx={{
-          ml: 1
-        }}
       >
         Back
       </Button>

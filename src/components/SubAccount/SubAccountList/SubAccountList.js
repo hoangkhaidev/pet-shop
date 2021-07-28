@@ -161,7 +161,7 @@ const SubAccountList = () => {
       formatter: (cell, row) => {
         const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
         return (
-          <ButtonGroup className={classes.root}>
+          <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
             <ChangeStatus
               newlabel={newlabel}
               linkApi={`/api/subs/${row.id}/update_status`}

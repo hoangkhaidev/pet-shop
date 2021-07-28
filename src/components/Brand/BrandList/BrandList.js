@@ -117,9 +117,9 @@ const BrandList = () => {
     });
   }
 
-  useEffect(() => {
-    console.log(objFilter);
-  }, [objFilter]);
+  // useEffect(() => {
+  //   console.log(objFilter);
+  // }, [objFilter]);
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);

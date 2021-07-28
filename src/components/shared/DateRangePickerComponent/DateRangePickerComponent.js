@@ -1,14 +1,18 @@
 /* eslint-disable arrow-body-style */
-import { bool, string, func } from "prop-types";
+import { bool, string, func, any } from "prop-types";
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 
 import 'bootstrap-daterangepicker/daterangepicker.css';
 import 'bootstrap/dist/css/bootstrap.css';
+// import { useEffect } from "react";
 
 const DateRangePickerComponent = ({
   timePicker, startDate, endDate,
-  handleCallback, format, 
+  handleCallback, format, dateRangeRef,
 }) => {
+  // useEffect(() => {
+  //   console.log(startDate, endDate);
+  // }, [startDate, endDate]);
   return (
     <DateRangePicker
       className={'itemA'}
@@ -22,6 +26,7 @@ const DateRangePickerComponent = ({
         }
       }}
       onCallback={handleCallback}
+      ref={dateRangeRef}
     >
       <input type="text" className="form-control dater-picker-input" />
     </DateRangePicker>
@@ -34,6 +39,7 @@ DateRangePickerComponent.propTypes = {
   endDate: string.isRequired,
   handleCallback: func,
   format: string,
+  abcRef: any,
 };
 
 DateRangePickerComponent.defaultProps = {

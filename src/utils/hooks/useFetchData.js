@@ -34,6 +34,7 @@ export default function useFetchData(endpoint, objFilter) {
     router.navigate(url);
 
     try {
+
       const response = await fetch(`${ROOT_API_URL}${endpoint}`, {
         method: 'POST',
         headers: {
@@ -59,6 +60,7 @@ export default function useFetchData(endpoint, objFilter) {
 
       } else {
         if (dataJSON?.err === 'err:no_permission') {
+          toast.warn('No Permission');
           return setData({
             dataResponse: null,
             total_size: 0,

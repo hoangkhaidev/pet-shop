@@ -1,14 +1,102 @@
 /* eslint-disable arrow-body-style */
-import { Fragment } from "react";
-
+import { Button, makeStyles } from "@material-ui/core";
+import { Fragment, useCallback, useState, createContext, lazy } from "react";
+import ModalComponent from "../shared/ModalComponent/ModalComponent";
+import moment from 'moment';
 import TransactionDetailsInfo from "./TransactionDetailInfo";
-import TransactionDetailsTable from "./TransactionDetailsTable";
+// import TransactionDetailsTable from "./TransactionDetailsTable";
+import TabPanel from "src/components/shared/TabPanel/TabPanel";
+// import Loading from "src/components/shared/Loading/Loading";
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import AppBar from '@material-ui/core/AppBar';
+import TransactionRequestResponse from "./TransactionRequestResponse";
 
-const TransactionDetails = () => {
+const TransactionDetailsTable = lazy(() => import("./TransactionDetailsTable"));
+
+export const DateRangeContext = createContext({
+  dateRange: {
+    start: moment().startOf("day"),
+    end: moment().endOf("day")
+  },
+  setDateRange: () => {}
+});
+
+function a11yProps(index) {
+  return {
+    id: `tab-${index}`,
+    'aria-controls': `tabpanel-${index}`,
+  };
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  },
+  labelTab: {
+    fontWeight: "bold !important",
+  },
+  aaaaaaaaa: {
+    '& .MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.Mui-selected.makeStyles-labelTab-6.css-1760dni-MuiButtonBase-root-MuiTab-root': {
+      color: '#fff !important',
+    },
+  }
+}));
+
+const TransactionDetails = ({roundId}) => {
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
+
+  const [value, setValue] = useState(0);
+ 
+  // const { t } = useTranslation();
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  // const [label, setLabel] = useState(newlabel);
+
+  const onOpenModal = useCallback(() => {
+    // setOpen(true);
+    setOpen(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const onClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Fragment>
-      <TransactionDetailsInfo />
-      <TransactionDetailsTable />
+      <Button onClick={(onOpenModal)}>{roundId}</Button>
+      <ModalComponent
+        open={open}
+        onClose={onClose}
+        width="800px"
+      >
+        <TransactionDetailsInfo onClose={onClose} roundId={roundId}/>
+        <AppBar position="static">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="Search game history"
+            indicatorColor="secondary"
+            className={classes.aaaaaaaaa}
+          >
+            <Tab className={classes.labelTab} label="Transactions" {...a11yProps(0)} />
+            <Tab className={classes.labelTab} label="Request Response" {...a11yProps(1)} />
+          </Tabs>
+        </AppBar>
+        <TabPanel value={value} index={0}>
+          <TransactionDetailsTable roundId={roundId} />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          {/* <TransactionDetailsTable /> */}
+          <TransactionRequestResponse roundId={roundId} />
+        </TabPanel>
+      </ModalComponent>
     </Fragment>
   );
 };

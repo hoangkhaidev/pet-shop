@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
 import moment from 'moment';
@@ -47,6 +47,7 @@ const PLayerListFilter = ({
     start: moment().format("DD/MM/YYYY"),
     end: moment().format("DD/MM/YYYY")
   });
+  const dateRangeRef = useRef(null);
   const classes = useStyles();
   // const router = useRouter();
 
@@ -151,14 +152,16 @@ const PLayerListFilter = ({
       nick_name: "",
       brand_id: "all",
       ip_address: "",
-      from_date: moment().format("DD/MM/YYYY"),
-      to_date: moment().format("DD/MM/YYYY"),
       language: "",
       currency: "",
       sort_field: "id",
       sort_order: "desc",
       page: 1,
       page_size: 30,
+    });
+    setDateRange({
+      start: moment().format("DD/MM/YYYY"),
+      end: moment().format("DD/MM/YYYY")
     });
     setObjFilter({
       player_id: 0,
@@ -176,6 +179,11 @@ const PLayerListFilter = ({
     });
    
   }
+
+  useEffect(() => {
+    dateRangeRef.current.setStartDate(dateRange.start);
+    dateRangeRef.current.setEndDate(dateRange.end);
+  }, [dateRange]);
 
   return (
     <Fragment>
@@ -225,6 +233,8 @@ const PLayerListFilter = ({
                   handleCallback={onChangeDateRange}
                   startDate={dateRange.start}
                   endDate={dateRange.end}
+                  dateRangeRef={dateRangeRef}
+                  format="DD/MM/YYYY"
                 />
               </FormControl>
             </Grid>

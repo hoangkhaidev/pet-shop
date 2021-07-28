@@ -1,12 +1,18 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+// import { useState } from "react";
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from "@material-ui/core";
-
+import { Button, makeStyles } from "@material-ui/core";
+import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
+import { useEffect, useState } from 'react';
+import useFetchData from 'src/utils/hooks/useFetchData';
+import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
+import Loading from '../shared/Loading/Loading';
+import get from 'lodash/get';
 
 const useStyles = makeStyles((theme) => ({
   transactionDetailInfo: {
-    width: "50%"
+    width: "100%"
   },
   infoLine: {
     display: "flex",
@@ -15,51 +21,109 @@ const useStyles = makeStyles((theme) => ({
   },
   labelLine: {
     fontWeight: "bold",
-    minWidth: 200
+    minWidth: 100
+  },
+  titleTransaction: {
+    fontWeight: '600 !important',
   }
 }));
 
-const TransactionDetailInfo = () => {
+const TransactionDetailInfo = ({onClose, roundId}) => {
   const classes = useStyles();
-  const [playerTransactionDetails] = useState({
-    player: {
-      label: "Player",
-      value: "2427465 - tri7_sinh00 (IDR - Indonesia Rupiahs (1 = Rp1))",
-    },
-    round_id: {
-      label: "Round ID",
-      value: "2436761168"
-    },
-    status: {
-      label: "Status",
-      value: "Completed "
-    },
-    started: {
-      label: "Started",
-      value: "13 May 2021 16:30:53.557 +07:00"
-    },
-    completed: {
-      label: "Completed",
-      value: "13 May 2021 16:30:53.723 +07:00"
-    }
-  });
+
+  const { dataResponse, isLoading, isHasPermission } = useFetchData(
+    `/api/transaction/round/${roundId}/details`,
+    null
+  );
+  
+  const [data, setData] = useState([]);
+  const [dataCurrency, setDataCurrency] = useState([]);
+
+  useEffect(() => {
+    const mapData = get(dataResponse, 'round_detail', []);
+    setData(mapData);
+  }, [dataResponse]);
+
+  useEffect(() => {
+    const mapDataCurrency = get(dataResponse, 'currency', []);
+    setDataCurrency(mapDataCurrency);
+  }, [dataResponse]);
+
+  // useEffect(() => {
+  //   console.log(dataCurrency);
+  // }, [dataCurrency]);
+
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
+
+  const onCancel = () => {
+    // navigate('/players/players');
+    onClose();
+  }
+
+  if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
 
   return (
     <ContentCardPage>
-      <Typography variant="h6" gutterBottom>
+      {isLoading && <Loading />}
+      <Typography variant="h6" gutterBottom className={classes.titleTransaction}>
         Transaction Detail
       </Typography>
+      <Button
+        startIcon={<ClearAllIcon fontSize="small" />}
+        variant="contained"
+        type="button"
+        color="secondary"
+        onClick={() => onCancel()}
+      >
+        Back
+      </Button>
       <div className={classes.transactionDetailInfo}>
-        {Object.keys(playerTransactionDetails).map(key => (
-          <div key={key} className={classes.infoLine}>
+        {/* {Object.keys(playerTransactionDetails).map(key => ( */}
+          <div className={classes.infoLine}>
             <div className={classes.labelLine}>
-              {playerTransactionDetails[key].label}
+              Player:
             </div>
             <div>
-              {playerTransactionDetails[key].value}
+              <b>{data.member_id} - {data.username}</b> ({dataCurrency.code} - {dataCurrency.name} (1 = {dataCurrency.symbol}{dataCurrency.rate}))
             </div>
           </div>
-        ))}
+          <div className={classes.infoLine}>
+            <div className={classes.labelLine}>
+              Round ID:
+            </div>
+            <div>
+              <b>{data.round_id}</b>
+            </div>
+          </div>
+          <div className={classes.infoLine}>
+            <div className={classes.labelLine}>
+              Status:
+            </div>
+            <div style={{ textTransform: 'capitalize' }}>
+              {data.status}
+            </div>
+          </div>
+          <div className={classes.infoLine}>
+            <div className={classes.labelLine}>
+              Started:
+            </div>
+            <div>
+              {data.start_date}
+            </div>
+          </div>
+          <div className={classes.infoLine}>
+            <div className={classes.labelLine}>
+              Completed:
+            </div>
+            <div>
+              {data.end_date}
+            </div>
+          </div>
+        {/* ))} */}
       </div>
     </ContentCardPage>
   );

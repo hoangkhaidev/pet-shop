@@ -12,6 +12,7 @@ import GameTransactionsFilter from "./GameTransactionsFilter";
 import useFetchData from "src/utils/hooks/useFetchData";
 import Loading from "src/components/shared/Loading/Loading";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
+import TransactionDetails from "src/components/TransactionDetails/TransactionDetails";
 // import { Link } from "react-router-dom";
 
 // const fakeData = [
@@ -55,7 +56,7 @@ const GameTransactions = () => {
 
   let tz = new Date().getTimezoneOffset()
   tz = ((tz <0 ? '+' : '-') + pad(parseInt(Math.abs(tz / 60)), 2) + pad(Math.abs(tz % 60), 2));
-
+  console.log(router.query);
   const [objFilter, setObjFilter] = useState({
     round_id: "",
     time_zone: tz,
@@ -68,6 +69,10 @@ const GameTransactions = () => {
     to_date: moment().format("DD/MM/YYYY 23:59"),
     page: 1,
     page_size: 30,
+    ...{
+      ...router.query,
+      player_id: router.query.id ? Number(router.query.id) : 0,
+    },
   });
 
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
@@ -91,7 +96,11 @@ const GameTransactions = () => {
       data_field: "round_id",
       column_name: "Round ID",
       align: "left",
-      formatter: cell => formatNumberWithComma(toString(cell))
+      formatter: (cell, row) => {
+        return (
+          <TransactionDetails roundId={cell} />
+        );
+      },
     },
     {
       data_field: "start_date",

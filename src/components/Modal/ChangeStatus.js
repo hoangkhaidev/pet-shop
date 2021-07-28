@@ -14,6 +14,9 @@ import { SubmitButton } from "src/components/shared/Button/Button";
 // import useRouter from "src/utils/hooks/useRouter";
 import { Button } from "@material-ui/core";
 import TableComponentStatus from "../shared/TableComponent/TableComponentStatus";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSign } from '@fortawesome/free-solid-svg-icons'
+
 
 // const fakeData = [
 //   {
@@ -153,8 +156,15 @@ const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses, types }) 
   };
 
   return (
-    <div>
-      <StatusBadge label={label} onClick={(onOpenModal)}/>
+    <div >
+      {types === 'viewStatus' ? <StatusBadge label={label} /> : ''}
+      {/* <span style={{ fontSize: '48px', color: '#f9b115' }}>
+        <i class="fas fa-sign"></i>
+      </span> */}
+      {/* <span style={{fontSize: '3em', color: 'Tomato'}}>
+        <i className="fas fa-camera"></i>
+      </span> */}
+      {types !== 'viewStatus' ? <FontAwesomeIcon icon={faSign} size={'2x'} color={'#f9b115'} onClick={(onOpenModal)} style={{cursor: 'pointer'}}/> : ''}
       <ModalComponent
         open={open}
         onClose={onClose}

@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
 import { useTranslation } from "react-i18next";
@@ -37,6 +37,8 @@ const GameTransactionFilter = ({
   const { t } = useTranslation();
   const router = useRouter();
 
+  const dateRangeRef = useRef(null);
+
   const { dataResponse: dataGame} = useFetchData("/api/games");
   const { dataResponse: dataTimezone} = useFetchData("/api/timezones");
 
@@ -60,7 +62,7 @@ const GameTransactionFilter = ({
       round_id: "",
       time_zone: tz,
       game_type: "all",
-      game_name: ""
+      game_name: router.query.game_name ? router.query.game_name : ""
     }
   });
 
@@ -127,6 +129,10 @@ const GameTransactionFilter = ({
     start: moment().format("DD/MM/YYYY 00:00"),
     end: moment().format("DD/MM/YYYY 23:59"),
   });
+  
+  // useEffect(() => {
+  //   console.log(dateRange);
+  // }, [dateRange]);
   // const { setDateRange: setDateRangeCont } = useContext(DateRangeContext);
 
   const onChangeDateRange = (startDate, endDate) => {
@@ -152,9 +158,9 @@ const GameTransactionFilter = ({
     onSubmitProps(form);
   };
 
-  useEffect(() => {
-    console.log(dateRange);
-  }, [dateRange])
+  // useEffect(() => {
+  //   console.log(dateRange);
+  // }, [dateRange])
 
   const onReset = () => {
     // reset();
@@ -170,6 +176,10 @@ const GameTransactionFilter = ({
       game_type: "all",
       game_name: "",
     });
+    setDateRange({
+      start: moment().format("DD/MM/YYYY 00:00"),
+      end: moment().format("DD/MM/YYYY 23:59")
+    });
     setObjFilter({
       page: 1,
       page_size: 30,
@@ -183,11 +193,12 @@ const GameTransactionFilter = ({
       from_date: moment().format("DD/MM/YYYY 00:00"),
       to_date: moment().format("DD/MM/YYYY 23:59"),
     });
-    setDateRange({
-      start: moment().format("DD/MM/YYYY 00:00"),
-      end: moment().format("DD/MM/YYYY 23:59")
-    });
   };
+
+  useEffect(() => {
+    dateRangeRef.current.setStartDate(dateRange.start);
+    dateRangeRef.current.setEndDate(dateRange.end);
+  }, [dateRange]);
 
   return (
     <Fragment>
@@ -202,6 +213,7 @@ const GameTransactionFilter = ({
                   startDate={dateRange.start}
                   endDate={dateRange.end}
                   handleCallback={onChangeDateRange}
+                  dateRangeRef={dateRangeRef}
                 />
                 <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>
                   {t("Form - To")}
@@ -223,7 +235,7 @@ const GameTransactionFilter = ({
                 label="Time Zone"
                 fullWidth={false}
                 options={timezoneData}
-                defaultValue="+07:00"
+                defaultValue={tz}
               />
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>

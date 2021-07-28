@@ -11,6 +11,7 @@ import GamesFilter from "./GamesFilter";
 import useFetchData from "src/utils/hooks/useFetchData";
 import Loading from "src/components/shared/Loading/Loading";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
+import Link from '@material-ui/core/Link';
 
 // const fakeData = [
 //   {
@@ -44,6 +45,7 @@ const GamesList = () => {
 
   let tz = new Date().getTimezoneOffset()
   tz = ((tz <0 ? '+' : '-') + pad(parseInt(Math.abs(tz / 60)), 2) + pad(Math.abs(tz % 60), 2));
+  const time_zoneReplace = tz.replace('+', '%2B');
 
   const [objFilter, setObjFilter] = useState({
     round_id: "",
@@ -68,9 +70,9 @@ const GamesList = () => {
     setData(dataResponse);
   }, [dataResponse]);
 
-  // useEffect(() => {
-  //   console.log(dataResponse);
-  // }, [dataResponse]);
+  useEffect(() => {
+    console.log(objFilter);
+  }, [objFilter]);
 
   const onSubmit = async (data) => {
     console.log(data)
@@ -85,6 +87,12 @@ const GamesList = () => {
       data_field: "game_name",
       column_name: "Game",
       align: "left",
+      formatter: (cell, row) => {
+        console.log(time_zoneReplace);
+        return (
+          <Link href={`/players/${router.query.id}/information?from_date=${moment().format("DD/MM/YYYY 00:00")}&game_name=${row.game_name}&game_type=&page=1&page_size=30&player_id=3546&round_id=&sort_field=start_at&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${moment().format("DD/MM/YYYY 23:59")}`}>{cell}</Link>
+        )
+      }
     },
     {
       data_field: "round_date",
@@ -132,7 +140,7 @@ const GamesList = () => {
   return (
     <Fragment>
       {isLoading && <Loading />}
-      <GamesFilter onSubmitProps={onSubmit} />
+      <GamesFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <TitlePage title="Games" />
       <TableComponent
         data={data}
