@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const STATUS = [
+const STATUS_ALL = [
   {
     id: 1,
     value: 'suspended',
@@ -49,15 +49,100 @@ const STATUS = [
   },
   {
     id: 3,
+    value: 'inactive',
+    label: 'inactive',
+  },
+  {
+    id: 4,
     value: 'unsuspended',
     label: 'unsuspended',
   },
   {
-    id: 4,
+    id: 5,
     value: 'unlocked',
     label: 'unlocked',
-  }
+  },
 ];
+
+// const STATUS_ACTIVE = [
+//   {
+//     id: 1,
+//     value: 'suspended',
+//     label: 'suspended',
+//   },
+//   {
+//     id: 2,
+//     value: 'locked',
+//     label: 'locked',
+//   },
+//   {
+//     id: 3,
+//     value: 'inactive',
+//     label: 'inactive',
+//   },
+// ];
+
+// const STATUS_LOCKED = [
+//   {
+//     id: 1,
+//     value: 'suspended',
+//     label: 'suspended',
+//   },
+//   {
+//     id: 2,
+//     value: 'unlocked',
+//     label: 'unlocked',
+//   },
+//   {
+//     id: 3,
+//     value: 'inactive',
+//     label: 'inactive',
+//   },
+// ];
+
+// const STATUS_SUSPENDED = [
+//   {
+//     id: 1,
+//     value: 'unsuspended',
+//     label: 'unsuspended',
+//   },
+//   {
+//     id: 2,
+//     value: 'locked',
+//     label: 'locked',
+//   },
+//   {
+//     id: 3,
+//     value: 'inactive',
+//     label: 'inactive',
+//   },
+// ];
+
+// const STATUS_INACTIVE = [
+//   {
+//     id: 1,
+//     value: 'active',
+//     label: 'active',
+//   },
+// ];
+
+// const STATUS_LOCKED_SUSPENDED = [
+//   {
+//     id: 1,
+//     value: 'unsuspended',
+//     label: 'unsuspended',
+//   }, 
+//   {
+//     id: 2,
+//     value: 'unlocked',
+//     label: 'unlocked',
+//   },
+//   {
+//     id: 3,
+//     value: 'inactive',
+//     label: 'inactive',
+//   },
+// ];
 
 const SubAccountList = () => {
   const [data, setData] = useState([]);
@@ -83,9 +168,12 @@ const SubAccountList = () => {
     defaultValues: router.query,
   });
 
+  const [refreshData, setRefreshData] = useState('');
+
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
     '/api/subs',
-    objFilter
+    objFilter, 
+    [refreshData]
   );
 
   useEffect(() => {
@@ -137,7 +225,7 @@ const SubAccountList = () => {
             types='viewStatus'
             newlabel={newlabel}
             linkApi={`/api/subs/${row.id}/update_status`}
-            STATUS={STATUS}
+            STATUS={STATUS_ALL}
             username={row.username}
             statuses={row.statuses}
           />
@@ -163,9 +251,9 @@ const SubAccountList = () => {
         return (
           <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
             <ChangeStatus
+              setRefreshData={setRefreshData}
               newlabel={newlabel}
               linkApi={`/api/subs/${row.id}/update_status`}
-              STATUS={STATUS}
               username={row.username}
               statuses={row.statuses}
             />

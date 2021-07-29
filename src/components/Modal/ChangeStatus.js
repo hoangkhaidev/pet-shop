@@ -17,26 +17,127 @@ import TableComponentStatus from "../shared/TableComponent/TableComponentStatus"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSign } from '@fortawesome/free-solid-svg-icons'
 
+const STATUS_ALL = [
+  {
+    id: 1,
+    value: 'suspended',
+    label: 'suspended',
+  },
+  {
+    id: 2,
+    value: 'locked',
+    label: 'locked',
+  },
+  {
+    id: 3,
+    value: 'inactive',
+    label: 'inactive',
+  },
+  {
+    id: 4,
+    value: 'unsuspended',
+    label: 'unsuspended',
+  },
+  {
+    id: 5,
+    value: 'unlocked',
+    label: 'unlocked',
+  },
+];
 
-// const fakeData = [
-//   {
-//     id: 1,
-//     role_name: "Sub Account",
-//     description: "Access Sub Account Page",
-//   },
-//   {
-//     id: 2,
-//     role_name: "Operator",
-//     description: "Access Operator Page"
-//   }
-// ];
+const STATUS_ACTIVE = [
+  {
+    id: 1,
+    value: 'suspended',
+    label: 'suspended',
+  },
+  {
+    id: 2,
+    value: 'locked',
+    label: 'locked',
+  },
+  {
+    id: 3,
+    value: 'inactive',
+    label: 'inactive',
+  },
+];
 
-const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses, types }) => {
+const STATUS_LOCKED = [
+  {
+    id: 1,
+    value: 'suspended',
+    label: 'suspended',
+  },
+  {
+    id: 2,
+    value: 'unlocked',
+    label: 'unlocked',
+  },
+  {
+    id: 3,
+    value: 'inactive',
+    label: 'inactive',
+  },
+];
+
+const STATUS_SUSPENDED = [
+  {
+    id: 1,
+    value: 'unsuspended',
+    label: 'unsuspended',
+  },
+  {
+    id: 2,
+    value: 'locked',
+    label: 'locked',
+  },
+  {
+    id: 3,
+    value: 'inactive',
+    label: 'inactive',
+  },
+];
+
+const STATUS_INACTIVE = [
+  {
+    id: 1,
+    value: 'active',
+    label: 'active',
+  },
+];
+
+const STATUS_LOCKED_SUSPENDED = [
+  {
+    id: 1,
+    value: 'unsuspended',
+    label: 'unsuspended',
+  }, 
+  {
+    id: 2,
+    value: 'unlocked',
+    label: 'unlocked',
+  },
+  {
+    id: 3,
+    value: 'inactive',
+    label: 'inactive',
+  },
+];
+
+const ChangeStatus = ({ newlabel, linkApi, username, statuses, types, setRefreshData = () => {} }) => {
+  
   const [label, setLabel] = useState(newlabel);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const { handleSubmit, formState: { errors }, control, setError, setValue } = useForm();
   // const router = useRouter();
+  let STATUS = [];
+  if (newlabel === 'active') STATUS = STATUS_ACTIVE;
+  if (newlabel === 'inactive') STATUS = STATUS_INACTIVE;
+  if (newlabel === 'locked') STATUS = STATUS_LOCKED;
+  if (newlabel === 'suspended') STATUS = STATUS_SUSPENDED;
+  if (data?.length > 1) STATUS = STATUS_LOCKED_SUSPENDED;
 
   // const [objFilter, setObjFilter] = useState({
   //   page: 1,
@@ -48,6 +149,7 @@ const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses, types }) 
     setLabel(newlabel);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newlabel])
+
 
   // useEffect(() => {
   //   setValue("username", username);
@@ -87,7 +189,7 @@ const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses, types }) 
             types='viewStatus'
             newlabel={newlabel}
             linkApi={`/api/subs/${row.id}/update_status`}
-            STATUS={STATUS}
+            STATUS={STATUS_ALL}
             username={row.username}
             statuses={row.statuses}
           />
@@ -105,21 +207,6 @@ const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses, types }) 
       align: "left",
     },
   ];
-
-  // const handleChangePage = (page) => {
-  //   setObjFilter(prevState => ({
-  //     ...prevState,
-  //     page
-  //   }));
-  // };
-
-  // const handleChangeRowsPerPage = (event) => {
-  //   setObjFilter(prevState => ({
-  //     ...prevState,
-  //     page: 1,
-  //     page_size: parseInt(event.target.value, 10)
-  //   }));
-  // };
 
   const onSubmit = async (data) => {
     // console.log(data);
@@ -140,6 +227,7 @@ const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses, types }) 
         toast.success("Update Status Success", {
           onClose: onClose()
         });
+        // window.location.reload();
       } else {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
@@ -149,22 +237,35 @@ const ChangeStatus = ({ newlabel, linkApi, STATUS, username, statuses, types }) 
             });
           }
         }
+        if (response?.err === 'err:no_permission') {
+          toast.warn("No Permission", {
+            onClose: onClose()
+          });
+        }
       }
     } catch (e) {
       console.log('e', e);
     }
   };
 
+  useEffect(() => {
+    setRefreshData(label);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [label])
+
   return (
-    <div >
+    <div style={{ marginRight: '25px' }}>
       {types === 'viewStatus' ? <StatusBadge label={label} /> : ''}
-      {/* <span style={{ fontSize: '48px', color: '#f9b115' }}>
-        <i class="fas fa-sign"></i>
-      </span> */}
-      {/* <span style={{fontSize: '3em', color: 'Tomato'}}>
-        <i className="fas fa-camera"></i>
-      </span> */}
-      {types !== 'viewStatus' ? <FontAwesomeIcon icon={faSign} size={'2x'} color={'#f9b115'} onClick={(onOpenModal)} style={{cursor: 'pointer'}}/> : ''}
+  
+      {types !== 'viewStatus' ? 
+        <FontAwesomeIcon 
+          icon={faSign} 
+          size={'2x'} 
+          color={'#f9b115'} 
+          title={'Change status'} 
+          onClick={(onOpenModal)} 
+          style={{cursor: 'pointer'}}
+        /> : ''}
       <ModalComponent
         open={open}
         onClose={onClose}

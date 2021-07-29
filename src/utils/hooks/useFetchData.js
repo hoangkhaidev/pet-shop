@@ -9,7 +9,7 @@ import useRouter from './useRouter';
 
 const ROOT_API_URL = process.env.REACT_APP_ROOT_API_URL;
 
-export default function useFetchData(endpoint, objFilter) {
+export default function useFetchData(endpoint, objFilter, dependency = []) {
   const router = useRouter();
   const token = useSelector((state) => state.authentication.token);
 
@@ -81,7 +81,7 @@ export default function useFetchData(endpoint, objFilter) {
       console.log('e', e);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [objFilter, token, router.navigate, endpoint]);
+  }, [objFilter, token, router.navigate, endpoint, ...dependency]);
 
   useEffect(() => {
     fetchData();

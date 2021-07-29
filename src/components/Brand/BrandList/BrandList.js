@@ -21,21 +21,21 @@ const ChangeStatus = lazy(() => import('src/components/Modal/ChangeStatus'));
 
 const DeleteItem = lazy(() => import('src/components/Modal/DeleteItem'));
 
-const STATUS = [
+const STATUS_ALL = [
   {
     id: 1,
-    value: 'active',
-    label: 'active',
+    value: 'suspended',
+    label: 'suspended',
   },
   {
     id: 2,
-    value: 'inactive',
-    label: 'inactive',
+    value: 'locked',
+    label: 'locked',
   },
   {
     id: 3,
-    value: 'suspended',
-    label: 'suspended',
+    value: 'inactive',
+    label: 'inactive',
   },
   {
     id: 4,
@@ -44,11 +44,6 @@ const STATUS = [
   },
   {
     id: 5,
-    value: 'locked',
-    label: 'locked',
-  },
-  {
-    id: 6,
     value: 'unlocked',
     label: 'unlocked',
   },
@@ -88,11 +83,13 @@ const BrandList = () => {
   });
   // const { t } = useTranslation();
   // console.log(t);
-  
+  const [refreshData, setRefreshData] = useState('');
+
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
     '/api/brand',
-    objFilter
-    );
+    objFilter,
+    [refreshData]
+  );
     
   const [operatorData, setOperatorData] = useState([]);
 
@@ -226,6 +223,7 @@ const BrandList = () => {
       data_field: 'product_names',
       column_name: 'Product',
       align: 'left',
+      formatter: (cell) => cell.join(', '),
     },
     {
       data_field: 'statuses',
@@ -237,7 +235,8 @@ const BrandList = () => {
           <ChangeStatus
             newlabel={newlabel}
             linkApi={`/api/brand/${row.account_id}/update_status`}
-            STATUS={STATUS}
+            types='viewStatus'
+            STATUS={STATUS_ALL}
             username={row.username}
             statuses={row.statuses}
           />
@@ -248,19 +247,29 @@ const BrandList = () => {
       data_field: 'action',
       column_name: 'Action',
       align: 'center',
-      formatter: (cell, row) => (
-        <ButtonGroup className={classes.root}>
-          <ChangePasswordForm
-            linkApi={`/api/brand/${row.account_id}/update_password`}
-            username={row.username}
-          />
-          <DeleteItem
-            linkApi={`/api/brand/${row.account_id}/delete`}
-            title={`Confirmation`}
-            types='brand'
-          />
-        </ButtonGroup>
-      ),
+      formatter: (cell, row) => {
+        const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
+        return (
+          <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
+            <ChangeStatus
+              setRefreshData={setRefreshData}
+              newlabel={newlabel}
+              linkApi={`/api/brand/${row.id}/update_status`}
+              username={row.username}
+              statuses={row.statuses}
+            />
+            <ChangePasswordForm
+              linkApi={`/api/brand/${row.account_id}/update_password`}
+              username={row.username}
+            />
+            <DeleteItem
+              linkApi={`/api/brand/${row.account_id}/delete`}
+              title={`Confirmation`}
+              types='brand'
+            />
+          </ButtonGroup>
+        )
+      }
     }
   ];
 

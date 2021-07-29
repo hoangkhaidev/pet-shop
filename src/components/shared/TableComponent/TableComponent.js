@@ -115,15 +115,17 @@ const TableComponent = ({
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="table-component">
         <TableHeader headers={columns.map(item => item.column_name)} />
-        <TableBody>
-
-          {data.length > 0 ? data.map((row, index) => {
+        <TableBody>{data.length > 0 ? data.map((row, index) => {
               // console.log(row);
               let startIndex = (page - 1) * page_size + 1; 
               return (
                 <TableRowComponent indexRow={startIndex + index} key={index} rowData={row} cellInfo={cellInfo} />
               )
-            }) : "No result found"
+            }) : <TableRow>
+                  <TableCell component="th" scope="row">
+                    "No result found"
+                  </TableCell>
+                </TableRow>
           }
         </TableBody>
         {types !== 'RoleList' && 

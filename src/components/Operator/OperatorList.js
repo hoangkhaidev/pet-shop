@@ -20,21 +20,21 @@ const ChangeStatus = lazy(() => import('src/components/Modal/ChangeStatus'));
 
 const DeleteItem = lazy(() => import('src/components/Modal/DeleteItem'));
 
-const STATUS = [
+const STATUS_ALL = [
   {
     id: 1,
-    value: 'active',
-    label: 'active',
+    value: 'suspended',
+    label: 'suspended',
   },
   {
     id: 2,
-    value: 'inactive',
-    label: 'inactive',
+    value: 'locked',
+    label: 'locked',
   },
   {
     id: 3,
-    value: 'suspended',
-    label: 'suspended',
+    value: 'inactive',
+    label: 'inactive',
   },
   {
     id: 4,
@@ -43,11 +43,6 @@ const STATUS = [
   },
   {
     id: 5,
-    value: 'locked',
-    label: 'locked',
-  },
-  {
-    id: 6,
     value: 'unlocked',
     label: 'unlocked',
   },
@@ -80,9 +75,13 @@ const OperatorList = () => {
   const methods = useForm({
     defaultValues: router.query,
   });
+
+  const [refreshData, setRefreshData] = useState('');
+
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
     '/api/operators',
-    objFilter
+    objFilter,
+    [refreshData]
   );
 
   // useEffect(() => {
@@ -194,10 +193,12 @@ const OperatorList = () => {
         const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
         return (
           <ChangeStatus
+            setRefreshData={setRefreshData}
             key={row.operator_id}
+            types='viewStatus'
             newlabel={newlabel}
             linkApi={`/api/operators/${row.id}/update_status`}
-            STATUS={STATUS}
+            STATUS={STATUS_ALL}
             username={row.username}
             statuses={row.statuses}
           />
@@ -209,25 +210,30 @@ const OperatorList = () => {
       data_field: 'action',
       column_name: 'Action',
       align: 'center',
-      formatter: (cell, row) => (
-        // <ChangePasswordForm
-        //   linkApi={`/api/operators/${row.id}/update_password`}
-        //   username={row.username}
-        //   title="delete"
-        // />
-        <ButtonGroup className={classes.root}>
-          <ChangePasswordForm
-            linkApi={`/api/operators/${row.id}/update_password`}
-            username={row.username}
-            title="Change password"
-          />
-          <DeleteItem
-            linkApi={`/api/operators/${row.id}/delete`}
-            title={`Confirmation`}
-            types='operator'
-          />
-        </ButtonGroup>
-      ),
+      formatter: (cell, row) => {
+        const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
+        return (
+          <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
+            <ChangeStatus
+              setRefreshData={setRefreshData}
+              newlabel={newlabel}
+              linkApi={`/api/operators/${row.id}/update_status`}
+              username={row.username}
+              statuses={row.statuses}
+            />
+            <ChangePasswordForm
+              linkApi={`/api/operators/${row.id}/update_password`}
+              username={row.username}
+              title="Change password"
+            />
+            <DeleteItem
+              linkApi={`/api/operators/${row.id}/delete`}
+              title={`Confirmation`}
+              types='operator'
+            />
+          </ButtonGroup>
+        )
+      }
     }
   ];
 

@@ -82,9 +82,9 @@ TableHeader.propTypes = {
 const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
   const classes = useStyles();
   // console.log(rowData)
-  // console.log(rowData)
   let newAt = moment(rowData.at).format("DD/MM/YY, hh:mm a");
   rowData.at = newAt; 
+
   return (
     <StyledTableRow align={cellInfo.align}>
       {cellInfo.map((info, index) => {
@@ -130,13 +130,17 @@ const TableComponentStatus = ({
     <TableContainer component={Paper}  className={classes.rootTable}>
       <Table className={classes.table} aria-label="table-component">
         <TableHeader headers={columns.map(item => item.column_name)} />
-        <TableBody>
-          {data.map((row, index) => {
+        <TableBody>{ data.length > 0 ? data.map((row, index) => {
             // console.log(row);
             return (
               <TableRowComponent indexRow={index} key={index} rowData={row} cellInfo={cellInfo} />
             )
-          })}
+          }) : <TableRow>
+                <TableCell component="th" scope="row">
+                  "No result found"
+                </TableCell>
+              </TableRow>
+        }
         </TableBody>
       </Table>
     </TableContainer>
@@ -144,7 +148,7 @@ const TableComponentStatus = ({
 };
 
 TableComponentStatus.propTypes = {
-  data: array.isRequired,
+  data: array,
   columns: array.isRequired,
   pagination: object
 };
