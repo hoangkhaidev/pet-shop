@@ -53,6 +53,10 @@ const TransactionDetails = lazy(() =>
   import('src/components/TransactionDetails/TransactionDetails')
 );
 
+const GameHistory = lazy(() =>
+  import('src/components/GameHistory/GameHistory')
+);
+
 const routes = (isLoggedIn) => [
   {
     path: 'home',
@@ -175,13 +179,12 @@ const routes = (isLoggedIn) => [
         name: 'Player Information',
         element: <SearchGameHistory />,
       },
-
-      // {
-      //   path: '/game-history',
-      //   fullpath: '/players/game-history',
-      //   name: 'Search game history',
-      //   element: <PlayerInformation />,
-      // },
+      {
+        path: '/game-history',
+        fullpath: '/players/game-history',
+        name: 'Game history',
+        element: <GameHistory />,
+      },
       {
         path: 'transaction-details',
         fullpath: '/players/transaction-details',

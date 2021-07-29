@@ -6,33 +6,16 @@ import useRouter from "src/utils/hooks/useRouter";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import { formatNumberWithComma } from "src/utils/function";
-// import get from 'lodash/get';
-import GamesFilter from "./GamesFilter";
-import useFetchData from "src/utils/hooks/useFetchData";
-import Loading from "src/components/shared/Loading/Loading";
-import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
+import get from 'lodash/get';
+import GamesFilterHistory from "./GamesFilterHistory";
+// import useFetchData from "src/utils/hooks/useFetchData";
+// import Loading from "src/components/shared/Loading/Loading";
+// import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
+import api from "src/utils/api";
 import Link from '@material-ui/core/Link';
+import { toast } from "react-toastify";
 
-// const fakeData = [
-//   {
-//     id: 1,
-//     game: "COD",
-//     start_time: moment().format("DD/MM/YYYY"),
-//     sessions_count: 1,
-//     bet: 100000,
-//     win: 2000000
-//   },
-//   {
-//     id: 2,
-//     game: "PUBG",
-//     start_time: moment().format("DD/MM/YYYY"),
-//     sessions_count: 2,
-//     bet: 100000,
-//     win: 2000000
-//   },
-// ];
-
-const GamesList = () => {
+const GamesListHistory = () => {
   const router = useRouter();
 
   const pad = (number, length) => {
@@ -48,38 +31,49 @@ const GamesList = () => {
   const time_zoneReplace = tz.replace('+', '%2B');
 
   const [objFilter, setObjFilter] = useState({
+    sort_field: "round_date",
+    sort_order: "DESC",
+    player_id: "",
     round_id: "",
-    time_zone: tz,
+    brand_id: 1,
     game_type: "",
     game_name: "",
-    sort_field: "start_at",
-    sort_order: "DESC",
-    player_id: Number(router.query.id),
+    nick_name: "",
+    time_zone: tz,
     from_date:  moment().format("DD/MM/YYYY"),
     to_date: moment().format("DD/MM/YYYY"),
   });
 
-  const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
-    '/api/transaction/player_game_history_group',
-    objFilter
-  );
-
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    setData(dataResponse);
-  }, [dataResponse]);
-
-  useEffect(() => {
-    console.log(objFilter);
-  }, [objFilter]);
-
   const onSubmit = async (data) => {
-    console.log(data)
     setObjFilter(prevState => ({
       ...prevState,
       ...data,
     }));
+
+    const dataForm = {
+      ...objFilter,
+      ...data
+    };
+
+    // console.log(JSON.stringify(objFilter));
+    try {
+        const response = await api.post('/api/transaction/game_history_group', dataForm);
+        if (get(response, 'success', false)) {
+          // console.log(response)
+          const mapData = get(response, 'data', []);
+          setData(mapData);
+        } else {
+          if (response.err === "err:json_error") {
+            if (response.data.player_id === "want int, got string") toast.warn('Player ID is a number');
+          }
+          if (response.err === "err:not_enough_arguments") toast.warn('Please select 1 of the 3 fields player ID, nickname round ID');
+          if (response.err === "err:member_not_found") toast.warn('Player not found');
+        }
+    } catch (e) {
+      console.log('e', e);
+    }
   };
 
   const columns = [
@@ -133,21 +127,19 @@ const GamesList = () => {
     }));
   };
 
-  if (!isHasPermission) {
-    return <NoPermissionPage />;
-  }
+  useEffect(() => {
+    console.log(objFilter);
+  }, [objFilter]);
 
   return (
     <Fragment>
-      {isLoading && <Loading />}
-      <GamesFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
+      <GamesFilterHistory onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <TitlePage title="Games" />
       <TableComponent
         data={data}
         columns={columns}
         types="RoleList"
         pagination={{
-          total_size,
           page: Number(objFilter.page),
           page_size: Number(objFilter.page_size),
         }}
@@ -158,4 +150,4 @@ const GamesList = () => {
   );
 };
 
-export default GamesList;
+export default GamesListHistory;

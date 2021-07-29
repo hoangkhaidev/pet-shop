@@ -59,6 +59,27 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
         });
 
       } else {
+        
+        // if (dataJSON?.err === 'err:member_not_found') {
+        //   toast.warn('Player not found');
+        //   return setData({
+        //     dataResponse: null,
+        //     total_size: 0,
+        //     isLoading: false,
+        //     isHasPermission: false,
+        //     refetch: false,
+        //   });
+        // }
+        if (dataJSON?.err === 'err:internal_error') {
+          toast.warn('Internal Server Error. Please try again!');
+          return setData({
+            dataResponse: null,
+            total_size: 0,
+            isLoading: false,
+            isHasPermission: false,
+            refetch: false,
+          });
+        }
         if (dataJSON?.err === 'err:no_permission') {
           toast.warn('No Permission');
           return setData({
