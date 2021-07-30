@@ -3,7 +3,6 @@ import moment from "moment";
 import toString from "lodash/toString";
 
 import useRouter from "src/utils/hooks/useRouter";
-import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import PlayerInformation from "src/components/PlayerInformation/PlayerInformation";
 import { formatNumberWithComma } from "src/utils/function";
@@ -14,33 +13,6 @@ import Loading from "src/components/shared/Loading/Loading";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import TransactionDetails from "src/components/TransactionDetails/TransactionDetails";
 // import { Link } from "react-router-dom";
-
-// const fakeData = [
-//   {
-//     id: 1,
-//     round_id: "12345",
-//     start_date: moment().format("DD/MM/YYYY"),
-//     end_date: moment().format("DD/MM/YYYY"),
-//     bet: 1000000,
-//     win: 25000,
-//     jackpot: 300000,
-//     balance: 21298312,
-//     game_status: "In-Game",
-//     game: "COD"
-//   },
-//   {
-//     id: 2,
-//     round_id: "54321",
-//     start_date: moment().format("DD/MM/YYYY"),
-//     end_date: moment().format("DD/MM/YYYY"),
-//     bet: 1000000,
-//     win: 25000,
-//     jackpot: 300000,
-//     balance: 21298312,
-//     game_status: "In-Game",
-//     game: "COD"
-//   }
-// ];
 
 const GameTransactions = () => {
   const router = useRouter();
@@ -56,7 +28,7 @@ const GameTransactions = () => {
 
   let tz = new Date().getTimezoneOffset()
   tz = ((tz <0 ? '+' : '-') + pad(parseInt(Math.abs(tz / 60)), 2) + pad(Math.abs(tz % 60), 2));
-  console.log(router.query);
+  // console.log(router.query);
   const [objFilter, setObjFilter] = useState({
     round_id: "",
     time_zone: tz,
@@ -87,9 +59,9 @@ const GameTransactions = () => {
     setData(mapData);
   }, [dataResponse]);
 
-  useEffect(() => {
-    console.log(objFilter);
-  }, [objFilter]);
+  // useEffect(() => {
+  //   console.log(objFilter);
+  // }, [objFilter]);
 
   const columns = [
     {
@@ -180,7 +152,8 @@ const GameTransactions = () => {
     <Fragment>
       {isLoading && <Loading />}
       <PlayerInformation />
-      <TitlePage title="Game Transaction" />
+      <div style={{ fontWeight: '600', fontSize: '22px'}}>Game Transaction</div>
+      
       <GameTransactionsFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <TableComponent
         data={data}

@@ -31,7 +31,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const GameTransactionFilterHistory = ({
-  onResetFilter, onSubmitProps, setObjFilter
+  onResetFilter, onSubmitProps, setObjFilter, clickRef
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -63,7 +63,7 @@ const GameTransactionFilterHistory = ({
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       brand_id: "all",
-      player_id: "",
+      player_id: router.query.player_id ? router.query.player_id : "",
       nick_name: "",
       round_id: "",
       time_zone: tz,
@@ -157,8 +157,8 @@ const GameTransactionFilterHistory = ({
 
   const onChangeDateRange = (startDate, endDate) => {
     setDateRange({
-      start: moment(startDate).format("DD/MM/YYYY hh:mm"),
-      end: moment(endDate).format("DD/MM/YYYY hh:mm")
+      start: moment(startDate).format("DD/MM/YYYY H:mm"),
+      end: moment(endDate).format("DD/MM/YYYY H:mm")
     });
   };
 
@@ -182,7 +182,9 @@ const GameTransactionFilterHistory = ({
       time_zone: tz,
       sort_field: "start_at",
       sort_order: "DESC",
-      player_id: Number(router.query.id),
+      brand_id: "all",
+      player_id: "",
+      nick_name: "",
       round_id: "",
       game_type: "all",
       game_name: "",
@@ -195,9 +197,11 @@ const GameTransactionFilterHistory = ({
       page: 1,
       page_size: 30,
       time_zone: tz,
+      brand_id: 1,
       sort_field: "start_at",
       sort_order: "DESC",
-      player_id: Number(router.query.id),
+      player_id: "",
+      nick_name: "",
       round_id: "",
       game_type: "",
       game_name: "",
@@ -238,6 +242,7 @@ const GameTransactionFilterHistory = ({
                   endDate={dateRange.end}
                   handleCallback={onChangeDateRange}
                   dateRangeRef={dateRangeRef}
+                  format="DD/MM/YYYY H:mm"
                 />
                 <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>
                   {t("Form - To")}
@@ -303,7 +308,7 @@ const GameTransactionFilterHistory = ({
             
           </Grid>
           <ButtonGroup>
-            <SubmitButton text='Search' />
+            <SubmitButton text='Search' clickRef={clickRef} />
             <ResetButton onAction={onReset} />
           </ButtonGroup>
         </form>

@@ -137,8 +137,8 @@ const GameTransactionFilter = ({
 
   const onChangeDateRange = (startDate, endDate) => {
     setDateRange({
-      start: moment(startDate).format("DD/MM/YYYY hh:mm"),
-      end: moment(endDate).format("DD/MM/YYYY hh:mm")
+      start: moment(startDate).format("DD/MM/YYYY H:mm"),
+      end: moment(endDate).format("DD/MM/YYYY H:mm")
     });
     // setDateRangeCont({
     //   start: moment(start).format("DD/MM/YYYY"),
@@ -201,7 +201,7 @@ const GameTransactionFilter = ({
   }, [dateRange]);
 
   return (
-    <Fragment>
+    <>
       <ContentCardPage>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
@@ -214,12 +214,13 @@ const GameTransactionFilter = ({
                   endDate={dateRange.end}
                   handleCallback={onChangeDateRange}
                   dateRangeRef={dateRangeRef}
+                  format="DD/MM/YYYY H:mm"
                 />
                 <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>
                   {t("Form - To")}
                 </FormLabel>
             </Grid>
-            <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
+            <Grid item xs={12} xl={3} md={4}>
               <InputField
                 control={control}
                 namefileld="round_id"
@@ -238,7 +239,7 @@ const GameTransactionFilter = ({
                 defaultValue={tz}
               />
             </Grid>
-            <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
+            <Grid item xs={12} xl={3} md={4}>
               <SelectField
                 control={control}
                 namefileld="game_type"
@@ -266,7 +267,7 @@ const GameTransactionFilter = ({
           </ButtonGroup>
         </form>
       </ContentCardPage>
-    </Fragment>
+    </>
   );
 };
 

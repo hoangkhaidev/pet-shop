@@ -137,7 +137,7 @@ const GameFilter = ({
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
+    // console.log(data);
     const form = {
       ...data,
       game_type: data.game_type === 'all' ? '' : data.game_type,

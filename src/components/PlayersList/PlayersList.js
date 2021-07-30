@@ -12,29 +12,6 @@ import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
 import moment from "moment";
 // import { useForm } from "react-hook-form";
 
-// const fakeData = [
-//   {
-//     id: 1,
-//     player_id: 1,
-//     nickname: "Rambo",
-//     signup: "18/04/1996",
-//     currency: "usd",
-//     language: "English",
-//     last_login_time: "20/08/2021",
-//     last_login_ip: "192.168.1.1",
-//   },
-//   {
-//     id: 2,
-//     player_id: 2,
-//     nickname: "Rudo",
-//     signup: "18/05/1996",
-//     currency: "usd",
-//     language: "English",
-//     last_login_time: "20/08/2021",
-//     last_login_ip: "192.168.1.1",
-//   }
-// ];
-
 const PlayersList = () => {
   const router = useRouter();
   const [objFilter, setObjFilter] = useState({
@@ -62,6 +39,18 @@ const PlayersList = () => {
     '/api/members',
     objFilter
   );
+
+  const pad = (number, length) => {
+    let str = "" + number
+    while (str.length < length) {
+        str = '0' + str
+    }
+    return str;
+  }
+
+  let tz = new Date().getTimezoneOffset()
+  tz = ((tz <0 ? '+' : '-') + pad(parseInt(Math.abs(tz / 60)), 2) + pad(Math.abs(tz % 60), 2));
+  const time_zoneReplace = tz.replace('+', '%2B');
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
@@ -115,11 +104,11 @@ const PlayersList = () => {
       data_field: "Action",
       column_name: "Action",
       align: "left",
-      formatter: (cell, row) => (
-        <Link href={`/history/${row.id}`}>
-          [Game History]
-        </Link>
-      )
+      formatter: (cell, row) => {
+        return (
+          <Link href={`/players/game-history?brand_id=1&from_date=${moment().format("DD/MM/YYYY 00:00")}&game_name=&game_type=&nick_name=&page=1&page_size=30&player_id=${row.id}&round_id=&sort_field=start_at&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${moment().format("DD/MM/YYYY 23:59")}`}>[Game History]</Link>
+        )
+      }
     }
   ];
 

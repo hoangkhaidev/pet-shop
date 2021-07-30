@@ -13,7 +13,7 @@ import DateRangePickerComponent from "src/components/shared/DateRangePickerCompo
 import InputField from "src/components/shared/InputField/InputField";
 import SelectField from "src/components/shared/InputField/SelectField";
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
-import useRouter from "src/utils/hooks/useRouter";
+// import useRouter from "src/utils/hooks/useRouter";
 import useFetchData from "src/utils/hooks/useFetchData";
 import { useSelector } from "react-redux";
 // import { DateRangeContext } from "../SearchGameHistory";
@@ -39,7 +39,7 @@ const GamesFilterHistory = ({
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const router = useRouter();
+  // const router = useRouter();
 
   const roleUser = useSelector((state) => state.roleUser);
 
@@ -164,7 +164,7 @@ const GamesFilterHistory = ({
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
+    // console.log(data);
     const form = {
       ...data,
       game_type: data.game_type === 'all' ? '' : data.game_type,
@@ -181,8 +181,10 @@ const GamesFilterHistory = ({
       time_zone: tz,
       sort_field: "start_at",
       sort_order: "DESC",
-      player_id: Number(router.query.id),
+      player_id: "",
       round_id: "",
+      brand_id: "all",
+      nick_name: "",
       game_type: "all",
       game_name: "",
     });
@@ -194,8 +196,9 @@ const GamesFilterHistory = ({
       time_zone: tz,
       sort_field: "start_at",
       sort_order: "DESC",
-      player_id: Number(router.query.id),
+      player_id: "",
       round_id: "",
+      brand_id: 1,
       game_type: "",
       game_name: "",
       from_date: moment().format("DD/MM/YYYY"),

@@ -66,11 +66,11 @@ const SubAccountEdit = () => {
 
   const { dataResponse: dataBrand } = useFetchData('/api/brand');
 
-  useEffect(() => {
-    console.log(dataResponse)
+  // useEffect(() => {
+  //   console.log(dataResponse)
  
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataResponse]);
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [dataResponse]);
 
   useEffect(() => {
     let mapdata = [];
@@ -204,7 +204,7 @@ const SubAccountEdit = () => {
     setWhitelistIP(cloneArr);
   };
 
-  console.log(roleUser)
+  // console.log(roleUser)
 
   return (
     <ContentCardPage>

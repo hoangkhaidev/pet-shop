@@ -13,6 +13,7 @@ import useRouter from 'src/utils/hooks/useRouter';
 import BrandListFilter from './BrandListFilter';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core';
+import moment from 'moment';
 
 const ChangePasswordForm = lazy(() =>
   import('src/components/Modal/ChangePasswordForm')
@@ -210,9 +211,12 @@ const BrandList = () => {
       data_field: 'member_count',
       column_name: 'Players',
       align: 'right',
-      formatter: (cell, row) => (
-        <Link href={`/player/list`}>{cell}</Link>
-      ),
+      formatter: (cell, row) => {
+        // console.log(row.BrandId)
+        return (
+          <Link href={`/players/players?brand_id=${row.BrandId}&currency=&from_date=${moment().format("DD/MM/YYYY")}&ip_address=&language=&nick_name=&page=1&page_size=30&player_id=0&sort_field=id&sort_order=desc&to_date=${moment().format("DD/MM/YYYY")}`}>{cell}</Link>
+        )
+      }
     },
     {
       data_field: 'api_endpoint',

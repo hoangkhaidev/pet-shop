@@ -1,8 +1,8 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import moment from "moment";
 import toString from "lodash/toString";
-
-// import useRouter from "src/utils/hooks/useRouter";
+import queryString from 'query-string';
+import useRouter from "src/utils/hooks/useRouter";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import { formatNumberWithComma } from "src/utils/function";
@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 import TransactionDetails from "src/components/TransactionDetails/TransactionDetails";
 
 const GameTransactionHistory = () => {
-  // const router = useRouter();
+  const router = useRouter();
 
   const pad = (number, length) => {
     let str = "" + number
@@ -43,8 +43,24 @@ const GameTransactionHistory = () => {
     time_zone: tz,
     from_date: moment().format("DD/MM/YYYY 00:00"),
     to_date: moment().format("DD/MM/YYYY 23:59"),
+    ...router.query
   });
 
+  const clickRef = useRef(0);
+
+  useEffect(() => {
+    if (router.query.player_id) {
+      clickRef.current.click();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const stringified = queryString.stringify(objFilter);
+    let url = `${router.location.pathname}?${stringified}`;
+    router.navigate(url);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [objFilter]);
   // const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
   //   '/api/transaction/game_history',
   //   objFilter
@@ -140,30 +156,73 @@ const GameTransactionHistory = () => {
 
   };
 
-  const handleChangePage = (page) => {
+  const handleChangePage = async (page) => {
     let pageNew = page + 1;
     setObjFilter(prevState => ({
       ...prevState,
       page: pageNew,
     }));
+
+    const dataForm = {
+      ...objFilter,
+      page: pageNew,
+    };
+
+    try {
+      const response = await api.post('/api/transaction/game_history', dataForm);
+      
+      if (get(response, 'success', false)) {
+        const mapData = get(response.data, 'list', []);
+        const total_sizeData = get(response.data, 'total_size', []);
+        setTotal_size(total_sizeData)
+        setData(mapData);
+      } else {
+        if (response.err === "err:not_enough_arguments") toast.warn('Please select 1 of the 3 fields player ID, nickname round ID');
+        if (response.err === "err:member_not_found") toast.warn('Player not found');
+      }
+    } catch (e) {
+      console.log('e', e);
+    }
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = async (event) => {
     setObjFilter(prevState => ({
       ...prevState,
       page: 1,
       page_size: parseInt(event.target.value, 10)
     }));
+
+    const dataForm = {
+      ...objFilter,
+      page: 1,
+      page_size: parseInt(event.target.value, 10)
+    };
+
+    try {
+      const response = await api.post('/api/transaction/game_history', dataForm);
+      
+      if (get(response, 'success', false)) {
+        const mapData = get(response.data, 'list', []);
+        const total_sizeData = get(response.data, 'total_size', []);
+        setTotal_size(total_sizeData)
+        setData(mapData);
+      } else {
+        if (response.err === "err:not_enough_arguments") toast.warn('Please select 1 of the 3 fields player ID, nickname round ID');
+        if (response.err === "err:member_not_found") toast.warn('Player not found');
+      }
+    } catch (e) {
+      console.log('e', e);
+    }
   };
 
-  useEffect(() => {
-    console.log(objFilter);
-  }, [objFilter]);
+  // useEffect(() => {
+  //   console.log(objFilter);
+  // }, [objFilter]);
 
   return (
     <Fragment>
       <TitlePage title="Game Transaction" />
-      <GameTransactionsFilterHistory onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
+      <GameTransactionsFilterHistory onSubmitProps={onSubmit} setObjFilter={setObjFilter} clickRef={clickRef}/>
       <TableComponent
         data={data}
         columns={columns}

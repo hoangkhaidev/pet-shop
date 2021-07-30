@@ -155,7 +155,7 @@ IpMaskInput.defaultProps = {
 const WhitelistIPs = ({ whitelistIP, onChangeWhitelistIp, setWhitelistIP }) => {
   const textInputWhitelistIP = useRef([]);
 
-  console.log("whitelistIP", whitelistIP);
+  // console.log("whitelistIP", whitelistIP);
 
   useEffect(() => {
     if (

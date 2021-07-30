@@ -12,7 +12,7 @@ import DateRangePickerComponent from "src/components/shared/DateRangePickerCompo
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
 import { func } from "prop-types";
 import useFetchData from "src/utils/hooks/useFetchData";
-// import useRouter from "src/utils/hooks/useRouter";
+import useRouter from "src/utils/hooks/useRouter";
 // import { FormattedNumberInputCaptcha } from "../shared/InputField/InputFieldNumber";
 
 const useStyles = makeStyles(() => ({
@@ -25,19 +25,6 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-// const fakeLanguages = [
-//   {
-//     id: 1,
-//     label: "Vietnamese",
-//     value: "vietnamese"
-//   },
-//   {
-//     id: 2,
-//     label: "English",
-//     value: "english"
-//   }
-// ];
-
 const PLayerListFilter = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
@@ -49,7 +36,7 @@ const PLayerListFilter = ({
   });
   const dateRangeRef = useRef(null);
   const classes = useStyles();
-  // const router = useRouter();
+  const router = useRouter();
 
   const { dataResponse: dataBrand} = useFetchData("/api/brand");
   const { dataResponse: dataCurrency} = useFetchData("/api/currency");
@@ -186,7 +173,7 @@ const PLayerListFilter = ({
   }, [dateRange]);
 
   return (
-    <Fragment>
+    <>
       <ContentCardPage>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
@@ -247,7 +234,7 @@ const PLayerListFilter = ({
                 label="Brand"
                 fullWidth={false}
                 options={brandData}
-                defaultValue="all"
+                defaultValue={router.query.brand_id ? router.query.brand_id : "all"}
               />
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
@@ -279,7 +266,7 @@ const PLayerListFilter = ({
           </ButtonGroup>
         </form>
       </ContentCardPage>
-    </Fragment>
+    </>
   );
 };
 

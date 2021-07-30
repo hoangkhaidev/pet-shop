@@ -70,12 +70,12 @@ const GamesList = () => {
     setData(dataResponse);
   }, [dataResponse]);
 
-  useEffect(() => {
-    console.log(objFilter);
-  }, [objFilter]);
+  // useEffect(() => {
+  //   console.log(objFilter);
+  // }, [objFilter]);
 
   const onSubmit = async (data) => {
-    console.log(data)
+    // console.log(data)
     setObjFilter(prevState => ({
       ...prevState,
       ...data,
@@ -88,7 +88,7 @@ const GamesList = () => {
       column_name: "Game",
       align: "left",
       formatter: (cell, row) => {
-        console.log(time_zoneReplace);
+        // console.log(time_zoneReplace);
         return (
           <Link href={`/players/${router.query.id}/information?from_date=${moment().format("DD/MM/YYYY 00:00")}&game_name=${row.game_name}&game_type=&page=1&page_size=30&player_id=3546&round_id=&sort_field=start_at&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${moment().format("DD/MM/YYYY 23:59")}`}>{cell}</Link>
         )

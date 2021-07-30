@@ -21,6 +21,7 @@ const DateRangePickerComponent = ({
         startDate,
         endDate,
         timePicker: true,
+        timePicker24Hour: true,
         locale: {
           format
         }

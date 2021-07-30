@@ -14,12 +14,13 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const SubmitButton = ({text = "Submit", onClick}) => (
+export const SubmitButton = ({text = "Submit", onClick, clickRef}) => (
   <Button
     startIcon={<AdjustIcon fontSize="small" />}
     variant="contained"
     type="submit"
     color="primary"
+    ref={clickRef}
     onClick={onClick ? () => onClick() : null}
   >
     {text}

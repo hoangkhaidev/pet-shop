@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import { Fragment, useEffect, useState } from "react";
 import moment from "moment";
-
+import queryString from 'query-string';
 import useRouter from "src/utils/hooks/useRouter";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
@@ -42,7 +42,15 @@ const GamesListHistory = () => {
     time_zone: tz,
     from_date:  moment().format("DD/MM/YYYY"),
     to_date: moment().format("DD/MM/YYYY"),
+    ...router.query
   });
+
+  useEffect(() => {
+    const stringified = queryString.stringify(objFilter);
+    let url = `${router.location.pathname}?${stringified}`;
+    router.navigate(url);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [objFilter]);
 
   const [data, setData] = useState([]);
 
@@ -82,9 +90,10 @@ const GamesListHistory = () => {
       column_name: "Game",
       align: "left",
       formatter: (cell, row) => {
-        console.log(time_zoneReplace);
+        // console.log(router.query.player_id)
+        // console.log(row)
         return (
-          <Link href={`/players/${router.query.id}/information?from_date=${moment().format("DD/MM/YYYY 00:00")}&game_name=${row.game_name}&game_type=&page=1&page_size=30&player_id=3546&round_id=&sort_field=start_at&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${moment().format("DD/MM/YYYY 23:59")}`}>{cell}</Link>
+          <Link href={`/players/game-history?brand_id=1&from_date=${moment().format("DD/MM/YYYY 00:00")}&game_name=${row.game_name}&game_type=&nick_name=&page=1&page_size=30&player_id=${router.query.player_id}&round_id=&sort_field=start_at&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${moment().format("DD/MM/YYYY 23:59")}`}>{cell}</Link>
         )
       }
     },
@@ -127,9 +136,9 @@ const GamesListHistory = () => {
     }));
   };
 
-  useEffect(() => {
-    console.log(objFilter);
-  }, [objFilter]);
+  // useEffect(() => {
+  //   console.log(objFilter);
+  // }, [objFilter]);
 
   return (
     <Fragment>
