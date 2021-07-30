@@ -57,6 +57,14 @@ const GameHistory = lazy(() =>
   import('src/components/GameHistory/GameHistory')
 );
 
+const GamesConfig = lazy(() =>
+  import('src/components/GamesConfig/GamesListConfig')
+);
+
+const GamesConfigDetails = lazy(() =>
+  import('src/components/GamesConfig/GamesConfigDetails/GamesConfigDetails')
+);
+
 const routes = (isLoggedIn) => [
   {
     path: 'home',
@@ -191,6 +199,24 @@ const routes = (isLoggedIn) => [
         name: 'Transaction Details',
         element: <TransactionDetails />,
       },
+    ],
+  },
+  {
+    path: 'configuration',
+    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+    children: [
+      {
+        path: '/games',
+        fullpath: '/configuration/games',
+        name: 'Games List',
+        element: <GamesConfig />,
+      },
+      {
+        path: '/games/:id/edit',
+        fullpath: 'configuration/games/:id/edit',
+        name: 'Games Details',
+        element: <GamesConfigDetails />,
+      }
     ],
   },
   {

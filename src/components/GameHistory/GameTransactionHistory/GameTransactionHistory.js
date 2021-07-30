@@ -61,10 +61,6 @@ const GameTransactionHistory = () => {
     router.navigate(url);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [objFilter]);
-  // const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
-  //   '/api/transaction/game_history',
-  //   objFilter
-  // );
 
   const [data, setData] = useState([]);
   const [total_size, setTotal_size] = useState(0);

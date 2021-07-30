@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import moment from 'moment';
 import { FormControl, FormLabel, makeStyles } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-
+import cloneDeep from 'lodash/cloneDeep';
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import InputField from "src/components/shared/InputField/InputField";
 import SelectField from "src/components/shared/InputField/SelectField";
@@ -50,17 +50,14 @@ const PLayerListFilter = ({
   //   defaultValues: router.query,
   // });
 
- // useEffect(() => {
-  //   console.log(currencyData);
-  // }, [currencyData])
+  useEffect(() => {
+    console.log(currencyData);
+  }, [currencyData])
 
   useEffect(() => {
     let mapData = [];
-    let newLanguage;
-    newLanguage = [...dataLanguage];
-    if (!newLanguage) return;
-    if (newLanguage.length <= 0) return;
-    newLanguage.forEach((data, index) => {
+    let newLanguage = cloneDeep(dataLanguage);
+    (newLanguage || []).forEach((data, index) => {
       let optionData = {
         id: data.code,
         value: data.code,
@@ -73,11 +70,8 @@ const PLayerListFilter = ({
   
   useEffect(() => {
     let mapData = [];
-    let newCurrency;
-    newCurrency = [...dataCurrency];
-    if (!newCurrency) return;
-    if (newCurrency.length <= 0) return;
-    newCurrency.forEach((data, index) => {
+    let newCurrency = cloneDeep(dataCurrency);
+    (newCurrency || []).forEach((data, index) => {
       let optionData = {
         id: data.code,
         value: data.code,
@@ -90,13 +84,9 @@ const PLayerListFilter = ({
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
-    let newBrand;
-    if(dataBrand?.list) {
-      newBrand = [...dataBrand?.list];
-    }
-    if (!newBrand) return;
-    if (newBrand.length <= 0) return;
-    newBrand.forEach(data => {
+    let newBrand = cloneDeep(dataBrand?.list);
+
+    (newBrand || []).forEach(data => {
       let optionData = {
         id: data.BrandId,
         value: data.BrandId,
