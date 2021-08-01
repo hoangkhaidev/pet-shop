@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 const DateRangePickerComponent = ({
   timePicker, startDate, endDate,
-  handleCallback, format, dateRangeRef,
+  handleCallback, format, dateRangeRef, maxDate, minDate
 }) => {
   // useEffect(() => {
   //   console.log(startDate, endDate);
@@ -22,6 +22,8 @@ const DateRangePickerComponent = ({
         endDate,
         timePicker: true,
         timePicker24Hour: true,
+        maxDate,
+        minDate,
         locale: {
           format
         }

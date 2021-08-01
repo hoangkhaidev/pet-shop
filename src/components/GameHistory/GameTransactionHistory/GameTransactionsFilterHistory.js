@@ -221,25 +221,26 @@ const GameTransactionFilterHistory = ({
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid className={classes.inputDataPicked} item xs={12} xl={3} md={3}>
-                {!(roleUser.account_type === 'brand') && (
-                    <SelectField
-                      control={control}
-                      namefileld="brand_id"
-                      id="brand_id"
-                      label="Brand"
-                      disabled
-                      required
-                      options={brandData}
-                      fullWidth={false}
-                      defaultValue='all'
-                    />
-                )}
+                <SelectField
+                  control={control}
+                  selectDisabled= {roleUser.account_type === 'brand' ? true : false}
+                  namefileld="brand_id"
+                  id="brand_id"
+                  label="Brand"
+                  disabled
+                  required
+                  options={brandData}
+                  fullWidth={false}
+                  defaultValue='all'
+                />
                 <DateRangePickerComponent
                   className={classes.inputDataPicked}
                   control={control}
                   timePicker
                   startDate={dateRange.start}
                   endDate={dateRange.end}
+                  maxDate={moment().format("DD/MM/YYYY 23:59")}
+                  minDate={moment().subtract(29, 'days').format("DD/MM/YYYY 00:00")}
                   handleCallback={onChangeDateRange}
                   dateRangeRef={dateRangeRef}
                   format="DD/MM/YYYY H:mm"

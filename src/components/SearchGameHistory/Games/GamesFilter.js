@@ -188,6 +188,8 @@ const GameFilter = ({
               <DateRangePickerComponent
                 startDate={dateRange.start}
                 endDate={dateRange.end}
+                maxDate={moment().format("DD/MM/YYYY 23:59")}
+                minDate={moment().subtract(29, 'days').format("DD/MM/YYYY 00:00")}
                 handleCallback={onChangeDateRange}
                 format="DD/MM/YYYY"
                 dateRangeRef={dateRangeRef}

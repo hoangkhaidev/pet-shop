@@ -1,8 +1,8 @@
 import { Button, makeStyles } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useCallback, useState } from 'react';
-// import { toast } from 'react-toastify';
-// import api from 'src/utils/api';
+import { toast } from 'react-toastify';
+import api from 'src/utils/api';
 import ModalComponent from '../shared/ModalComponent/ModalComponent';
 import TitlePage from '../shared/TitlePage/TitlePage';
 
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ChangeStatusGamesConfig = ({status, linkApi, dataForm}) => {
+const ChangeStatusGamesConfig = ({status, game_code, brand_name, brandList, game_name}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(status);
@@ -41,19 +41,39 @@ const ChangeStatusGamesConfig = ({status, linkApi, dataForm}) => {
     setValCheck(event.target.checked)
   };
 
-  const onChangeStatus = async (linkApi, dataForm) => {
+  const onChangeStatus = async () => {
     setChecked(valCheck);
     onClose();
-    // try {
-    //   let data = await api.post(linkApi, dataForm);
-    //   if(!data?.success) {
-    //     toast.warn(`Failed to Change`);
-    //   } else {
-    //     toast.success(`Change Status Success`);
-    //   }
-    // } catch(e) {
-    //   console.log(e)
-    // }
+    console.log(game_code, brand_name);
+    console.log(brandList);
+    let brandFirst = brandList.find((item) => item.label === brand_name);
+    let dataForm = {
+      brand_id: brandFirst.id,
+      game_code: game_code
+    }
+    if (valCheck === true) {
+      try {
+        let data = await api.post(`/api/game_config/brand_game/enable`, dataForm);
+        if(!data?.success) {
+          toast.warn(`Failed to Change`);
+        } else {
+          toast.success(`Change Status Success`);
+        }
+      } catch(e) {
+        console.log(e)
+      }
+    } else {
+      try {
+        let data = await api.post(`/api/game_config/brand_game/disable`, dataForm);
+        if(!data?.success) {
+          toast.warn(`Failed to Change`);
+        } else {
+          toast.success(`Change Status Success`);
+        }
+      } catch(e) {
+        console.log(e)
+      }
+    }
   }
 
   return (
@@ -63,8 +83,8 @@ const ChangeStatusGamesConfig = ({status, linkApi, dataForm}) => {
         onClose={onClose}
       >
         <div>
-          <TitlePage title="Change Status" />
-            <div className={classes.title__text}>{`Are you sure you want to change status ?`}</div>
+          <TitlePage title="Confirmation" />
+            <div className={classes.title__text}>{`Are you sure you want to change this: ${game_name} ?`}</div>
             <div className={classes.title__groupButton} style={{ justifyContent: 'flex-end' }}>
                 <Button style={{ marginRight: '10px' }} variant="contained" color="primary" onClick={() => onChangeStatus()}>
                     OK

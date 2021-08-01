@@ -10,6 +10,7 @@ import SelectField from "src/components/shared/InputField/SelectField";
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
 import { func } from "prop-types";
 import useFetchData from "src/utils/hooks/useFetchData";
+import { useSelector } from "react-redux";
 // import useRouter from "src/utils/hooks/useRouter";
 // import { FormattedNumberInputCaptcha } from "../shared/InputField/InputFieldNumber";
 
@@ -39,6 +40,7 @@ const GamesFilterConfig = ({
 }) => {
   // const { t } = useTranslation();
   const classes = useStyles();
+  const roleUser = useSelector((state) => state.roleUser);
 
   const { dataResponse: dataBrand} = useFetchData("/api/brand");
   const { dataResponse: dataGame} = useFetchData("/api/games");
@@ -117,7 +119,7 @@ const GamesFilterConfig = ({
       ...data,
       game_type: data.game_type === 'all' ? '' : data.game_type,
       brand_id: data.brand_id === 'all' ? 0 : Number(data.brand_id),
-      status: data.status === 'enable' ? true : data.status === 'disable' ? false : data.status,
+      status: data.status,
     };
     onSubmitProps(form);
   };
@@ -184,6 +186,7 @@ const GamesFilterConfig = ({
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
               <SelectField
+                selectDisabled= {roleUser.account_type === 'brand' ? true : false}
                 control={control}
                 namefileld="brand_id"
                 id="brand_id"

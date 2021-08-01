@@ -30,6 +30,7 @@ const SelectField = ({
   namefileld,
   options,
   label,
+  selectDisabled
 }) => {
   const classes = useStyles();
 
@@ -49,6 +50,7 @@ const SelectField = ({
   return (
     <div className={classes.selectField}>
       <FormControl
+        disabled={selectDisabled}
         variant="outlined"
         error={!isEmpty(errors)}
         className={classes.formControl}

@@ -121,29 +121,16 @@ const GameTransactionFilter = ({
     setTimezoneData([...mapData]);
   }, [dataTimezone, setTimezoneData]);
 
-  // useEffect(() => {
-  //   console.log(gameNameData)
-  // }, [gameNameData]);
-
   const [dateRange, setDateRange] = useState({
     start: moment().format("DD/MM/YYYY 00:00"),
     end: moment().format("DD/MM/YYYY 23:59"),
   });
-  
-  // useEffect(() => {
-  //   console.log(dateRange);
-  // }, [dateRange]);
-  // const { setDateRange: setDateRangeCont } = useContext(DateRangeContext);
 
   const onChangeDateRange = (startDate, endDate) => {
     setDateRange({
       start: moment(startDate).format("DD/MM/YYYY H:mm"),
       end: moment(endDate).format("DD/MM/YYYY H:mm")
     });
-    // setDateRangeCont({
-    //   start: moment(start).format("DD/MM/YYYY"),
-    //   end: moment(end).format("DD/MM/YYYY")
-    // });
   };
 
   const onSubmit = async (data) => {
@@ -153,18 +140,10 @@ const GameTransactionFilter = ({
       from_date: dateRange.start,
       to_date: dateRange.end,
     };
-    // console.log(dateRange.start);
-    // console.log(form);
     onSubmitProps(form);
   };
 
-  // useEffect(() => {
-  //   console.log(dateRange);
-  // }, [dateRange])
-
   const onReset = () => {
-    // reset();
-    // onResetFilter();
     reset({
       page: 1,
       page_size: 30,
@@ -210,6 +189,8 @@ const GameTransactionFilter = ({
                   className={classes.inputDataPicked}
                   control={control}
                   timePicker
+                  maxDate={moment().format("DD/MM/YYYY 23:59")}
+                  minDate={moment().subtract(29, 'days').format("DD/MM/YYYY 00:00")}
                   startDate={dateRange.start}
                   endDate={dateRange.end}
                   handleCallback={onChangeDateRange}

@@ -123,7 +123,6 @@ const GameTransactionHistory = () => {
   ];
 
   const onSubmit = async (data) => {
-    // console.log(data);
     setObjFilter(prevState => ({
       ...prevState,
       ...data,
@@ -133,6 +132,8 @@ const GameTransactionHistory = () => {
       ...objFilter,
       ...data
     };
+
+    console.log(dataForm);
 
     try {
         const response = await api.post('/api/transaction/game_history', dataForm);
@@ -144,7 +145,7 @@ const GameTransactionHistory = () => {
           setData(mapData);
         } else {
           if (response.err === "err:not_enough_arguments") toast.warn('Please select 1 of the 3 fields player ID, nickname round ID');
-          if (response.err === "err:member_not_found") toast.warn('Player not found');
+          if (response.err === "err:player_not_found") toast.warn('Player not found');
         }
     } catch (e) {
       console.log('e', e);
@@ -174,7 +175,7 @@ const GameTransactionHistory = () => {
         setData(mapData);
       } else {
         if (response.err === "err:not_enough_arguments") toast.warn('Please select 1 of the 3 fields player ID, nickname round ID');
-        if (response.err === "err:member_not_found") toast.warn('Player not found');
+        if (response.err === "err:player_not_found") toast.warn('Player not found');
       }
     } catch (e) {
       console.log('e', e);

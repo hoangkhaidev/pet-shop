@@ -11,6 +11,7 @@ import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
 import GamesFilterConfig from "./GamesFilterConfig";
 import { useSelector } from "react-redux";
 import ChangeStatusGamesConfig from "src/components/Modal/ChangeStatusGamesConfig";
+import cloneDeep from 'lodash/cloneDeep';
 // import { useForm } from "react-hook-form";
 
 const GamesListConfig = () => {
@@ -20,13 +21,15 @@ const GamesListConfig = () => {
   const [objFilter, setObjFilter] = useState({
     brand_id: 0,
     game_type: "",
+    sort_field: "brand_name",
+    sort_order: "desc",
     game_name: "",
     status: "all",
     page: 1,
     page_size: 30,
     ...{
       ...router.query,
-      brand_id: router.query.brand_id ? Number(router.query.brand_id) : 1,
+      brand_id: router.query.brand_id ? Number(router.query.brand_id) : 0,
     },
   });
   const [data, setData] = useState([]);
@@ -35,6 +38,24 @@ const GamesListConfig = () => {
     '/api/game_config/game_list',
     objFilter
   );
+
+  const { dataResponse: dataBrand} = useFetchData("/api/brand");
+  const [brandData, setBrandData] = useState([]);
+
+  useEffect(() => {
+    let mapData = [];
+    let newBrand = cloneDeep(dataBrand?.list);
+
+    (newBrand || []).forEach(data => {
+      let optionData = {
+        id: data.BrandId,
+        value: data.BrandId,
+        label: data.name,
+      };
+      mapData.push(optionData)
+    });
+    setBrandData([...mapData]);
+  }, [dataBrand, setBrandData]);
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
@@ -70,10 +91,13 @@ const GamesListConfig = () => {
       column_name: "Status",
       align: "center",
       formatter: (cell, row) => {
-        console.log(row);
         return (
           <ChangeStatusGamesConfig 
             status={row.enable} 
+            game_code={row.game_code}
+            brand_name={row.brand_name}
+            brandList={brandData}
+            game_name={row.game_name}
           />
         );
       },
@@ -103,11 +127,11 @@ const GamesListConfig = () => {
   };
 
   useEffect(() => {
-    console.log(objFilter);
-  }, [objFilter])
+    console.log(data);
+  }, [data])
 
   const onSubmit = async (data) => {
-    // console.log(data)
+    console.log(data)
     
     setObjFilter(prevState => ({
       ...prevState,

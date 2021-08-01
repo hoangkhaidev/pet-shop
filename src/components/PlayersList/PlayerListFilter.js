@@ -13,6 +13,7 @@ import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Bu
 import { func } from "prop-types";
 import useFetchData from "src/utils/hooks/useFetchData";
 import useRouter from "src/utils/hooks/useRouter";
+import { useSelector } from "react-redux";
 // import { FormattedNumberInputCaptcha } from "../shared/InputField/InputFieldNumber";
 
 const useStyles = makeStyles(() => ({
@@ -29,7 +30,12 @@ const PLayerListFilter = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
   const { t } = useTranslation();
-  const { control, handleSubmit, reset } = useForm();
+  const roleUser = useSelector((state) => state.roleUser);
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: {
+      brand_id: "all",
+    }
+  });
   const [dateRange, setDateRange] = useState({
     start: moment().format("DD/MM/YYYY"),
     end: moment().format("DD/MM/YYYY")
@@ -162,6 +168,8 @@ const PLayerListFilter = ({
     dateRangeRef.current.setEndDate(dateRange.end);
   }, [dateRange]);
 
+  console.log(roleUser)
+
   return (
     <>
       <ContentCardPage>
@@ -218,6 +226,7 @@ const PLayerListFilter = ({
             
             <Grid item xs={12} xl={3} md={3}>
               <SelectField
+                selectDisabled= {roleUser.account_type === 'brand' ? true : false}
                 control={control}
                 namefileld="brand_id"
                 id="brand_id"

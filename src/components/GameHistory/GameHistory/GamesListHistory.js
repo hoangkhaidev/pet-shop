@@ -77,7 +77,7 @@ const GamesListHistory = () => {
             if (response.data.player_id === "want int, got string") toast.warn('Player ID is a number');
           }
           if (response.err === "err:not_enough_arguments") toast.warn('Please select 1 of the 3 fields player ID, nickname round ID');
-          if (response.err === "err:member_not_found") toast.warn('Player not found');
+          if (response.err === "err:player_not_found") toast.warn('Player not found');
         }
     } catch (e) {
       console.log('e', e);
@@ -142,8 +142,8 @@ const GamesListHistory = () => {
 
   return (
     <Fragment>
-      <GamesFilterHistory onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <TitlePage title="Games" />
+      <GamesFilterHistory onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <TableComponent
         data={data}
         columns={columns}
