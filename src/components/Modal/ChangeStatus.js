@@ -17,127 +17,13 @@ import TableComponentStatus from "../shared/TableComponent/TableComponentStatus"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSign } from '@fortawesome/free-solid-svg-icons'
 
-const STATUS_ALL = [
-  {
-    id: 1,
-    value: 'suspended',
-    label: 'suspended',
-  },
-  {
-    id: 2,
-    value: 'locked',
-    label: 'locked',
-  },
-  {
-    id: 3,
-    value: 'inactive',
-    label: 'inactive',
-  },
-  {
-    id: 4,
-    value: 'unsuspended',
-    label: 'unsuspended',
-  },
-  {
-    id: 5,
-    value: 'unlocked',
-    label: 'unlocked',
-  },
-];
-
-const STATUS_ACTIVE = [
-  {
-    id: 1,
-    value: 'suspended',
-    label: 'suspended',
-  },
-  {
-    id: 2,
-    value: 'locked',
-    label: 'locked',
-  },
-  {
-    id: 3,
-    value: 'inactive',
-    label: 'inactive',
-  },
-];
-
-const STATUS_LOCKED = [
-  {
-    id: 1,
-    value: 'suspended',
-    label: 'suspended',
-  },
-  {
-    id: 2,
-    value: 'unlocked',
-    label: 'unlocked',
-  },
-  {
-    id: 3,
-    value: 'inactive',
-    label: 'inactive',
-  },
-];
-
-const STATUS_SUSPENDED = [
-  {
-    id: 1,
-    value: 'unsuspended',
-    label: 'unsuspended',
-  },
-  {
-    id: 2,
-    value: 'locked',
-    label: 'locked',
-  },
-  {
-    id: 3,
-    value: 'inactive',
-    label: 'inactive',
-  },
-];
-
-const STATUS_INACTIVE = [
-  {
-    id: 1,
-    value: 'active',
-    label: 'active',
-  },
-];
-
-const STATUS_LOCKED_SUSPENDED = [
-  {
-    id: 1,
-    value: 'unsuspended',
-    label: 'unsuspended',
-  }, 
-  {
-    id: 2,
-    value: 'unlocked',
-    label: 'unlocked',
-  },
-  {
-    id: 3,
-    value: 'inactive',
-    label: 'inactive',
-  },
-];
-
-const ChangeStatus = ({ newlabel, linkApi, username, statuses, types, setRefreshData = () => {} }) => {
+const ChangeStatus = ({ STATUS, newlabel, linkApi, username, statuses, types, setRefreshData = () => {} }) => {
   
   const [label, setLabel] = useState(newlabel);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const { handleSubmit, formState: { errors }, control, setError, setValue } = useForm();
   // const router = useRouter();
-  let STATUS = [];
-  if (newlabel === 'active') STATUS = STATUS_ACTIVE;
-  if (newlabel === 'inactive') STATUS = STATUS_INACTIVE;
-  if (newlabel === 'locked') STATUS = STATUS_LOCKED;
-  if (newlabel === 'suspended') STATUS = STATUS_SUSPENDED;
-  if (data?.length > 1) STATUS = STATUS_LOCKED_SUSPENDED;
 
   // const [objFilter, setObjFilter] = useState({
   //   page: 1,
@@ -189,7 +75,7 @@ const ChangeStatus = ({ newlabel, linkApi, username, statuses, types, setRefresh
             types='viewStatus'
             newlabel={newlabel}
             linkApi={`/api/subs/${row.id}/update_status`}
-            STATUS={STATUS_ALL}
+            STATUS={STATUS}
             username={row.username}
             statuses={row.statuses}
           />
@@ -209,7 +95,7 @@ const ChangeStatus = ({ newlabel, linkApi, username, statuses, types, setRefresh
   ];
 
   const onSubmit = async (data) => {
-    // console.log(data);
+    console.log(data);
     // console.log(linkApi);
     const form = {
       action: data.status,
@@ -253,9 +139,17 @@ const ChangeStatus = ({ newlabel, linkApi, username, statuses, types, setRefresh
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [label])
 
+  let labelShow = '';
+  if (label === 'active') labelShow = 'Activate';
+  if (label === 'suspended') labelShow = 'Suspend';
+  if (label === 'inactive') labelShow = 'Inactivate';
+  if (label === 'unsuspended') labelShow = 'Unsuspend';
+  if (label === 'locked') labelShow = 'Lock';
+  if (label === 'unlocked') labelShow = 'Unlock';
+
   return (
     <div style={{ marginRight: '25px' }}>
-      {types === 'viewStatus' ? <StatusBadge label={label} /> : ''}
+      {types === 'viewStatus' ? <StatusBadge label={labelShow} /> : ''}
   
       {types !== 'viewStatus' ? 
         <FontAwesomeIcon 
@@ -306,8 +200,8 @@ const ChangeStatus = ({ newlabel, linkApi, username, statuses, types, setRefresh
               options={
                 STATUS
               }
+              required
               label="New Status"
-              defaultValue="active"
             />
             <InputField
               required

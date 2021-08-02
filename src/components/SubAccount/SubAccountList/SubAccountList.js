@@ -40,113 +40,81 @@ const STATUS_ALL = [
   {
     id: 1,
     value: 'suspended',
-    label: 'suspended',
+    label: 'Suspend',
   },
   {
     id: 2,
     value: 'locked',
-    label: 'locked',
+    label: 'Lock',
   },
   {
     id: 3,
-    value: 'inactive',
-    label: 'inactive',
+    value: 'unsuspended',
+    label: 'Unsuspend',
   },
   {
     id: 4,
-    value: 'unsuspended',
-    label: 'unsuspended',
-  },
-  {
-    id: 5,
     value: 'unlocked',
-    label: 'unlocked',
+    label: 'Unlock',
   },
 ];
 
-// const STATUS_ACTIVE = [
-//   {
-//     id: 1,
-//     value: 'suspended',
-//     label: 'suspended',
-//   },
-//   {
-//     id: 2,
-//     value: 'locked',
-//     label: 'locked',
-//   },
-//   {
-//     id: 3,
-//     value: 'inactive',
-//     label: 'inactive',
-//   },
-// ];
+const STATUS_ACTIVE = [
+  {
+    id: 1,
+    value: 'suspended',
+    label: 'Suspend',
+  },
+  {
+    id: 2,
+    value: 'locked',
+    label: 'Lock',
+  },
+];
 
-// const STATUS_LOCKED = [
-//   {
-//     id: 1,
-//     value: 'suspended',
-//     label: 'suspended',
-//   },
-//   {
-//     id: 2,
-//     value: 'unlocked',
-//     label: 'unlocked',
-//   },
-//   {
-//     id: 3,
-//     value: 'inactive',
-//     label: 'inactive',
-//   },
-// ];
+const STATUS_LOCKED = [
+  {
+    id: 1,
+    value: 'suspended',
+    label: 'Suspend',
+  },
+  {
+    id: 2,
+    value: 'unlocked',
+    label: 'Unlock',
+  },
+];
 
-// const STATUS_SUSPENDED = [
-//   {
-//     id: 1,
-//     value: 'unsuspended',
-//     label: 'unsuspended',
-//   },
-//   {
-//     id: 2,
-//     value: 'locked',
-//     label: 'locked',
-//   },
-//   {
-//     id: 3,
-//     value: 'inactive',
-//     label: 'inactive',
-//   },
-// ];
+const STATUS_SUSPENDED = [
+  {
+    id: 1,
+    value: 'unsuspended',
+    label: 'Unsuspend',
+  },
+  {
+    id: 2,
+    value: 'locked',
+    label: 'Lock',
+  },
+];
 
-// const STATUS_INACTIVE = [
-//   {
-//     id: 1,
-//     value: 'active',
-//     label: 'active',
-//   },
-// ];
-
-// const STATUS_LOCKED_SUSPENDED = [
-//   {
-//     id: 1,
-//     value: 'unsuspended',
-//     label: 'unsuspended',
-//   }, 
-//   {
-//     id: 2,
-//     value: 'unlocked',
-//     label: 'unlocked',
-//   },
-//   {
-//     id: 3,
-//     value: 'inactive',
-//     label: 'inactive',
-//   },
-// ];
+const STATUS_LOCKED_SUSPENDED = [
+  {
+    id: 1,
+    value: 'unsuspended',
+    label: 'Unsuspend',
+  }, 
+  {
+    id: 2,
+    value: 'unlocked',
+    label: 'Unlock',
+  },
+];
 
 const SubAccountList = () => {
   const [data, setData] = useState([]);
   const router = useRouter();
+  
   const [objFilter, setObjFilter] = useState({
     name_search: '',
     status_search: '',
@@ -179,10 +147,6 @@ const SubAccountList = () => {
   useEffect(() => {
     setData(get(dataResponse, 'list', []));
   }, [dataResponse]);
-
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
 
   const columns = [
     {
@@ -219,7 +183,6 @@ const SubAccountList = () => {
       align: 'center',
       formatter: (cell, row) => {
         const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
-        // console.log(row.statuses)
         return (
           <ChangeStatus
             types='viewStatus'
@@ -248,6 +211,13 @@ const SubAccountList = () => {
       align: 'center',
       formatter: (cell, row) => {
         const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
+        let STATUS = [];
+        if (newlabel === 'active') STATUS = STATUS_ACTIVE;
+        if (newlabel === 'locked') STATUS = STATUS_LOCKED;
+        if (newlabel === 'suspended') STATUS = STATUS_SUSPENDED;
+        if (row.statuses > 1) {
+          STATUS = STATUS_LOCKED_SUSPENDED;
+        }
         return (
           <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
             <ChangeStatus
@@ -256,6 +226,7 @@ const SubAccountList = () => {
               linkApi={`/api/subs/${row.id}/update_status`}
               username={row.username}
               statuses={row.statuses}
+              STATUS={STATUS}
             />
             <ChangePasswordForm
               linkApi={`/api/subs/${row.id}/update_password`}

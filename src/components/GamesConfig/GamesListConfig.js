@@ -58,6 +58,11 @@ const GamesListConfig = () => {
   }, [dataBrand, setBrandData]);
 
   useEffect(() => {
+    console.log(dataResponse);
+    
+  }, [dataResponse]);
+
+  useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
     setData(mapData);
   }, [dataResponse]);

@@ -66,8 +66,6 @@ TableHeader.propTypes = {
 
 const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
   const classes = useStyles();
-  // console.log(rowData)
-  // console.log(rowData)
   let newAt = moment(rowData.at).format("DD/MM/YY, hh:mm a");
   rowData.at = newAt; 
   return (

@@ -65,6 +65,14 @@ const GamesConfigDetails = lazy(() =>
   import('src/components/GamesConfig/GamesConfigDetails/GamesConfigDetails')
 );
 
+const CurrencyList = lazy(() =>
+  import('src/components/Currency/CurrencyList/CurrencyList')
+);
+
+const CommissionList = lazy(() =>
+  import('src/components/Commission/CommissionList')
+);
+
 const routes = (isLoggedIn) => [
   {
     path: 'home',
@@ -216,6 +224,18 @@ const routes = (isLoggedIn) => [
         fullpath: 'configuration/games/:id/edit',
         name: 'Games Details',
         element: <GamesConfigDetails />,
+      },
+      {
+        path: '/currency',
+        fullpath: 'configuration/currency',
+        name: 'Currency List',
+        element: <CurrencyList />,
+      },
+      {
+        path: '/commission',
+        fullpath: 'configuration/commission',
+        name: 'Commission List',
+        element: <CommissionList />,
       }
     ],
   },

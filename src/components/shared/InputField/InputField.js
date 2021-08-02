@@ -82,6 +82,12 @@ const InputField = ({
     if (errors.message === 'err:invalid_ip_address') {
       return errors.message = 'Invalid IP address';
     }
+    if (errors.message === 'err:incorrect_password') {
+      return errors.message = 'Incorrect password';
+    }
+    if (errors.message === 'err:username_not_found') {
+      return errors.message = 'Account not found';
+    }
     if (errors.type === 'required') {
       return 'Field is required.';
     }

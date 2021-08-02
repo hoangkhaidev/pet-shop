@@ -26,27 +26,112 @@ const STATUS_ALL = [
   {
     id: 1,
     value: 'suspended',
-    label: 'suspended',
+    label: 'Suspend',
   },
   {
     id: 2,
     value: 'locked',
-    label: 'locked',
+    label: 'Lock',
   },
   {
     id: 3,
     value: 'inactive',
-    label: 'inactive',
+    label: 'Inactivate',
   },
   {
     id: 4,
     value: 'unsuspended',
-    label: 'unsuspended',
+    label: 'Unsuspend',
   },
   {
     id: 5,
     value: 'unlocked',
-    label: 'unlocked',
+    label: 'Unlock',
+  },
+  {
+    id: 3,
+    value: 'active',
+    label: 'Activate',
+  },
+];
+
+const STATUS_ACTIVE = [
+  {
+    id: 1,
+    value: 'suspended',
+    label: 'Suspend',
+  },
+  {
+    id: 2,
+    value: 'locked',
+    label: 'Lock',
+  },
+  {
+    id: 3,
+    value: 'inactive',
+    label: 'Inactivate',
+  },
+];
+
+const STATUS_LOCKED = [
+  {
+    id: 1,
+    value: 'suspended',
+    label: 'Suspend',
+  },
+  {
+    id: 2,
+    value: 'unlocked',
+    label: 'Unlock',
+  },
+  {
+    id: 3,
+    value: 'inactive',
+    label: 'Inactivate',
+  },
+];
+
+const STATUS_SUSPENDED = [
+  {
+    id: 1,
+    value: 'unsuspended',
+    label: 'Unsuspend',
+  },
+  {
+    id: 2,
+    value: 'locked',
+    label: 'Lock',
+  },
+  {
+    id: 3,
+    value: 'inactive',
+    label: 'Inactivate',
+  },
+];
+
+const STATUS_INACTIVE = [
+  {
+    id: 1,
+    value: 'active',
+    label: 'Activate',
+  },
+];
+
+const STATUS_LOCKED_SUSPENDED = [
+  {
+    id: 1,
+    value: 'unsuspended',
+    label: 'Unsuspend',
+  }, 
+  {
+    id: 2,
+    value: 'unlocked',
+    label: 'Unlock',
+  },
+  {
+    id: 3,
+    value: 'inactive',
+    label: 'Inactivate',
   },
 ];
 
@@ -253,11 +338,20 @@ const BrandList = () => {
       align: 'center',
       formatter: (cell, row) => {
         const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
+        let STATUS = [];
+        if (newlabel === 'active') STATUS = STATUS_ACTIVE;
+        if (newlabel === 'inactive') STATUS = STATUS_INACTIVE;
+        if (newlabel === 'locked') STATUS = STATUS_LOCKED;
+        if (newlabel === 'suspended') STATUS = STATUS_SUSPENDED;
+        if (row.statuses > 1) {
+          STATUS = STATUS_LOCKED_SUSPENDED;
+        }
         return (
           <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
             <ChangeStatus
               setRefreshData={setRefreshData}
               newlabel={newlabel}
+              STATUS={STATUS}
               linkApi={`/api/brand/${row.id}/update_status`}
               username={row.username}
               statuses={row.statuses}

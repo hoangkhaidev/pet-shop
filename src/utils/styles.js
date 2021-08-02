@@ -4,7 +4,7 @@ export const colors = {
   labelTab: '#0edec2',
   warning: '#ffc107',
   success: '#28a745',
-  inactive: '#6e858e',
+  Inactivate: '#6e858e',
 };
 
 export const mixin = {

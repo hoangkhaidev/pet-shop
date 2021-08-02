@@ -113,13 +113,13 @@ export default function TabBetScale() {
         <div className={classes.tableConfiguration}>
             <span className={classes.w40}>Total MIN: </span> 
             <span className={classes.w60}>
-                <Input id="standard-basic" defaultValue={0.00} className={classes.inputTotal} />    
+                <Input id="standard-basic" type="number" defaultValue={0.00} className={classes.inputTotal} />    
             </span> 
         </div> 
         <div className={classes.tableConfiguration}>
             <span className={classes.w40}>Total MAX: </span> 
             <span className={classes.w60}>
-                <Input id="standard-basic" defaultValue={0.00} className={classes.inputTotal} />
+                <Input id="standard-basic" type="number" defaultValue={0.00} className={classes.inputTotal} />
             </span> 
         </div> 
         <div className={classes.tableConfiguration} style={{ justifyContent: 'flex-end' }}>

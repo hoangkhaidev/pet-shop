@@ -27,6 +27,8 @@ import get from 'lodash/get';
 import FormLabel from '@material-ui/core/FormLabel';
 
 import api from 'src/utils/api';
+import Loading from '../shared/Loading/Loading';
+import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
 
 const useStyles = makeStyles(() => ({
   whitelistIPLine: {
@@ -56,7 +58,7 @@ const SubAccountEdit = () => {
   const classes = useStyles();
   const roleUser = useSelector((state) => state.roleUser);
 
-  const { dataResponse } = useFetchData(`/api/subs/${router.query?.id}`);
+  const { dataResponse, isLoading, isHasPermission  } = useFetchData(`/api/subs/${router.query?.id}`);
   const { dataResponse: dataRole } = useFetchData('/api/role');
   const [roleData, setRoleData] = useState([]);
   const [data, setData] = useState(null);
@@ -204,6 +206,10 @@ const SubAccountEdit = () => {
     setWhitelistIP(cloneArr);
   };
 
+  if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
+
   // console.log(roleUser)
 
   return (
@@ -306,6 +312,7 @@ const SubAccountEdit = () => {
           <ResetButton text="Cancel" onAction={onCancel} />
         </ButtonGroup>
       </form>
+      {isLoading && <Loading />}
     </ContentCardPage>
   );
 };

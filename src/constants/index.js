@@ -9,17 +9,17 @@ export const USER_STATUS = [
   {
     id: 2,
     value: "active",
-    label: "Active"
+    label: "Activate"
   },
   {
     id: 3,
     value: "suspended",
-    label: "Suspended"
+    label: "Suspend"
   },
   {
     id: 4,
     value: "locked",
-    label: "Locked"
+    label: "Lock"
   }
 ];
 
@@ -32,22 +32,22 @@ export const OPERATOR_STATUS = [
   {
     id: 2,
     value: "active",
-    label: "Active"
+    label: "Activate"
   },
   {
     id: 3,
     value: "suspended",
-    label: "Suspended"
+    label: "Suspend"
   },
   {
     id: 4,
     value: "locked",
-    label: "Locked"
+    label: "Lock"
   },
   {
     id: 5,
     value: "inactive",
-    label: "Inactive"
+    label: "Inactivate"
   }
 ];
 

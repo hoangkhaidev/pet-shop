@@ -167,8 +167,8 @@ const OperatorCreate = () => {
       let response = await api.post('/api/operators/create', form);
       // console.log(response);
       if (get(response, 'success', false)) {
-        toast.success('Update operator Success', {
-          onClose: navigate('operator/list'),
+        toast.success('Create Operator Success', {
+          onClose: navigate('/operator/list'),
         });
       } else {
         if (response?.err === 'err:form_validation_failed') {

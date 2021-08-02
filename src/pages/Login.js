@@ -281,7 +281,7 @@ const Login = () => {
                     required
                   />
                 </div>
-                <SubmitButton />
+                <SubmitButton text={'LOGIN'}/>
               </Box>
             </form>
           </Card>

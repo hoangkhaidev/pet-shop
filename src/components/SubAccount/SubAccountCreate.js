@@ -23,6 +23,7 @@ import ButtonGroup, {
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import api from 'src/utils/api';
+import useRouter from 'src/utils/hooks/useRouter';
 
 const useStyles = makeStyles(() => ({
   whitelistIPLine: {
@@ -40,13 +41,14 @@ const useStyles = makeStyles(() => ({
 
 const SubAccountCreate = () => {
   const classes = useStyles();
+  const router = useRouter();
   const { t } = useTranslation();
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [roleData, setRoleData] = useState([]);
   const [brandData, setBrandData] = useState([]);
   const [checkWhiteIP, setCheckWhiteIP] = useState('');
   const roleUser = useSelector((state) => state.roleUser);
-
+  console.log(router);
   // console.log(roleUser);
 
   const {
@@ -91,7 +93,7 @@ const SubAccountCreate = () => {
     setBrandData([...mapdata]);
   }, [dataBrand, setBrandData]);
 
-  const onSubmit = async (dataform) => {
+  const onSubmit = async (dataForm) => {
     // console.log(whitelistIP);
     const formatWLIPs = whitelistIP.map((item) => {
       item = item.join('.');
@@ -100,12 +102,12 @@ const SubAccountCreate = () => {
     }).filter((item) => item);
    
     const form = {
-      username: dataform.username,
-      brand_ids: dataform?.brand ? [dataform?.brand] : [],
-      display_name: dataform.name,
-      password: dataform.password,
-      password_confirmation: dataform.password_confirmation,
-      role_id: dataform.role,
+      username: dataForm.username,
+      brand_ids: dataForm?.brand ? [dataForm?.brand] : [],
+      display_name: dataForm.name,
+      password: dataForm.password,
+      password_confirmation: dataForm.password_confirmation,
+      role_id: dataForm.role,
       whitelist_ips: formatWLIPs,
     };
     // console.log(form)

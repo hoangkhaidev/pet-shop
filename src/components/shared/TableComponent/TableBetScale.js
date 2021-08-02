@@ -84,7 +84,7 @@ export default function TableBetScale() {
           ))}
             <TableRow>
               <TableCell className={classes.cellTable} align="left" colSpan={3}>
-                <Input id="standard-basic" defaultValue={0.00} className={classes.inputTotal} />
+                <Input type="number" id="standard-basic" defaultValue={0.00} className={classes.inputTotal} />
               </TableCell>
               <TableCell className={classes.cellTable} align="center">
                 <Button
