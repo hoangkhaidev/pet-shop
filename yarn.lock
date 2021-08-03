@@ -8027,10 +8027,20 @@ lodash.flatten@^4.4.0:
   resolved "https://registry.yarnpkg.com/lodash.flatten/-/lodash.flatten-4.4.0.tgz#f31c22225a9632d2bbf8e4addbef240aa765a61f"
   integrity sha1-8xwiIlqWMtK7+OSt2+8kCqdlph8=
 
+lodash.isplainobject@4.0.6:
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz#7c526a52d89b45c45cc690b88163be0497f550cb"
+  integrity sha1-fFJqUtibRcRcxpC4gWO+BJf1UMs=
+
 lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
   integrity sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=
+
+lodash.reduce@4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.reduce/-/lodash.reduce-4.6.0.tgz#f1ab6b839299ad48f784abbf476596f03b914d3b"
+  integrity sha1-8atrg5KZrUj3hKu/R2WW8DuRTTs=
 
 lodash.template@^4.5.0:
   version "4.5.0"
@@ -12641,6 +12651,25 @@ validate-npm-package-name@^3.0.0, validate-npm-package-name@~3.0.0:
   integrity sha1-X6kS2B630MdK/BQN5zF/DKffQ34=
   dependencies:
     builtins "^1.0.3"
+
+validate.js@^0.13.1:
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/validate.js/-/validate.js-0.13.1.tgz#b58bfac04a0f600a340f62e5227e70d95971e92a"
+  integrity sha512-PnFM3xiZ+kYmLyTiMgTYmU7ZHkjBZz2/+F0DaALc/uUtVzdCt1wAosvYJ5hFQi/hz8O4zb52FQhHZRC+uVkJ+g==
+
+validator.js-validate@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/validator.js-validate/-/validator.js-validate-1.1.0.tgz#c78a6332ac419805e1ba2493d1cca717d8a61578"
+  integrity sha1-x4pjMqxBmAXhuiST0cynF9imFXg=
+  dependencies:
+    lodash.isplainobject "4.0.6"
+    lodash.reduce "4.6.0"
+    validator.js "2.0.3"
+
+validator.js@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/validator.js/-/validator.js-2.0.3.tgz#3f4d8ae50673f7fbd5539abd66a1338d879f5ef4"
+  integrity sha1-P02K5QZz9/vVU5q9ZqEzjYefXvQ=
 
 vary@~1.1.2:
   version "1.1.2"

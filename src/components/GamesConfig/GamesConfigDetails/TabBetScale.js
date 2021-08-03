@@ -80,12 +80,16 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function TabBetScale() {
+export default function TabBetScale({currentData, setObjFilter, objFilter, dataDetail}) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    setObjFilter({
+      ...objFilter,
+      currency_code: currentData[newValue].code
+    })
   };
 
   return (
@@ -97,49 +101,55 @@ export default function TabBetScale() {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        <Tab label="Item One" {...a11yProps(0)} />
-        <Tab label="Item Two" {...a11yProps(1)} />
+        {currentData.map((item, index) => (
+          <Tab key={index} label={item.code} {...a11yProps(index)} />
+        ))}
+        {/* <Tab label="Item Two" {...a11yProps(1)} />
         <Tab label="Item Three" {...a11yProps(2)} />
         <Tab label="Item Four" {...a11yProps(3)} />
         <Tab label="Item Five" {...a11yProps(4)} />
         <Tab label="Item Six" {...a11yProps(5)} />
-        <Tab label="Item Seven" {...a11yProps(6)} />
+        <Tab label="Item Seven" {...a11yProps(6)} /> */}
       </Tabs>
-      <TabPanel value={value} index={0}>
-        <TableBetScale />
-        <div className={classes.tableConfiguration}>
-            <span className={classes.w20}>Total bet limits:	</span> 
-        </div> 
-        <div className={classes.tableConfiguration}>
-            <span className={classes.w40}>Total MIN: </span> 
-            <span className={classes.w60}>
-                <Input id="standard-basic" type="number" defaultValue={0.00} className={classes.inputTotal} />    
-            </span> 
-        </div> 
-        <div className={classes.tableConfiguration}>
-            <span className={classes.w40}>Total MAX: </span> 
-            <span className={classes.w60}>
-                <Input id="standard-basic" type="number" defaultValue={0.00} className={classes.inputTotal} />
-            </span> 
-        </div> 
-        <div className={classes.tableConfiguration} style={{ justifyContent: 'flex-end' }}>
-            <ButtonGroup>
-                <SubmitButton text={'Save'}/>
-                <Button
-                    startIcon={<ClearAllIcon fontSize="small" />}
-                    variant="contained"
-                    type="button"
-                    color="secondary"
-                    sx={{
-                    ml: 1
-                    }}
-                >
-                    Cancel
-                </Button>
-            </ButtonGroup>
-        </div>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
+      {currentData.map((item, index) => (
+        <TabPanel key={index} value={value} index={index}>
+           <TableBetScale 
+            dataDetail={dataDetail}
+          />
+          <div className={classes.tableConfiguration}>
+              <span className={classes.w20}>Total bet limits:	</span> 
+          </div> 
+          <div className={classes.tableConfiguration}>
+              <span className={classes.w40}>Total MIN: </span> 
+              <span className={classes.w60}>
+                  <Input id="standard-basic" type="number" defaultValue={0.00} className={classes.inputTotal} />    
+              </span> 
+          </div> 
+          <div className={classes.tableConfiguration}>
+              <span className={classes.w40}>Total MAX: </span> 
+              <span className={classes.w60}>
+                  <Input id="standard-basic" type="number" defaultValue={0.00} className={classes.inputTotal} />
+              </span> 
+          </div> 
+          <div className={classes.tableConfiguration} style={{ justifyContent: 'flex-end' }}>
+              <ButtonGroup>
+                  <SubmitButton text={'Save'}/>
+                  <Button
+                      startIcon={<ClearAllIcon fontSize="small" />}
+                      variant="contained"
+                      type="button"
+                      color="secondary"
+                      sx={{
+                      ml: 1
+                      }}
+                  >
+                      Cancel
+                  </Button>
+              </ButtonGroup>
+          </div>
+        </TabPanel>
+      ))}
+      {/* <TabPanel value={value} index={1}>
         <TableBetScale />
       </TabPanel>
       <TabPanel value={value} index={2}>
@@ -156,7 +166,7 @@ export default function TabBetScale() {
       </TabPanel>
       <TabPanel value={value} index={6}>
         <TableBetScale />
-      </TabPanel>
+      </TabPanel> */}
     </div>
   );
 }

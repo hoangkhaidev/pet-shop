@@ -28,7 +28,6 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
 
   const getListNav = useCallback(async () => {
     const response = await api.post('/api/navigation', null);
-    console.log(response)
     if (get(response, "success", false)) {
       setListNav(get(response, "data", {}));
     } else {

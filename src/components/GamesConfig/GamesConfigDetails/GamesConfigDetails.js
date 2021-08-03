@@ -7,6 +7,12 @@ import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import TablePayoutConfiguration from 'src/components/shared/TableComponent/TablePayoutConfiguration';
 import TabBetScale from './TabBetScale';
+import useFetchData from 'src/utils/hooks/useFetchData';
+import { useCallback, useEffect, useState } from 'react';
+import useRouter from 'src/utils/hooks/useRouter';
+import cloneDeep from 'lodash/cloneDeep';
+import api from 'src/utils/api';
+import get from "lodash/get";
 
 const useStyles = makeStyles(() => ({
   playerInfoName: {
@@ -55,6 +61,57 @@ const useStyles = makeStyles(() => ({
 const GamesConfigDetails = () => {
   const classes = useStyles();
   const navigate = useNavigate();
+  const router = useRouter();
+
+  const [objFilter, setObjFilter] = useState({
+    brand_id: Number(router.query.brand_id),
+    game_code: router.query.id,
+    currency_code: '',
+  });
+
+  const { dataResponse: dataCurrency} = useFetchData("/api/currency/public_list");
+
+  const [currentData, setCurrentData] = useState([]);
+  const [dataDetail, setDataDetail] = useState({});
+
+  const dataGamesDetail = async (objFilter) => {
+    const response = await api.post('/api/game_config/bet_scale', objFilter);
+    if (get(response, "success", false)) {
+      setDataDetail(response?.data);
+    } else {
+      console.log("response", response);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  };
+
+
+  // const { dataResponse: dataGamesDetail } = useFetchData(
+  //   '/api/game_config/bet_scale',
+  //   objFilter
+  // );
+
+  useEffect(() => {
+    let mapData = cloneDeep(dataCurrency);
+    if (!mapData[0]) return;
+    setCurrentData(mapData);
+    setObjFilter({
+      brand_id: Number(router.query.brand_id),
+      game_code: router.query.id,
+      currency_code: mapData?.[0]?.code,
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataCurrency]);
+
+  useEffect(() => {
+    if (objFilter.currency_code) dataGamesDetail(objFilter);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [objFilter]);
+
+  useEffect(() => {
+    console.log(dataDetail);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataDetail]);
+
   const onCancel = () => {
     navigate('/configuration/games');
   };
@@ -76,43 +133,43 @@ const GamesConfigDetails = () => {
           <span className={classes.w20}>
             Game Code:
           </span>
-          <span className={classes.w80}> vs15diamond</span>
+          <span className={classes.w80}> {dataDetail.game_code}</span>
         </div>
         <div className={classes.playerInfoName}>
           <span className={classes.w20}>
             Game Name:
           </span>
-          <span className={classes.w80}> Diamond Strike</span>
+          <span className={classes.w80}> {dataDetail.game_name}</span>
         </div>
         <div className={classes.playerInfoName}>
           <span className={classes.w20}>
             Lines:
           </span>
-          <span className={classes.w80}> 15</span>
+          <span className={classes.w80}> {dataDetail.lines}</span>
         </div>
         <div className={classes.playerInfoName}>
           <span className={classes.w20}>
             Brand:
           </span>
-          <span className={classes.w80}> super88</span>
+          <span className={classes.w80}> {dataDetail.brand_name}</span>
         </div>
-        <div className={classes.playerInfoName}>
+        {/* <div className={classes.playerInfoName}>
           <span className={classes.w20}>
             Participate in PJP:
           </span>
           <span className={classes.w80}> Disabled</span>
-        </div>
-        <div className={classes.playerInfoName}>
+        </div> */}
+        {/* <div className={classes.playerInfoName}>
           <span className={classes.w20}>
             Payout Configuration:
           </span>
           <span className={classes.w80}> </span>
-        </div>
+        </div> */}
       </div>
-      <div className={classes.tableConfiguration}>
+      {/* <div className={classes.tableConfiguration}>
         <span className={classes.w20}></span> 
         <TablePayoutConfiguration />
-      </div> 
+      </div>  */}
       <div className={classes.playerInfoName}>
         <span className={classes.w20}>
           Bet Scale Configuration:
@@ -127,7 +184,14 @@ const GamesConfigDetails = () => {
       </div>
       <div className={classes.tableConfiguration}>
         <span className={classes.w20}></span> 
-        <TabBetScale />
+        <TabBetScale 
+          dataDetail={dataDetail}
+          currentData={currentData} 
+          brand_id={router.query.brand_id}
+          game_code={router.query.id}
+          setObjFilter={setObjFilter}
+          objFilter={objFilter}
+        />
       </div> 
     </ContentCardPage>
   );

@@ -220,8 +220,8 @@ const routes = (isLoggedIn) => [
         element: <GamesConfig />,
       },
       {
-        path: '/games/:id/edit',
-        fullpath: 'configuration/games/:id/edit',
+        path: '/games/:id/brand_id/:brand_id/edit',
+        fullpath: 'configuration/games/:id/brand_id/:brand_id/edit',
         name: 'Games Details',
         element: <GamesConfigDetails />,
       },

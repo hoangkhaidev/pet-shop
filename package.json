@@ -75,7 +75,9 @@
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
     "sass": "^1.32.11",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.0",
+    "validate.js": "^0.13.1",
+    "validator.js-validate": "^1.1.0"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^18.2.1",

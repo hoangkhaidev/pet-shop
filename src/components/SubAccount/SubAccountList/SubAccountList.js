@@ -148,6 +148,10 @@ const SubAccountList = () => {
     setData(get(dataResponse, 'list', []));
   }, [dataResponse]);
 
+  useEffect(() => {
+    console.log(dataResponse)
+  }, [dataResponse]);
+
   const columns = [
     {
       data_field: 'indexRow',

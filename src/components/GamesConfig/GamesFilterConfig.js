@@ -19,11 +19,11 @@ const status = [
   {id: 1, value: "enable", label: "Enable"},
   {id: 2, value: "disable", label: "Disable"},
 ];
-const jackpot = [
-  {id: 0, value: "all", label: "All"},
-  {id: 1, value: "enable", label: "Enable"},
-  {id: 2, value: "disable", label: "Disable"},
-];
+// const jackpot = [
+//   {id: 0, value: "all", label: "All"},
+//   {id: 1, value: "enable", label: "Enable"},
+//   {id: 2, value: "disable", label: "Disable"},
+// ];
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -54,7 +54,7 @@ const GamesFilterConfig = ({
       brand_id: "all",
       game_type: "all",
       game_name: "",
-      jackpot: "all",
+      // jackpot: "all",
       status: "all"
     }
   });
@@ -175,14 +175,14 @@ const GamesFilterConfig = ({
                 fullWidth={false}
                 options={gameNameData}
               />
-              <SelectField
+              {/* <SelectField
                 control={control}
                 namefileld="jackpot"
                 id="jackpot"
                 label="Jackpot status"
                 fullWidth={false}
                 options={jackpot}
-              />
+              /> */}
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
               <SelectField

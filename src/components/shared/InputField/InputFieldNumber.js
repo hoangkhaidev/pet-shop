@@ -170,7 +170,7 @@ FormattedNumberInput.defaultProps = {
 
 export default FormattedNumberInput;
 
-export const FormattedNumberInputComission = ({
+export const FormattedNumberInputNew = ({
   // eslint-disable-next-line react/prop-types
   label,
   control,
@@ -245,7 +245,7 @@ export const FormattedNumberInputComission = ({
   );
 };
 
-FormattedNumberInputComission.propTypes = {
+FormattedNumberInputNew.propTypes = {
   label: string.isRequired,
   maxLength: number,
   namefileld: string.isRequired,
@@ -254,7 +254,7 @@ FormattedNumberInputComission.propTypes = {
   required: bool,
 };
 
-FormattedNumberInputComission.defaultProps = {
+FormattedNumberInputNew.defaultProps = {
   maxLength: undefined,
   styles: null,
   errors: {},

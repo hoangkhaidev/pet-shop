@@ -11,7 +11,7 @@ import { TableBody } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 
 // import TablePagination from "./TablePagination";
-import moment from "moment";
+// import moment from "moment";
 
 const useStyles = makeStyles({
   table: {
@@ -81,8 +81,8 @@ TableHeader.propTypes = {
 
 const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
   const classes = useStyles();
-  let newAt = moment(rowData.at).format("DD/MM/YY, hh:mm a");
-  rowData.at = newAt; 
+  // let newAt = moment(rowData.at).format("DD/MM/YY, hh:mm a");
+  // rowData.at = newAt; 
 
   return (
     <StyledTableRow align={cellInfo.align}>

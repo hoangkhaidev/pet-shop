@@ -6,7 +6,6 @@ export default function useRouter() {
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  // console.log(location.pathname)
 
 
   // Return our custom router object

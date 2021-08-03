@@ -57,10 +57,10 @@ const GamesListConfig = () => {
     setBrandData([...mapData]);
   }, [dataBrand, setBrandData]);
 
-  useEffect(() => {
-    console.log(dataResponse);
+  // useEffect(() => {
+  //   console.log(dataResponse);
     
-  }, [dataResponse]);
+  // }, [dataResponse]);
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
@@ -72,9 +72,15 @@ const GamesListConfig = () => {
       data_field: "game_code",
       column_name: "Game Code",
       align: "left",
-      formatter: (cell, row) => (
-        <Link href={`/configuration/games/${row.game_code}/edit`}>{cell}</Link>
-      ),
+      formatter: (cell, row) => {
+        console.log(row)
+        let newBrand = cloneDeep(dataBrand?.list);
+        let brandFirst = newBrand.find((item) => item.name === row.brand_name);
+       
+        return (
+          <Link href={`/configuration/games/${row.game_code}/brand_id/${brandFirst?.BrandId}/edit`}>{cell}</Link>
+        )
+      }
     },
     {
       data_field: "game_name",
@@ -107,12 +113,12 @@ const GamesListConfig = () => {
         );
       },
     },
-    {
-      data_field: "jackpot",
-      column_name: "Jackpot",
-      align: "center",
+    // {
+    //   data_field: "jackpot",
+    //   column_name: "Jackpot",
+    //   align: "center",
       
-    }
+    // }
   ];
 
   const handleChangePage = (page) => {
