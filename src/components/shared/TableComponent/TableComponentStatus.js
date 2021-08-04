@@ -83,6 +83,7 @@ const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
   const classes = useStyles();
   // let newAt = moment(rowData.at).format("DD/MM/YY, hh:mm a");
   // rowData.at = newAt; 
+  // console.log(rowData)
 
   return (
     <StyledTableRow align={cellInfo.align}>

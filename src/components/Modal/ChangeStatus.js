@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import { useState, useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import SelectField from "src/components/shared/InputField/SelectField";
@@ -17,8 +18,10 @@ import TableComponentStatus from "../shared/TableComponent/TableComponentStatus"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSign } from '@fortawesome/free-solid-svg-icons'
 
-const ChangeStatus = ({ STATUS, newlabel, linkApi, username, statuses, types, setRefreshData = () => {} }) => {
-  
+const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, statuses, types, setRefreshData = () => {} }) => {
+  // console.log(statuses)
+  const [statusLabels, setStatusLabels] = useState(labels);
+
   const [label, setLabel] = useState(newlabel);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
@@ -36,6 +39,11 @@ const ChangeStatus = ({ STATUS, newlabel, linkApi, username, statuses, types, se
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newlabel])
 
+  useEffect(() => {
+    setStatusLabels(labels);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [labels])
+
 
   // useEffect(() => {
   //   setValue("username", username);
@@ -45,7 +53,7 @@ const ChangeStatus = ({ STATUS, newlabel, linkApi, username, statuses, types, se
 
   useEffect(() => {
     setData(statuses)
-  }, [statuses])
+  }, [statuses]);
 
   const onOpenModal = useCallback(() => {
     // setOpen(true);
@@ -68,11 +76,12 @@ const ChangeStatus = ({ STATUS, newlabel, linkApi, username, statuses, types, se
       column_name: "Status",
       align: "left",
       formatter: (cell, row) => {
-        // console.log(row);
-        const newlabel = row?.status ;
+        const newlabel = row?.status;
+        console.log(row);
+
         return (
           <ChangeStatus
-            types='viewStatus'
+            types='viewStatusList'
             newlabel={newlabel}
             linkApi={`/api/subs/${row.id}/update_status`}
             STATUS={STATUS}
@@ -139,19 +148,35 @@ const ChangeStatus = ({ STATUS, newlabel, linkApi, username, statuses, types, se
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [label])
 
-  let labelShow = '';
-  if (label === 'active') labelShow = 'Activate';
-  if (label === 'suspended') labelShow = 'Suspend';
-  if (label === 'inactive') labelShow = 'Inactivate';
-  if (label === 'unsuspended') labelShow = 'Unsuspend';
-  if (label === 'locked') labelShow = 'Lock';
-  if (label === 'unlocked') labelShow = 'Unlock';
+  let labelView = '';
+  if (label === 'active') labelView = 'Activate';
+  if (label === 'suspended') labelView = 'Suspend';
+  if (label === 'inactive') labelView = 'Inactivate';
+  if (label === 'unsuspended') labelView = 'Unsuspend';
+  if (label === 'locked') labelView = 'Lock';
+  if (label === 'unlocked') labelView = 'Unlock';
 
   return (
     <div style={{ marginRight: '25px' }}>
-      {types === 'viewStatus' ? <StatusBadge label={labelShow} /> : ''}
-  
-      {types !== 'viewStatus' ? 
+      { statusLabels && (statusLabels.length > 0 ? statusLabels : ['active']).map((statusLabel, index) => {
+        const labelShow = 
+          statusLabel === 'suspended'
+            ? 'Suspend'
+            : statusLabel === 'inactive'
+              ? 'Inactivate'
+              : statusLabel === 'unsuspended'
+                ? 'Unsuspend'
+                : statusLabel === 'locked'
+                  ? 'Lock'
+                  : statusLabel === 'Unlock'
+                    ? 'Unlock'
+                    : 'Activate'
+        if (types === 'viewStatus') return <StatusBadge key={index} label={labelShow} />
+      })}
+
+      { (types === 'viewStatusList') ? <StatusBadge label={labelView} /> : '' }
+
+      {types === 'editStatus' ? 
         <FontAwesomeIcon 
           icon={faSign} 
           size={'2x'} 

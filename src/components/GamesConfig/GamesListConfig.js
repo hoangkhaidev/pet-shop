@@ -75,7 +75,7 @@ const GamesListConfig = () => {
       formatter: (cell, row) => {
         console.log(row)
         let newBrand = cloneDeep(dataBrand?.list);
-        let brandFirst = newBrand.find((item) => item.name === row.brand_name);
+        let brandFirst = (newBrand || []).find((item) => item.name === row.brand_name);
        
         return (
           <Link href={`/configuration/games/${row.game_code}/brand_id/${brandFirst?.BrandId}/edit`}>{cell}</Link>

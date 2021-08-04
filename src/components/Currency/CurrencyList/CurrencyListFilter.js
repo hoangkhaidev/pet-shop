@@ -27,7 +27,7 @@ const CurrencyListFilter = () => {
   const navigate = useNavigate();
   const { dataResponse: dataCurrency} = useFetchData("/api/currency/all_for_create");
 
-  const [currencyData, setCurrencyData] = useState([]);
+  const [currencydata, setCurrencydata] = useState([]);
   const [formState, setFormState] = useState({
     code: '',
     name: '',
@@ -46,8 +46,8 @@ const CurrencyListFilter = () => {
       };
       mapData.push(optionData)
     });
-    setCurrencyData([...mapData]);
-  }, [dataCurrency, setCurrencyData]);
+    setCurrencydata([...mapData]);
+  }, [dataCurrency, setCurrencydata]);
 
   const onChangeCurrency = (event, value) => {
     let data = value.split(" - ");
@@ -93,9 +93,8 @@ const CurrencyListFilter = () => {
             /> */}
             <Autocomplete
               id="currency"
-              currencyData
               onChange={onChangeCurrency}
-              options={currencyData.map((option) => {
+              options={currencydata.map((option) => {
                 return option.value + ' - ' + option.label + ' - ' + option.symbol;
               })}
               renderInput={(params) => (

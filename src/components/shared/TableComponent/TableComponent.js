@@ -71,6 +71,7 @@ const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
   return (
     <StyledTableRow align={cellInfo.align}>
       {cellInfo.map((info, index) => {
+        // console.log(rowData);
         // console.log(info.data_field);
         return (
           <TableCell

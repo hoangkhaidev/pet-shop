@@ -189,7 +189,7 @@ const PlayerInformation = () => {
                   Last Login Client Information
                 </span>
                 <span className={classes.w50}>
-                  Instant client, Chrome 90.0.4430, iOS
+                  {data?.last_logged_in_info}
                 </span>
               </div>
           </Grid>

@@ -12,6 +12,7 @@ import { Button, FormLabel, Radio } from '@material-ui/core';
 import { Input } from '@material-ui/core';
 import cloneDeep from 'lodash.clonedeep';
 import validate from 'validate.js';
+import DeleteConfirm from 'src/components/GamesConfig/GamesConfigDetails/DeleteConfirm';
 
 const useStyles = makeStyles({
   table: {
@@ -43,24 +44,19 @@ const schema = {
   bet_scale: {
     presence: { allowEmpty: false, message: 'is required' },
     numericality: {
-      greaterThan: 0,
+      greaterThan: 0.01,
     }
   },
 }
 
-export default function TableBetScale({ dataDetail }) {
+export default function TableBetScale({ dataDetail, setFormState }) {
   const classes = useStyles();
   let defaultBet = dataDetail?.default_bet_scale;
   let betScaleList = dataDetail?.bet_scale_list;
   let lines = dataDetail?.lines;
 
-  const [checkedRadio, setCheckedRadio] = useState(defaultBet);
   const [dataScale, setDataScale] = useState(betScaleList);
-
-  // const [newScale, setNewScale] = useState({
-  //   bet_scale: "",
-  //   total_bet: ""
-  // });
+  const [checkedRadio, setCheckedRadio] = useState(defaultBet);
 
   const initNewScale = {
     isValid: false,
@@ -71,15 +67,53 @@ export default function TableBetScale({ dataDetail }) {
     errors: {},
     touched: {}
   };
+
   const [newScale, setNewScale] = useState(initNewScale);
 
   const handleChange = (event) => {
     setCheckedRadio(event.target.value)
+    setFormState((formState) => ({
+      ...formState,
+      values: {
+        ...formState.values,
+        default_bet_scale: event.target.value
+      },
+      touched: {
+        ...formState.touched,
+        [event.target.name]: true
+      }
+    }));
   };
 
   const onAddNewBet = () => {
-    if (newScale.isValid === true) {
-      setDataScale([...dataScale, newScale.values]);
+    let newBetScale = String(newScale.values.bet_scale)
+    let newDataScale = cloneDeep(dataScale);
+    let index = newDataScale.findIndex((item) => {
+      let newScale = String(Math.round(item.bet_scale * 100) / 100);
+      return newScale === newBetScale;
+    });
+  
+    if (index >= 0) {
+      // console.log("Bet scale is duplicated");
+      const errors = {
+        bet_scale: ["Bet scale is duplicated"]
+      };
+      setNewScale((newScale) => ({
+        ...newScale,
+        isValid: false,
+        errors: errors || {}
+      }));
+    } else {
+      if (newScale.isValid === true) {
+        let newBetScale = String(newScale.values.bet_scale);
+        let newTotalScale = String(newScale.values.total_bet);
+        let dataScaleNew = {
+          bet_scale: newBetScale,
+          total_bet: newTotalScale
+        }
+        setDataScale([...dataScale, dataScaleNew]);
+        setNewScale(initNewScale);
+      }
     }
   }
 
@@ -119,8 +153,27 @@ export default function TableBetScale({ dataDetail }) {
   }, [betScaleList]);
 
   useEffect(() => {
+    let dataScaleNew = (dataScale || []).map((item) => {
+      let betNew = (Math.round(item.bet_scale * 100)/100).toFixed(2);
+      return { 
+        bet_scale: betNew
+      }
+    });
+    setFormState((formState) => ({
+      ...formState,
+      values: {
+        ...formState.values,
+        bet_scale_list: dataScaleNew
+      },
+      touched: {
+        ...formState.touched,
+      }
+    }));
+  }, [dataScale]);
+
+  useEffect(() => {
     const errors = validate(newScale.values, schema);
-    console.log(newScale.values.bet_scale);
+    // console.log(newScale.values.bet_scale);
     setNewScale((newScale) => ({
       ...newScale,
       isValid: errors ? false : true,
@@ -129,8 +182,6 @@ export default function TableBetScale({ dataDetail }) {
   }, [newScale.values]);
 
   const hasError = (field) => newScale.touched[field] && newScale.errors[field] ? true : false;
-
-  console.log(newScale);
 
   return (
     <TableContainer component={Paper} >
@@ -145,31 +196,31 @@ export default function TableBetScale({ dataDetail }) {
         </TableHead>
         <TableBody>
           {(dataScale || []).map((row, index) => {
-            console.log(row);
             let total_bet = Number(row.bet_scale) * Number(dataDetail.lines);
             let bet_scale = Number(row.bet_scale);
             return (
               <TableRow key={index}>
                 <TableCell className={classes.cellTable} align="right">
-                  {bet_scale}
+                  {bet_scale.toFixed(2)}
                 </TableCell>
                 <TableCell className={classes.cellTable} align="right">{total_bet.toFixed(2)}</TableCell>
                 <TableCell className={classes.cellTable} align="center">
                   <Radio
                       value={row.bet_scale}
-                      checked={checkedRadio === row.bet_scale ? 'checked' : null}
-                      name="default"
+                      checked={checkedRadio === String(row.bet_scale) ? true : false}
+                      name="default_bet_scale"
                       onChange={handleChange}
                   />
                 </TableCell>
                 <TableCell className={classes.cellTable} align="center">
-                  <Button
+                  {/* <Button
                     variant="contained"
                     color="secondary"
                     onClick={() => onDeleteItem(row.bet_scale) }
                   >
                     Delete
-                </Button>
+                  </Button> */}
+                  <DeleteConfirm onDeleteItem={onDeleteItem}  name={row.bet_scale} />
                 </TableCell>
               </TableRow>
             )
@@ -177,10 +228,10 @@ export default function TableBetScale({ dataDetail }) {
             <TableRow>
               <TableCell className={classes.cellTable} align="left" colSpan={3}>
                 <Input 
-                  type="number"
+                  type="text"
                   id="standard-basic" 
                   name="bet_scale"
-                  defaultValue={0.00} 
+                  value={newScale.values.bet_scale}
                   className={classes.inputTotal} 
                   error={hasError('bet_scale')}
                   onChange={handleChangeInput}

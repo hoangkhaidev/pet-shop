@@ -169,9 +169,9 @@ const OperatorList = () => {
     [refreshData]
   );
 
-  // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter]);
+  useEffect(() => {
+    console.log(dataResponse);
+  }, [dataResponse]);
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
@@ -275,13 +275,14 @@ const OperatorList = () => {
       column_name: 'Status',
       align: 'center',
       formatter: (cell, row) => {
-        const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
+        // console.log(row)
+        const labels = row.statuses.map(item => item.status);
         return (
           <ChangeStatus
             setRefreshData={setRefreshData}
             key={row.operator_id}
             types='viewStatus'
-            newlabel={newlabel}
+            labels={labels}
             linkApi={`/api/operators/${row.id}/update_status`}
             STATUS={STATUS_ALL}
             username={row.username}
@@ -310,6 +311,7 @@ const OperatorList = () => {
             <ChangeStatus
               setRefreshData={setRefreshData}
               newlabel={newlabel}
+              types={'editStatus'}
               STATUS={STATUS}
               linkApi={`/api/operators/${row.id}/update_status`}
               username={row.username}

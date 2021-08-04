@@ -13,6 +13,8 @@ import useRouter from 'src/utils/hooks/useRouter';
 import cloneDeep from 'lodash/cloneDeep';
 import api from 'src/utils/api';
 import get from "lodash/get";
+import ResetConfirm from './ResetConfirm';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles(() => ({
   playerInfoName: {
@@ -84,12 +86,6 @@ const GamesConfigDetails = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
-
-  // const { dataResponse: dataGamesDetail } = useFetchData(
-  //   '/api/game_config/bet_scale',
-  //   objFilter
-  // );
-
   useEffect(() => {
     let mapData = cloneDeep(dataCurrency);
     if (!mapData[0]) return;
@@ -107,10 +103,28 @@ const GamesConfigDetails = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [objFilter]);
 
-  useEffect(() => {
-    console.log(dataDetail);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataDetail]);
+  // useEffect(() => {
+  //   console.log(dataDetail);
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [dataDetail]);
+
+  const onResetItem = async () => {
+    let dataForm = {
+      brand_id: Number(router.query.brand_id),
+      bet_scale_id: dataDetail.id
+    }
+    const response = await api.post('/api/game_config/bet_scale/reset', dataForm);
+    if (get(response, "success", false)) {
+      console.log(response);
+      toast.success('Reset Default Success', {
+        onClose: setTimeout(() => {
+            window.location.reload()
+        }, 1000),   
+      });
+    } else {
+      console.log("response", response);
+    }
+  }
 
   const onCancel = () => {
     navigate('/configuration/games');
@@ -175,11 +189,7 @@ const GamesConfigDetails = () => {
           Bet Scale Configuration:
         </span>
         <span className={classes.w80}> 
-          <Button
-            variant="contained"
-          >
-            Reset to Default
-          </Button>
+          <ResetConfirm onResetItem={onResetItem} />
         </span>
       </div>
       <div className={classes.tableConfiguration}>

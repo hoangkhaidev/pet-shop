@@ -148,9 +148,9 @@ const SubAccountList = () => {
     setData(get(dataResponse, 'list', []));
   }, [dataResponse]);
 
-  useEffect(() => {
-    console.log(dataResponse)
-  }, [dataResponse]);
+  // useEffect(() => {
+  //   console.log(dataResponse)
+  // }, [dataResponse]);
 
   const columns = [
     {
@@ -186,12 +186,13 @@ const SubAccountList = () => {
       column_name: 'Status',
       align: 'center',
       formatter: (cell, row) => {
-        const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
+        // const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
+        const labels = row.statuses.map(item => item.status);
         return (
           <ChangeStatus
             types='viewStatus'
-            newlabel={newlabel}
             linkApi={`/api/subs/${row.id}/update_status`}
+            labels={labels}
             STATUS={STATUS_ALL}
             username={row.username}
             statuses={row.statuses}
@@ -227,6 +228,7 @@ const SubAccountList = () => {
             <ChangeStatus
               setRefreshData={setRefreshData}
               newlabel={newlabel}
+              types={'editStatus'}
               linkApi={`/api/subs/${row.id}/update_status`}
               username={row.username}
               statuses={row.statuses}

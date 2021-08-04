@@ -49,16 +49,16 @@ const PLayerListFilter = ({
   const { dataResponse: dataLanguage} = useFetchData("/api/language");
   
   const [brandData, setBrandData] = useState([]);
-  const [currencyData, setCurrencyData] = useState([]);
+  const [currencydata, setCurrencydata] = useState([]);
   const [languageData, setLanguageData] = useState([]);
 
   // const methods = useForm({
   //   defaultValues: router.query,
   // });
 
-  useEffect(() => {
-    console.log(currencyData);
-  }, [currencyData])
+  // useEffect(() => {
+  //   console.log(currencydata);
+  // }, [currencydata])
 
   useEffect(() => {
     let mapData = [];
@@ -85,8 +85,8 @@ const PLayerListFilter = ({
       };
       mapData.push(optionData)
     });
-    setCurrencyData([...mapData]);
-  }, [dataCurrency, setCurrencyData]);
+    setCurrencydata([...mapData]);
+  }, [dataCurrency, setCurrencydata]);
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
@@ -243,7 +243,7 @@ const PLayerListFilter = ({
                 id="currency"
                 label="Currency"
                 fullWidth={false}
-                options={currencyData}
+                options={currencydata}
                 defaultValue=""
               />
             </Grid>

@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import TableBetScale from 'src/components/shared/TableComponent/TableBetScale';
-import { Button, Input } from '@material-ui/core';
+import { Button, FormLabel, Input } from '@material-ui/core';
 import ButtonGroup, { SubmitButton, } from 'src/components/shared/Button/Button';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
+import validate from 'validate.js';
+import api from 'src/utils/api';
+import { toast } from 'react-toastify';
+import get from "lodash/get";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -23,7 +26,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          <>{children}</>
         </Box>
       )}
     </div>
@@ -77,12 +80,115 @@ const useStyles = makeStyles((theme) => ({
   },
   inputTotal: {
     textAlign: 'right !important'
+  },
+  checkHelperText: {
+    color: 'red !important',
+    fontSize: '12px !important',
+    marginLeft: '15px',
+    paddingTop: '5px !important'
   }
 }));
+
+const schema = {
+  total_min: {
+    presence: { allowEmpty: false, message: 'is required' },
+    numericality: {
+      greaterThanOrEqualTo: 0,
+    }
+  },
+  total_max: {
+    presence: { allowEmpty: false, message: 'is required' },
+    numericality: {
+      greaterThanOrEqualTo: 0,
+    }
+  },
+}
 
 export default function TabBetScale({currentData, setObjFilter, objFilter, dataDetail}) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
+
+  const initFormState = {
+    isValid: false,
+    values: {
+      brand_id: dataDetail?.brand_id,
+      bet_scale_id: dataDetail?.id,
+      default_bet_scale: dataDetail?.default_bet_scale,
+      bet_scale_list: [
+        {
+          bet_scale: null
+        },
+        {
+          bet_scale: null
+        }
+      ],
+      total_min: 0,
+      total_max: 0
+    },
+    errors: {},
+    touched: {}
+  };
+
+  const [formState, setFormState] = useState(initFormState);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (formState.isValid === true) {
+      let max = Number(formState.values.total_max);
+      let min = Number(formState.values.total_min);
+      if (min === 0 && max === 0){
+        let minNew = String(min);
+        let maxNew = String(max);
+        let newDataForm = {
+          ...formState.values,
+          total_min: minNew,
+          total_max: maxNew,
+        }
+        const response = await api.post('/api/game_config/bet_scale/update', newDataForm);
+          if (get(response, "success", false)) {
+            console.log(response);
+            toast.success('Update Bet Scale Success', {
+              onClose: setTimeout(() => {
+                  window.location.reload()
+              }, 1000),   
+            });
+          } else {
+            toast.warn('Update Bet Scale Fail');
+          }
+      } else {
+        if (min >= max) {
+          const errors = {
+            total_max: ["Total Max should be greater than Total Min"]
+          };
+          setFormState((formState) => ({
+            ...formState,
+            isValid: false,
+            errors: errors || {}
+          }));
+        } else {
+          let minNew = String(min);
+          let maxNew = String(max);
+          let newDataForm = {
+            ...formState.values,
+            total_min: minNew,
+            total_max: maxNew,
+          }
+          const response = await api.post('/api/game_config/bet_scale/update', newDataForm);
+          if (get(response, "success", false)) {
+            console.log(response);
+            toast.success('Update Bet Scale Success', {
+              onClose: setTimeout(() => {
+                  window.location.reload()
+              }, 1000),   
+            });
+          } else {
+            toast.warn('Update Bet Scale Fail');
+          }
+        }
+      }
+
+    }
+  }
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -91,6 +197,51 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
       currency_code: currentData[newValue].code
     })
   };
+
+  const handleReset = () => {
+    setFormState(initFormState);
+  };
+  
+  const handleChangeInput = (event) => {
+    event.persist();
+    
+    setFormState((formState) => ({
+      ...formState,
+      values: {
+        ...formState.values,
+        [event.target.name]:
+          event.target.type === 'checkbox'
+            ? event.target.checked
+            : event.target.value
+      },
+      touched: {
+        ...formState.touched,
+        [event.target.name]: true
+      }
+    }));
+  };
+
+  useEffect(() => {
+    setFormState(initFormState);
+    // eslint-disable-next-line
+  }, [dataDetail]);
+
+  useEffect(() => {
+    console.log(formState);
+    // eslint-disable-next-line
+  }, [formState]);
+
+  useEffect(() => {
+    const errors = validate(formState.values, schema);
+
+    setFormState((formState) => ({
+      ...formState,
+      isValid: errors ? false : true,
+      errors: errors || {}
+    }));
+  }, [formState.values]);
+
+  const hasError = (field) => formState.touched[field] && formState.errors[field] ? true : false;
 
   return (
     <div className={classes.root} >
@@ -104,69 +255,74 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
         {currentData.map((item, index) => (
           <Tab key={index} label={item.code} {...a11yProps(index)} />
         ))}
-        {/* <Tab label="Item Two" {...a11yProps(1)} />
-        <Tab label="Item Three" {...a11yProps(2)} />
-        <Tab label="Item Four" {...a11yProps(3)} />
-        <Tab label="Item Five" {...a11yProps(4)} />
-        <Tab label="Item Six" {...a11yProps(5)} />
-        <Tab label="Item Seven" {...a11yProps(6)} /> */}
       </Tabs>
       {currentData.map((item, index) => (
         <TabPanel key={index} value={value} index={index}>
-           <TableBetScale 
-            dataDetail={dataDetail}
-          />
-          <div className={classes.tableConfiguration}>
-              <span className={classes.w20}>Total bet limits:	</span> 
-          </div> 
-          <div className={classes.tableConfiguration}>
-              <span className={classes.w40}>Total MIN: </span> 
-              <span className={classes.w60}>
-                  <Input id="standard-basic" type="number" defaultValue={0.00} className={classes.inputTotal} />    
-              </span> 
-          </div> 
-          <div className={classes.tableConfiguration}>
-              <span className={classes.w40}>Total MAX: </span> 
-              <span className={classes.w60}>
-                  <Input id="standard-basic" type="number" defaultValue={0.00} className={classes.inputTotal} />
-              </span> 
-          </div> 
-          <div className={classes.tableConfiguration} style={{ justifyContent: 'flex-end' }}>
-              <ButtonGroup>
-                  <SubmitButton text={'Save'}/>
-                  <Button
-                      startIcon={<ClearAllIcon fontSize="small" />}
-                      variant="contained"
-                      type="button"
-                      color="secondary"
-                      sx={{
-                      ml: 1
-                      }}
-                  >
-                      Cancel
-                  </Button>
-              </ButtonGroup>
-          </div>
+          <form onSubmit={handleSubmit}>
+            <TableBetScale 
+                dataDetail={dataDetail}
+                setFormState={setFormState}
+            />
+            <div className={classes.tableConfiguration}>
+                <span className={classes.w20}>Total bet limits:	</span> 
+            </div> 
+            <div className={classes.tableConfiguration}>
+                <span className={classes.w40}>Total MIN: </span> 
+                <span className={classes.w60}>
+                    <Input 
+                      id="standard-basic" 
+                      type="text" 
+                      onChange={handleChangeInput}
+                      error={hasError('total_min')}
+                      name="total_min"
+                      value={formState.values.total_min}
+                      className={classes.inputTotal} 
+                    />  
+                    <FormLabel component="legend" className={classes.checkHelperText}>
+                      { hasError('total_min') ? formState.errors.total_min[0] : null }
+                    </FormLabel>  
+                </span> 
+            </div> 
+            <div className={classes.tableConfiguration}>
+                <span className={classes.w40}>Total MAX: </span> 
+                <span className={classes.w60}>
+                    <Input 
+                      id="standard-basic" 
+                      type="text" 
+                      onChange={handleChangeInput}
+                      error={hasError('total_max')}
+                      name="total_max"
+                      value={formState.values.total_max}
+                      className={classes.inputTotal} 
+                    />
+                    <FormLabel component="legend" className={classes.checkHelperText}>
+                      { hasError('total_max') ? formState.errors.total_max[0] : null }
+                    </FormLabel>
+                </span> 
+            </div> 
+            <div className={classes.tableConfiguration} style={{ justifyContent: 'flex-end' }}>
+                <ButtonGroup>
+                    <SubmitButton 
+                      text={'Save'} 
+                      disabled={!formState.isValid}
+                    />
+                    <Button
+                        startIcon={<ClearAllIcon fontSize="small" />}
+                        variant="contained"
+                        type="button"
+                        color="secondary"
+                        onClick={() => handleReset()}
+                        sx={{
+                          ml: 1
+                        }}
+                    >
+                        Cancel
+                    </Button>
+                </ButtonGroup>
+            </div>
+          </form>
         </TabPanel>
       ))}
-      {/* <TabPanel value={value} index={1}>
-        <TableBetScale />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <TableBetScale />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <TableBetScale />
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        <TableBetScale />
-      </TabPanel>
-      <TabPanel value={value} index={5}>
-        <TableBetScale />
-      </TabPanel>
-      <TabPanel value={value} index={6}>
-        <TableBetScale />
-      </TabPanel> */}
     </div>
   );
 }
