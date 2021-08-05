@@ -343,7 +343,7 @@ const BrandList = () => {
         if (newlabel === 'inactive') STATUS = STATUS_INACTIVE;
         if (newlabel === 'locked') STATUS = STATUS_LOCKED;
         if (newlabel === 'suspended') STATUS = STATUS_SUSPENDED;
-        if (row.statuses > 1) {
+        if (row.statuses.length > 1) {
           STATUS = STATUS_LOCKED_SUSPENDED;
         }
         return (
