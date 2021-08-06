@@ -130,6 +130,7 @@ const GamesConfigDetails = () => {
     navigate('/configuration/games');
   };
 
+
   return (
     <ContentCardPage>
       <TitlePage title="Game Details" />
@@ -189,7 +190,7 @@ const GamesConfigDetails = () => {
           Bet Scale Configuration:
         </span>
         <span className={classes.w80}> 
-          <ResetConfirm onResetItem={onResetItem} />
+          <ResetConfirm onResetItem={onResetItem} currency_code={dataDetail.currency_code} />
         </span>
       </div>
       <div className={classes.tableConfiguration}>

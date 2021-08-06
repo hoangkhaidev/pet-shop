@@ -57,9 +57,9 @@ const CurrencyListFilter = () => {
       symbol: data[2],
     })
   }
-  useEffect(() => {
-    console.log(formState)
-  }, [formState])
+  // useEffect(() => {
+  //   console.log(formState)
+  // }, [formState])
 
   const onAddCurrency = async () => {
     try {

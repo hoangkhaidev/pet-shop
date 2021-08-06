@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const CommissionInput = props => {
-  const { name, defaultValue, id, placeholder, onChange = null, disabled = false } = props;
+  const { name, defaultValue, id, placeholder, onChange = null, disabled = false, ref } = props;
   const classes = useStyles();
 
   const handlerCommissionChange = (event) => {
@@ -85,6 +85,7 @@ const CommissionInput = props => {
           disabled={disabled}
           name={name}
           id={id}
+          ref={ref}
           defaultValue={defaultValue}
           onChange={handlerCommissionChange}
           onKeyDown={formatInput}

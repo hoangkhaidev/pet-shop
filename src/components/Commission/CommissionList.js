@@ -44,7 +44,7 @@ const CommissionList = () => {
     objFilter
   );
 
-  const { register, getValues, errors, control } = useForm();
+  const { register, getValues, control } = useForm();
   
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
@@ -89,10 +89,10 @@ const CommissionList = () => {
               <CommissionInput 
                 name={`${row.brand_name}_${item?.product_id}`}
                 defaultValue={valueCommission}
-                {...register(`${row.brand_name}_${item?.product_id}`)}
+                {...register(`${row.brand_name}_${item?.product_id}` ,  { required: true })}
+                ref={`${row.brand_name}_${item?.product_id}`.ref}
                 control={control}
                 id={`${row.brand_name}_${item?.product_id}`}
-                errors={get(errors, `${row.brand_name}_${item?.product_id}`)}
                 placeholder={t("EnterField", { field: t("Commission") })}
               />
             );
@@ -106,7 +106,7 @@ const CommissionList = () => {
 
   const onHandleUpdate = async (brand_id, brand_name, row) => {
     const formData = getValues();
-    console.log(formData)
+    // console.log(formData)
     let productCommission = [];
     row.product_commission.forEach(item => {
       const inputKey = `${brand_name}_${item?.product_id}`
@@ -136,7 +136,9 @@ const CommissionList = () => {
     const response = await api.post('/api/commission/commission_update', form);
     if (get(response, "success", false)) {
       toast.success('Update Commission Success', {
-        onClose: navigate("/configuration/commission")
+        onClose: setTimeout(() => {
+          window.location.reload()
+        }, 0)
       });
     } else {
       toast.false('Update Fail', {
@@ -199,13 +201,13 @@ const CommissionList = () => {
   };
 
   const onSubmit = async (dataForm) => {
-    console.log(dataForm)
+    // console.log(dataForm)
     const form = {
       ...dataForm,
       name_search:
         dataForm?.name_search ? dataForm?.name_search : '',
     };
-    console.log(form)
+    // console.log(form)
 
     setObjFilter({
       ...form,

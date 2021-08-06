@@ -146,14 +146,16 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
         }
         const response = await api.post('/api/game_config/bet_scale/update', newDataForm);
           if (get(response, "success", false)) {
-            console.log(response);
+            // console.log(response);
             toast.success('Update Bet Scale Success', {
               onClose: setTimeout(() => {
                   window.location.reload()
               }, 1000),   
             });
           } else {
-            toast.warn('Update Bet Scale Fail');
+            if (response.err === "err:form_validation_failed") {
+              toast.warn(`${dataDetail.currency_code} Bet scale must be in range of Total MIN and Total MAX`);
+            }
           }
       } else {
         if (min >= max) {
@@ -175,14 +177,19 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
           }
           const response = await api.post('/api/game_config/bet_scale/update', newDataForm);
           if (get(response, "success", false)) {
-            console.log(response);
+            // console.log(response);
             toast.success('Update Bet Scale Success', {
               onClose: setTimeout(() => {
                   window.location.reload()
               }, 1000),   
             });
           } else {
-            toast.warn('Update Bet Scale Fail');
+            // console.log(response.err)
+            if (response.err === "err:form_validation_failed") {
+              toast.warn(`${dataDetail.currency_code} Bet scale must be in range of Total MIN and Total MAX`);
+            }
+            // console.log(response);
+            // toast.warn('Update Bet Scale Fail');
           }
         }
       }
@@ -226,10 +233,10 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
     // eslint-disable-next-line
   }, [dataDetail]);
 
-  useEffect(() => {
-    console.log(formState);
-    // eslint-disable-next-line
-  }, [formState]);
+  // useEffect(() => {
+  //   console.log(formState);
+     // eslint-disable-next-line
+  // }, [formState]);
 
   useEffect(() => {
     const errors = validate(formState.values, schema);

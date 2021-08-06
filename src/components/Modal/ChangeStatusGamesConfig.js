@@ -44,8 +44,8 @@ const ChangeStatusGamesConfig = ({status, game_code, brand_name, brandList, game
   const onChangeStatus = async () => {
     setChecked(valCheck);
     onClose();
-    console.log(game_code, brand_name);
-    console.log(brandList);
+    // console.log(game_code, brand_name);
+    // console.log(brandList);
     let brandFirst = brandList.find((item) => item.label === brand_name);
     let dataForm = {
       brand_id: brandFirst.id,

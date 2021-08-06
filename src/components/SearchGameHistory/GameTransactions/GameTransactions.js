@@ -60,8 +60,8 @@ const GameTransactions = () => {
   }, [dataResponse]);
 
   // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter]);
+  //   console.log(data);
+  // }, [data]);
 
   const columns = [
     {

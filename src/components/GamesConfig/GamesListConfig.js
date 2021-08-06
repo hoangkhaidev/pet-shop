@@ -73,7 +73,7 @@ const GamesListConfig = () => {
       column_name: "Game Code",
       align: "left",
       formatter: (cell, row) => {
-        console.log(row)
+        // console.log(row)
         let newBrand = cloneDeep(dataBrand?.list);
         let brandFirst = (newBrand || []).find((item) => item.name === row.brand_name);
        
@@ -137,12 +137,12 @@ const GamesListConfig = () => {
     }));
   };
 
-  useEffect(() => {
-    console.log(data);
-  }, [data])
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data])
 
   const onSubmit = async (data) => {
-    console.log(data)
+    // console.log(data)
     
     setObjFilter(prevState => ({
       ...prevState,

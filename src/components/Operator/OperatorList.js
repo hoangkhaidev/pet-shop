@@ -169,9 +169,9 @@ const OperatorList = () => {
     [refreshData]
   );
 
-  useEffect(() => {
-    console.log(dataResponse);
-  }, [dataResponse]);
+  // useEffect(() => {
+  //   console.log(dataResponse);
+  // }, [dataResponse]);
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);

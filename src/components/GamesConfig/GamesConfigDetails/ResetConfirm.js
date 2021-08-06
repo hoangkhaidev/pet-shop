@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ResetConfirm = ({onResetItem }) => {
+const ResetConfirm = ({onResetItem, currency_code }) => {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
 
@@ -52,7 +52,7 @@ const ResetConfirm = ({onResetItem }) => {
       >
         <div>
           <TitlePage title={'Confirmation'} />
-            <div className={classes.title__text}>{`Are you sure you want to reset this ?`}</div>
+            <div className={classes.title__text}>{`Do you really want to reset bet scales for ${currency_code}?`}</div>
             <div className={classes.title__groupButton} style={{ justifyContent: 'flex-end' }}>
                 <Button style={{ marginRight: '10px' }} variant="contained" color="primary" onClick={() => resetItem()}>
                     OK

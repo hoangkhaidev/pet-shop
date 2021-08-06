@@ -133,7 +133,7 @@ const GameTransactionHistory = () => {
       ...data
     };
 
-    console.log(dataForm);
+    // console.log(dataForm);
 
     try {
         const response = await api.post('/api/transaction/game_history', dataForm);
