@@ -27,7 +27,7 @@ const CommissionInput = props => {
 
   const handlerCommissionChange = (event) => {
     let value = event.target.value;
-    console.log(value);
+    // console.log(value);
     let regex = /^\d+(\.\d{0,2})?$/g;
     if (!regex.test(value)) {
       event.target.value = value.slice(0, -1)

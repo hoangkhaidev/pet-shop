@@ -23,7 +23,7 @@ import ButtonGroup, {
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import api from 'src/utils/api';
-import useRouter from 'src/utils/hooks/useRouter';
+// import useRouter from 'src/utils/hooks/useRouter';
 
 const useStyles = makeStyles(() => ({
   whitelistIPLine: {
@@ -41,7 +41,7 @@ const useStyles = makeStyles(() => ({
 
 const SubAccountCreate = () => {
   const classes = useStyles();
-  const router = useRouter();
+  // const router = useRouter();
   const { t } = useTranslation();
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [roleData, setRoleData] = useState([]);

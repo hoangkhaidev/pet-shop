@@ -115,7 +115,7 @@ const GamesConfigDetails = () => {
     }
     const response = await api.post('/api/game_config/bet_scale/reset', dataForm);
     if (get(response, "success", false)) {
-      console.log(response);
+      // console.log(response);
       toast.success('Reset Default Success', {
         onClose: setTimeout(() => {
             window.location.reload()

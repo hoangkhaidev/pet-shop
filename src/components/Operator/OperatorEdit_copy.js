@@ -138,7 +138,7 @@ const OperatorEdit = () => {
   //   return pro_items;
   // }, [product_commission]);
 
-  console.log(product_commission_new);
+  // console.log(product_commission_new);
 
   const {
     control,
@@ -431,9 +431,9 @@ const OperatorEdit = () => {
             const checked = watch(`commission.${index}.checked`);
             const commissionValue = watch(`commission.${index}.value`);
             const productId = watch(`commission.${index}.product_id`) ;
-            console.log(checked);
-            console.log(productId);
-            console.log(commissionValue)
+            // console.log(checked);
+            // console.log(productId);
+            // console.log(commissionValue)
             return (
               <div key={item.id} style={{display: 'flex', width: '100%', alignItems: 'center'}}>
                 <FormControlLabel
