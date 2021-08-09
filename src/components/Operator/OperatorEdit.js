@@ -187,7 +187,7 @@ const OperatorEdit = () => {
   useEffect(() => {
     let dataProCon = [];
     const dataProductCommission = dataProduct.map((item) => {
-      let index = dataResponse?.product_commission.findIndex((itemEdit) => {
+      let index = (dataResponse?.product_commission || []).findIndex((itemEdit) => {
         return itemEdit.product_id === item.id;
       });
       // console.log(index);

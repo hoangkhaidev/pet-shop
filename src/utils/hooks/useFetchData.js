@@ -91,6 +91,17 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
           });
         }
 
+        if (dataJSON?.err === 'err:operator_not_found') {
+          toast.warn('Operator not found');
+          return setData({
+            dataResponse: null,
+            total_size: 0,
+            isLoading: false,
+            isHasPermission: false,
+            refetch: false,
+          });
+        }
+
         setData((prevState) => ({
           ...prevState,
           isLoading: false,

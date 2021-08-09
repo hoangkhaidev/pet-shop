@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 /* eslint-disable import/no-cycle */
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
@@ -71,6 +72,10 @@ const CurrencyList = lazy(() =>
 
 const CommissionList = lazy(() =>
   import('src/components/Commission/CommissionList')
+);
+
+const Group_BrandList = lazy(() =>
+  import('src/components/Global/Group_BrandList')
 );
 
 const routes = (isLoggedIn) => [
@@ -206,6 +211,18 @@ const routes = (isLoggedIn) => [
         fullpath: '/players/transaction-details',
         name: 'Transaction Details',
         element: <TransactionDetails />,
+      },
+    ],
+  },
+  {
+    path: 'global',
+    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+    children: [
+      {
+        path: '/group_brand',
+        fullpath: '/global/group_brand',
+        name: 'Group/Brand List',
+        element: <Group_BrandList />,
       },
     ],
   },
