@@ -45,7 +45,7 @@ const PLayerListFilter = ({
   const router = useRouter();
 
   const { dataResponse: dataBrand} = useFetchData("/api/brand");
-  const { dataResponse: dataCurrency} = useFetchData("/api/currency");
+  const { dataResponse: dataCurrency} = useFetchData("/api/currency/public_list");
   const { dataResponse: dataLanguage} = useFetchData("/api/language");
   
   const [brandData, setBrandData] = useState([]);

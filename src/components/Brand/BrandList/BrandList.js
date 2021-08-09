@@ -346,6 +346,7 @@ const BrandList = () => {
         if (row.statuses.length > 1) {
           STATUS = STATUS_LOCKED_SUSPENDED;
         }
+        console.log(row)
         return (
           <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
             <ChangeStatus
@@ -365,6 +366,7 @@ const BrandList = () => {
               linkApi={`/api/brand/${row.account_id}/delete`}
               title={`Confirmation`}
               types='brand'
+              username={row.username}
             />
           </ButtonGroup>
         )

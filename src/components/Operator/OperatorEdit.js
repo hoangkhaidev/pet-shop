@@ -443,7 +443,7 @@ const OperatorEdit = () => {
         <FormLabel style={{paddingTop: '10px'}} component="legend">Product<span style={{color: 'red'}}>*</span></FormLabel>
         <FormControl className={classes.w100}>
           <FormLabel component="legend" className={classes.checkHelperText}>{errorProductCommission}</FormLabel>
-          {productCommission?.values?.map((item, index) => {
+          {(productCommission?.values || []).map((item, index) => {
             return (
               <ProductCommission 
                 nameCon={`commission-${item.product_id}`}
