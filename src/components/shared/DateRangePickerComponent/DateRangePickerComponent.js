@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap-daterangepicker/daterangepicker.css';
 import 'bootstrap/dist/css/bootstrap.css';
-// import { useEffect } from "react";
 
 const DateRangePickerComponent = ({
   timePicker, startDate, endDate,
@@ -20,6 +19,7 @@ const DateRangePickerComponent = ({
         className={'itemA'}
         style={{paddingTop: "32px !important"}}
         initialSettings={{
+          chosenLabel:'test',
           startDate,
           endDate,
           timePicker: true,
@@ -34,7 +34,6 @@ const DateRangePickerComponent = ({
         ref={dateRangeRef}
       >
         <input style={{ paddingRight: '30px' }} type="text" className="form-control dater-picker-input" />
-        
       </DateRangePicker>
       <FontAwesomeIcon 
         icon={faCalendarAlt} 

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
 import { useTranslation } from "react-i18next";
 // import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
+// import FormLabel from "@material-ui/core/FormLabel";
 import { makeStyles } from "@material-ui/core";
 import moment from 'moment';
 import { func } from "prop-types";
@@ -233,6 +233,9 @@ const GameTransactionFilterHistory = ({
                   fullWidth={false}
                   defaultValue='all'
                 />
+                {/* <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>
+                  {t("From - To")}
+                </FormLabel> */}
                 <DateRangePickerComponent
                   className={classes.inputDataPicked}
                   control={control}
@@ -245,9 +248,7 @@ const GameTransactionFilterHistory = ({
                   dateRangeRef={dateRangeRef}
                   format="DD/MM/YYYY H:mm"
                 />
-                <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>
-                  {t("From - To")}
-                </FormLabel>
+                
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
               <InputField

@@ -1,9 +1,9 @@
 import { Fragment, useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 // import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
+// import FormLabel from "@material-ui/core/FormLabel";
 import { makeStyles } from "@material-ui/core";
 import moment from 'moment';
 import { func } from "prop-types";
@@ -34,7 +34,7 @@ const GameTransactionFilter = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   const router = useRouter();
 
   const dateRangeRef = useRef(null);
@@ -197,9 +197,9 @@ const GameTransactionFilter = ({
                   dateRangeRef={dateRangeRef}
                   format="DD/MM/YYYY H:mm"
                 />
-                <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>
+                {/* <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>
                   {t("From - To")}
-                </FormLabel>
+                </FormLabel> */}
             </Grid>
             <Grid item xs={12} xl={3} md={4}>
               <InputField

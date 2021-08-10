@@ -1,10 +1,10 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 // import FormControl from "@material-ui/core/FormControl";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import moment from 'moment';
 import Grid from "@material-ui/core/Grid";
-import FormLabel from "@material-ui/core/FormLabel";
+// import FormLabel from "@material-ui/core/FormLabel";
 import { makeStyles } from "@material-ui/core";
 import { func } from "prop-types";
 
@@ -38,7 +38,7 @@ const GamesFilterHistory = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   // const router = useRouter();
 
   const roleUser = useSelector((state) => state.roleUser);
@@ -228,6 +228,9 @@ const GamesFilterHistory = ({
                 options={brandData}
                 fullWidth={false}
               />
+              {/* <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>
+                {t("From - To")}
+              </FormLabel> */}
               <DateRangePickerComponent
                 startDate={dateRange.start}
                 endDate={dateRange.end}
@@ -237,9 +240,7 @@ const GamesFilterHistory = ({
                 format="DD/MM/YYYY"
                 dateRangeRef={dateRangeRef}
               />
-              <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>
-                {t("From - To")}
-              </FormLabel>
+              
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
               <InputField

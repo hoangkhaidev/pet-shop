@@ -33,6 +33,8 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import cloneDeep from 'lodash.clonedeep';
+import { useSelector } from 'react-redux';
+import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -75,7 +77,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BrandCreate = () => {
-  const { dataResponse } = useFetchData('/api/operators/public_list');
+  const roleUser = useSelector((state) => state.roleUser);
+  
+  const { dataResponse, isLoading, isHasPermission  } = useFetchData('/api/operators/public_list');
   const { dataResponse: dataProduct } = useFetchData('/api/product');
 
   const classes = useStyles();
@@ -105,7 +109,7 @@ const BrandCreate = () => {
   const [apiWLIP, setAPIWLIP] = useState(['', '', '', '']);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [operatorData, setOperatorData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [productData, setProductData] = useState([]);
 
   const [errorWhiteIP, setErrorWhiteIP] = useState('');
@@ -223,7 +227,7 @@ const BrandCreate = () => {
         return item;
       }).filter((item) => item);
 
-      setIsLoading(true);
+      // setIsLoading(true);
       delete dataForm.commission;
       const form = {
         ...dataForm,
@@ -262,28 +266,35 @@ const BrandCreate = () => {
       } catch (e) {
         console.log('e', e);
       }
-      setIsLoading(false);
+      // setIsLoading(false);
   };
 
   const onCancel = () => {
     navigate('/brand/list');
   }
 
+  if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
+
   return (
     <ContentCardPage>
       <TitlePage title="Create Brand" />
       <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle}>
-        <SelectField
-          namefileld="operator_id"
-          id="operator_id"
-          label="Operator"
-          required
-          fullWidth={false}
-          control={control}
-          errors={errors?.operator_id}
-          options={operatorData}
-          defaultValue=""
-        />
+        
+        {(roleUser.account_type === 'admin') && (
+          <SelectField
+            namefileld="operator_id"
+            id="operator_id"
+            label="Operator"
+            required
+            fullWidth={false}
+            control={control}
+            errors={errors?.operator_id}
+            options={operatorData}
+            defaultValue=""
+          />
+        )}
         <InputField
           autoFocus
           required
