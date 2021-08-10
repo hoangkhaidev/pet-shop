@@ -23,7 +23,7 @@ const DashboardLayoutWrapper = experimentalStyled('div')(
     overflow: 'hidden',
     paddingTop: 64,
     [theme.breakpoints.up('lg')]: {
-      paddingLeft: 256
+      paddingLeft: 0
     }
   })
 );
@@ -46,6 +46,7 @@ const DashboardLayout = () => {
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('lg'));
+  const [openMenu, setOpenMenu] = useState(true);
 
   useEffect(() => {
     setMobileNavOpen(matches);
@@ -53,9 +54,10 @@ const DashboardLayout = () => {
 
   return (
     <DashboardLayoutRoot>
-      <DashboardNavbar onMobileNavOpen={() => setMobileNavOpen(true)} />
+      <DashboardNavbar setMobileNavOpen={setMobileNavOpen} setOpenMenu={setOpenMenu} openMenu={openMenu} />
       <DashboardSidebar
         onMobileClose={() => setMobileNavOpen(false)}
+        openMenu={openMenu}
         openMobile={isMobileNavOpen}
       />
       <DashboardLayoutWrapper>

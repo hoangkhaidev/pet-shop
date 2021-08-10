@@ -10,6 +10,8 @@ import get from 'lodash/get';
 import Loading from "../shared/Loading/Loading";
 import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
 import moment from "moment";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHistory } from '@fortawesome/free-solid-svg-icons';
 // import { useForm } from "react-hook-form";
 
 const PlayersList = () => {
@@ -33,6 +35,7 @@ const PlayersList = () => {
       brand_id: router.query.brand_id ? Number(router.query.brand_id) : 0,
     },
   });
+
   const [data, setData] = useState([]);
 
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
@@ -106,7 +109,15 @@ const PlayersList = () => {
       align: "left",
       formatter: (cell, row) => {
         return (
-          <Link href={`/players/game-history?brand_id=1&from_date=${moment().format("DD/MM/YYYY 00:00")}&game_name=&game_type=&nick_name=&page=1&page_size=30&player_id=${row.id}&round_id=&sort_field=start_at&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${moment().format("DD/MM/YYYY 23:59")}`}>[Game History]</Link>
+          <Link href={`/players/game-history?brand_id=1&from_date=${moment().format("DD/MM/YYYY 00:00")}&game_name=&game_type=&nick_name=&page=1&page_size=30&player_id=${row.id}&round_id=&sort_field=start_at&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${moment().format("DD/MM/YYYY 23:59")}`}>
+            <FontAwesomeIcon 
+              icon={faHistory} 
+              size={'2x'} 
+              color={'#ff8007'} 
+              title={'Game History'} 
+              style={{cursor: 'pointer'}}
+            />
+          </Link>
         )
       }
     }

@@ -15,8 +15,8 @@ import { SubmitButton } from "src/components/shared/Button/Button";
 // import useRouter from "src/utils/hooks/useRouter";
 import { Button } from "@material-ui/core";
 import TableComponentStatus from "../shared/TableComponent/TableComponentStatus";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSign } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSign } from '@fortawesome/free-solid-svg-icons';
 
 const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, statuses, types, setRefreshData = () => {} }) => {
   // console.log(statuses)

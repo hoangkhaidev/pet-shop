@@ -31,9 +31,10 @@ const PLayerListFilter = ({
 }) => {
   const { t } = useTranslation();
   const roleUser = useSelector((state) => state.roleUser);
+  const router = useRouter();
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      brand_id: "all",
+      brand_id: router.query.brand_id ? Number(router.query.brand_id) : "all"
     }
   });
   const [dateRange, setDateRange] = useState({
@@ -42,7 +43,6 @@ const PLayerListFilter = ({
   });
   const dateRangeRef = useRef(null);
   const classes = useStyles();
-  const router = useRouter();
 
   const { dataResponse: dataBrand} = useFetchData("/api/brand");
   const { dataResponse: dataCurrency} = useFetchData("/api/currency/public_list");
@@ -51,10 +51,6 @@ const PLayerListFilter = ({
   const [brandData, setBrandData] = useState([]);
   const [currencydata, setCurrencydata] = useState([]);
   const [languageData, setLanguageData] = useState([]);
-
-  // const methods = useForm({
-  //   defaultValues: router.query,
-  // });
 
   // useEffect(() => {
   //   console.log(currencydata);
@@ -233,7 +229,6 @@ const PLayerListFilter = ({
                 label="Brand"
                 fullWidth={false}
                 options={brandData}
-                defaultValue={router.query.brand_id ? router.query.brand_id : "all"}
               />
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>

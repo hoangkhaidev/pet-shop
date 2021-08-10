@@ -12,6 +12,7 @@ import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core';
+import moment from 'moment';
 
 const ChangePasswordForm = lazy(() =>
   import('src/components/Modal/ChangePasswordForm')
@@ -242,9 +243,11 @@ const OperatorList = () => {
       data_field: 'member_count',
       column_name: 'Players',
       align: 'right',
-      formatter: (cell, row) => (
-        <Link href={`/players/list`}>{cell}</Link>
-      ),
+      formatter: (cell, row) => {
+        return (
+          <Link href={`/players/players?brand_id=${row.brand_id}&currency=&from_date=${moment().format("DD/MM/YYYY")}&ip_address=&language=&nick_name=&page=1&page_size=30&player_id=0&sort_field=id&sort_order=desc&to_date=${moment().format("DD/MM/YYYY")}`}>{cell}</Link>
+        )
+      }
     },
     {
       data_field: 'api_endpoint',
@@ -256,11 +259,6 @@ const OperatorList = () => {
       column_name: 'Product',
       align: 'left',
       formatter: (cell) => cell.join(', '),
-    },
-    {
-      data_field: 'commission',
-      column_name: 'Commission',
-      align: 'right'
     },
     {
       data_field: 'brand_count',

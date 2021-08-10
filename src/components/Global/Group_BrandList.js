@@ -14,6 +14,7 @@ import useRouter from 'src/utils/hooks/useRouter';
 // import { toast } from 'react-toastify';
 // import { useNavigate } from 'react-router-dom';
 import Group_BrandFilter from './Group_BrandFilter';
+import BrandListBelow from './BrandListBelow';
 
 const Group_BrandList = () => {
   const router = useRouter();
@@ -56,6 +57,11 @@ const Group_BrandList = () => {
       data_field: 'brand_total',
       column_name: 'Brand Total',
       align: 'right',
+      formatter: (cell, row) => {
+        return (
+          <BrandListBelow roundId={row.operator_id} cell={cell} />
+        );
+      },
     }
   ];
 

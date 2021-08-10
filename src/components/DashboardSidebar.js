@@ -21,7 +21,7 @@ import NavItem from './NavItem';
 //   name: 'Katarina Smith'
 // };
 
-const DashboardSidebar = ({ onMobileClose, openMobile }) => {
+const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
   const [listNav, setListNav] = useState({});
   const { currentMenu } = useContext(CurrentPageContext);
   const dispatch = useDispatch();
@@ -62,37 +62,6 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         height: '100%'
       }}
     >
-      {/* <Box
-        sx={{
-          alignItems: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          p: 2
-        }}
-      >
-        <Avatar
-          component={RouterLink}
-          src={user.avatar}
-          sx={{
-            cursor: 'pointer',
-            width: 64,
-            height: 64
-          }}
-          to="/app/account"
-        />
-        <Typography
-          color="textPrimary"
-          variant="h5"
-        >
-          {user.name}
-        </Typography>
-        <Typography
-          color="textSecondary"
-          variant="body2"
-        >
-          {user.jobTitle}
-        </Typography>
-      </Box> */}
       <Divider />
       <Box sx={{ p: 2 }}>
         <List>
@@ -106,43 +75,6 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         </List>
       </Box>
       <Box sx={{ flexGrow: 1 }} />
-      {/* <Box
-        sx={{
-          backgroundColor: 'background.default',
-          m: 2,
-          p: 2
-        }}
-      >
-        <Typography
-          align="center"
-          gutterBottom
-          variant="h4"
-        >
-          Need more?
-        </Typography>
-        <Typography
-          align="center"
-          variant="body2"
-        >
-          Upgrade to PRO version and access 20 more screens
-        </Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            pt: 2
-          }}
-        >
-          <Button
-            color="primary"
-            component="a"
-            href="https://react-material-kit.devias.io"
-            variant="contained"
-          >
-            See PRO version
-          </Button>
-        </Box>
-      </Box> */}
     </Box>
   );
 
@@ -174,7 +106,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         onClose={onMobileClose}
         sx={{
           display: {
-            lg: 'block',
+            lg: openMenu ? 'block' : 'none',
             md: "none",
             sm: "none",
             xs: "none"
@@ -183,29 +115,16 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         PaperProps={{
           sx: {
             width: 256,
-            top: 64,
-            height: 'calc(100% - 64px)'
+            paddingTop: '64px',
+            position: 'unset',
+            // top: 64,
+            // height: 'calc(100% - 64px)'
+            height: 'auto'
           }
         }}
       >
         {content}
       </Drawer>
-      {/* <Hidden lgDown>
-        <Drawer
-          anchor="left"
-          open
-          variant="persistent"
-          PaperProps={{
-            sx: {
-              width: 256,
-              top: 64,
-              height: 'calc(100% - 64px)'
-            }
-          }}
-        >
-          {content}
-        </Drawer>
-      </Hidden> */}
     </>
   );
 };

@@ -16,8 +16,9 @@ import { useDispatch } from "react-redux";
 import { onLogout } from "src/features/authentication/authentication";
 import Logo from './Logo';
 
-const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
+const DashboardNavbar = ({ setMobileNavOpen, setOpenMenu, openMenu, ...rest }) => {
   const [notifications] = useState([]);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -25,6 +26,10 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
     dispatch((onLogout()));
     navigate("/");
   };
+
+  const onOpenMenu = () => {
+    setOpenMenu(!openMenu);
+  }
 
   return (
     <AppBar
@@ -36,28 +41,22 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
           <Logo />
         </RouterLink>
         <Box sx={{ flexGrow: 1 }} />
-        {/* <Hidden lgDown>
-          <IconButton color="inherit">
-            <Badge
-              badgeContent={notifications.length}
-              color="primary"
-              variant="dot"
-            >
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <IconButton onClick={onUserLogout} color="inherit">
-            <InputIcon />
-          </IconButton>
-        </Hidden>
-        <Hidden lgUp>
-          <IconButton
-            color="inherit"
-            onClick={onMobileNavOpen}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Hidden> */}
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="open drawer"
+          onClick={() => onOpenMenu()}
+          sx={{
+            display: {
+              lg: "block",
+              md: "none",
+              sm: "none",
+              xs: "none"
+            }
+          }}
+        >
+          <MenuIcon />
+        </IconButton>
         <IconButton
           color="inherit"
           sx={{
@@ -89,7 +88,7 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
         </IconButton>
         <IconButton
           color="inherit"
-          onClick={onMobileNavOpen}
+          onClick={() => setMobileNavOpen(true)}
           sx={{
             display: {
               lg: 'none',
