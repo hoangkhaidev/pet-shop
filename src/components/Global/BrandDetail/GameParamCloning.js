@@ -2,11 +2,10 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-lonely-if */
 /* eslint-disable react/jsx-no-duplicate-props */
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import remove from 'lodash/remove';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
@@ -25,6 +24,9 @@ import api from 'src/utils/api';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import InputFieldTime from 'src/components/shared/InputField/InputFieldTime';
 import InputFieldCopy from 'src/components/shared/InputField/InputFieldCopy';
+import TitlePage from 'src/components/shared/TitlePage/TitlePage';
+import { Checkbox } from '@material-ui/core';
+import SelectField from 'src/components/shared/InputField/SelectField';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -38,20 +40,14 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '16px !important',
     fontWeight: '600 !important',
   },
-  whitelistIPLine: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  formStyle: {
-    width: '50%',
-  },
   checkHelperText: {
     color: 'red !important',
-    fontSize: '12px !important',
-    marginLeft: '15px',
-    paddingTop: '5px !important'
-  }
+    paddingTop: '5px !important',
+    fontStyle: 'italic',
+  },
+  checkTitleText: {
+    paddingTop: '5px !important',
+  },
 }));
 
 const GameParamCloning = () => {
@@ -63,40 +59,18 @@ const GameParamCloning = () => {
     setError,
   } = useForm();
 
-  const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [isLoading, setIsLoading] = useState(false);
-  const [apiWLIP, setAPIWLIP] = useState(['', '', '', '']);
-
-  const [errorWhiteIP, setErrorWhiteIP] = useState('');
-  const [errorApiWLIP, setErrorApiWLIP] = useState('');
 
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setErrorWhiteIP('');
-  }, [whitelistIP]);
-
-  useEffect(() => {
-    setErrorApiWLIP('');
-  }, [apiWLIP]);
-
   const onSubmit = async (data) => {
     // console.log(data)
-    const formatWLIPEndpoint = apiWLIP.join('.');
-
-    const formatWLIPs = whitelistIP.map((item) => {
-      item = item.join('.');
-      if (item === '...') return null;
-      return item;
-    }).filter((item) => item);
 
     setIsLoading(true);
     
     const form = {
       ...data,
-      api_whitelist_ip: formatWLIPEndpoint,
-      whitelist_ips: formatWLIPs,
       product_ids: [data.product_ids],
     };
     delete form.commission;
@@ -114,16 +88,10 @@ const GameParamCloning = () => {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
             // console.log(field);
-            if (response?.data['api_whitelist_ip'] === 'err:invalid_ip_address') {
-              setErrorApiWLIP('Invalid IP address');
-            } else if (response?.data['whitelist_ips'] === 'err:invalid_ip_address') {
-              setErrorWhiteIP('Invalid IP address');
-            } else {
-              setError(field, {
-                type: 'validate',
-                message: response?.data[field],
-              });
-            }
+            setError(field, {
+              type: 'validate',
+              message: response?.data[field],
+            });
           }
         }
       }
@@ -133,32 +101,6 @@ const GameParamCloning = () => {
     setIsLoading(false);
   };
 
-  const onChangeWhitelistIp = (e, index, rowIndex) => {
-    const { formattedValue } = e;
-    const cloneArr = whitelistIP.slice();
-    cloneArr[rowIndex][index] = formattedValue;
-    setWhitelistIP(cloneArr);
-  };
-
-  const onChangeAPIEndpointIP = (e, index) => {
-    const { formattedValue } = e;
-    const cloneArr = apiWLIP.slice();
-    cloneArr[index] = formattedValue;
-    setAPIWLIP(cloneArr);
-  };
-
-  const onAddingWLIPAddress = () => {
-    const cloneArr = whitelistIP.slice();
-    const newArray = [...cloneArr, ['', '', '', '']];
-    if (newArray.length <= 20 ) setWhitelistIP(newArray);
-  };
-
-  const onRemoveWLIPAddress = (rowIndex) => {
-    const cloneArr = whitelistIP.slice();
-    remove(cloneArr, (item, index) => rowIndex === index);
-    setWhitelistIP(cloneArr);
-  };
-
   const onCancel = () => {
     navigate('/operator/list');
   }
@@ -166,132 +108,52 @@ const GameParamCloning = () => {
   return (
     <ContentCardPage>
       <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle}>
-        {/* <InputField
-          autoFocus
-          required
-          namefileld="name"
-          control={control}
-          id="name"
-          errors={errors?.name}
-          type="text"
-          label="Name"
-          pattern={/^[a-z0-9_]{3,15}$/}
-          helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
-        />
-        <InputField
-          namefileld="support_email"
-          control={control}
-          id="support_email"
-          errors={errors?.support_email}
-          type="text"
-          label="Support Email"
-        /> */}
-        {/* <FormLabel>{t('Secret Key')}</FormLabel> */}
-        <InputFieldCopy
-          readOnly
-          namefileld="support_email"
-          control={control}
-          id="support_email"
-          errors={errors?.support_email}
-          type="text"
-          label="Secret Key"
-          endText="Copy"
-        />
-        {/* <FormLabel>{t('API Key')}</FormLabel> */}
-        <InputFieldCopy
-          readOnly
-          namefileld="support_email"
-          control={control}
-          id="support_email"
-          errors={errors?.support_email}
-          type="text"
-          label="API Key"
-          endText="Copy"
-        />
-        <FormLabel>Whitelist IP Address for API<span style={{color: 'red'}}>*</span></FormLabel>
-        <IPAddressInput 
-          apiWLIP={apiWLIP} 
-          onChange={onChangeAPIEndpointIP} 
-        />
-        <FormLabel component="legend" className={classes.checkHelperText}>{errorApiWLIP}</FormLabel>
-        <InputField
-          required
-          namefileld="api_endpoint"
-          control={control}
-          id="api_endpoint"
-          errors={errors?.api_endpoint}
-          type="text"
-          label="API Endpoint"
-        />
-        <InputFieldTime
-          autoFocus
-          required
-          namefileld="name"
-          control={control}
-          id="name"
-          errors={errors?.name}
-          type="text"
-          label="Player Inactivity Logout Time"
-          endText="Minutes"
-        />
-        <InputFieldTime
-          required
-          namefileld="support_email"
-          control={control}
-          id="support_email"
-          errors={errors?.support_email}
-          type="text"
-          label="Manual retry/refund after"
-          endText="Hours"
-        />
-        <FormLabel>{t('Whitelist IP Address for BO')}</FormLabel>
-        {whitelistIP.map((item, index) => (
-          <div className={classes.whitelistIPLine} key={index}>
-            <IPAddressInput
-              key={index}
-              apiWLIP={item}
-              onChange={onChangeWhitelistIp}
-              rowIndex={index}
-            />
-            {whitelistIP.length - 1 === index ? (
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={onAddingWLIPAddress}
-              >
-                <AddIcon />
-              </Button>
-            ) : (
-              <Button
-                color="secondary"
-                variant="contained"
-                onClick={() => onRemoveWLIPAddress(index)}
-              >
-                <RemoveIcon />
-              </Button>
-            )}
+        <FormLabel component="legend" className={classes.checkHelperText}>
+          Please be careful changing these settings
+        </FormLabel>
+        <FormLabel component="legend" className={classes.checkTitleText}>
+          Use this to make a copy from another Brand. The current brand will be able to modify the copied params.
+        </FormLabel>
+        <div style={{ paddingLeft: '2rem', paddingTop: '10px' }}>
+          <TitlePage title="Warning" />
+          <div style={{ paddingLeft: '6rem' }}>
+            <div>
+              <Checkbox
+                  color="primary"
+                  inputProps={{ 'aria-label': 'secondary checkbox' }}
+              />
+              <span className={classes.checkboxStyle}>Overwrite / Merge</span>
+            </div>
+            <div>
+              <Checkbox
+                  color="primary"
+                  inputProps={{ 'aria-label': 'secondary checkbox' }}
+                  />
+              <span className={classes.checkboxStyle}>Include all currencies</span>
+            </div>
           </div>
-        ))}
-        <FormLabel 
-          component="legend" 
-          className={classes.checkHelperText} 
-          style={{paddingTop: '5px'}}
-        >{errorWhiteIP}</FormLabel>
-        <ButtonGroup>
-          <SubmitButton />
-          <Button
-            startIcon={<ClearAllIcon fontSize="small" />}
-            variant="contained"
-            type="button"
-            color="secondary"
-            onClick={() => onCancel()}
-            sx={{
-              ml: 1
-            }}
+          <TitlePage title="Copy" />
+          <div style={{ width: '500px' }}>
+            <SelectField
+              namefileld="brand_id"
+              id="brand_id"
+              label="Brand"
+              required
+              fullWidth={false}
+              control={control}
+              errors={errors?.brand_id}
+              defaultValue=""
+            />
+          </div>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            style= {{ padding: '10px 30px', marginTop: '10px' }}
           >
-            Cancel
+            Copy
           </Button>
-        </ButtonGroup>
+        </div>
+
       </form>
       {isLoading && <Loading />}
     </ContentCardPage>

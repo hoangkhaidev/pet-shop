@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-lonely-if */
@@ -25,6 +26,9 @@ import api from 'src/utils/api';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import InputFieldTime from 'src/components/shared/InputField/InputFieldTime';
 import InputFieldCopy from 'src/components/shared/InputField/InputFieldCopy';
+import useRouter from 'src/utils/hooks/useRouter';
+import useFetchData from 'src/utils/hooks/useFetchData';
+import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -55,24 +59,60 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Endpoint_Settings = () => {
+  const router = useRouter();
   const classes = useStyles();
   const {
     control,
     handleSubmit,
     formState: { errors },
     setError,
+    setValue,
   } = useForm();
 
-  const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [apiWLIP, setAPIWLIP] = useState(['', '', '', '']);
+  const { dataResponse, isLoading, isHasPermission } = useFetchData(
+    `/api/global/brand_detail/${router.query?.id}`,
+    null
+  );
 
+  const [data, setData] = useState({});
+  const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
+  const [apiWLIP, setAPIWLIP] = useState(['', '', '', '']);
   const [errorWhiteIP, setErrorWhiteIP] = useState('');
   const [errorApiWLIP, setErrorApiWLIP] = useState('');
 
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    console.log(dataResponse);
+  }, [dataResponse]);
+
+  useEffect(() => {
+    let dataWhitelist_ips = get(dataResponse, 'whitelist_ips', ['...']);
+    dataWhitelist_ips.push('...');
+    // console.log(data)
+    if (!dataWhitelist_ips.length) {
+      dataWhitelist_ips = ['...'];
+    }
+    const formatWhitelistIP = dataWhitelist_ips.map((ip) => ip.split('.'));
+    const formatApiWLIP = dataResponse?.api_whitelist_ip?.split('.');
+
+    setAPIWLIP(formatApiWLIP?.length > 0 ? formatApiWLIP : apiWLIP);
+    setData(dataResponse);
+    setWhitelistIP(formatWhitelistIP?.length > 0 ? formatWhitelistIP : whitelistIP);
+  }, [dataResponse]);
+
+  useEffect(() => {
+    if (data) {
+        setValue('secret_key', data?.secret_key);
+        setValue('api_key', data?.api_key);
+        setValue('manual_retry_refund_after_hours', data?.manual_retry_refund_after_hours);
+        setValue('player_inactivity_logout_after_mins', data?.player_inactivity_logout_after_mins);
+        // setValue('password', data?.password);
+        // setValue('password_confirmation', data?.password_confirmation);
+    }
+  }, [data, setValue]);
+  
   useEffect(() => {
     setErrorWhiteIP('');
   }, [whitelistIP]);
@@ -91,8 +131,6 @@ const Endpoint_Settings = () => {
       return item;
     }).filter((item) => item);
 
-    setIsLoading(true);
-    
     const form = {
       ...data,
       api_whitelist_ip: formatWLIPEndpoint,
@@ -130,7 +168,6 @@ const Endpoint_Settings = () => {
     } catch (e) {
       console.log('e', e);
     }
-    setIsLoading(false);
   };
 
   const onChangeWhitelistIp = (e, index, rowIndex) => {
@@ -160,39 +197,24 @@ const Endpoint_Settings = () => {
   };
 
   const onCancel = () => {
-    navigate('/operator/list');
+    navigate('/global/group_brand');
+  }
+
+  if (!isHasPermission) {
+    return <NoPermissionPage />;
   }
 
   return (
     <ContentCardPage>
+
       <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle}>
-        {/* <InputField
-          autoFocus
-          required
-          namefileld="name"
-          control={control}
-          id="name"
-          errors={errors?.name}
-          type="text"
-          label="Name"
-          pattern={/^[a-z0-9_]{3,15}$/}
-          helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
-        />
-        <InputField
-          namefileld="support_email"
-          control={control}
-          id="support_email"
-          errors={errors?.support_email}
-          type="text"
-          label="Support Email"
-        /> */}
-        {/* <FormLabel>{t('Secret Key')}</FormLabel> */}
+        
         <InputFieldCopy
           readOnly
-          namefileld="support_email"
+          namefileld="secret_key"
           control={control}
-          id="support_email"
-          errors={errors?.support_email}
+          id="secret_key"
+          errors={errors?.secret_key}
           type="text"
           label="Secret Key"
           endText="Copy"
@@ -200,10 +222,10 @@ const Endpoint_Settings = () => {
         {/* <FormLabel>{t('API Key')}</FormLabel> */}
         <InputFieldCopy
           readOnly
-          namefileld="support_email"
+          namefileld="api_key"
           control={control}
-          id="support_email"
-          errors={errors?.support_email}
+          id="api_key"
+          errors={errors?.api_key}
           type="text"
           label="API Key"
           endText="Copy"
@@ -226,20 +248,20 @@ const Endpoint_Settings = () => {
         <InputFieldTime
           autoFocus
           required
-          namefileld="name"
+          namefileld="player_inactivity_logout_after_mins"
           control={control}
-          id="name"
-          errors={errors?.name}
+          id="player_inactivity_logout_after_mins"
+          errors={errors?.player_inactivity_logout_after_mins}
           type="text"
           label="Player Inactivity Logout Time"
           endText="Minutes"
         />
         <InputFieldTime
           required
-          namefileld="support_email"
+          namefileld="manual_retry_refund_after_hours"
           control={control}
-          id="support_email"
-          errors={errors?.support_email}
+          id="manual_retry_refund_after_hours"
+          errors={errors?.manual_retry_refund_after_hours}
           type="text"
           label="Manual retry/refund after"
           endText="Hours"

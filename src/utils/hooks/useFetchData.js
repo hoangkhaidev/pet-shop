@@ -4,13 +4,14 @@ import queryString from 'query-string';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import get from 'lodash/get';
-
+import { useNavigate } from 'react-router-dom';
 import useRouter from './useRouter';
 
 const ROOT_API_URL = process.env.REACT_APP_ROOT_API_URL;
 
 export default function useFetchData(endpoint, objFilter, dependency = []) {
   const router = useRouter();
+  const navigate = useNavigate();
   const token = useSelector((state) => state.authentication.token);
 
   const [data, setData] = useState({
@@ -100,6 +101,10 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
             isHasPermission: false,
             refetch: false,
           });
+        }
+
+        if (dataJSON?.err === 'err:invalid_token') {
+          navigate("/login");
         }
 
         setData((prevState) => ({

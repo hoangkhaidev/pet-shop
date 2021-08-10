@@ -198,7 +198,7 @@ const GameTransactionFilter = ({
                   format="DD/MM/YYYY H:mm"
                 />
                 <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>
-                  {t("Form - To")}
+                  {t("From - To")}
                 </FormLabel>
             </Grid>
             <Grid item xs={12} xl={3} md={4}>

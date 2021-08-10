@@ -246,7 +246,7 @@ const GameTransactionFilterHistory = ({
                   format="DD/MM/YYYY H:mm"
                 />
                 <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>
-                  {t("Form - To")}
+                  {t("From - To")}
                 </FormLabel>
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>

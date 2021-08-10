@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import moment from 'moment';
 import TabPanel from "src/components/shared/TabPanel/TabPanel";
 import Loading from "src/components/shared/Loading/Loading";
+import GameParamCloning from "./GameParamCloning";
 
 const Endpoint_Settings = lazy(() => import("./Endpoint_Settings"));
 
@@ -76,8 +77,7 @@ const BrandDetail = () => {
             <Endpoint_Settings />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            {/* <GameParamCloning /> */}
-            2
+            <GameParamCloning />
           </TabPanel>
         </Suspense>
       </DateRangeContext.Provider>

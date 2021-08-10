@@ -32,6 +32,7 @@ import api from 'src/utils/api';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
+import cloneDeep from 'lodash.clonedeep';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -74,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BrandCreate = () => {
-  const { dataResponse } = useFetchData('/api/operators');
+  const { dataResponse } = useFetchData('/api/operators/public_list');
   const { dataResponse: dataProduct } = useFetchData('/api/product');
 
   const classes = useStyles();
@@ -146,7 +147,7 @@ const BrandCreate = () => {
   }, [checkboxListCheck]);
 
   useEffect(() => {
-    const data = dataResponse?.list;
+    const data = cloneDeep(dataResponse);
     if (!data) return;
     let mapData = [];
     data.forEach((data) => {
@@ -158,6 +159,10 @@ const BrandCreate = () => {
       mapData.push(optionData);
     });
     setOperatorData([...mapData]);
+  }, [dataResponse]);
+
+  useEffect(() => {
+    console.log(dataResponse)
   }, [dataResponse]);
 
   const onRemoveFinanceEmail = (email) => {
