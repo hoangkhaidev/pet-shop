@@ -1,7 +1,7 @@
 import { Fragment, useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 // import FormControl from "@material-ui/core/FormControl";
 // import FormLabel from "@material-ui/core/FormLabel";
 import { makeStyles } from "@material-ui/core";
@@ -17,6 +17,7 @@ import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Bu
 import useFetchData from "src/utils/hooks/useFetchData";
 import useRouter from "src/utils/hooks/useRouter";
 import { useSelector } from "react-redux";
+import cloneDeep from "lodash.clonedeep";
 
 const useStyles = makeStyles(() => ({
   inputDataPicked: {
@@ -34,7 +35,7 @@ const GameTransactionFilterHistory = ({
   onResetFilter, onSubmitProps, setObjFilter, clickRef
 }) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   const router = useRouter();
 
   const dateRangeRef = useRef(null);
@@ -42,7 +43,7 @@ const GameTransactionFilterHistory = ({
 
   const { dataResponse: dataGame} = useFetchData("/api/games");
   const { dataResponse: dataTimezone} = useFetchData("/api/timezones");
-  const { dataResponse: dataBrand} = useFetchData("/api/brand");
+  const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
 
   const [gameTypeData, setGameTypeData] = useState([]);
   const [gameNameData, setGameNameData] = useState([]);
@@ -74,12 +75,7 @@ const GameTransactionFilterHistory = ({
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
-    let newBrand;
-    if(dataBrand?.list) {
-      newBrand = [...dataBrand?.list];
-    }
-    if (!newBrand) return;
-    if (newBrand.length <= 0) return;
+    let newBrand = cloneDeep(dataBrand);
     newBrand.forEach(data => {
       let optionData = {
         id: data.BrandId,
@@ -89,7 +85,11 @@ const GameTransactionFilterHistory = ({
       mapData.push(optionData)
     });
     setBrandData([...mapData]);
-  }, [dataBrand, setBrandData])
+  }, [dataBrand, setBrandData]);
+
+  useEffect(() => {
+   console.log(brandData)
+  }, [brandData])
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];

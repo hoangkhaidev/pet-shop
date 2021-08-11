@@ -9,6 +9,7 @@ import InputField from "src/components/shared/InputField/InputField";
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
 import SelectField from "src/components/shared/InputField/SelectField";
 import { SORT_ODER, USER_STATUS } from "src/constants";
+import cloneDeep from "lodash.clonedeep";
 
 const SubAccountListFilter = ({
   onResetFilter
@@ -16,16 +17,13 @@ const SubAccountListFilter = ({
   const [brandData, setBrandData] = useState([]);
   const { control } = useFormContext();
 
-  const { dataResponse: dataBrand} = useFetchData("/api/brand");
+  const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
-    let newBrand;
-    if(dataBrand?.list) {
-      newBrand = [...dataBrand?.list];
-    }
-    if (!newBrand) return;
-    if (newBrand.length <= 0) return;
+    let newBrand = cloneDeep(dataBrand);
+    // if (!newBrand) return;
+    // if (newBrand.length <= 0) return;
     newBrand.forEach(data => {
       let optionData = {
         id: data.BrandId,

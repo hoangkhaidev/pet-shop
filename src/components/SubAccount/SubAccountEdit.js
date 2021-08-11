@@ -29,6 +29,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import api from 'src/utils/api';
 import Loading from '../shared/Loading/Loading';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
+import cloneDeep from 'lodash.clonedeep';
 
 const useStyles = makeStyles(() => ({
   whitelistIPLine: {
@@ -66,7 +67,7 @@ const SubAccountEdit = () => {
   const [brandData, setBrandData] = useState([]);
   const [checkWhiteIP, setCheckWhiteIP] = useState('');
 
-  const { dataResponse: dataBrand } = useFetchData('/api/brand');
+  const { dataResponse: dataBrand } = useFetchData('/api/brand/public_list');
 
   // useEffect(() => {
   //   console.log(dataResponse)
@@ -75,19 +76,19 @@ const SubAccountEdit = () => {
   // }, [dataResponse]);
 
   useEffect(() => {
-    let mapdata = [];
-    let newBrand = dataBrand?.list;
-    if (!newBrand) return;
-    if (newBrand.length <= 0) return;
+    let mapData = [];
+    let newBrand = cloneDeep(dataBrand);
+    // if (!newBrand) return;
+    // if (newBrand.length <= 0) return;
     newBrand.forEach((data) => {
       let optionData = {
         id: data.BrandId,
         value: data.BrandId,
         label: data.username,
       };
-      mapdata.push(optionData);
+      mapData.push(optionData);
     });
-    setBrandData([...mapdata]);
+    setBrandData([...mapData]);
   }, [dataBrand, setBrandData]);
 
   useEffect(() => {
@@ -216,7 +217,7 @@ const SubAccountEdit = () => {
     <ContentCardPage>
       <TitlePage title="Edit Sub Account" />
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: '50%' }}>
-        {!(roleUser.account_type === 'admin') && (
+        {!(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') && (
           <SelectField
             control={control}
             namefileld="brand"

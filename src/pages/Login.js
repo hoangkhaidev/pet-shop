@@ -20,6 +20,7 @@ import { SubmitButton } from 'src/components/shared/Button/Button';
 import Captcha from 'src/components/Captcha/Captcha';
 import api from "src/utils/api";
 import { getToken, checkIsAuthen } from "src/features/authentication/authentication";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles(() => ({
   captchaInput: {
@@ -62,6 +63,9 @@ const Login = () => {
       dispatch(checkIsAuthen(true));
       navigate("/home/dashboard");
     } else {
+      if (response?.err === 'err:ip_not_allowed') {
+        toast.warn('Ip not allowed');
+      }
       const errorsResponse = get(response, "data", {});
       for (const err in errorsResponse) {
         setError(err, {

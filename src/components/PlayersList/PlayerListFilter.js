@@ -44,7 +44,7 @@ const PLayerListFilter = ({
   const dateRangeRef = useRef(null);
   const classes = useStyles();
 
-  const { dataResponse: dataBrand} = useFetchData("/api/brand");
+  const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
   const { dataResponse: dataCurrency} = useFetchData("/api/currency/public_list");
   const { dataResponse: dataLanguage} = useFetchData("/api/language");
   
@@ -86,7 +86,7 @@ const PLayerListFilter = ({
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
-    let newBrand = cloneDeep(dataBrand?.list);
+    let newBrand = cloneDeep(dataBrand);
 
     (newBrand || []).forEach(data => {
       let optionData = {

@@ -23,6 +23,7 @@ import ButtonGroup, {
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import api from 'src/utils/api';
+import cloneDeep from 'lodash.clonedeep';
 // import useRouter from 'src/utils/hooks/useRouter';
 
 const useStyles = makeStyles(() => ({
@@ -60,7 +61,7 @@ const SubAccountCreate = () => {
   const navigate = useNavigate();
 
   const { dataResponse: dataRole } = useFetchData('/api/role');
-  const { dataResponse: dataBrand } = useFetchData('/api/brand');
+  const { dataResponse: dataBrand } = useFetchData('/api/brand/public_list');
 
   useEffect(() => {
     if (dataRole.length <= 0) return;
@@ -79,9 +80,9 @@ const SubAccountCreate = () => {
 
   useEffect(() => {
     let mapdata = [];
-    let newBrand = dataBrand?.list;
-    if (!newBrand) return;
-    if (newBrand.length <= 0) return;
+    let newBrand = cloneDeep(dataBrand);
+    // if (!newBrand) return;
+    // if (newBrand.length <= 0) return;
     newBrand.forEach((data) => {
       let optionData = {
         id: data.BrandId,
@@ -178,7 +179,7 @@ const SubAccountCreate = () => {
           type="text"
           label="Brand"
         /> */}
-        {!(roleUser.account_type === 'admin') && (
+        {!(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') && (
           <SelectField
             namefileld="brand"
             id="brand"
