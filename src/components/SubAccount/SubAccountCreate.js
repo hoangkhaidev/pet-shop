@@ -24,6 +24,7 @@ import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput'
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import api from 'src/utils/api';
 import cloneDeep from 'lodash.clonedeep';
+import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
 // import useRouter from 'src/utils/hooks/useRouter';
 
 const useStyles = makeStyles(() => ({
@@ -48,6 +49,7 @@ const SubAccountCreate = () => {
   const [roleData, setRoleData] = useState([]);
   const [brandData, setBrandData] = useState([]);
   const [checkWhiteIP, setCheckWhiteIP] = useState('');
+  const [isHasAccessPermission, setIsHasPermission] = useState(true);
   const roleUser = useSelector((state) => state.roleUser);
   // console.log(router);
   // console.log(roleUser);
@@ -111,7 +113,6 @@ const SubAccountCreate = () => {
       role_id: dataForm.role,
       whitelist_ips: formatWLIPs,
     };
-    // console.log(form)
       try {
         const response = await api.post('/api/subs/create', form);
         if (get(response, 'success', false)) {
@@ -119,6 +120,9 @@ const SubAccountCreate = () => {
             onClose: navigate('/sub/list'),
           });
         } else {
+          if (response.err === "err:no_permission") {
+            setIsHasPermission(false);
+          }
           if (response?.err === 'err:form_validation_failed') {
             for (const field in response?.data) {
               // console.log(response?.data[field]);
@@ -166,6 +170,10 @@ const SubAccountCreate = () => {
     setWhitelistIP(cloneArr);
   };
 
+  if (!isHasAccessPermission) {
+    return <NoPermissionPage />;
+  }
+
   return (
     <ContentCardPage>
       <TitlePage title="Create Sub Account" />
@@ -179,7 +187,7 @@ const SubAccountCreate = () => {
           type="text"
           label="Brand"
         /> */}
-        {!(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') && (
+        {!(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub' || roleUser.account_type === 'brand') && (
           <SelectField
             namefileld="brand"
             id="brand"
@@ -190,6 +198,18 @@ const SubAccountCreate = () => {
             options={brandData}
             required
             defaultValue=""
+          />
+        )}
+        {(roleUser.account_type === 'brand') && (
+          <InputField
+            readOnly
+            namefileld="brand"
+            control={control}
+            id="brand"
+            errors={errors?.brand}
+            type="text"
+            label="Brand"
+            defaultValue={roleUser.username}
           />
         )}
         <InputField

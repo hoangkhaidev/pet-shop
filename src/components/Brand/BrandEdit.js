@@ -117,6 +117,7 @@ const BrandEdit = () => {
   const [financeEmail, setFinanceEmail] = useState([]);
   const [productData, setProductData] = useState([]);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
+  const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
   const [errorWhiteIP, setErrorWhiteIP] = useState('');
   const [errorApiWLIP, setErrorApiWLIP] = useState('');
@@ -297,6 +298,9 @@ const BrandEdit = () => {
             onClose: navigate("/brand/list")
           });
         } else {
+          if (response.err === "err:no_permission") {
+            setIsHasPermission(false);
+          }
           if (response?.err === 'err:form_validation_failed') {
             for (const field in response?.data) {
               if (response?.data['product_commission'] === 'err:invalid_product') {
@@ -384,6 +388,10 @@ const BrandEdit = () => {
   };
 
   if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
+
+  if (!isHasAccessPermission) {
     return <NoPermissionPage />;
   }
 

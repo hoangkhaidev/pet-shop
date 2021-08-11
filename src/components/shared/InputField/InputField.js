@@ -88,6 +88,9 @@ const InputField = ({
     if (errors.message === 'err:username_not_found') {
       return errors.message = 'Account not found';
     }
+    if (errors.message === 'err:locked_account') {
+      return errors.message = 'Locked account';
+    }
     if (errors.type === 'required') {
       return 'Field is required.';
     }

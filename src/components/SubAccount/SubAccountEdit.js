@@ -66,6 +66,7 @@ const SubAccountEdit = () => {
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [brandData, setBrandData] = useState([]);
   const [checkWhiteIP, setCheckWhiteIP] = useState('');
+  const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
   const { dataResponse: dataBrand } = useFetchData('/api/brand/public_list');
 
@@ -165,6 +166,9 @@ const SubAccountEdit = () => {
           onClose: navigate('/sub/list'),
         });
       } else {
+        if (response.err === "err:no_permission") {
+          setIsHasPermission(false);
+        }
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
             if (response?.data[field] === 'err:invalid_ip_address') {
@@ -208,6 +212,10 @@ const SubAccountEdit = () => {
   };
 
   if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
+  
+  if (!isHasAccessPermission) {
     return <NoPermissionPage />;
   }
 

@@ -116,6 +116,7 @@ const BrandCreate = () => {
   const [errorApiWLIP, setErrorApiWLIP] = useState('');
   const [errorFinanceEmail, setErrorFinanceEmail] = useState('');
   const [errorProductCommission, setErrorProductCommission] = useState('');
+  const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
   const [checkboxListCheck, setCheckboxListCheck] = useState(productData.map((item) => false ));
   // const [checkProduct, setCheckProduct] = useState(false);
@@ -244,6 +245,9 @@ const BrandCreate = () => {
             onClose: navigate('brand/list'),
           });
         } else {
+          if (response?.err === "err:no_permission") {
+            setIsHasPermission(false);
+          }
           if (response?.err === 'err:form_validation_failed') {
             for (const field in response?.data) {
               if (response?.data['product_commission'] === 'err:invalid_product') {
@@ -276,13 +280,17 @@ const BrandCreate = () => {
   if (!isHasPermission) {
     return <NoPermissionPage />;
   }
+  
+  if (!isHasAccessPermission) {
+    return <NoPermissionPage />;
+  }
 
   return (
     <ContentCardPage>
       <TitlePage title="Create Brand" />
       <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle}>
         
-        {(roleUser.account_type === 'admin') && (
+        {(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') && (
           <SelectField
             namefileld="operator_id"
             id="operator_id"
@@ -293,6 +301,18 @@ const BrandCreate = () => {
             errors={errors?.operator_id}
             options={operatorData}
             defaultValue=""
+          />
+        )}
+        {(roleUser.account_type === 'operatorsub') && (
+          <InputField
+            readOnly
+            namefileld="operator_id"
+            control={control}
+            id="operator_id"
+            errors={errors?.operator_id}
+            type="text"
+            label="Operator"
+            defaultValue={roleUser.username}
           />
         )}
         <InputField

@@ -315,7 +315,7 @@ const SubAccountList = () => {
       status_search: '',
     });
   };
-
+  console.log(isHasPermission);
   if (!isHasPermission) {
     return <NoPermissionPage />;
   }
