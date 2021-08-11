@@ -105,6 +105,7 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
 
         if (dataJSON?.err === 'err:invalid_token') {
           navigate("/login");
+          toast.warn('Your account has been changed password. Please contact your upline to get new password ');
         }
 
         setData((prevState) => ({

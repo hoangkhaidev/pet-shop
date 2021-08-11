@@ -43,6 +43,7 @@ const InputFieldCopy = ({
   readOnly,
   multiline,
   disabled,
+  onClick
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -114,6 +115,7 @@ const InputFieldCopy = ({
               autoFocus={autoFocus}
               style={styles}
               type={type}
+              onClick={onClick}
               id={id}
               label={
                 <div>

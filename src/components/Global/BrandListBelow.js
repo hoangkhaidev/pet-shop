@@ -39,9 +39,9 @@ const BrandListBelow = ({ roundId, cell }) => {
     setData(mapData);
   }, [dataResponse]);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   const columns = [
     {

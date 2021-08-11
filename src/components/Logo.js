@@ -1,6 +1,6 @@
 const Logo = (props) => (
   <img
-    style={{ maxWidth: '55px' }}
+    style={{ maxWidth: '40px' }}
     alt="Logo"
     src="/static/logo_new.png"
     {...props}

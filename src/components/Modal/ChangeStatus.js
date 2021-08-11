@@ -137,6 +137,9 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
             onClose: onClose()
           });
         }
+        if (response?.err === 'err:suspended_account') {
+          toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
+        }
       }
     } catch (e) {
       console.log('e', e);

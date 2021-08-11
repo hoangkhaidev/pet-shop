@@ -82,6 +82,10 @@ const BrandGlobalEdit = lazy(() =>
   import('src/components/Global/BrandDetail/BrandDetail')
 );
 
+const BusinessSummary = lazy(() =>
+  import('src/components/Reports/BusinessSummary/BusinessSummary')
+);
+
 const routes = (isLoggedIn) => [
   {
     path: 'home',
@@ -263,6 +267,18 @@ const routes = (isLoggedIn) => [
         fullpath: 'configuration/commission',
         name: 'Commission List',
         element: <CommissionList />,
+      }
+    ],
+  },
+  {
+    path: 'reports',
+    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+    children: [
+      {
+        path: '/business_summary',
+        fullpath: '/reports/business_summary',
+        name: 'Business Summary',
+        element: <BusinessSummary />,
       }
     ],
   },

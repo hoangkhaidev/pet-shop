@@ -2,31 +2,34 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-lonely-if */
 /* eslint-disable react/jsx-no-duplicate-props */
-import { useState } from 'react';
+import {  useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
+// import AddIcon from '@material-ui/icons/Add';
+// import RemoveIcon from '@material-ui/icons/Remove';
 import FormLabel from '@material-ui/core/FormLabel';
 import get from 'lodash/get';
 import { toast } from 'react-toastify';
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
-import InputField from 'src/components/shared/InputField/InputField';
-import ButtonGroup, {
-  SubmitButton,
-} from 'src/components/shared/Button/Button';
-import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
+// import InputField from 'src/components/shared/InputField/InputField';
+// import ButtonGroup, {
+//   SubmitButton,
+// } from 'src/components/shared/Button/Button';
+// import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
 import Loading from 'src/components/shared/Loading/Loading';
 import api from 'src/utils/api';
-import ClearAllIcon from '@material-ui/icons/ClearAll';
-import InputFieldTime from 'src/components/shared/InputField/InputFieldTime';
-import InputFieldCopy from 'src/components/shared/InputField/InputFieldCopy';
+// import ClearAllIcon from '@material-ui/icons/ClearAll';
+// import InputFieldTime from 'src/components/shared/InputField/InputFieldTime';
+// import InputFieldCopy from 'src/components/shared/InputField/InputFieldCopy';
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import { Checkbox } from '@material-ui/core';
 import SelectField from 'src/components/shared/InputField/SelectField';
+// import useFetchData from 'src/utils/hooks/useFetchData';
+// import useRouter from 'src/utils/hooks/useRouter';
+// import cloneDeep from 'lodash.clonedeep';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -51,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const GameParamCloning = () => {
+  // const router = useRouter();
   const classes = useStyles();
   const {
     control,
@@ -60,8 +64,10 @@ const GameParamCloning = () => {
   } = useForm();
 
   const [isLoading, setIsLoading] = useState(false);
-
-  const { t } = useTranslation();
+  // const { dataResponse: dataBrand } = useFetchData(`/api/global/group_brand/${router?.query?.id}`, null);
+  // const [dataBrands, setDataBrands] = useState(false);
+  
+  // const { t } = useTranslation();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -101,9 +107,27 @@ const GameParamCloning = () => {
     setIsLoading(false);
   };
 
-  const onCancel = () => {
-    navigate('/operator/list');
-  }
+  // useEffect(() => {
+  //   let mapData = [];
+  //   let dataBrandList = cloneDeep(dataBrand);
+  //   dataBrandList.forEach((data) => {
+  //     let optionData = {
+  //       id: data.id,
+  //       value: data.id,
+  //       label: data.name,
+  //     };
+  //     mapData.push(optionData);
+  //   });
+  //   setDataBrands([...mapData]);
+  // }, [dataBrand]);
+
+  // useEffect(() => {
+  //   console.log(dataBrand)
+  // }, [dataBrand])
+
+  // const onCancel = () => {
+  //   navigate('/operator/list');
+  // }
 
   return (
     <ContentCardPage>
@@ -132,7 +156,7 @@ const GameParamCloning = () => {
               <span className={classes.checkboxStyle}>Include all currencies</span>
             </div>
           </div>
-          <TitlePage title="Copy" />
+          <TitlePage title="Copy from this brand" />
           <div style={{ width: '500px' }}>
             <SelectField
               namefileld="brand_id"

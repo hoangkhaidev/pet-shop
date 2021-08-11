@@ -24,11 +24,13 @@ import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput'
 import Loading from 'src/components/shared/Loading/Loading';
 import api from 'src/utils/api';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
-import InputFieldTime from 'src/components/shared/InputField/InputFieldTime';
+// import InputFieldTime from 'src/components/shared/InputField/InputFieldTime';
 import InputFieldCopy from 'src/components/shared/InputField/InputFieldCopy';
 import useRouter from 'src/utils/hooks/useRouter';
 import useFetchData from 'src/utils/hooks/useFetchData';
 import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
+import { FormattedNumberInputNew } from 'src/components/shared/InputField/InputFieldNumber';
+import { InputAdornment } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -122,7 +124,7 @@ const Endpoint_Settings = () => {
   }, [apiWLIP]);
 
   const onSubmit = async (data) => {
-    // console.log(data)
+    console.log(data)
     const formatWLIPEndpoint = apiWLIP.join('.');
 
     const formatWLIPs = whitelistIP.map((item) => {
@@ -135,18 +137,17 @@ const Endpoint_Settings = () => {
       ...data,
       api_whitelist_ip: formatWLIPEndpoint,
       whitelist_ips: formatWLIPs,
-      product_ids: [data.product_ids],
     };
-    delete form.commission;
-    delete form.product_ids;
-    // console.log(form);
+    delete form.secret_key;
+    delete form.api_key;
+    console.log(form);
 
     try {
-      let response = await api.post('/api/operators/create', form);
+      let response = await api.post(`/api/global/brand_detail/${router.query?.id}/update`, form);
       // console.log(response);
       if (get(response, 'success', false)) {
-        toast.success('Create Operator Success', {
-          onClose: navigate('/operator/list'),
+        toast.success('Update Brand Setting Success', {
+          onClose: navigate('/global/group_brand'),
         });
       } else {
         if (response?.err === 'err:form_validation_failed') {
@@ -218,6 +219,7 @@ const Endpoint_Settings = () => {
           type="text"
           label="Secret Key"
           endText="Copy"
+          onClick={() => {navigator.clipboard.writeText(data?.secret_key)}}
         />
         {/* <FormLabel>{t('API Key')}</FormLabel> */}
         <InputFieldCopy
@@ -229,6 +231,7 @@ const Endpoint_Settings = () => {
           type="text"
           label="API Key"
           endText="Copy"
+          onClick={() => {navigator.clipboard.writeText(data?.api_key)}}
         />
         <FormLabel>Whitelist IP Address for API<span style={{color: 'red'}}>*</span></FormLabel>
         <IPAddressInput 
@@ -245,7 +248,7 @@ const Endpoint_Settings = () => {
           type="text"
           label="API Endpoint"
         />
-        <InputFieldTime
+        {/* <InputFieldTime
           autoFocus
           required
           namefileld="player_inactivity_logout_after_mins"
@@ -255,8 +258,36 @@ const Endpoint_Settings = () => {
           type="text"
           label="Player Inactivity Logout Time"
           endText="Minutes"
+          minLength={15}
+          defaultValue={60}
+        /> */}
+        <FormattedNumberInputNew
+          required
+          label="Player Inactivity Logout Time"
+          control={control}
+          namefileld="player_inactivity_logout_after_mins"
+          errors={errors?.player_inactivity_logout_after_mins}
+          id="player_inactivity_logout_after_mins"
+          minLength={15}
+          defaultValue={60}
+          InputProps={{
+            endAdornment: <InputAdornment position="end">Minutes</InputAdornment>,
+          }}
         />
-        <InputFieldTime
+        <FormattedNumberInputNew
+          required
+          label="Manual retry/refund after"
+          control={control}
+          namefileld="manual_retry_refund_after_hours"
+          errors={errors?.manual_retry_refund_after_hours}
+          id="manual_retry_refund_after_hours"
+          minLength={3}
+          defaultValue={24}
+          InputProps={{
+            endAdornment: <InputAdornment position="end">Hours</InputAdornment>,
+          }}
+        />
+        {/* <InputFieldTime
           required
           namefileld="manual_retry_refund_after_hours"
           control={control}
@@ -265,7 +296,9 @@ const Endpoint_Settings = () => {
           type="text"
           label="Manual retry/refund after"
           endText="Hours"
-        />
+          minLength={3}
+          defaultValue={24}
+        /> */}
         <FormLabel>{t('Whitelist IP Address for BO')}</FormLabel>
         {whitelistIP.map((item, index) => (
           <div className={classes.whitelistIPLine} key={index}>

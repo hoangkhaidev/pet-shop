@@ -192,6 +192,13 @@ export const FormattedNumberInputNew = ({
     if (errors.type === 'required') {
       return 'Field is required';
     }
+    if (errors.message === 'err:invalid_player_inactivity_logout_after_mins') {
+      return errors.message = 'Player Inactivity Logout Time: min is 15';
+    }
+    if (errors.message === 'err:invalid_manual_retry_refund_after_hours') {
+      return errors.message = 'Manual retry/refund after: min is 3';
+    }
+    console.log(errors)
     return errors.message;
   };
 
@@ -216,20 +223,15 @@ export const FormattedNumberInputNew = ({
               // required
               error={!isEmpty(errors)}
               style={styles}
-              decimalScale={value >= 100 ? 0 : 2}
-              decimalSeparator=","
+              // decimalScale={value >= 100 ? 0 : 2}
+              // decimalSeparator=","
               customInput={TextField}
               defaultValue={0}
               value={value}
               onValueChange={(values) => {
-                // console.log(values);
-                values?.floatValue > 100
-                  ? onChange({ target: { name, value: 100 } })
-                  : values?.floatValue < 0 
-                    ? onChange({ target: { name, value: 0 } }) 
-                    : onChange({ target: { name, value: values.floatValue } });
+                onChange({ target: { name, value: values.floatValue } });
               }}
-              maxLength={value >= 100 ? 3 : null}
+              // maxLength={value <= maxLength}
               helperText={helperText}
             />
           )}

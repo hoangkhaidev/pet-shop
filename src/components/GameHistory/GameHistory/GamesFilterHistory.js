@@ -47,7 +47,7 @@ const GamesFilterHistory = ({
 
   const { dataResponse: dataGame} = useFetchData("/api/games");
   const { dataResponse: dataTimezone} = useFetchData("/api/timezones");
-  const { dataResponse: dataBrand} = useFetchData("/api/brand");
+  const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
 
   const [gameTypeData, setGameTypeData] = useState([]);
   const [gameNameData, setGameNameData] = useState([]);
