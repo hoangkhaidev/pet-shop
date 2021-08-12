@@ -3,7 +3,7 @@ import React from 'react';
 import {
   Input,
   InputGroupAddon,
-  InputGroupText,
+  // InputGroupText,
 } from 'reactstrap';
 
 const useStyles = makeStyles((theme) => ({
@@ -94,9 +94,9 @@ const CommissionInput = props => {
           placeholder={placeholder}
           style={{ fontSize: '16px', padding: '20px 25px', height: '1.4375em', border: '1px solid #ddd', borderRadius: '5%' }}
         />
-        <InputGroupAddon addonType="append">
-          <InputGroupText className={classes.input_text}>%</InputGroupText>
-        </InputGroupAddon>
+        <div>
+          <span className={classes.input_text}>%</span>
+        </div>
     </div>
   )
 }

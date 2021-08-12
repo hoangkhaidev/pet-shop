@@ -8,7 +8,7 @@ import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
 // import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import Loading from 'src/components/shared/Loading/Loading';
 import useFetchData from 'src/utils/hooks/useFetchData';
-// import { makeStyles } from '@material-ui/core';
+
 import CurrencyListFilter from './CurrencyListFilter';
 import ChangeStatusCurrency from 'src/components/Modal/ChangeStatusCurrency';
 
@@ -28,6 +28,10 @@ const CurrencyList = () => {
     let mapData = cloneDeep(dataResponse)
     setData(mapData)
   }, [dataResponse]);
+
+  // useEffect(() => {
+  //   console.log(cloneDeep(data).map(item => item.status));
+  // }, [data]);
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
@@ -57,7 +61,7 @@ const CurrencyList = () => {
     {
       data_field: 'status',
       column_name: 'Status',
-      align: 'left',
+      align: 'center',
       formatter: (cell, row) => {
         const newlabel = row.status === true ? 'active' : 'inactive';
         return (
@@ -74,8 +78,8 @@ const CurrencyList = () => {
       column_name: 'Action',
       align: 'center',
       formatter: (cell, row) => {
-        const newlabel = row.status === false ? 'active' : 'inactive';
-        const currentStatus = row.status === true ? 'active' : 'inactive';
+        const newlabel = row.status === true ? 'active' : 'inactive';
+        const currentStatus = row.status === false ? 'active' : 'inactive';
         // console.log(row.statuses)
         return (
           <ChangeStatusCurrency

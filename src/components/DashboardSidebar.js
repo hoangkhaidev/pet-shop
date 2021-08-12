@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import { getUser } from "src/features/roleUser/roleUser";
 
 import NavItem from './NavItem';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { onLogout } from "src/features/authentication/authentication";
 // const user = {
@@ -56,7 +56,8 @@ const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
       if (response?.err === 'err:invalid_token') {
         // navigate("/login");
         onUserLogout();
-        toast.warn('Your account has been changed password. Please contact your upline to get new password ');
+        let messageToken = 'Your account has been changed password. Please contact your upline to get new password';
+        localStorage.setItem('messageToken', JSON.stringify(messageToken));
         // return (
         //   <Navigate to="/login" />
         // )

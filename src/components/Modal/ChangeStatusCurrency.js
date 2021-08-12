@@ -1,11 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useCallback, useEffect } from "react";
 import get from 'lodash/get';
 import { toast } from "react-toastify";
 import api from 'src/utils/api'; 
-import StatusBadge from "src/components/shared/StatusBadge/StatusBadge";
+// import StatusBadge from "src/components/shared/StatusBadge/StatusBadge";
 import ModalComponent from "src/components/shared/ModalComponent/ModalComponent";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import { Button, makeStyles } from "@material-ui/core";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBan, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import StatusBadge from "../shared/StatusBadge/StatusBadge";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,31 +27,36 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ChangeStatusCurrency = ({ currentStatus, types, current_code, newlabel, setRefreshData = () => {} }) => {
+const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, setRefreshData = () => {} }) => {
   const classes = useStyles();
   const [label, setLabel] = useState(newlabel);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    setLabel(newlabel);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newlabel])
+    console.log(newlabel);
+  }, [newlabel]);
 
+  useEffect(() => {
+    setLabel(newlabel);
+  }, [newlabel]);
 
   const onOpenModal = useCallback(() => {
     if (types !== 'statusView') setOpen(true);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onClose = () => {
     setOpen(false);
   };
 
-  const onChangeStatus = async () => {
+  const onChangeStatus = async (current_code, newlabel, currentStatus) => {
+    // console.log(newlabel);
+    // console.log(current_code);
+    // console.log(currentStatus);
     onClose();
     let statusNew = '';
-    if (newlabel === 'active') statusNew = 'activate';
-    if (newlabel === 'inactive') statusNew = 'inactivate';
+    if (newlabel === 'active') statusNew = 'inactivate';
+    if (newlabel === 'inactive') statusNew = 'activate';
+    
     try {
       const response = await api.post(`/api/currency/${current_code}/${statusNew}`, null);
       
@@ -62,6 +71,9 @@ const ChangeStatusCurrency = ({ currentStatus, types, current_code, newlabel, se
           toast.warn("No Permission", {
             onClose: onClose()
           });
+        }
+        if (response?.err === 'err:suspended_account') {
+          toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
         }
       }
     } catch (e) {
@@ -80,7 +92,32 @@ const ChangeStatusCurrency = ({ currentStatus, types, current_code, newlabel, se
 
   return (
     <div style={{ marginRight: '25px' }}>
-      <StatusBadge label={labelShow} onClick={onOpenModal} />
+      { types === 'statusView' ? <StatusBadge label={labelShow} /> : '' }
+
+      {
+        types !== 'statusView' && (
+          label === 'inactive' ?
+            <FontAwesomeIcon 
+              icon={faBan} 
+              size={'2x'} 
+              color={'red'} 
+              title={labelShow} 
+              onClick={(onOpenModal)} 
+              style={types !== 'statusView' ? {cursor: 'pointer'} : ''}
+            />
+          : label === 'active' ?
+            <FontAwesomeIcon 
+              icon={faCheckCircle} 
+              size={'2x'} 
+              color={'#82c91e'} 
+              title={labelShow} 
+              onClick={(onOpenModal)} 
+              style={types !== 'statusView' ? {cursor: 'pointer'} : ''}
+            />
+          : ''
+        )
+      }
+      
       <ModalComponent
         open={open}
         onClose={onClose}
@@ -89,7 +126,7 @@ const ChangeStatusCurrency = ({ currentStatus, types, current_code, newlabel, se
           <TitlePage title="Confirmation" />
             <div className={classes.title__text}>{`Are you sure you want to change status this: ${current_code} ?`}</div>
             <div className={classes.title__groupButton} style={{ justifyContent: 'flex-end' }}>
-                <Button style={{ marginRight: '10px' }} variant="contained" color="primary" onClick={() => onChangeStatus()}>
+                <Button style={{ marginRight: '10px' }} variant="contained" color="primary" onClick={() => onChangeStatus(current_code, newlabel, currentStatus)}>
                     OK
                 </Button>
                 <Button variant="contained" color="secondary" onClick={() => onClose()}>

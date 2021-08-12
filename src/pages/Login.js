@@ -9,7 +9,8 @@ import {
   Container,
   Card,
   Typography,
-  makeStyles
+  makeStyles,
+  FormLabel
 } from '@material-ui/core';
 import get from "lodash/get";
 import { useDispatch } from "react-redux";
@@ -27,6 +28,10 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     alignItems: 'center',
     width: '100%'
+  },
+  checkHelperText: {
+    color: 'red !important',
+    fontSize: '14px !important',
   }
 }));
 
@@ -36,10 +41,10 @@ const Login = () => {
   const classes = useStyles();
   const { control, handleSubmit, setError, formState: { errors } } = useForm();
   const dispatch = useDispatch();
-
-  // if (isLoggedIn) {
-  //   navigate("/home/dashboard");
-  // }
+  let messageToken = JSON.parse(localStorage.getItem('messageToken'));
+  setTimeout(() => {
+    localStorage.removeItem('messageToken');
+  }, 10000);
 
   const onSubmit = async (data) => {
     if (data.captcha === "") {
@@ -259,6 +264,7 @@ const Login = () => {
                   errors={errors.username}
                   control={control}
                 />
+                <FormLabel component="legend" className={classes.checkHelperText}>{messageToken ? messageToken : ''}</FormLabel>
                 <InputField
                   namefileld="password"
                   label="Password"

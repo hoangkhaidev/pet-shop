@@ -11,6 +11,7 @@ import get from 'lodash/get';
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
+import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -69,6 +70,7 @@ const CurrencyListFilter = () => {
         toast.success("Create Currency Success", {
           onClose: navigate("/configuration/currency")
         });
+        window.location.reload();
       } else {
         toast.warn("The input value must be an item on the specified list");
       }
@@ -104,7 +106,15 @@ const CurrencyListFilter = () => {
           </FormControl>
         </Grid>
         <Grid item xs={12} xl={3} md={6} style={{ alignItems: 'center', display: 'flex', justifyContent: 'center' }}>
-          <Button variant="contained" onClick={() => onAddCurrency()}>
+          {/* <Button variant="contained" onClick={() => onAddCurrency()}>
+            Add New Currency
+          </Button> */}
+          <Button
+            variant="contained"
+            style={{ backgroundColor: '#1cb13c' }}
+            startIcon={<AddIcon />}
+            onClick={() => onAddCurrency()}
+          >
             Add New Currency
           </Button>
         </Grid>
