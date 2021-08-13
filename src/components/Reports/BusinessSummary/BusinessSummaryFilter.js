@@ -12,6 +12,7 @@ import DateRangePickerComponent from "src/components/shared/DateRangePickerCompo
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
 import { func } from "prop-types";
 import useFetchData from "src/utils/hooks/useFetchData";
+import { useSelector } from "react-redux";
 // import useRouter from "src/utils/hooks/useRouter";
 // import { useSelector } from "react-redux";
 // import { FormattedNumberInputCaptcha } from "../shared/InputField/InputFieldNumber";
@@ -32,13 +33,15 @@ const BusinessSummaryFilter = ({
   // const { t } = useTranslation();
 //   const roleUser = useSelector((state) => state.roleUser);
 //   const router = useRouter();
+  const roleUser = useSelector((state) => state.roleUser);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      brand_id: "all",
-      product_id: "all",
-      options: "day",
+      brand_ids: "all",
+      product_ids: "all",
+      option: "day",
     }
   });
+
   const [dateRange, setDateRange] = useState({
     start: moment().startOf('month').format("DD/MM/YYYY"),
     end: moment().endOf('month').format("DD/MM/YYYY")
@@ -54,7 +57,6 @@ const BusinessSummaryFilter = ({
   const [radio, setRadio] = useState('day');
 
   const handleChange = (event) => {
-    console.log(event.target.value)
     setRadio(event.target.value);
   };
 
@@ -99,9 +101,9 @@ const BusinessSummaryFilter = ({
     console.log(data)
     const form = {
       ...data,
-      brand_id: data.brand_id === 'all' ? 0 : Number(data.brand_id),
-      product_id: data.product_id === 'all' ? 0 : Number(data.product_id),
-      options: radio,
+      brand_ids: data.brand_ids === 'all' ? [] : [Number(data.brand_ids)],
+      product_ids: data.product_ids === 'all' ? [] : [Number(data.product_ids)],
+      option: radio,
       from_date: dateRange.start,
       to_date: dateRange.end,
     };
@@ -111,20 +113,20 @@ const BusinessSummaryFilter = ({
 
   const onResetFilterPlayer = () => {
     reset({
-      brand_id: "all",
-      product_id: "all",
-      options: "day",
+      brand_ids: "all",
+      product_ids: "all",
+      option: "day",
     });
     setDateRange({
       start: moment().startOf('month').format("DD/MM/YYYY"),
       end: moment().endOf('month').format("DD/MM/YYYY")
     });
     setObjFilter({
-      brand_id: 0,
-      product_id: 0,
+      brand_ids: [],
+      product_ids: [],
       from_date: moment().startOf('month').format("DD/MM/YYYY"),
       to_date: moment().endOf('month').format("DD/MM/YYYY"),
-      options: "day",
+      option: "day",
     });
     setRadio('day')
    
@@ -158,24 +160,25 @@ const BusinessSummaryFilter = ({
             </Grid>
             <Grid item xs={12} xl={3} md={3}>
               <SelectField
+                selectDisabled= {roleUser.account_type === 'brand' ? true : false}
                 control={control}
-                namefileld="brand_id"
-                id="brand_id"
+                namefileld="brand_ids"
+                id="brand_ids"
                 label="Brand"
                 fullWidth={false}
                 options={brandData}
               />
               <SelectField
                 control={control}
-                namefileld="product_id"
-                id="product_id"
+                namefileld="product_ids"
+                id="product_ids"
                 label="Product"
                 fullWidth={false}
                 options={productData}
               />
             </Grid>
             <Grid item xs={12} xl={3} md={6}>
-            <RadioGroup aria-label="gender" name="options" value={radio} onChange={handleChange}>
+            <RadioGroup aria-label="gender" name="option" value={radio} onChange={handleChange}>
               <div style={{ display: 'flex', paddingTop: '25px', paddingLeft: '15px' }}>
                 <div>
                   <FormControlLabel value="day" control={<Radio />} label="Total by Day" />

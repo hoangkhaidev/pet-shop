@@ -45,6 +45,7 @@
     "chart.js": "^2.9.4",
     "clsx": "^1.1.1",
     "env-cmd": "^10.1.0",
+    "file-saver": "^2.0.5",
     "formik": "^2.2.9",
     "history": "^5.0.0",
     "i18next": "^20.2.2",
@@ -79,7 +80,8 @@
     "sass": "^1.32.11",
     "uuid": "^8.3.0",
     "validate.js": "^0.13.1",
-    "validator.js-validate": "^1.1.0"
+    "validator.js-validate": "^1.1.0",
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^18.2.1",

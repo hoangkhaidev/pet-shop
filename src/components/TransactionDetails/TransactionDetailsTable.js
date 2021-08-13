@@ -12,6 +12,9 @@ const TransactionDetailsTable = ({roundId}) => {
     page: 1,
     page_size: 30
   });
+  const formatNumber = (num) => {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  }
 
   const { dataResponse, isLoading, isHasPermission } = useFetchData(
     `/api/transaction/round/${roundId}/details`,
@@ -57,17 +60,29 @@ const TransactionDetailsTable = ({roundId}) => {
     {
       data_field: "debit",
       column_name: "Debit",
-      align: "right"
+      align: "right",
+      formatter: (cell, row) => {
+        let cellFormat = formatNumber(cell);
+        return cellFormat;
+      }
     },
     {
       data_field: "credit",
       column_name: "Credit",
-      align: "right"
+      align: "right",
+      formatter: (cell, row) => {
+        let cellFormat = formatNumber(cell);
+        return cellFormat;
+      }
     },
     {
       data_field: "balance_after",
       column_name: "Balance",
-      align: "right"
+      align: "right",
+      formatter: (cell, row) => {
+        let cellFormat = formatNumber(cell);
+        return cellFormat;
+      }
     }
   ];
 

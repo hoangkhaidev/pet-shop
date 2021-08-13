@@ -1,4 +1,4 @@
-import { Button, makeStyles } from "@material-ui/core";
+import { Button, makeStyles, Typography } from "@material-ui/core";
 // import PersonIcon from '@material-ui/icons/Person';
 import Grid from "@material-ui/core/Grid";
 import ClearAllIcon from '@material-ui/icons/ClearAll';
@@ -45,6 +45,9 @@ const useStyles = makeStyles(() => ({
   w50: {
     width: '60%',
     lineBreak: 'anywhere',
+  },
+  titleTransaction: {
+    fontWeight: '600 !important',
   }
  
 }));
@@ -79,123 +82,132 @@ const PlayerInformation = () => {
 
   return (
     <>
-      <Button
-        startIcon={<ClearAllIcon fontSize="small" />}
-        variant="contained"
-        type="button"
-        color="secondary"
-        onClick={() => onCancel()}
-      >
-        Back
-      </Button>
-      <ContentCardPage>
-        <div className={classes.playerInfoName}>
-          <span className={classes.profileNameDisplay}>
-            Profile:
-          </span>
-          <span className={classes.playerNameDisplay}>
-            {data?.id}  
-          </span>
-          <span> ({data?.username}, signed up {data?.created_at})</span>
-        </div>
-        <Grid className={classes.infoContainer} sx={{ mt: 1 }} container spacing={3}>
-          <Grid className={classes.infoColumn} item xs={12} xl={4} md={4}>
-              <div className={classes.infoLine}>
-                <span className={classes.labelLine}>
-                  Player ID
-                </span>
-                <span className={classes.w50}>
-                  {data?.id} 
-                </span>
-              </div>
-              <div className={classes.infoLine}>
-                <span className={classes.labelLine}>
-                  Nickname
-                </span>
-                <span className={classes.w50}>
-                  {data?.username} 
-                </span>
-              </div>
-              <div className={classes.infoLine}>
-                <span className={classes.labelLine}>
-                  Brand
-                </span>
-                <span className={classes.w50}>
-                  {data?.brand_id} 
-                </span>
-              </div>
+      <div style={{ padding: '25px' }}>
+        <Typography 
+          variant="h6" 
+          gutterBottom 
+          className={classes.titleTransaction}
+        >
+          Player Information
+        </Typography>
+        <Button
+          startIcon={<ClearAllIcon fontSize="small" />}
+          variant="contained"
+          type="button"
+          color="secondary"
+          onClick={() => onCancel()}
+        >
+          Back
+        </Button>
+        <ContentCardPage>
+          <div className={classes.playerInfoName}>
+            <span className={classes.profileNameDisplay}>
+              Profile:
+            </span>
+            <span className={classes.playerNameDisplay}>
+              {data?.id}  
+            </span>
+            <span> ({data?.username}, signed up {data?.created_at})</span>
+          </div>
+          <Grid className={classes.infoContainer} sx={{ mt: 1 }} container spacing={3}>
+            <Grid className={classes.infoColumn} item xs={12} xl={4} md={4}>
+                <div className={classes.infoLine}>
+                  <span className={classes.labelLine}>
+                    Player ID
+                  </span>
+                  <span className={classes.w50}>
+                    {data?.id} 
+                  </span>
+                </div>
+                <div className={classes.infoLine}>
+                  <span className={classes.labelLine}>
+                    Nickname
+                  </span>
+                  <span className={classes.w50}>
+                    {data?.username} 
+                  </span>
+                </div>
+                <div className={classes.infoLine}>
+                  <span className={classes.labelLine}>
+                    Brand
+                  </span>
+                  <span className={classes.w50}>
+                    {data?.brand_id} 
+                  </span>
+                </div>
+            </Grid>
+            <Grid className={classes.infoColumn} item xs={12} xl={4} md={4}>
+                <div className={classes.infoLine}>
+                  <span className={classes.labelLine}>
+                    Sign Up
+                  </span>
+                  <span className={classes.w50}>
+                    {data?.created_at}
+                  </span>
+                </div>
+                <div className={classes.infoLine}>
+                  <span className={classes.labelLine}>
+                    Currency
+                  </span>
+                  <span className={classes.w50}>
+                    {data?.currency_code}
+                  </span>
+                </div>
+                <div className={classes.infoLine}>
+                  <span className={classes.labelLine}>
+                    Language
+                  </span>
+                  <span className={classes.w50}>
+                    {data?.language}
+                  </span>
+                </div>
+                <div className={classes.infoLine}>
+                  <span className={classes.labelLine}>
+                    Country
+                  </span>
+                  <span className={classes.w50}>
+                    {data?.country}
+                  </span>
+                </div>
+            </Grid>
+            <Grid className={classes.infoColumn} item xs={12} xl={4} md={4}>
+                <div className={classes.infoLine}>
+                  <span className={classes.labelLine}>
+                    Last Login Time
+                  </span>
+                  <span className={classes.w50}>
+                    {data?.last_logged_in}
+                  </span>
+                </div>
+                <div className={classes.infoLine}>
+                  <span className={classes.labelLine}>
+                    Last Login IP
+                  </span>
+                  <span className={classes.w50}>
+                    {data?.last_logged_ip}
+                  </span>
+                </div>
+                <div className={classes.infoLine}>
+                  <span className={classes.labelLine}>
+                    Last Login Country
+                  </span>
+                  <span className={classes.w50}>
+                    {data?.last_logged_in_country}
+                  </span>
+                </div>
+                <div className={classes.infoLine}>
+                  <span className={classes.labelLine}>
+                    Last Login Client Information
+                  </span>
+                  <span className={classes.w50}>
+                    {data?.last_logged_in_info}
+                  </span>
+                </div>
+            </Grid>
           </Grid>
-          <Grid className={classes.infoColumn} item xs={12} xl={4} md={4}>
-              <div className={classes.infoLine}>
-                <span className={classes.labelLine}>
-                  Sign Up
-                </span>
-                <span className={classes.w50}>
-                  {data?.created_at}
-                </span>
-              </div>
-              <div className={classes.infoLine}>
-                <span className={classes.labelLine}>
-                  Currency
-                </span>
-                <span className={classes.w50}>
-                  {data?.currency_code}
-                </span>
-              </div>
-              <div className={classes.infoLine}>
-                <span className={classes.labelLine}>
-                  Language
-                </span>
-                <span className={classes.w50}>
-                  {data?.language}
-                </span>
-              </div>
-              <div className={classes.infoLine}>
-                <span className={classes.labelLine}>
-                  Country
-                </span>
-                <span className={classes.w50}>
-                  {data?.country}
-                </span>
-              </div>
-          </Grid>
-          <Grid className={classes.infoColumn} item xs={12} xl={4} md={4}>
-              <div className={classes.infoLine}>
-                <span className={classes.labelLine}>
-                  Last Login Time
-                </span>
-                <span className={classes.w50}>
-                  {data?.last_logged_in}
-                </span>
-              </div>
-              <div className={classes.infoLine}>
-                <span className={classes.labelLine}>
-                  Last Login IP
-                </span>
-                <span className={classes.w50}>
-                  {data?.last_logged_ip}
-                </span>
-              </div>
-              <div className={classes.infoLine}>
-                <span className={classes.labelLine}>
-                  Last Login Country
-                </span>
-                <span className={classes.w50}>
-                  {data?.last_logged_in_country}
-                </span>
-              </div>
-              <div className={classes.infoLine}>
-                <span className={classes.labelLine}>
-                  Last Login Client Information
-                </span>
-                <span className={classes.w50}>
-                  {data?.last_logged_in_info}
-                </span>
-              </div>
-          </Grid>
-        </Grid>
-        {isLoading && <Loading />}
-      </ContentCardPage>
+          {isLoading && <Loading />}
+        </ContentCardPage>
+      </div>
     </>
   );
 };

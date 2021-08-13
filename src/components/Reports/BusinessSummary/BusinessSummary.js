@@ -1,49 +1,66 @@
 import { Fragment, useEffect, useState } from "react";
 // import Link from "@material-ui/core/Link";
-
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import useRouter from "src/utils/hooks/useRouter";
 import useFetchData from "src/utils/hooks/useFetchData";
 import get from 'lodash/get';
 import moment from "moment";
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faHistory } from '@fortawesome/free-solid-svg-icons';
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import Loading from "src/components/shared/Loading/Loading";
 import BusinessSummaryFilter from "./BusinessSummaryFilter";
-// import { useForm } from "react-hook-form";
+import { ExportCSV } from "./ExportCSV";
 
 const BusinessSummary = () => {
   const router = useRouter();
   const [objFilter, setObjFilter] = useState({
-    brand_id: 0,
-    product_id: 0,
+    brand_ids: [],
+    product_ids: [],
     from_date: moment().startOf('month').format("DD/MM/YYYY"),
     to_date: moment().endOf('month').format("DD/MM/YYYY"),
-    options: "day",
-    ...{
-      ...router.query,
-      product_id: router.query.product_id ? Number(router.query.product_id) : 0,
-      brand_id: router.query.brand_id ? Number(router.query.brand_id) : 0,
-    },
+    option: "day",
+    ...router.query,
   });
 
   const [data, setData] = useState([]);
+  const [dataSum, setDataSum] = useState({});
+  const [dataAverage, setDataAverage] = useState({});
+  const [excelData, setExcelData] = useState([]);
 
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
     '/api/report/business_reports',
     objFilter
   );
 
-  useEffect(() => {
-    const mapData = get(dataResponse, 'business_reports', []);
-    setData(mapData);
-  }, [dataResponse]);
+  const formatNumber = (num) => {
+    let cellFormat = (Math.round(num * 100)/100).toFixed(2);
+    let formatNum = cellFormat?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    return formatNum;
+  }
 
   useEffect(() => {
-    console.log(objFilter);
-  }, [objFilter]);
+    const mapData = get(dataResponse, 'list', []);
+    const mapDataSum = dataResponse?.sum;
+    const mapDataAverage = dataResponse?.average;
+    let forExcel = [];
+    mapData?.forEach((item) => {
+      forExcel.push({
+        identifier: item.identifier,
+        new_players: item.new_players,
+        bet: formatNumber(item.bet),
+        win: formatNumber(item.win),
+        margin: formatNumber(item.margin),
+        players_played: item.players_played,
+        play_sessions: item.play_sessions,
+        operator_total: formatNumber(item.operator_total),
+        company_total: formatNumber(item.company_total),
+      });
+    });
+    setExcelData(forExcel);
+    setData(mapData);
+    setDataSum(mapDataSum)
+    setDataAverage(mapDataAverage)
+  }, [dataResponse]);
 
   const columns = [
     {
@@ -60,20 +77,20 @@ const BusinessSummary = () => {
       align: "right"
     },
     {
-      data_field: "bets",
+      data_field: "bet",
       column_name: "Bets ($)",
       align: "right",
       formatter: (cell) => {
-        let cellFormat = (Math.round(cell * 100)/100).toFixed(2);
+        let cellFormat = formatNumber(cell);
         return cellFormat;
       }
     },
     {
-      data_field: "wins",
+      data_field: "win",
       column_name: "Wins ($)",
       align: "right",
       formatter: (cell) => {
-        let cellFormat = (Math.round(cell * 100)/100).toFixed(2);
+        let cellFormat = formatNumber(cell);
         return cellFormat;
       }
     },
@@ -82,7 +99,7 @@ const BusinessSummary = () => {
       column_name: "Margin ($)",
       align: "right",
       formatter: (cell) => {
-        let cellFormat = (Math.round(cell * 100)/100).toFixed(2);
+        let cellFormat = formatNumber(cell);
         return cellFormat;
       }
     },
@@ -101,7 +118,7 @@ const BusinessSummary = () => {
       column_name: "Operator Total ($)",
       align: "right",
       formatter: (cell) => {
-        let cellFormat = (Math.round(cell * 100)/100).toFixed(2);
+        let cellFormat = formatNumber(cell);
         return cellFormat;
       }
     },
@@ -110,7 +127,7 @@ const BusinessSummary = () => {
       column_name: "Company Total ($)",
       align: "right",
       formatter: (cell) => {
-        let cellFormat = (Math.round(cell * 100)/100).toFixed(2);
+        let cellFormat = formatNumber(cell);
         return cellFormat;
       }
     }
@@ -144,6 +161,19 @@ const BusinessSummary = () => {
       ...data,
     }));
   };
+  //export excel
+
+  const wscols = [
+    { wch: 11 },
+    { wch: 11 },
+    { wch: 11 },
+    { wch: 11 },
+    { wch: 11 },
+    { wch: 11 },
+    { wch: 11 },
+    { wch: 15 },
+    { wch: 15 },
+  ];
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
@@ -154,8 +184,16 @@ const BusinessSummary = () => {
       {isLoading && <Loading />}
       <BusinessSummaryFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <ContentCardPage>
+        <ExportCSV
+          csvData={excelData}
+          fileName="Business_Summary_Report_xlsx"
+          wscols={wscols}
+        />
         <TableComponent
           data={data}
+          dataType='BusinessSummary'
+          dataSum={dataSum}
+          dataAverage={dataAverage}
           columns={columns}
           page = { Number(objFilter.page) }
           page_size = { Number(objFilter.page_size) }

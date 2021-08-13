@@ -101,8 +101,13 @@ TableRowComponent.propTypes = {
 
 const TableComponent = ({
   // eslint-disable-next-line react/prop-types
-  data, columns, pagination, handleChangePage, handleChangeRowsPerPage, types, page, page_size
+  data, dataType = null, dataSum = {}, dataAverage = {}, columns, pagination, handleChangePage, handleChangeRowsPerPage, types, page, page_size
 }) => {
+  const formatNumber = (num) => {
+    let cellFormat = (Math.round(num * 100)/100).toFixed(2);
+    let formatNum = cellFormat?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    return formatNum;
+  }
   const classes = useStyles();
   // eslint-disable-next-line camelcase
   const cellInfo = map(columns, ({ data_field, align, formatter, fontWeight }) => ({ data_field, align, formatter, fontWeight
@@ -123,6 +128,191 @@ const TableComponent = ({
                     "No result found"
                   </TableCell>
                 </TableRow>
+          }
+          { dataType === 'BusinessSummary' && 
+            <>
+              <TableRow style={{ background: '#07bb5f' }}>
+                <TableCell 
+                  component="th" 
+                  scope="row" 
+                  sx={{
+                    padding: 1
+                  }}
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}
+                >
+                  Total:
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}
+                >
+                  {dataSum?.new_players}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                  {formatNumber(dataSum?.bet)}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                  {formatNumber(dataSum?.win)}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                  {formatNumber(dataSum?.margin)}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                  {dataSum?.players_played}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                  {dataSum?.play_sessions}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                  {formatNumber(dataSum?.operator_total)}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                  {formatNumber(dataSum?.company_total)}
+                </TableCell>
+              </TableRow>
+              <TableRow style={{ background: '#07bb5f' }}>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }}
+                  className={classes.tableCellBody} 
+                  component="th"
+                  align="right"
+                  style={{ fontWeight: '600' }}  
+                  scope="row"
+                >
+                  Average:
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }}
+                  className={classes.tableCellBody}
+                >
+                  {dataAverage?.new_players}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }}
+                  className={classes.tableCellBody}
+                >
+                  {formatNumber(dataAverage?.bet)}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }}
+                  className={classes.tableCellBody}
+                >
+                  {formatNumber(dataAverage?.win)}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }}
+                  className={classes.tableCellBody}
+                >
+                  {formatNumber(dataAverage?.margin)}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }}
+                  className={classes.tableCellBody}
+                >
+                  {dataAverage?.players_played}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }}
+                  className={classes.tableCellBody}
+                >
+                  {dataAverage?.play_sessions}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }}
+                  className={classes.tableCellBody}
+                >
+                  {formatNumber(dataAverage?.operator_total)}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }}
+                  className={classes.tableCellBody}
+                >
+                  {formatNumber(dataAverage?.company_total)}
+                </TableCell>
+              </TableRow>
+            </>
           }
         </TableBody>
         {types !== 'RoleList' && 

@@ -4,7 +4,7 @@ import toString from "lodash/toString";
 
 import useRouter from "src/utils/hooks/useRouter";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
-import PlayerInformation from "src/components/PlayerInformation/PlayerInformation";
+// import PlayerInformation from "src/components/PlayerInformation/PlayerInformation";
 import { formatNumberWithComma } from "src/utils/function";
 import get from 'lodash/get';
 import GameTransactionsFilter from "./GameTransactionsFilter";
@@ -151,7 +151,7 @@ const GameTransactions = () => {
   return (
     <Fragment>
       {isLoading && <Loading />}
-      <PlayerInformation />
+      {/* <PlayerInformation /> */}
       <div style={{ fontWeight: '600', fontSize: '22px'}}>Game Transaction</div>
       
       <GameTransactionsFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
