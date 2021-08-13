@@ -40,6 +40,10 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
     setLabel(newlabel);
   }, [newlabel]);
 
+  useEffect(() => {
+    setRefreshData(() => Math.random());
+  }, [label]);
+
   const onOpenModal = useCallback(() => {
     if (types !== 'statusView') setOpen(true);
   }, []);
@@ -48,20 +52,18 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
     setOpen(false);
   };
 
-  const onChangeStatus = async (current_code, newlabel, currentStatus) => {
-    // console.log(newlabel);
-    // console.log(current_code);
-    // console.log(currentStatus);
+  const onChangeStatus = async (current_code, label, currentStatus) => {
     onClose();
+    console.log(currentStatus);
     let statusNew = '';
-    if (newlabel === 'active') statusNew = 'inactivate';
-    if (newlabel === 'inactive') statusNew = 'activate';
+    if (label === 'active') statusNew = 'inactivate';
+    if (label === 'inactive') statusNew = 'activate';
     
     try {
       const response = await api.post(`/api/currency/${current_code}/${statusNew}`, null);
       
       if (get(response, 'success', false)) {
-        setLabel(currentStatus);
+        setLabel(() => currentStatus);
         toast.success("Update Status Success", {
           onClose: onClose()
         });
@@ -80,11 +82,6 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
       console.log('e', e);
     }
   };
-
-  useEffect(() => {
-    setRefreshData(label);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [label]);
 
   let labelShow = '';
   if (label === 'active') labelShow = 'Activate';
@@ -126,7 +123,12 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
           <TitlePage title="Confirmation" />
             <div className={classes.title__text}>{`Are you sure you want to change status this: ${current_code} ?`}</div>
             <div className={classes.title__groupButton} style={{ justifyContent: 'flex-end' }}>
-                <Button style={{ marginRight: '10px' }} variant="contained" color="primary" onClick={() => onChangeStatus(current_code, newlabel, currentStatus)}>
+                <Button 
+                  style={{ marginRight: '10px' }} 
+                  variant="contained" 
+                  color="primary" 
+                  onClick={() => onChangeStatus(current_code, label, currentStatus)}
+                >
                     OK
                 </Button>
                 <Button variant="contained" color="secondary" onClick={() => onClose()}>

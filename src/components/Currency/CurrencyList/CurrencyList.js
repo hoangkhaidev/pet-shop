@@ -16,7 +16,7 @@ const CurrencyList = () => {
   // const router = useRouter();
   // const classes = useStyles();
   const [data, setData] = useState([]);
-  const [refreshData ,setRefreshData] = useState('');
+  const [refreshData, setRefreshData] = useState('');
 
   const { dataResponse, isLoading, isHasPermission } = useFetchData(
     '/api/currency',
@@ -64,6 +64,7 @@ const CurrencyList = () => {
       align: 'center',
       formatter: (cell, row) => {
         const newlabel = row.status === true ? 'active' : 'inactive';
+        // console.log(row.status)
         return (
           <ChangeStatusCurrency
             types='statusView'
@@ -80,7 +81,6 @@ const CurrencyList = () => {
       formatter: (cell, row) => {
         const newlabel = row.status === true ? 'active' : 'inactive';
         const currentStatus = row.status === false ? 'active' : 'inactive';
-        // console.log(row.statuses)
         return (
           <ChangeStatusCurrency
             newlabel={newlabel}

@@ -2,8 +2,6 @@ import { makeStyles } from '@material-ui/core';
 import React from 'react';
 import {
   Input,
-  InputGroupAddon,
-  // InputGroupText,
 } from 'reactstrap';
 
 const useStyles = makeStyles((theme) => ({
