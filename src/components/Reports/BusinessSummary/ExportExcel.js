@@ -2,9 +2,9 @@ import React from "react";
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
 import Button from '@material-ui/core/Button';
-import cloneDeep from "lodash.clonedeep";
+// import cloneDeep from "lodash.clonedeep";
 
-export const ExportCSV = ({ csvData, fileName, wscols }) => {
+export const ExportExcel = ({ excelData, fileName, wsCols }) => {
 
   const fileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
   const fileExtension = ".xlsx";
@@ -23,26 +23,26 @@ export const ExportCSV = ({ csvData, fileName, wscols }) => {
     }
   ];
 
-  const exportToCSV = (csvData, fileName, wscols) => {
+  const exportToExcel = (excelData, fileName, wsCols) => {
     const ws = XLSX.utils.json_to_sheet(Heading, {
       header: ["identifier", "new_players", "bet", "win", "margin", "players_played", "play_sessions", "operator_total", "company_total"],
       skipHeader: true,
       origin: 0 //ok
     });
 
-    ws["!cols"] = wscols;
-    XLSX.utils.sheet_add_json(ws, csvData, {
+    console.log(ws)
+
+    ws['A1'].S = {
+      font: {sz: 14, bold: true, color: '#FF00FF'}
+    };
+
+    ws["!cols"] = wsCols;
+    XLSX.utils.sheet_add_json(ws, excelData, {
       header: ["identifier", "new_players", "bet", "win", "margin", "players_played", "play_sessions", "operator_total", "company_total"],
       skipHeader: true,
       origin: -1 //ok
     });
     const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
-
-    wb.Sheets.data['A1'].s = {
-      font: {sz: 14, bold: true, color: '#FF00FF'}
-    };
-
-    console.log(cloneDeep(wb));
 
     const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     const data = new Blob([excelBuffer], { type: fileType });
@@ -56,7 +56,7 @@ export const ExportCSV = ({ csvData, fileName, wscols }) => {
               type="submit"
               color="primary"
               style={{ marginBottom: '10px' }}
-              onClick={e => exportToCSV(csvData, fileName, wscols)}
+              onClick={e => exportToExcel(excelData, fileName, wsCols)}
           >
               Download Excel
           </Button>

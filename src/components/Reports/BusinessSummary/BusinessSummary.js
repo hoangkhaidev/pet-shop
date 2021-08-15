@@ -9,7 +9,7 @@ import moment from "moment";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import Loading from "src/components/shared/Loading/Loading";
 import BusinessSummaryFilter from "./BusinessSummaryFilter";
-import { ExportCSV } from "./ExportCSV";
+import { ExportExcel } from "./ExportExcel";
 
 const BusinessSummary = () => {
   const router = useRouter();
@@ -43,6 +43,29 @@ const BusinessSummary = () => {
     const mapDataSum = dataResponse?.sum;
     const mapDataAverage = dataResponse?.average;
     let forExcel = [];
+    let sum = {
+      identifier: "Total:",
+      new_players: mapDataSum?.new_players,
+      bet: formatNumber(mapDataSum?.bet),
+      win: formatNumber(mapDataSum?.win),
+      margin: formatNumber(mapDataSum?.margin),
+      players_played: mapDataSum?.players_played,
+      play_sessions: mapDataSum?.play_sessions,
+      operator_total: formatNumber(mapDataSum?.operator_total),
+      company_total: formatNumber(mapDataSum?.company_total),
+    };
+    let average = {
+      identifier: "Average:",
+      new_players: mapDataAverage?.new_players,
+      bet: formatNumber(mapDataAverage?.bet),
+      win: formatNumber(mapDataAverage?.win),
+      margin: formatNumber(mapDataAverage?.margin),
+      players_played: mapDataAverage?.players_played,
+      play_sessions: mapDataAverage?.play_sessions,
+      operator_total: formatNumber(mapDataAverage?.operator_total),
+      company_total: formatNumber(mapDataAverage?.company_total),
+    };
+
     mapData?.forEach((item) => {
       forExcel.push({
         identifier: item.identifier,
@@ -56,6 +79,9 @@ const BusinessSummary = () => {
         company_total: formatNumber(item.company_total),
       });
     });
+
+    forExcel.push(sum, average);
+
     setExcelData(forExcel);
     setData(mapData);
     setDataSum(mapDataSum)
@@ -163,16 +189,16 @@ const BusinessSummary = () => {
   };
   //export excel
 
-  const wscols = [
+  const wsCols = [
     { wch: 11 },
     { wch: 11 },
     { wch: 11 },
     { wch: 11 },
     { wch: 11 },
     { wch: 11 },
-    { wch: 11 },
-    { wch: 15 },
-    { wch: 15 },
+    { wch: 12 },
+    { wch: 16 },
+    { wch: 16 },
   ];
 
   if (!isHasPermission) {
@@ -184,10 +210,10 @@ const BusinessSummary = () => {
       {isLoading && <Loading />}
       <BusinessSummaryFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <ContentCardPage>
-        <ExportCSV
-          csvData={excelData}
+        <ExportExcel
+          excelData={excelData}
           fileName="Business_Summary_Report_xlsx"
-          wscols={wscols}
+          wsCols={wsCols}
         />
         <TableComponent
           data={data}

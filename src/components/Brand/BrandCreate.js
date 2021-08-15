@@ -15,7 +15,7 @@ import useFetchData from 'src/utils/hooks/useFetchData';
 import ButtonGroup, {
   SubmitButton,
 } from 'src/components/shared/Button/Button';
-import Loading from 'src/components/shared/Loading/Loading';
+// import Loading from 'src/components/shared/Loading/Loading';
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import InputField from 'src/components/shared/InputField/InputField';
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
@@ -78,8 +78,8 @@ const useStyles = makeStyles((theme) => ({
 
 const BrandCreate = () => {
   const roleUser = useSelector((state) => state.roleUser);
-  
-  const { dataResponse, isLoading, isHasPermission  } = useFetchData('/api/operators/public_list');
+  // if (roleUser.account_type === 'operator')
+  // const { dataResponse } = useFetchData('/api/operators/public_list');
   const { dataResponse: dataProduct } = useFetchData('/api/product');
 
   const classes = useStyles();
@@ -109,6 +109,7 @@ const BrandCreate = () => {
   const [apiWLIP, setAPIWLIP] = useState(['', '', '', '']);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [operatorData, setOperatorData] = useState([]);
+  const [operatorDatas, setOperatorDatas] = useState([]);
   // const [isLoading, setIsLoading] = useState(false);
   const [productData, setProductData] = useState([]);
 
@@ -122,17 +123,24 @@ const BrandCreate = () => {
   // const [checkProduct, setCheckProduct] = useState(false);
 
   useEffect(() => {
+    if (roleUser.account_type !== 'operator' && roleUser.account_type !== 'operatorsub') {
+      onDataBrand();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roleUser]);
+
+  useEffect(() => {
     if (dataProduct.length <= 0) return;
-    let mapdata = [];
+    let mapData = [];
     dataProduct.forEach((data) => {
       let optionData = {
         id: data.id,
         value: data.id,
         label: data.name,
       };
-      mapdata.push(optionData);
+      mapData.push(optionData);
     });
-    setProductData([...mapdata]);
+    setProductData([...mapData]);
   }, [dataProduct]);
 
   useEffect(() => {
@@ -152,7 +160,7 @@ const BrandCreate = () => {
   }, [checkboxListCheck]);
 
   useEffect(() => {
-    const data = cloneDeep(dataResponse);
+    const data = cloneDeep(operatorData);
     if (!data) return;
     let mapData = [];
     data.forEach((data) => {
@@ -163,12 +171,18 @@ const BrandCreate = () => {
       };
       mapData.push(optionData);
     });
-    setOperatorData([...mapData]);
-  }, [dataResponse]);
+    setOperatorDatas([...mapData]);
+  }, [operatorData]);
 
-  useEffect(() => {
-    console.log(dataResponse)
-  }, [dataResponse]);
+  const onDataBrand = async () => {
+    const response = await api.post('/api/operators/public_list', null);
+    if (get(response, "success", false)) {
+      setOperatorData(response?.data);
+    } else {
+      console.log("response", response);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  };
 
   const onRemoveFinanceEmail = (email) => {
     const cloneArr = financeEmail.slice();
@@ -280,9 +294,9 @@ const BrandCreate = () => {
     navigate('/brand/list');
   }
 
-  if (!isHasPermission) {
-    return <NoPermissionPage />;
-  }
+  // if (!isHasPermission) {
+  //   return <NoPermissionPage />;
+  // }
   
   if (!isHasAccessPermission) {
     return <NoPermissionPage />;
@@ -302,11 +316,11 @@ const BrandCreate = () => {
             fullWidth={false}
             control={control}
             errors={errors?.operator_id}
-            options={operatorData}
+            options={operatorDatas}
             defaultValue=""
           />
         )}
-        {(roleUser.account_type === 'operatorsub') && (
+        {(roleUser.account_type === 'operatorsub' && roleUser.account_type === 'operator') && (
           <InputField
             readOnly
             namefileld="operator_id"
@@ -542,7 +556,6 @@ const BrandCreate = () => {
           </Button>
         </ButtonGroup>
       </form>
-      {isLoading && <Loading />}
     </ContentCardPage>
   );
 };
