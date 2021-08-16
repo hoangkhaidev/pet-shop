@@ -152,9 +152,9 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
   }, [label])
 
   let labelView = '';
-  if (label === 'active') labelView = 'Activate';
+  if (label === 'active') labelView = 'Active';
   if (label === 'suspended') labelView = 'Suspend';
-  if (label === 'inactive') labelView = 'Inactivate';
+  if (label === 'inactive') labelView = 'Inactive';
   if (label === 'unsuspended') labelView = 'Unsuspend';
   if (label === 'locked') labelView = 'Lock';
   if (label === 'unlocked') labelView = 'Unlock';
@@ -164,16 +164,16 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
       { statusLabels && (statusLabels.length > 0 ? statusLabels : ['active']).map((statusLabel, index) => {
         const labelShow = 
           statusLabel === 'suspended'
-            ? 'Suspend'
+            ? 'Suspended'
             : statusLabel === 'inactive'
-              ? 'Inactivate'
+              ? 'Inactive'
               : statusLabel === 'unsuspended'
                 ? 'Unsuspend'
                 : statusLabel === 'locked'
-                  ? 'Lock'
+                  ? 'Locked'
                   : statusLabel === 'Unlock'
                     ? 'Unlock'
-                    : 'Activate'
+                    : 'Active'
         if (types === 'viewStatus') return <StatusBadge key={index} label={labelShow} />
       })}
 

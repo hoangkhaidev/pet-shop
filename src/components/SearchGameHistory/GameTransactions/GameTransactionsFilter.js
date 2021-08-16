@@ -36,6 +36,7 @@ const GameTransactionFilter = ({
   const classes = useStyles();
   // const { t } = useTranslation();
   const router = useRouter();
+  console.log(router.query);
 
   const dateRangeRef = useRef(null);
 

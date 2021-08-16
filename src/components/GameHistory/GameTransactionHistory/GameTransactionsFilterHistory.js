@@ -87,10 +87,6 @@ const GameTransactionFilterHistory = ({
     setBrandData([...mapData]);
   }, [dataBrand, setBrandData]);
 
-  // useEffect(() => {
-  //  console.log(brandData)
-  // }, [brandData])
-
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
     let newGameType;
@@ -145,10 +141,6 @@ const GameTransactionFilterHistory = ({
     });
     setTimezoneData([...mapData]);
   }, [dataTimezone, setTimezoneData]);
-
-  // useEffect(() => {
-  //   console.log(gameNameData)
-  // }, [gameNameData]);
 
   const [dateRange, setDateRange] = useState({
     start: moment().format("DD/MM/YYYY 00:00"),

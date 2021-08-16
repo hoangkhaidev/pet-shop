@@ -56,8 +56,8 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
     onClose();
     console.log(currentStatus);
     let statusNew = '';
-    if (label === 'active') statusNew = 'inactivate';
-    if (label === 'inactive') statusNew = 'activate';
+    if (label === 'active') statusNew = 'activate';
+    if (label === 'inactive') statusNew = 'inactivate';
     
     try {
       const response = await api.post(`/api/currency/${current_code}/${statusNew}`, null);
@@ -84,8 +84,8 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
   };
 
   let labelShow = '';
-  if (label === 'active') labelShow = 'Activate';
-  if (label === 'inactive') labelShow = 'Inactivate';
+  if (label === 'active') labelShow = 'Active';
+  if (label === 'inactive') labelShow = 'Inactive';
 
   return (
     <div style={{ marginRight: '25px' }}>

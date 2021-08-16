@@ -25,17 +25,17 @@ const STATUS_ALL = [
   {
     id: 1,
     value: 'suspended',
-    label: 'Suspend',
+    label: 'Suspended',
   },
   {
     id: 2,
     value: 'locked',
-    label: 'Lock',
+    label: 'Locked',
   },
   {
     id: 3,
     value: 'inactive',
-    label: 'Inactivate',
+    label: 'Inactive',
   },
   {
     id: 4,
@@ -50,7 +50,7 @@ const STATUS_ALL = [
   {
     id: 3,
     value: 'active',
-    label: 'Activate',
+    label: 'Active',
   },
 ];
 
@@ -58,17 +58,17 @@ const STATUS_ACTIVE = [
   {
     id: 1,
     value: 'suspended',
-    label: 'Suspend',
+    label: 'Suspended',
   },
   {
     id: 2,
     value: 'locked',
-    label: 'Lock',
+    label: 'Locked',
   },
   {
     id: 3,
     value: 'inactive',
-    label: 'Inactivate',
+    label: 'Inactive',
   },
 ];
 
@@ -76,7 +76,7 @@ const STATUS_LOCKED = [
   {
     id: 1,
     value: 'suspended',
-    label: 'Suspend',
+    label: 'Suspended',
   },
   {
     id: 2,
@@ -86,7 +86,7 @@ const STATUS_LOCKED = [
   {
     id: 3,
     value: 'inactive',
-    label: 'Inactivate',
+    label: 'Inactive',
   },
 ];
 
@@ -99,12 +99,12 @@ const STATUS_SUSPENDED = [
   {
     id: 2,
     value: 'locked',
-    label: 'Lock',
+    label: 'Locked',
   },
   {
     id: 3,
     value: 'inactive',
-    label: 'Inactivate',
+    label: 'Inactive',
   },
 ];
 
@@ -112,7 +112,7 @@ const STATUS_INACTIVE = [
   {
     id: 1,
     value: 'active',
-    label: 'Activate',
+    label: 'Active',
   },
 ];
 
@@ -130,7 +130,7 @@ const STATUS_LOCKED_SUSPENDED = [
   {
     id: 3,
     value: 'inactive',
-    label: 'Inactivate',
+    label: 'Inactive',
   },
 ];
 

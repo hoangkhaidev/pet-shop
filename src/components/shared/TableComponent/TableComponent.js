@@ -101,7 +101,7 @@ TableRowComponent.propTypes = {
 
 const TableComponent = ({
   // eslint-disable-next-line react/prop-types
-  data, dataType = null, dataSum = {}, dataAverage = {}, columns, pagination, handleChangePage, handleChangeRowsPerPage, types, page, page_size
+  data, roleUser , dataType = null, dataSum = {}, dataAverage = {}, columns, pagination, handleChangePage, handleChangeRowsPerPage, types, page, page_size
 }) => {
   const formatNumber = (num) => {
     let cellFormat = (Math.round(num * 100)/100).toFixed(2);
@@ -208,15 +208,26 @@ const TableComponent = ({
                   className={classes.tableCellBody}>
                   {formatNumber(dataSum?.operator_total)}
                 </TableCell>
-                <TableCell 
-                  sx={{
-                    padding: 1
-                  }} 
-                  align="right"
-                  style={{ fontWeight: '600' }} 
-                  className={classes.tableCellBody}>
-                  {formatNumber(dataSum?.company_total)}
-                </TableCell>
+                {roleUser === 'admin' ?
+                    <TableCell 
+                      sx={{
+                        padding: 1
+                      }} 
+                      align="right"
+                      style={{ fontWeight: '600' }} 
+                      className={classes.tableCellBody}>
+                      {formatNumber(dataSum?.company_total)}
+                    </TableCell>
+                  : 
+                    <TableCell 
+                      sx={{
+                        padding: 1
+                      }} 
+                      align="right"
+                      style={{ fontWeight: '600' }} 
+                      className={classes.tableCellBody}>
+                    </TableCell>
+                }
               </TableRow>
               <TableRow style={{ background: '#07bb5f' }}>
                 <TableCell 
@@ -301,16 +312,140 @@ const TableComponent = ({
                 >
                   {formatNumber(dataAverage?.operator_total)}
                 </TableCell>
+                {roleUser === 'admin' ?
+                    <TableCell 
+                      sx={{
+                        padding: 1
+                      }} 
+                      align="right"
+                      style={{ fontWeight: '600' }}
+                      className={classes.tableCellBody}
+                    >
+                      {formatNumber(dataAverage?.company_total)}
+                    </TableCell>
+                  :
+                    <TableCell 
+                      sx={{
+                        padding: 1
+                      }} 
+                      align="right"
+                      style={{ fontWeight: '600' }}
+                      className={classes.tableCellBody}
+                    >
+                    </TableCell>
+                }
+              </TableRow>
+            </>
+          }
+          { dataType === 'PlayerSummary' && 
+            <>
+              <TableRow style={{ background: '#07bb5f' }}>
+                <TableCell 
+                  component="th" 
+                  scope="row" 
+                  sx={{
+                    padding: 1
+                  }}
+                  colSpan={4}
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}
+                >
+                  Total:
+                </TableCell>
                 <TableCell 
                   sx={{
                     padding: 1
                   }} 
                   align="right"
-                  style={{ fontWeight: '600' }}
+                  style={{ fontWeight: '600' }} 
                   className={classes.tableCellBody}
                 >
-                  {formatNumber(dataAverage?.company_total)}
+                  {formatNumber(dataSum?.bet_native)}
                 </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                  {formatNumber(dataSum?.win_native)}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                  {formatNumber(dataSum?.margin_native)}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                  {dataSum?.players_played}
+                  {formatNumber(dataSum?.bet)}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                  {formatNumber(dataSum?.win)}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                  {formatNumber(dataSum?.margin)}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                  {formatNumber(dataSum?.operator_total)}
+                </TableCell>
+                {roleUser === 'admin' ?
+                  <TableCell 
+                    sx={{
+                      padding: 1
+                    }} 
+                    align="right"
+                    style={{ fontWeight: '600' }} 
+                    className={classes.tableCellBody}>
+                    {formatNumber(dataSum?.company_total)}
+                  </TableCell>
+                : 
+                  <TableCell 
+                    sx={{
+                      padding: 1
+                    }} 
+                    align="right"
+                    style={{ fontWeight: '600' }} 
+                    className={classes.tableCellBody}>
+                  </TableCell>
+                }
               </TableRow>
             </>
           }

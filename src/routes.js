@@ -86,6 +86,14 @@ const BusinessSummary = lazy(() =>
   import('src/components/Reports/BusinessSummary/BusinessSummary')
 );
 
+const GamesSummary = lazy(() =>
+  import('src/components/Reports/GamesSummary/GamesSummary')
+);
+
+const PlayerSummary = lazy(() =>
+  import('src/components/Reports/BusinessSummary/PlayerSummary/PlayerSummary')
+);
+
 const routes = (isLoggedIn) => [
   {
     path: 'home',
@@ -279,6 +287,18 @@ const routes = (isLoggedIn) => [
         fullpath: '/reports/business_summary',
         name: 'Business Summary',
         element: <BusinessSummary />,
+      },
+      {
+        path: ':id/player_summary',
+        fullpath: '/reports/:identifier/player_summary?option=:option&brand_ids=:brand_ids&product_ids=:product_ids&from_date=:from_date&to_date=:to_date',
+        name: 'Player Summary',
+        element: <PlayerSummary />,
+      },
+      {
+        path: '/games_summary',
+        fullpath: '/reports/games_summary',
+        name: 'Games Summary',
+        element: <GamesSummary />,
       }
     ],
   },

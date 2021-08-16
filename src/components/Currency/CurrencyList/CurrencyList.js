@@ -79,8 +79,8 @@ const CurrencyList = () => {
       column_name: 'Action',
       align: 'center',
       formatter: (cell, row) => {
-        const newlabel = row.status === true ? 'active' : 'inactive';
-        const currentStatus = row.status === false ? 'active' : 'inactive';
+        const newlabel = row.status === false ? 'active' : 'inactive';
+        const currentStatus = row.status === true ? 'active' : 'inactive';
         return (
           <ChangeStatusCurrency
             newlabel={newlabel}

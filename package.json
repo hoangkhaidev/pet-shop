@@ -81,7 +81,8 @@
     "uuid": "^8.3.0",
     "validate.js": "^0.13.1",
     "validator.js-validate": "^1.1.0",
-    "xlsx": "^0.17.0"
+    "xlsx": "^0.17.0",
+    "xlsx-populate": "^1.21.0"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^18.2.1",

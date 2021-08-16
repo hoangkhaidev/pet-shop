@@ -9,16 +9,16 @@ import capitalize from "lodash/capitalize";
 import { colors } from "src/utils/styles";
 
 const colorDefine = {
-  Inactivate: {
+  Inactive: {
     color: colors.Inactivate
   },
-  Activate: {
+  Active: {
     color: colors.primary
   },
-  Lock: {
+  Locked: {
     color: colors.danger
   },
-  Suspend: {
+  Suspended: {
     color: colors.warning
   }
 };
