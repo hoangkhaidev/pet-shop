@@ -1,30 +1,34 @@
 import { useState, useEffect} from "react";
 import { useFormContext } from "react-hook-form";
-import useFetchData from "src/utils/hooks/useFetchData";
+// import useFetchData from "src/utils/hooks/useFetchData";
 import Grid from "@material-ui/core/Grid";
 import { func } from "prop-types";
-
+import get from 'lodash/get';
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import InputField from "src/components/shared/InputField/InputField";
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
 import SelectField from "src/components/shared/InputField/SelectField";
 import { SORT_ODER, USER_STATUS } from "src/constants";
 import cloneDeep from "lodash.clonedeep";
+import { useSelector } from "react-redux";
+import api from "src/utils/api";
 
 const SubAccountListFilter = ({
   onResetFilter
 }) => {
   const [brandData, setBrandData] = useState([]);
+  const [brandsData, setBrandsData] = useState([]);
   const { control } = useFormContext();
+  const roleUser = useSelector((state) => state.roleUser);
 
-  const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
+  // const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
-    let newBrand = cloneDeep(dataBrand);
+    let newBrand = cloneDeep(brandsData);
     // if (!newBrand) return;
     // if (newBrand.length <= 0) return;
-    newBrand.forEach(data => {
+    newBrand?.forEach(data => {
       let optionData = {
         id: data.BrandId,
         value: data.BrandId,
@@ -33,7 +37,25 @@ const SubAccountListFilter = ({
       mapData.push(optionData)
     });
     setBrandData([...mapData]);
-  }, [dataBrand, setBrandData])
+  }, [brandsData, setBrandData]);
+
+  useEffect(() => {
+    if (roleUser.account_type !== 'brand') {
+      onDataBrand();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roleUser]);
+
+  const onDataBrand = async () => {
+    const response = await api.post('/api/brand/public_list', null);
+    if (get(response, "success", false)) {
+      setBrandsData(response?.data);
+    } else {
+      console.log("response", response);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  };
+
 
   return (
     <ContentCardPage>
@@ -50,6 +72,7 @@ const SubAccountListFilter = ({
         </Grid>
         <Grid item xs={12} xl={3} md={4}>
           <SelectField
+            selectDisabled= {roleUser.account_type === 'brand' ? true : false}
             control={control}
             namefileld="brand"
             id="brand"

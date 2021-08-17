@@ -3,19 +3,16 @@ import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
 import moment from 'moment';
 import { FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup } from "@material-ui/core";
-// import { useTranslation } from "react-i18next";
 import cloneDeep from 'lodash/cloneDeep';
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
-// import InputField from "src/components/shared/InputField/InputField";
 import SelectField from "src/components/shared/InputField/SelectField";
 import DateRangePickerComponent from "src/components/shared/DateRangePickerComponent/DateRangePickerComponent";
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
 import { func } from "prop-types";
 import useFetchData from "src/utils/hooks/useFetchData";
 import { useSelector } from "react-redux";
-// import useRouter from "src/utils/hooks/useRouter";
-// import { useSelector } from "react-redux";
-// import { FormattedNumberInputCaptcha } from "../shared/InputField/InputFieldNumber";
+import api from "src/utils/api";
+import get from 'lodash/get';
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -30,9 +27,7 @@ const useStyles = makeStyles(() => ({
 const GamesSummaryFilter = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
-  // const { t } = useTranslation();
-//   const roleUser = useSelector((state) => state.roleUser);
-//   const router = useRouter();
+  //   const router = useRouter();
   const roleUser = useSelector((state) => state.roleUser);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -50,9 +45,9 @@ const GamesSummaryFilter = ({
   const classes = useStyles();
 
   const { dataResponse: dataProduct } = useFetchData('/api/product');
-  const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
   
   const [brandData, setBrandData] = useState([]);
+  const [brandsData, setBrandsData] = useState([]);
   const [productData, setProductData] = useState([]);
   const [radio, setRadio] = useState('day');
 
@@ -76,7 +71,7 @@ const GamesSummaryFilter = ({
   
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
-    let newBrand = cloneDeep(dataBrand);
+    let newBrand = cloneDeep(brandsData);
 
     (newBrand || []).forEach(data => {
       let optionData = {
@@ -87,7 +82,24 @@ const GamesSummaryFilter = ({
       mapData.push(optionData)
     });
     setBrandData([...mapData]);
-  }, [dataBrand, setBrandData]);
+  }, [brandsData, setBrandData]);
+
+  useEffect(() => {
+    if (roleUser.account_type !== 'brand') {
+      onDataBrand();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roleUser]);
+
+  const onDataBrand = async () => {
+    const response = await api.post('/api/brand/public_list', null);
+    if (get(response, "success", false)) {
+      setBrandsData(response?.data);
+    } else {
+      console.log("response", response);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  };
 
   const onChangeDateRange = (startDate, endDate) => {
     // console.log(startDate, endDate);

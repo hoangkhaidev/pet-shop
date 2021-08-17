@@ -65,10 +65,12 @@ const SubAccountEdit = () => {
   const [data, setData] = useState(null);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [brandData, setBrandData] = useState([]);
+  const [brandsData, setBrandsData] = useState([]);
+
   const [checkWhiteIP, setCheckWhiteIP] = useState('');
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
-  const { dataResponse: dataBrand } = useFetchData('/api/brand/public_list');
+  // const { dataResponse: dataBrand } = useFetchData('/api/brand/public_list');
 
   // useEffect(() => {
   //   console.log(dataResponse)
@@ -78,10 +80,10 @@ const SubAccountEdit = () => {
 
   useEffect(() => {
     let mapData = [];
-    let newBrand = cloneDeep(dataBrand);
+    let newBrand = cloneDeep(brandsData);
     // if (!newBrand) return;
     // if (newBrand.length <= 0) return;
-    newBrand.forEach((data) => {
+    newBrand?.forEach((data) => {
       let optionData = {
         id: data.BrandId,
         value: data.BrandId,
@@ -90,7 +92,24 @@ const SubAccountEdit = () => {
       mapData.push(optionData);
     });
     setBrandData([...mapData]);
-  }, [dataBrand, setBrandData]);
+  }, [brandsData, setBrandData]);
+
+  useEffect(() => {
+    if (roleUser.account_type !== 'brand') {
+      onDataBrand();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roleUser]);
+
+  const onDataBrand = async () => {
+    const response = await api.post('/api/brand/public_list', null);
+    if (get(response, "success", false)) {
+      setBrandsData(response?.data);
+    } else {
+      console.log("response", response);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  };
 
   useEffect(() => {
     setValue('brand', get(dataResponse, 'brand_ids', ''));
@@ -230,6 +249,7 @@ const SubAccountEdit = () => {
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: '50%' }}>
         {!(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') && (
           <SelectField
+            selectDisabled= {roleUser.account_type === 'brand' ? true : false}
             control={control}
             namefileld="brand"
             id="brand"
@@ -239,7 +259,7 @@ const SubAccountEdit = () => {
             errors={errors?.brand}
             options={brandData}
             required
-            defaultValue=""
+            defaultValue={roleUser.username ? roleUser.username : ''}
           />
         )}
         <InputField

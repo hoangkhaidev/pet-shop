@@ -94,6 +94,10 @@ const PlayerSummary = lazy(() =>
   import('src/components/Reports/BusinessSummary/PlayerSummary/PlayerSummary')
 );
 
+const PlayersBusinessSummary = lazy(() =>
+  import('src/components/Reports/PlayersBusinessSummary/PlayersBusinessSummary')
+);
+
 const routes = (isLoggedIn) => [
   {
     path: 'home',
@@ -299,6 +303,12 @@ const routes = (isLoggedIn) => [
         fullpath: '/reports/games_summary',
         name: 'Games Summary',
         element: <GamesSummary />,
+      },
+      {
+        path: '/players_business_summary',
+        fullpath: '/reports/players_business_summary',
+        name: 'Players Business Summary',
+        element: <PlayersBusinessSummary />,
       }
     ],
   },

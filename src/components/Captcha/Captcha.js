@@ -18,7 +18,7 @@ const Captcha = ({
   const generateCaptcha = useCallback(async () => {
     try {
       const response = await api.post('/captcha/generate', captchaConfig, false);
-      console.log("response", response);
+      // console.log("response", response);
       setCaptcha(get(response, "data", {}));
       setCaptchaId(get(response, "data.captcha_id", ""));
     } catch (e) {

@@ -196,7 +196,7 @@ const BrandEdit = () => {
         // setValue('commission', product_commission_new);
       
         setValue('operator', data?.operator_name);
-        setValue('name', data?.name);
+        setValue('name', data?.brand_name);
         setValue('support_email', data?.support_email);
         setValue('username', data?.username);
         setValue('api_endpoint', data?.api_endpoint);

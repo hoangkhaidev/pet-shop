@@ -23,8 +23,6 @@ const ProductCommission = ({ item, productCommission, setProductCommission, requ
   const handleChangeCheckbox = (event, item) => {
     event.persist();
 
-    // if (event.target.checked) inputRef.current.focus();
-
     let proCon = productCommission.values.map((items) => {
       if (items.product_id === item.product_id) {
         items.checked = event.target.checked;

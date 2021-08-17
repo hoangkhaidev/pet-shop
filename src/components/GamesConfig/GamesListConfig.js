@@ -39,46 +39,40 @@ const GamesListConfig = () => {
     objFilter
   );
 
-  const { dataResponse: dataBrand} = useFetchData("/api/brand");
+  const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
   const [brandData, setBrandData] = useState([]);
 
   useEffect(() => {
     let mapData = [];
-    let newBrand = cloneDeep(dataBrand?.list);
+    let newBrand = cloneDeep(dataBrand);
 
-    (newBrand || []).forEach(data => {
+    newBrand.forEach(data => {
       let optionData = {
-        id: data.BrandId,
-        value: data.BrandId,
-        label: data.name,
+        id: data.brand_id,
+        value: data.brand_id,
+        label: data.brand_name,
       };
       mapData.push(optionData)
     });
     setBrandData([...mapData]);
   }, [dataBrand, setBrandData]);
 
-  // useEffect(() => {
-  //   console.log(dataResponse);
-    
-  // }, [dataResponse]);
-
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
     setData(mapData);
   }, [dataResponse]);
 
+ 
   const columns = [
     {
       data_field: "game_code",
       column_name: "Game Code",
       align: "left",
       formatter: (cell, row) => {
-        // console.log(row)
-        let newBrand = cloneDeep(dataBrand?.list);
-        let brandFirst = (newBrand || []).find((item) => item.name === row.brand_name);
-       
+        let newBrand = cloneDeep(dataBrand);
+        let brandFirst = newBrand.find((item) => item.brand_name === row.brand_name);
         return (
-          <Link href={`/configuration/games/${row.game_code}/brand_id/${brandFirst?.BrandId}/edit`}>{cell}</Link>
+          <Link href={`/configuration/games/${row.game_code}/brand_id/${brandFirst?.brand_id}/edit`}>{cell}</Link>
         )
       }
     },
@@ -113,12 +107,6 @@ const GamesListConfig = () => {
         );
       },
     },
-    // {
-    //   data_field: "jackpot",
-    //   column_name: "Jackpot",
-    //   align: "center",
-      
-    // }
   ];
 
   const handleChangePage = (page) => {
@@ -137,9 +125,9 @@ const GamesListConfig = () => {
     }));
   };
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data])
+  useEffect(() => {
+    console.log(objFilter);
+  }, [objFilter])
 
   const onSubmit = async (data) => {
     // console.log(data)

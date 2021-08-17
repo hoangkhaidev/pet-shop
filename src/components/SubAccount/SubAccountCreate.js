@@ -48,6 +48,8 @@ const SubAccountCreate = () => {
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [roleData, setRoleData] = useState([]);
   const [brandData, setBrandData] = useState([]);
+  const [brandsData, setBrandsData] = useState([]);
+
   const [checkWhiteIP, setCheckWhiteIP] = useState('');
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
   const roleUser = useSelector((state) => state.roleUser);
@@ -63,7 +65,7 @@ const SubAccountCreate = () => {
   const navigate = useNavigate();
 
   const { dataResponse: dataRole } = useFetchData('/api/role');
-  const { dataResponse: dataBrand } = useFetchData('/api/brand/public_list');
+  // const { dataResponse: dataBrand } = useFetchData('/api/brand/public_list');
 
   useEffect(() => {
     if (dataRole.length <= 0) return;
@@ -82,10 +84,10 @@ const SubAccountCreate = () => {
 
   useEffect(() => {
     let mapdata = [];
-    let newBrand = cloneDeep(dataBrand);
+    let newBrand = cloneDeep(brandsData);
     // if (!newBrand) return;
     // if (newBrand.length <= 0) return;
-    newBrand.forEach((data) => {
+    newBrand?.forEach((data) => {
       let optionData = {
         id: data.BrandId,
         value: data.BrandId,
@@ -94,7 +96,24 @@ const SubAccountCreate = () => {
       mapdata.push(optionData);
     });
     setBrandData([...mapdata]);
-  }, [dataBrand, setBrandData]);
+  }, [brandsData, setBrandData]);
+
+  useEffect(() => {
+    if (roleUser.account_type !== 'brand') {
+      onDataBrand();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roleUser]);
+
+  const onDataBrand = async () => {
+    const response = await api.post('/api/brand/public_list', null);
+    if (get(response, "success", false)) {
+      setBrandsData(response?.data);
+    } else {
+      console.log("response", response);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  };
 
   const onSubmit = async (dataForm) => {
     // console.log(whitelistIP);
@@ -192,6 +211,7 @@ const SubAccountCreate = () => {
         /> */}
         {!(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub' || roleUser.account_type === 'brand') && (
           <SelectField
+            selectDisabled= {roleUser.account_type === 'brand' ? true : false}
             namefileld="brand"
             id="brand"
             label="Brand"
@@ -200,7 +220,7 @@ const SubAccountCreate = () => {
             errors={errors?.brand}
             options={brandData}
             required
-            defaultValue=""
+            defaultValue={roleUser.username ? roleUser.username : ''}
           />
         )}
         {(roleUser.account_type === 'brand') && (

@@ -11,7 +11,7 @@ import { TableBody } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 
 import TablePagination from "./TablePagination";
-import moment from "moment";
+import React from "react";
 
 const useStyles = makeStyles({
   table: {
@@ -38,7 +38,7 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const TableHeader = ({ headers }) => {
+const TableHeader = ({ headers, listCurrency }) => {
   const { t } = useTranslation();
   const classes = useStyles();
     // console.log(headers)
@@ -57,8 +57,20 @@ const TableHeader = ({ headers }) => {
             >
               Total (USD)
             </TableCell>
-            {/* <TableCell align="right">Price</TableCell> */}
+            {listCurrency?.map((item, index) => (
+              <TableCell 
+                key={index}
+                align="center" 
+                colSpan={3} 
+                classes={{
+                    root: classes.tableCellHeader
+                }}
+              >
+                {item.currency_code}
+              </TableCell>
+            ))}
         </TableRow>
+        
       <TableRow>
         {(headers || []).map((header, index) => (
           <TableCell
@@ -82,11 +94,14 @@ TableHeader.propTypes = {
 
 const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
   const classes = useStyles();
-  let newAt = moment(rowData.at).format("DD/MM/YY, hh:mm a");
-  rowData.at = newAt; 
+  // console.log(rowData.currency_entry_list[cellInfo.currency_code])
+ 
   return (
     <StyledTableRow align={cellInfo.align}>
       {cellInfo.map((info, index) => {
+        const locationIndex = rowData.currency_entry_list.findIndex((item) => item.currency_code === info.currency_code);
+
+        const test = rowData.currency_entry_list[locationIndex];
         return (
           <TableCell
             sx={{
@@ -97,11 +112,19 @@ const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
             key={index}
             align={info.align ? info.align : "left"}
           >
-            {info.formatter ? (
-              info.formatter(rowData[info.data_field], rowData)
-            ) : (
-              info.data_field === 'indexRow' ? indexRow : rowData[info.data_field]
-            )}
+            {
+              info.currency_code ? 
+                info.formatter ? (
+                  info.formatter(test?.[info.data_field])
+                  ) : (
+                    test?.[info.data_field]
+                  )
+              : info.formatter ? (
+                  info.formatter(rowData[info.data_field], rowData)
+                  ) : (
+                    rowData[info.data_field]
+                  )
+            }
           </TableCell>
         )} 
       )}
@@ -117,7 +140,7 @@ TableRowComponent.propTypes = {
 
 const TableComponentGamesSummary = ({
   // eslint-disable-next-line react/prop-types
-  data, dataType = null, dataSum = {}, dataAverage = {}, columns, pagination, handleChangePage, handleChangeRowsPerPage, types, page, page_size
+  data, dataType = null, dataSum = {}, listCurrency, columns, pagination, handleChangePage, handleChangeRowsPerPage, types, page, page_size
 }) => {
   const formatNumber = (num) => {
     let cellFormat = (Math.round(num * 100)/100).toFixed(2);
@@ -126,15 +149,16 @@ const TableComponentGamesSummary = ({
   }
   const classes = useStyles();
   // eslint-disable-next-line camelcase
-  const cellInfo = map(columns, ({ data_field, align, formatter, fontWeight }) => ({ data_field, align, formatter, fontWeight
+  const cellInfo = map(columns, ({ data_field, currency_code, align, formatter, fontWeight }) => ({ data_field, currency_code, align, formatter, fontWeight
    }));
+
+  console.log(dataSum?.currency_entry_list)
 
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="table-component">
-        <TableHeader headers={columns.map(item => item.column_name)} />
+        <TableHeader headers={columns.map(item => item.column_name)} listCurrency={listCurrency} />
         <TableBody>{data.length > 0 ? data.map((row, index) => {
-              // console.log(row);
               let startIndex = (page - 1) * page_size + 1; 
               return (
                 <TableRowComponent indexRow={startIndex + index} key={index} rowData={row} cellInfo={cellInfo} />
@@ -160,6 +184,7 @@ const TableComponentGamesSummary = ({
                 >
                   Total:
                 </TableCell>
+
                 <TableCell 
                   sx={{
                     padding: 1
@@ -187,6 +212,37 @@ const TableComponentGamesSummary = ({
                   className={classes.tableCellBody}>
                   {formatNumber(dataSum?.margin)}
                 </TableCell>
+                {dataSum?.currency_entry_list?.map((item, index) => (
+                  <React.Fragment key={index} >
+                    <TableCell
+                      sx={{
+                        padding: 1
+                      }} 
+                      align="right"
+                      style={{ fontWeight: '600' }} 
+                      className={classes.tableCellBody}>
+                      {formatNumber(item?.bet)}
+                    </TableCell>
+                    <TableCell 
+                      sx={{
+                        padding: 1
+                      }} 
+                      align="right"
+                      style={{ fontWeight: '600' }} 
+                      className={classes.tableCellBody}>
+                      {formatNumber(item?.win)}
+                    </TableCell>
+                    <TableCell 
+                      sx={{
+                        padding: 1
+                      }} 
+                      align="right"
+                      style={{ fontWeight: '600' }} 
+                      className={classes.tableCellBody}>
+                      {formatNumber(item?.margin)}
+                    </TableCell>
+                  </React.Fragment>
+                ))}
               </TableRow>
             </>
           }

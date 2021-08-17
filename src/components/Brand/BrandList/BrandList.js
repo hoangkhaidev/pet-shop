@@ -268,7 +268,7 @@ const BrandList = () => {
       ),
     },
     {
-      data_field: 'name',
+      data_field: 'brand_name',
       column_name: 'Name',
       align: 'left',
     },

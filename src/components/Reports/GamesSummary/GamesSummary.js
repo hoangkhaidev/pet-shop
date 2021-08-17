@@ -1,4 +1,5 @@
-import { Fragment, useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Fragment, useCallback, useEffect, useState } from "react";
 // import Link from "@material-ui/core/Link";
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import useRouter from "src/utils/hooks/useRouter";
@@ -7,7 +8,7 @@ import get from 'lodash/get';
 import moment from "moment";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import Loading from "src/components/shared/Loading/Loading";
-// import { ExportExcel } from "./ExportExcel";
+// import map from "lodash/map";
 import GamesSummaryFilter from "./GamesSummaryFilter";
 import TableComponentGamesSummary from "src/components/shared/TableComponent/TableComponentGamesSummary";
 
@@ -24,6 +25,8 @@ const GamesSummary = () => {
 
   const [data, setData] = useState([]);
   const [dataSum, setDataSum] = useState({});
+  const [arrayCurrencyColumn, setArrayCurrencyColumn] = useState([]);
+  const [listCurrency, setListCurrency] = useState([]);
   // const [excelData, setExcelData] = useState([]);
 
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
@@ -31,47 +34,80 @@ const GamesSummary = () => {
     objFilter
   );
 
+  useEffect(() => {
+    const mapData = get(dataResponse, 'list', []);
+    setListCurrency(mapData);
+   
+  }, [dataResponse]);
+
+  const getColumns = useCallback(async () => {
+    if (listCurrency && arrayCurrencyColumn.length <= 0) {
+      // setIsLoading(true);
+      let a = [];
+      listCurrency[0]?.currency_entry_list?.map((item) => {
+
+        let items = [
+          {
+            currency_code: item.currency_code,
+            data_field: "bet",
+            column_name: "Bet",
+            align: "right",
+            formatter: (cell) => {
+              let cellFormat = formatNumber(cell);
+              return cellFormat;
+            }
+          },
+          {
+            currency_code: item.currency_code,
+            data_field: "win",
+            column_name: "Win",
+            align: "right",
+            formatter: (cell) => {
+              let cellFormat = formatNumber(cell);
+              return cellFormat;
+            }
+          },
+          {
+            currency_code: item.currency_code,
+            data_field: "margin",
+            column_name: "Margin",
+            align: "right",
+            formatter: (cell) => {
+              let cellFormat = formatNumber(cell);
+              return cellFormat;
+            }
+          }
+        ];
+
+        a = [
+          ...a,
+          ...items
+        ]
+
+        return item;
+      });
+      setArrayCurrencyColumn(a);
+      // setIsLoading(false);
+    }
+  }, [listCurrency]);
+
   const formatNumber = (num) => {
     let cellFormat = (Math.round(num * 100)/100).toFixed(2);
     let formatNum = cellFormat?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
     return formatNum;
   }
 
+  useEffect(()=> {
+    getColumns();
+  }, [getColumns]);
+
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
     const mapDataSum = dataResponse?.sum;
-    let forExcel = [];
-    let sum = {
-      identifier: "Total:",
-      new_players: mapDataSum?.new_players,
-      bet: formatNumber(mapDataSum?.bet),
-      win: formatNumber(mapDataSum?.win),
-      margin: formatNumber(mapDataSum?.margin),
-      players_played: mapDataSum?.players_played,
-      play_sessions: mapDataSum?.play_sessions,
-      operator_total: formatNumber(mapDataSum?.operator_total),
-      company_total: formatNumber(mapDataSum?.company_total),
-    };
 
-    mapData?.forEach((item) => {
-      forExcel.push({
-        period: item.period,
-        bet: formatNumber(item.bet),
-        win: formatNumber(item.win),
-        margin: formatNumber(item.margin),
-      });
-    });
-
-    forExcel.push(sum);
-
-    // setExcelData(forExcel);
     setData(mapData);
     setDataSum(mapDataSum)
   }, [dataResponse]);
-
-  useEffect(() => {
-    console.log(dataResponse)
-  }, [dataResponse])
 
   const columns = [
     {
@@ -109,7 +145,7 @@ const GamesSummary = () => {
         return cellFormat;
       }
     },
-    
+    ...arrayCurrencyColumn,
   ];
 
   const handleChangePage = (page) => {
@@ -151,6 +187,7 @@ const GamesSummary = () => {
         /> */}
         <TableComponentGamesSummary
           data={data}
+          listCurrency={listCurrency[0]?.currency_entry_list}
           dataType='GamesSummary'
           dataSum={dataSum}
           columns={columns}

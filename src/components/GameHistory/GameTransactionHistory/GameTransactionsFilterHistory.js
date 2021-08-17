@@ -1,23 +1,20 @@
 import { Fragment, useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
-// import { useTranslation } from "react-i18next";
-// import FormControl from "@material-ui/core/FormControl";
-// import FormLabel from "@material-ui/core/FormLabel";
 import { makeStyles } from "@material-ui/core";
 import moment from 'moment';
 import { func } from "prop-types";
-
+import get from 'lodash/get';
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import DateRangePickerComponent from "src/components/shared/DateRangePickerComponent/DateRangePickerComponent";
 import InputField from "src/components/shared/InputField/InputField";
 import SelectField from "src/components/shared/InputField/SelectField";
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
-// import { DateRangeContext } from "../SearchGameHistory";
 import useFetchData from "src/utils/hooks/useFetchData";
 import useRouter from "src/utils/hooks/useRouter";
 import { useSelector } from "react-redux";
 import cloneDeep from "lodash.clonedeep";
+import api from "src/utils/api";
 
 const useStyles = makeStyles(() => ({
   inputDataPicked: {
@@ -43,12 +40,13 @@ const GameTransactionFilterHistory = ({
 
   const { dataResponse: dataGame} = useFetchData("/api/games");
   const { dataResponse: dataTimezone} = useFetchData("/api/timezones");
-  const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
+  // const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
 
   const [gameTypeData, setGameTypeData] = useState([]);
   const [gameNameData, setGameNameData] = useState([]);
   const [timezoneData, setTimezoneData] = useState([]);
   const [brandData, setBrandData] = useState([]);
+  const [brandsData, setBrandsData] = useState([]);
 
   const pad = (number, length) => {
     let str = "" + number
@@ -75,7 +73,7 @@ const GameTransactionFilterHistory = ({
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
-    let newBrand = cloneDeep(dataBrand);
+    let newBrand = cloneDeep(brandsData);
     newBrand.forEach(data => {
       let optionData = {
         id: data.BrandId,
@@ -85,7 +83,7 @@ const GameTransactionFilterHistory = ({
       mapData.push(optionData)
     });
     setBrandData([...mapData]);
-  }, [dataBrand, setBrandData]);
+  }, [brandsData, setBrandData]);
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
@@ -141,6 +139,23 @@ const GameTransactionFilterHistory = ({
     });
     setTimezoneData([...mapData]);
   }, [dataTimezone, setTimezoneData]);
+
+  useEffect(() => {
+    if (roleUser.account_type !== 'brand') {
+      onDataBrand();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roleUser]);
+
+  const onDataBrand = async () => {
+    const response = await api.post('/api/brand/public_list', null);
+    if (get(response, "success", false)) {
+      setBrandsData(response?.data);
+    } else {
+      console.log("response", response);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  };
 
   const [dateRange, setDateRange] = useState({
     start: moment().format("DD/MM/YYYY 00:00"),

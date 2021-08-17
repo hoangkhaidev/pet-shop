@@ -15,6 +15,7 @@ import useFetchData from "src/utils/hooks/useFetchData";
 import { useSelector } from "react-redux";
 import api from "src/utils/api";
 import get from 'lodash/get';
+import InputField from "src/components/shared/InputField/InputField";
 // import useRouter from "src/utils/hooks/useRouter";
 // import { useSelector } from "react-redux";
 // import { FormattedNumberInputCaptcha } from "../shared/InputField/InputFieldNumber";
@@ -29,7 +30,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const BusinessSummaryFilter = ({
+const PlayersBusinessSummaryFilter = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
   // const { t } = useTranslation();
@@ -45,37 +46,65 @@ const BusinessSummaryFilter = ({
   });
 
   const [dateRange, setDateRange] = useState({
-    start: moment().startOf('month').format("DD/MM/YYYY"),
-    end: moment().endOf('month').format("DD/MM/YYYY")
+    start: moment().format("DD/MM/YYYY"),
+    end: moment().format("DD/MM/YYYY")
   });
   const dateRangeRef = useRef(null);
   const classes = useStyles();
 
-  const { dataResponse: dataProduct } = useFetchData('/api/product');
+  const { dataResponse: dataGame} = useFetchData("/api/games");
   // const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
   
   const [brandData, setBrandData] = useState([]);
   const [brandsData, setBrandsData] = useState([]);
-  const [productData, setProductData] = useState([]);
+  const [gameTypeData, setGameTypeData] = useState([]);
+  const [gameNameData, setGameNameData] = useState([]);
   const [radio, setRadio] = useState('day');
+  const [radioSearchBy, setRadioSearchBy] = useState('less');
 
   const handleChange = (event) => {
     setRadio(event.target.value);
   };
 
+  const handleChangeSearchBy = (event) => {
+    setRadioSearchBy(event.target.value);
+  };
+
+  useEffect(() => {
+    let mapData = [];
+    let newGameName;
+    newGameName = dataGame?.games;
+    if (!newGameName) return;
+    if (newGameName.length <= 0) return;
+    newGameName.map((data) => {
+      let optionData = {
+        id: data.game_name,
+        value: data.game_name,
+        label: data.game_name,
+      };
+      mapData.push(optionData);
+      return data;
+    });
+    setGameNameData([...mapData]);
+  }, [dataGame, setGameNameData]);
+
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
-    let newProducts = cloneDeep(dataProduct);
-    (newProducts || []).forEach((data, index) => {
+    let newGameType;
+    newGameType = dataGame.game_type_list;
+    if (!newGameType) return;
+    if (newGameType.length <= 0) return;
+    newGameType.map((data) => {
       let optionData = {
-        id: data.id,
-        value: data.id,
-        label: data.name,
+        id: data,
+        value: data,
+        label: data,
       };
-      mapData.push(optionData)
+      mapData.push(optionData);
+      return data;
     });
-    setProductData([...mapData]);
-  }, [dataProduct, setProductData]);
+    setGameTypeData([...mapData]);
+  }, [dataGame, setGameTypeData]);
   
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
@@ -138,14 +167,14 @@ const BusinessSummaryFilter = ({
       option: "day",
     });
     setDateRange({
-      start: moment().startOf('month').format("DD/MM/YYYY"),
-      end: moment().endOf('month').format("DD/MM/YYYY")
+      start: moment().format("DD/MM/YYYY"),
+      end: moment().format("DD/MM/YYYY")
     });
     setObjFilter({
       brand_ids: [],
       product_ids: [],
-      from_date: moment().startOf('month').format("DD/MM/YYYY"),
-      to_date: moment().endOf('month').format("DD/MM/YYYY"),
+      from_date: moment().format("DD/MM/YYYY"),
+      to_date: moment().format("DD/MM/YYYY"),
       option: "day",
     });
     setRadio('day')
@@ -173,10 +202,84 @@ const BusinessSummaryFilter = ({
                   handleCallback={onChangeDateRange}
                   startDate={dateRange.start}
                   endDate={dateRange.end}
+                  maxDate={moment().format("DD/MM/YYYY 23:59")}
+                  minDate={moment().subtract(30, 'days').format("DD/MM/YYYY 00:00")}
                   dateRangeRef={dateRangeRef}
                   format="DD/MM/YYYY"
                 />
               </FormControl>
+              <RadioGroup aria-label="gender" name="option" value={radio} onChange={handleChange}>
+                <div style={{ display: 'flex', paddingTop: '25px', paddingLeft: '15px' }}>
+                  <div>
+                    <FormControlLabel value="day" control={<Radio />} label="Total by Day" />
+                    <FormControlLabel value="month" control={<Radio />} label="Total by Month" />
+                  </div>
+                  <div>
+                    <FormControlLabel value="week" control={<Radio />} label="Total by Week" />
+                    <FormControlLabel value="year" control={<Radio />} label="Total by Year" />
+                  </div>
+                </div>
+              </RadioGroup>
+            </Grid>
+            <Grid item xs={12} xl={3} md={3}>
+              <InputField
+                control={control}
+                namefileld="player_id"
+                type="text"
+                label="Player ID"
+                id="player_id"
+                fullWidth={false}
+              />
+              <SelectField
+                control={control}
+                namefileld="game_type"
+                id="game_type"
+                label="Game Type"
+                fullWidth={false}
+                options={gameTypeData}
+                defaultValue="all"
+              />
+              <InputField
+                control={control}
+                namefileld="search_by"
+                type="text"
+                label="Search by"
+                id="search_by"
+                fullWidth={false}
+              />
+              <InputField
+                control={control}
+                namefileld="value"
+                type="text"
+                label="Value"
+                id="value"
+                fullWidth={false}
+              />
+            </Grid>
+            <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
+              <InputField
+                control={control}
+                namefileld="nick_name"
+                type="text"
+                label="Nickname"
+                id="nick_name"
+                fullWidth={false}
+              />
+              <SelectField
+                control={control}
+                namefileld="game_name"
+                id="game_name"
+                label="Game Name"
+                fullWidth={false}
+                options={gameNameData}
+                defaultValue="all"
+              />
+              <RadioGroup aria-label="gender" name="search_by_option" value={radioSearchBy} onChange={handleChangeSearchBy}>
+                <div style={{ display: 'grid', paddingLeft: '30px' }}>
+                  <FormControlLabel value="less" control={<Radio />} label="Less than" />
+                  <FormControlLabel value="more" control={<Radio />} label="More or equal" />
+                </div>
+              </RadioGroup>
             </Grid>
             <Grid item xs={12} xl={3} md={3}>
               <SelectField
@@ -188,32 +291,6 @@ const BusinessSummaryFilter = ({
                 fullWidth={false}
                 options={brandData}
               />
-              <SelectField
-                control={control}
-                namefileld="product_ids"
-                id="product_ids"
-                label="Product"
-                fullWidth={false}
-                options={productData}
-              />
-            </Grid>
-            <Grid item xs={12} xl={3} md={6}>
-            <RadioGroup aria-label="gender" name="option" value={radio} onChange={handleChange}>
-              <div style={{ display: 'flex', paddingTop: '25px', paddingLeft: '15px' }}>
-                <div>
-                  <FormControlLabel value="day" control={<Radio />} label="Total by Day" />
-                  <FormControlLabel value="month" control={<Radio />} label="Total by Month" />
-                </div>
-                <div>
-                  <FormControlLabel value="week" control={<Radio />} label="Total by Week" />
-                  <FormControlLabel value="year" control={<Radio />} label="Total by Year" />
-                </div>
-                <div style={{ whiteSpace: 'nowrap' }}>
-                  <FormControlLabel value="brand" control={<Radio />} label="Total by Brand" />
-                </div>
-              </div>
-
-            </RadioGroup>
             </Grid>
           </Grid>
           <ButtonGroup>
@@ -226,14 +303,14 @@ const BusinessSummaryFilter = ({
   );
 };
 
-BusinessSummaryFilter.propTypes = {
+PlayersBusinessSummaryFilter.propTypes = {
   onResetFilter: func,
   onSubmitProps: func
 };
 
-BusinessSummaryFilter.defaultProps = {
+PlayersBusinessSummaryFilter.defaultProps = {
   onResetFilter: () => {},
   onSubmitProps: () => {}
 };
 
-export default BusinessSummaryFilter;
+export default PlayersBusinessSummaryFilter;

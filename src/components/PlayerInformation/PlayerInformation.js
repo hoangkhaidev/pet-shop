@@ -80,6 +80,8 @@ const PlayerInformation = () => {
     return <NoPermissionPage />;
   }
 
+  console.log(data)
+
   return (
     <>
       <div style={{ padding: '25px' }}>
@@ -132,7 +134,7 @@ const PlayerInformation = () => {
                     Brand
                   </span>
                   <span className={classes.w50}>
-                    {data?.brand_id} 
+                    {data?.brand_name} 
                   </span>
                 </div>
             </Grid>

@@ -77,10 +77,9 @@ const SelectField = ({
               }
               labelId={id}
             >
-              {options.map((option) => {
-                // console.log(option)
+              {options.map((option, index) => {
                 return (
-                  <MenuItem key={option.id} value={option.value}>
+                  <MenuItem key={index} value={option.value}>
                     {option.label}
                   </MenuItem>
                 )

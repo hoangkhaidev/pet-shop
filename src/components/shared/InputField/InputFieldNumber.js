@@ -89,7 +89,7 @@ const FormattedNumberInput = ({
       >
         <Controller
           render={({ field: { onChange, onBlur, value, name, ref } }) => {
-            // console.log(defaultValue);
+            console.log(value);
             return (
               <NumberFormat
                 // getInputRef={ref}
@@ -104,7 +104,6 @@ const FormattedNumberInput = ({
                 }
                 id={id}
                 control={control}
-                InputProps={InputProps}
                 error={!isEmpty(errors)}
                 style={styles}
                 decimalScale={value >= 100 ? 0 : 2}
@@ -113,22 +112,14 @@ const FormattedNumberInput = ({
                 defaultValue={defaultValue}
                 value={value}
                 onValueChange={(values) => {
-                  // console.log(values)
-                  // if (values?.floatValue > 100) {
-                  //   onChange({ target: { name, value: 100 } })
-                  // } else {
-                  //   onChange({ target: { name, value: values.floatValue } });
-                  // }
-                  // if (values?.floatValue < 0)  {
-                  //   onChange({ target: { name, value: 0 } })
-                  // } else {
-                  //   onChange({ target: { name, value: values.floatValue } });
-                  // }
+                  
                   values?.floatValue > 100
                     ? onChange({ target: { name, value: 100 } })
                     : values?.floatValue < 0 
                       ? onChange({ target: { name, value: 0 } }) 
                       : onChange({ target: { name, value: values.floatValue } });
+
+                  console.log(values.floatValue)
                 }}
                 maxLength={value >= 100 ? 3 : null}
                 helperText={helperText}

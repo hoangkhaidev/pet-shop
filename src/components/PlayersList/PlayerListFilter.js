@@ -14,6 +14,8 @@ import { func } from "prop-types";
 import useFetchData from "src/utils/hooks/useFetchData";
 import useRouter from "src/utils/hooks/useRouter";
 import { useSelector } from "react-redux";
+import api from "src/utils/api";
+import get from 'lodash/get';
 // import { FormattedNumberInputCaptcha } from "../shared/InputField/InputFieldNumber";
 
 const useStyles = makeStyles(() => ({
@@ -44,11 +46,12 @@ const PLayerListFilter = ({
   const dateRangeRef = useRef(null);
   const classes = useStyles();
 
-  const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
+  // const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
   const { dataResponse: dataCurrency} = useFetchData("/api/currency/public_list");
   const { dataResponse: dataLanguage} = useFetchData("/api/language");
   
   const [brandData, setBrandData] = useState([]);
+  const [brandsData, setBrandsData] = useState([]);
   const [currencydata, setCurrencydata] = useState([]);
   const [languageData, setLanguageData] = useState([]);
 
@@ -86,7 +89,7 @@ const PLayerListFilter = ({
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
-    let newBrand = cloneDeep(dataBrand);
+    let newBrand = cloneDeep(brandsData);
 
     (newBrand || []).forEach(data => {
       let optionData = {
@@ -97,7 +100,24 @@ const PLayerListFilter = ({
       mapData.push(optionData)
     });
     setBrandData([...mapData]);
-  }, [dataBrand, setBrandData]);
+  }, [brandsData, setBrandData]);
+
+  useEffect(() => {
+    if (roleUser.account_type !== 'brand') {
+      onDataBrand();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roleUser]);
+
+  const onDataBrand = async () => {
+    const response = await api.post('/api/brand/public_list', null);
+    if (get(response, "success", false)) {
+      setBrandsData(response?.data);
+    } else {
+      console.log("response", response);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  };
 
   const onChangeDateRange = (startDate, endDate) => {
     // console.log(startDate, endDate);

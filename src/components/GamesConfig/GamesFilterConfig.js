@@ -11,6 +11,7 @@ import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Bu
 import { func } from "prop-types";
 import useFetchData from "src/utils/hooks/useFetchData";
 import { useSelector } from "react-redux";
+import cloneDeep from "lodash.clonedeep";
 // import useRouter from "src/utils/hooks/useRouter";
 // import { FormattedNumberInputCaptcha } from "../shared/InputField/InputFieldNumber";
 
@@ -42,7 +43,7 @@ const GamesFilterConfig = ({
   const classes = useStyles();
   const roleUser = useSelector((state) => state.roleUser);
 
-  const { dataResponse: dataBrand} = useFetchData("/api/brand");
+  const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
   const { dataResponse: dataGame} = useFetchData("/api/games");
   
   const [brandData, setBrandData] = useState([]);
@@ -97,22 +98,22 @@ const GamesFilterConfig = ({
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
-    let newBrand;
-    if(dataBrand?.list) {
-      newBrand = [...dataBrand?.list];
-    }
-    if (!newBrand) return;
-    if (newBrand.length <= 0) return;
+    let newBrand = cloneDeep(dataBrand);
     newBrand.forEach(data => {
       let optionData = {
-        id: data.BrandId,
-        value: data.BrandId,
-        label: data.username,
+        id: data.brand_id,
+        value: data.brand_id,
+        label: data.brand_name,
       };
       mapData.push(optionData)
     });
     setBrandData([...mapData]);
   }, [dataBrand, setBrandData]);
+
+  useEffect(() => {
+    console.log(brandData)
+  }, [brandData]);
+
 
   const onSubmit = async (data) => {
     const form = {
@@ -136,6 +137,8 @@ const GamesFilterConfig = ({
       brand_id: 0,
       game_name: "",
       game_type: "",
+      sort_field: "brand_name",
+      sort_order: "desc",
       status: "all",
       page: 1,
       page_size: 30,
