@@ -93,8 +93,8 @@ const PLayerListFilter = ({
 
     (newBrand || []).forEach(data => {
       let optionData = {
-        id: data.BrandId,
-        value: data.BrandId,
+        id: data.brand_id,
+        value: data.brand_id,
         label: data.username,
       };
       mapData.push(optionData)

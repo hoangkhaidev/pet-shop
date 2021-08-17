@@ -30,6 +30,12 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
+const searchByOption = [
+  {id: "", value: "", label: ""},
+  {id: "bet_native", value: "bet_native", label: "Bets"},
+  {id: "win_native", value: "win_native", label: "Wins"}
+];
+
 const PlayersBusinessSummaryFilter = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
@@ -42,6 +48,13 @@ const PlayersBusinessSummaryFilter = ({
       brand_ids: "all",
       product_ids: "all",
       option: "day",
+      player_id: "",
+      nick_name: "",
+      game_type: "",
+      game_name: "",
+      search_by: "",
+      search_by_option: "",
+      value: "0",
     }
   });
 
@@ -60,7 +73,7 @@ const PlayersBusinessSummaryFilter = ({
   const [gameTypeData, setGameTypeData] = useState([]);
   const [gameNameData, setGameNameData] = useState([]);
   const [radio, setRadio] = useState('day');
-  const [radioSearchBy, setRadioSearchBy] = useState('less');
+  const [radioSearchBy, setRadioSearchBy] = useState();
 
   const handleChange = (event) => {
     setRadio(event.target.value);
@@ -112,8 +125,8 @@ const PlayersBusinessSummaryFilter = ({
 
     (newBrand || []).forEach(data => {
       let optionData = {
-        id: data.BrandId,
-        value: data.BrandId,
+        id: data.brand_id,
+        value: data.brand_id,
         label: data.username,
       };
       mapData.push(optionData)
@@ -163,8 +176,14 @@ const PlayersBusinessSummaryFilter = ({
   const onResetFilterPlayer = () => {
     reset({
       brand_ids: "all",
-      product_ids: "all",
       option: "day",
+      player_id: "",
+      nick_name: "",
+      game_type: "",
+      game_name: "",
+      search_by: "",
+      search_by_option: "",
+      value: "0",
     });
     setDateRange({
       start: moment().format("DD/MM/YYYY"),
@@ -172,10 +191,20 @@ const PlayersBusinessSummaryFilter = ({
     });
     setObjFilter({
       brand_ids: [],
-      product_ids: [],
       from_date: moment().format("DD/MM/YYYY"),
       to_date: moment().format("DD/MM/YYYY"),
       option: "day",
+      player_id: 0,
+      sort_field: "period",
+      sort_order: "desc",
+      nick_name: "",
+      game_type: "",
+      game_name: "",
+      search_by: "",
+      search_by_option: "",
+      value: "0",
+      page: 1,
+      page_size: 30,
     });
     setRadio('day')
    
@@ -239,13 +268,14 @@ const PlayersBusinessSummaryFilter = ({
                 options={gameTypeData}
                 defaultValue="all"
               />
-              <InputField
+              <SelectField
                 control={control}
                 namefileld="search_by"
-                type="text"
-                label="Search by"
                 id="search_by"
+                label="Search by"
                 fullWidth={false}
+                options={searchByOption}
+                defaultValue=""
               />
               <InputField
                 control={control}
@@ -276,8 +306,8 @@ const PlayersBusinessSummaryFilter = ({
               />
               <RadioGroup aria-label="gender" name="search_by_option" value={radioSearchBy} onChange={handleChangeSearchBy}>
                 <div style={{ display: 'grid', paddingLeft: '30px' }}>
-                  <FormControlLabel value="less" control={<Radio />} label="Less than" />
-                  <FormControlLabel value="more" control={<Radio />} label="More or equal" />
+                  <FormControlLabel value="<" control={<Radio />} label="Less than" />
+                  <FormControlLabel value=">" control={<Radio />} label="More or equal" />
                 </div>
               </RadioGroup>
             </Grid>

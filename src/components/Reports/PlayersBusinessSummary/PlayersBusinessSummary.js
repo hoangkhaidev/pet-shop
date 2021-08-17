@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-import Link from "@material-ui/core/Link";
+// import Link from "@material-ui/core/Link";
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import useRouter from "src/utils/hooks/useRouter";
@@ -17,20 +17,32 @@ const PlayersBusinessSummary = () => {
   const roleUser = useSelector((state) => state.roleUser);
   const [objFilter, setObjFilter] = useState({
     brand_ids: [],
-    product_ids: [],
+    player_id: 0,
     from_date: moment().format("DD/MM/YYYY"),
     to_date: moment().format("DD/MM/YYYY"),
     option: "day",
-    ...router.query,
+    sort_field: "period",
+    sort_order: "desc",
+    nick_name: "",
+    game_type: "",
+    game_name: "",
+    search_by: "",
+    search_by_option: "",
+    value: "0",
+    page: 1,
+    page_size: 30,
+    ...{
+      ...router.query,
+      player_id: router.query.player_id ? Number(router.query.player_id) : 0,
+    },
   });
 
   const [data, setData] = useState([]);
   const [dataSum, setDataSum] = useState({});
-  const [dataAverage, setDataAverage] = useState({});
   const [excelData, setExcelData] = useState([]);
 
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
-    '/api/report/business_reports',
+    '/api/report/players_business_reports',
     objFilter
   );
 
@@ -87,29 +99,78 @@ const PlayersBusinessSummary = () => {
     setExcelData(forExcel);
     setData(mapData);
     setDataSum(mapDataSum)
-    setDataAverage(mapDataAverage)
+  }, [dataResponse]);
+
+  useEffect(() => {
+    console.log(dataResponse)
   }, [dataResponse]);
 
   const columns = [
     {
-      data_field: "identifier",
+      data_field: "period",
       column_name: "Period",
       align: "right",
-      formatter: (cell, row) => {
-        console.log(row)
-        return (
-          <Link href={`/reports/${row.identifier}/player_summary?option=${row.option}&brand_ids=${row.brand_ids}&product_ids=${row.product_ids}&from_date=${row.from_date}&to_date=${row.to_date}`}>{cell}</Link>
-        );
+      // formatter: (cell, row) => {
+      //   return (
+      //     <Link href={`/reports/${row.identifier}/player_summary?option=${row.option}&brand_ids=${row.brand_ids}&product_ids=${row.product_ids}&from_date=${row.from_date}&to_date=${row.to_date}`}>{cell}</Link>
+      //   );
+      // }
+    },
+    {
+      data_field: "player_id",
+      column_name: "Player ID",
+      align: "left"
+    },
+    {
+      data_field: "nick_name",
+      column_name: "Nickname",
+      align: "left"
+    },
+    {
+      data_field: "sign_up_language",
+      column_name: "Sign Up Language",
+      align: "left"
+    },
+    {
+      data_field: "brand_name",
+      column_name: "Brand",
+      align: "left"
+    },
+    {
+      data_field: "bet_native",
+      column_name: "Bet",
+      align: "right",
+      formatter: (cell) => {
+        let cellFormat = formatNumber(cell);
+        return cellFormat;
       }
     },
     {
-      data_field: "new_players",
-      column_name: "New Players",
-      align: "right"
+      data_field: "win_native",
+      column_name: "Win",
+      align: "right",
+      formatter: (cell) => {
+        let cellFormat = formatNumber(cell);
+        return cellFormat;
+      }
+    },
+    {
+      data_field: "margin_native",
+      column_name: "Margin",
+      align: "right",
+      formatter: (cell) => {
+        let cellFormat = formatNumber(cell);
+        return cellFormat;
+      }
+    },
+    {
+      data_field: "currency_code",
+      column_name: "Currency",
+      align: "left",
     },
     {
       data_field: "bet",
-      column_name: "Bets ($)",
+      column_name: "Bet ($)",
       align: "right",
       formatter: (cell) => {
         let cellFormat = formatNumber(cell);
@@ -118,7 +179,7 @@ const PlayersBusinessSummary = () => {
     },
     {
       data_field: "win",
-      column_name: "Wins ($)",
+      column_name: "Win ($)",
       align: "right",
       formatter: (cell) => {
         let cellFormat = formatNumber(cell);
@@ -134,34 +195,6 @@ const PlayersBusinessSummary = () => {
         return cellFormat;
       }
     },
-    {
-      data_field: "players_played",
-      column_name: "Players",
-      align: "right"
-    },
-    {
-      data_field: "play_sessions",
-      column_name: "Play Sessions",
-      align: "right"
-    },
-    {
-      data_field: "operator_total",
-      column_name: "Operator Total ($)",
-      align: "right",
-      formatter: (cell) => {
-        let cellFormat = formatNumber(cell);
-        return cellFormat;
-      }
-    },
-    roleUser.account_type === 'admin' ? {
-      data_field: "company_total",
-      column_name: "Company Total ($)",
-      align: "right",
-      formatter: (cell) => {
-        let cellFormat = formatNumber(cell);
-        return cellFormat;
-      }
-    } : {}
   ];
 
   const handleChangePage = (page) => {
@@ -180,12 +213,7 @@ const PlayersBusinessSummary = () => {
     }));
   };
 
-  // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter])
-
   const onSubmit = async (data) => {
-    // console.log(data)
     
     setObjFilter(prevState => ({
       ...prevState,
@@ -196,6 +224,8 @@ const PlayersBusinessSummary = () => {
   if (!isHasPermission) {
     return <NoPermissionPage />;
   }
+
+  console.log(dataSum)
 
   return (
     <Fragment>
@@ -208,15 +238,13 @@ const PlayersBusinessSummary = () => {
         <TableComponent
           roleUser={roleUser.account_type}
           data={data}
-          dataType='Players Business Summary'
+          dataType='PlayersBusinessSummary'
           dataSum={dataSum}
-          dataAverage={dataAverage}
           columns={columns}
           page = { Number(objFilter.page) }
           page_size = { Number(objFilter.page_size) }
-          types="RoleList"
           pagination={{
-            total_size,
+            total_size: Number(dataResponse?.list?.length),
             page: Number(objFilter.page),
             page_size: Number(objFilter.page_size),
           }}

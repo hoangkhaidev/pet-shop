@@ -449,6 +449,89 @@ const TableComponent = ({
               </TableRow>
             </>
           }
+          { dataType === 'PlayersBusinessSummary' && 
+            <>
+              <TableRow style={{ background: '#07bb5f' }}>
+                <TableCell 
+                  component="th" 
+                  scope="row" 
+                  sx={{
+                    padding: 1
+                  }}
+                  colSpan={5}
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}
+                >
+                  Total:
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}
+                >
+                  {formatNumber(dataSum?.bet_native)}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                  {formatNumber(dataSum?.win_native)}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                  {formatNumber(dataSum?.margin_native)}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                  {dataSum?.players_played}
+                  {formatNumber(dataSum?.bet)}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                  {formatNumber(dataSum?.win)}
+                </TableCell>
+                <TableCell 
+                  sx={{
+                    padding: 1
+                  }} 
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}>
+                  {formatNumber(dataSum?.margin)}
+                </TableCell>
+              </TableRow>
+            </>
+          }
         </TableBody>
         {types !== 'RoleList' && 
           <TablePagination

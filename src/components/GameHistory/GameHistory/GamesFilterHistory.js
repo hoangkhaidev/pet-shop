@@ -77,15 +77,15 @@ const GamesFilterHistory = ({
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
     let newBrand;
-    if(brandsData?.list) {
-      newBrand = [...brandsData?.list];
+    if(brandsData) {
+      newBrand = [...brandsData];
     }
     if (!newBrand) return;
     if (newBrand.length <= 0) return;
     newBrand.forEach(data => {
       let optionData = {
-        id: data.BrandId,
-        value: data.BrandId,
+        id: data.brand_id,
+        value: data.brand_id,
         label: data.username,
       };
       mapData.push(optionData)
