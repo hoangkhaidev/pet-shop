@@ -86,33 +86,23 @@ const Profile = () => {
   }, [dataResponse]);
 
   const onSubmit = async (dataForm) => {
-    // const formatWLIPs = whitelistIP.map((item) => {
-    //   let check = false;
-    //   item.map((item1) => {
-    //     if (item1 === '') check = true;
-    //     return item1;
-    //   })
-    //   if (check === true) item = null;
-    //   else item = item.join('.');
-    //   return item;
-    // }).filter((item) => item)
 
     const form = {
-      display_name: dataForm.name,
-      support_email: dataForm.support_email,
-      finance_email: financeEmail,
+      display_name: dataForm.name ? dataForm.name : '',
+      support_email: dataForm.support_email ? dataForm.support_email : '',
+      finance_email: financeEmail ? financeEmail : [],
       password: dataForm.password ? dataForm.password : '',
       password_confirmation: dataForm.password_confirmation ? dataForm.password_confirmation : '',
     };
     // console.log(form)
     try {
       let response = await api.post(
-        `/api/subs/${router.query?.id}/update`,
+        `/api/profile/update`,
         form
       );
       if (get(response, 'success', false)) {
-        toast.success('Update subs Success', {
-          onClose: navigate('/sub/list'),
+        toast.success('Update Profile Success', {
+          onClose: navigate('/'),
         });
       } else {
         if (response?.err === 'err:suspended_account') {
@@ -151,7 +141,7 @@ const Profile = () => {
   };
 
   const onCancel = () => {
-    navigate('/sub/list');
+    navigate('/');
   };
  
   if (!isHasPermission) {
@@ -174,52 +164,72 @@ const Profile = () => {
           label="Username"
           disabled
         />
+        {
+            (roleUser.account_type === 'adminsub') && (
+                <InputField
+                    namefileld="name"
+                    control={control}
+                    id="name"
+                    errors={errors?.name}
+                    type="text"
+                    label="Name"
+                    maxLength={100}
+                    helperText="Max length 100 chars"
+                />
+            )
+        } 
+        {
+            (roleUser.account_type === 'operator' || roleUser.account_type === 'brand') && (
+                <>
+                    <InputField
+                    namefileld="support_email"
+                    control={control}
+                    id="support_email"
+                    errors={errors?.support_email}
+                    type="text"
+                    label="Support Email"
+                    />
+                    <InputField
+                    namefileld="finance_emails"
+                    control={control}
+                    id="finance_emails"
+                    errors={errors?.finance_emails}
+                    type="text"
+                    label="Finance Email"
+                    callbackInputProps={addingFinanceEmail}
+                    isHasInputProps
+                    />
+                    <div className={classes.rootChip} style={{ paddingBottom: '15px' }}>
+                    {financeEmail?.map((email) => (
+                        <Chip
+                        className={classes.financeEmailItem}
+                        key={email}
+                        label={email}
+                        onDelete={() => onRemoveFinanceEmail(email)}
+                        />
+                    ))}
+                    </div>
+                    <FormLabel style={{marginTop: '-15px'}} component="legend" className={classes.checkHelperText}>{errorFinanceEmail}</FormLabel>
+                </>
+            )
+        } 
         <InputField
-          namefileld="name"
+          namefileld="current_password"
           control={control}
-          id="name"
-          errors={errors?.name}
-          type="text"
-          label="Name"
-          maxLength={100}
-          helperText="Max length 100 chars"
+          id="current_password"
+          errors={errors?.current_password}
+          type="Password"
+          label="Current Password"
+          pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
+          helperText="From 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
         />
-        <InputField
-          namefileld="support_email"
-          control={control}
-          id="support_email"
-          errors={errors?.support_email}
-          type="text"
-          label="Support Email"
-        />
-        <InputField
-          namefileld="finance_emails"
-          control={control}
-          id="finance_emails"
-          errors={errors?.finance_emails}
-          type="text"
-          label="Finance Email"
-          callbackInputProps={addingFinanceEmail}
-          isHasInputProps
-        />
-        <div className={classes.rootChip}>
-          {financeEmail?.map((email) => (
-            <Chip
-              className={classes.financeEmailItem}
-              key={email}
-              label={email}
-              onDelete={() => onRemoveFinanceEmail(email)}
-            />
-          ))}
-        </div>
-        <FormLabel style={{marginTop: '-15px'}} component="legend" className={classes.checkHelperText}>{errorFinanceEmail}</FormLabel>
         <InputField
           namefileld="password"
           control={control}
           id="password"
           errors={errors?.password}
           type="password"
-          label="Password"
+          label="New Password"
           pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
           helperText="From 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
         />

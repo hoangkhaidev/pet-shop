@@ -88,11 +88,8 @@ const GamesListConfig = () => {
       column_name: "Game Code",
       align: "left",
       formatter: (cell, row) => {
-        let newBrand = cloneDeep(brandsData);
-        console.log(newBrand)
-        let brandFirst = newBrand?.find((item) => item.brand_name === row.brand_name);
         return (
-          <Link href={`/configuration/games/${row.game_code}/brand_id/${brandFirst?.brand_id}/edit`}>{cell}</Link>
+          <Link href={`/configuration/games/${row.game_code}/brand_id/${row.brand_id}/edit`}>{cell}</Link>
         )
       }
     },
@@ -121,7 +118,7 @@ const GamesListConfig = () => {
             status={row.enable} 
             game_code={row.game_code}
             brand_name={row.brand_name}
-            brandList={brandData}
+            brand_id={row.brand_id}
             game_name={row.game_name}
           />
         );

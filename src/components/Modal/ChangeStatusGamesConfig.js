@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ChangeStatusGamesConfig = ({status, game_code, brand_name, brandList, game_name}) => {
+const ChangeStatusGamesConfig = ({status, game_code, brand_id, brand_name, game_name}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(status);
@@ -46,9 +46,8 @@ const ChangeStatusGamesConfig = ({status, game_code, brand_name, brandList, game
     onClose();
     // console.log(game_code, brand_name);
     // console.log(brandList);
-    let brandFirst = brandList.find((item) => item.label === brand_name);
     let dataForm = {
-      brand_id: brandFirst.id,
+      brand_id: brand_id,
       game_code: game_code
     }
     if (valCheck === true) {

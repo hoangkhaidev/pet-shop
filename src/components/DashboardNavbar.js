@@ -8,7 +8,6 @@ import {
   Box,
   Button,
   IconButton,
-  makeStyles,
   Toolbar
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -23,18 +22,17 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import PersonIcon from '@material-ui/icons/Person';
-import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import { onLogout } from "src/features/authentication/authentication";
 import Logo from './Logo';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
-  paper: {
-    marginRight: theme.spacing(2),
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     display: 'flex',
+//   },
+//   paper: {
+//     marginRight: theme.spacing(2),
+//   },
+// }));
 
 const DashboardNavbar = ({ setMobileNavOpen, setOpenMenu, openMenu, ...rest }) => {
   const [notifications] = useState([]);
@@ -43,7 +41,7 @@ const DashboardNavbar = ({ setMobileNavOpen, setOpenMenu, openMenu, ...rest }) =
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const classes = useStyles();
+  // const classes = useStyles();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
@@ -152,34 +150,22 @@ const DashboardNavbar = ({ setMobileNavOpen, setOpenMenu, openMenu, ...rest }) =
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                    <MenuItem onClick={handleClose}>
-                      <IconButton
-                        color="inherit"
-                        sx={{
-                          display: {
-                            lg: "block",
-                            md: "none"
-                          }
-                        }}
-                      >
-                        <PersonIcon />
-                      </IconButton>
-                      {/* <Link href={`/brand/list/${row.id}/edit`}>{cell}</Link> */}
-                      Profile
-                    </MenuItem>
-                    <MenuItem onClick={handleClose}>
-                      <IconButton
-                        color="inherit"
-                        sx={{
-                          display: {
-                            lg: "block",
-                            md: "none"
-                          }
-                        }}
-                      >
-                        <AssignmentIndIcon />
-                      </IconButton>
-                      All sub accounts
+                    <MenuItem>
+                      <Link href={`/profile`} style={{color: '#000', display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+                        <IconButton
+                          color="inherit"
+                          sx={{
+                            display: {
+                              lg: "block",
+                              md: "none"
+                            }
+                          }}
+                        >
+                          <PersonIcon />
+                        </IconButton>
+                        {/* <Link href={`/brand/list/${row.id}/edit`}>{cell}</Link> */}
+                        Profile
+                      </Link>
                     </MenuItem>
                     <MenuItem onClick={onUserLogout}>
                       <IconButton
