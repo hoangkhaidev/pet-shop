@@ -118,7 +118,7 @@ const BusinessSummaryFilter = ({
   };
 
   const onSubmit = async (data) => {
-    console.log(data)
+    // console.log(data)
     const form = {
       ...data,
       brand_ids: data.brand_ids === 'all' ? [] : [Number(data.brand_ids)],
@@ -127,7 +127,7 @@ const BusinessSummaryFilter = ({
       from_date: dateRange.start,
       to_date: dateRange.end,
     };
-    console.log(form)
+    // console.log(form)
     onSubmitProps(form);
   };
 

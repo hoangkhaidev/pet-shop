@@ -152,7 +152,7 @@ const TableComponentGamesSummary = ({
   const cellInfo = map(columns, ({ data_field, currency_code, align, formatter, fontWeight }) => ({ data_field, currency_code, align, formatter, fontWeight
    }));
 
-  console.log(dataSum?.currency_entry_list)
+  // console.log(dataSum?.currency_entry_list)
 
   return (
     <TableContainer component={Paper}>

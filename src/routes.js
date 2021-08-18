@@ -98,6 +98,10 @@ const PlayersBusinessSummary = lazy(() =>
   import('src/components/Reports/PlayersBusinessSummary/PlayersBusinessSummary')
 );
 
+const AdminLogs = lazy(() =>
+  import('src/components/Logs/AdminLogs/AdminLogs')
+);
+
 const routes = (isLoggedIn) => [
   {
     path: 'home',
@@ -310,6 +314,18 @@ const routes = (isLoggedIn) => [
         name: 'Players Business Summary',
         element: <PlayersBusinessSummary />,
       }
+    ],
+  },
+  {
+    path: 'action-log',
+    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+    children: [
+      {
+        path: '/admin-logs',
+        fullpath: '/action-log/admin-logs',
+        name: 'Admin Logs',
+        element: <AdminLogs />,
+      },
     ],
   },
   {

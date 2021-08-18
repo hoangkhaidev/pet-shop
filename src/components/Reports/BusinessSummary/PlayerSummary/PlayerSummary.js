@@ -67,7 +67,7 @@ const PlayerSummary = () => {
   const roleUser = useSelector((state) => state.roleUser);
   
   const router = useRouter();
-  console.log(router.query.option);
+  // console.log(router.query.option);
   const [objFilter, setObjFilter] = useState({
     brand_ids: router.query.brand_ids ? [Number(router.query.brand_ids)] : [],
     product_ids: router.query.product_ids ? [Number(router.query.product_ids)] : [],
@@ -107,9 +107,9 @@ const PlayerSummary = () => {
     return formatNum;
   }
 
-  useEffect(() => {
-    console.log(objFilter)
-  }, [objFilter])
+  // useEffect(() => {
+  //   console.log(objFilter)
+  // }, [objFilter])
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
@@ -162,7 +162,7 @@ const PlayerSummary = () => {
       column_name: "Player ID",
       align: "left",
       formatter: (cell, row) => {
-        console.log(router.query)
+        // console.log(router.query)
         let timeFrom_date = moment().format("DD/MM/YYYY 00:00");
         let timeTo_date = moment().format("DD/MM/YYYY 23:59");
         if (router.query.option === 'day') {
@@ -172,7 +172,7 @@ const PlayerSummary = () => {
           timeFrom_date = router.query.from_date;
           timeTo_date = router.query.to_date;
         }
-        console.log(timeFrom_date, timeTo_date)
+        // console.log(timeFrom_date, timeTo_date)
         return (
           <Link href={`/players/${row.player_id}/information?from_date=${timeFrom_date}&game_name=&game_type=&id=${row.player_id}&page=1&page_size=30&player_id=${row.player_id}&round_id=&sort_field=start_at&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${timeTo_date}`}>{cell}</Link>
         )

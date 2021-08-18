@@ -32,9 +32,9 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
   const [label, setLabel] = useState(newlabel);
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    console.log(newlabel);
-  }, [newlabel]);
+  // useEffect(() => {
+  //   console.log(newlabel);
+  // }, [newlabel]);
 
   useEffect(() => {
     setLabel(newlabel);
@@ -54,7 +54,7 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
 
   const onChangeStatus = async (current_code, label, currentStatus) => {
     onClose();
-    console.log(currentStatus);
+    // console.log(currentStatus);
     let statusNew = '';
     if (label === 'active') statusNew = 'activate';
     if (label === 'inactive') statusNew = 'inactivate';

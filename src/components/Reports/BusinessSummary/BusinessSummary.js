@@ -96,7 +96,7 @@ const BusinessSummary = () => {
       column_name: "Period",
       align: "right",
       formatter: (cell, row) => {
-        console.log(row)
+        // console.log(row)
         return (
           <Link href={`/reports/${row.identifier}/player_summary?option=${row.option}&brand_ids=${row.brand_ids}&product_ids=${row.product_ids}&from_date=${row.from_date}&to_date=${row.to_date}`}>{cell}</Link>
         );

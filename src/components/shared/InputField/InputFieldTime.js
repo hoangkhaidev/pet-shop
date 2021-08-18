@@ -60,7 +60,7 @@ const InputFieldTime = ({
     if (errors.message === 'err:invalid_password') {
       return errors.message = 'Invalid password';
     }
-    console.log(errors)
+    // console.log(errors)
     if (errors.message === 'err:confirm_password_mismatch') {
       return errors.message = 'Confirm Password mismatch';
     }
@@ -103,7 +103,7 @@ const InputFieldTime = ({
   };
 
   const handlerTimeChange = (event) => {
-    console.log(event.target.value)
+    // console.log(event.target.value)
     let value = event.target.value;
     // console.log(value);
     let regex = /^\d+(\.\d{0,0})?$/g;

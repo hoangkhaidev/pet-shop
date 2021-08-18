@@ -43,6 +43,7 @@ import { useNavigate } from 'react-router-dom';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ProductCommission from '../Operator/ProductCommission';
 import { validate } from 'validate.js';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -105,6 +106,7 @@ const BrandEdit = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const roleUser = useSelector((state) => state.roleUser);
   
   const { dataResponse, isLoading, isHasPermission } = useFetchData(
     `/api/brand/${router.query?.id}`,
@@ -484,23 +486,27 @@ const BrandEdit = () => {
             />
           ))}
         </div>
-        <FormLabel style={{paddingTop: '10px'}} component="legend">Product<span style={{color: 'red'}}>*</span></FormLabel>
-        <FormControl className={classes.w100}>
-          <FormLabel component="legend" className={classes.checkHelperText}>{errorProductCommission}</FormLabel>
-          {productCommission.values?.map((item, index) => {
-            return (
-              <ProductCommission 
-                nameCon={`commission-${item.product_id}`}
-                key={index} 
-                item={item} 
-                required
-                hasError={hasError}
-                productCommission={productCommission} 
-                setProductCommission={setProductCommission} 
-              />
-            )
-          })}
-        </FormControl>
+        {(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') && (
+          <>
+            <FormLabel style={{paddingTop: '10px'}} component="legend">Product<span style={{color: 'red'}}>*</span></FormLabel>
+            <FormControl className={classes.w100}>
+              <FormLabel component="legend" className={classes.checkHelperText}>{errorProductCommission}</FormLabel>
+              {productCommission.values?.map((item, index) => {
+                return (
+                  <ProductCommission 
+                    nameCon={`commission-${item.product_id}`}
+                    key={index} 
+                    item={item} 
+                    required
+                    hasError={hasError}
+                    productCommission={productCommission} 
+                    setProductCommission={setProductCommission} 
+                  />
+                )
+              })}
+            </FormControl>
+          </>
+        )}
 
         <InputField
           required

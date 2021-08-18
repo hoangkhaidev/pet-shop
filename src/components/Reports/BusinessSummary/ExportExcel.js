@@ -39,7 +39,7 @@ export const ExportExcel = ({ excelData }) => {
       
       
       const endColumn = String.fromCharCode(64 + totalColumns);
-      console.log(endColumn)
+      // console.log(endColumn)
 
       const maxStringLength = sheet1.range("A1:" + endColumn + "1").reduce((max, cell) => {
           const value = cell.value();

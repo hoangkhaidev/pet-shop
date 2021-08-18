@@ -110,9 +110,9 @@ const GamesFilterConfig = ({
     setBrandData([...mapData]);
   }, [dataBrand, setBrandData]);
 
-  useEffect(() => {
-    console.log(brandData)
-  }, [brandData]);
+  // useEffect(() => {
+  //   console.log(brandData)
+  // }, [brandData]);
 
 
   const onSubmit = async (data) => {

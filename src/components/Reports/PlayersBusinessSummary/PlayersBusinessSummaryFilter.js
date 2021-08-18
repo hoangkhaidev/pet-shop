@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import api from "src/utils/api";
 import get from 'lodash/get';
 import InputField from "src/components/shared/InputField/InputField";
+import InputNumberValue from "./InputNumberValue";
 // import useRouter from "src/utils/hooks/useRouter";
 // import { useSelector } from "react-redux";
 // import { FormattedNumberInputCaptcha } from "../shared/InputField/InputFieldNumber";
@@ -46,7 +47,6 @@ const PlayersBusinessSummaryFilter = ({
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       brand_ids: "all",
-      product_ids: "all",
       option: "day",
       player_id: "",
       nick_name: "",
@@ -73,7 +73,7 @@ const PlayersBusinessSummaryFilter = ({
   const [gameTypeData, setGameTypeData] = useState([]);
   const [gameNameData, setGameNameData] = useState([]);
   const [radio, setRadio] = useState('day');
-  const [radioSearchBy, setRadioSearchBy] = useState();
+  const [radioSearchBy, setRadioSearchBy] = useState('');
 
   const handleChange = (event) => {
     setRadio(event.target.value);
@@ -160,16 +160,17 @@ const PlayersBusinessSummaryFilter = ({
   };
 
   const onSubmit = async (data) => {
-    console.log(data)
+    // console.log(data)
     const form = {
       ...data,
       brand_ids: data.brand_ids === 'all' ? [] : [Number(data.brand_ids)],
-      product_ids: data.product_ids === 'all' ? [] : [Number(data.product_ids)],
+      player_id: data.player_id ? Number(data.player_id) : 0,
+      value: String(data.value),
       option: radio,
+      search_by_option: radioSearchBy ? radioSearchBy : '',
       from_date: dateRange.start,
       to_date: dateRange.end,
     };
-    console.log(form)
     onSubmitProps(form);
   };
 
@@ -206,7 +207,8 @@ const PlayersBusinessSummaryFilter = ({
       page: 1,
       page_size: 30,
     });
-    setRadio('day')
+    setRadio('day');
+    setRadioSearchBy('');
    
   }
 
@@ -277,10 +279,9 @@ const PlayersBusinessSummaryFilter = ({
                 options={searchByOption}
                 defaultValue=""
               />
-              <InputField
+              <InputNumberValue
                 control={control}
                 namefileld="value"
-                type="text"
                 label="Value"
                 id="value"
                 fullWidth={false}

@@ -62,6 +62,7 @@ const FormattedNumberInput = ({
   required,
   InputProps,
   helperText,
+  inputProps,
   defaultValue,
   ...rest
 }) => {
@@ -89,7 +90,7 @@ const FormattedNumberInput = ({
       >
         <Controller
           render={({ field: { onChange, onBlur, value, name, ref } }) => {
-            console.log(value);
+            // console.log(value);
             return (
               <NumberFormat
                 // getInputRef={ref}
@@ -111,15 +112,19 @@ const FormattedNumberInput = ({
                 customInput={TextField}
                 defaultValue={defaultValue}
                 value={value}
+                InputProps={InputProps}
+                inputProps={{
+                  maxLength: value >= 100 ? 3 : null,
+                }}
                 onValueChange={(values) => {
-                  
+                 
                   values?.floatValue > 100
                     ? onChange({ target: { name, value: 100 } })
                     : values?.floatValue < 0 
                       ? onChange({ target: { name, value: 0 } }) 
                       : onChange({ target: { name, value: values.floatValue } });
 
-                  console.log(values.floatValue)
+                  // console.log(values.floatValue)
                 }}
                 maxLength={value >= 100 ? 3 : null}
                 helperText={helperText}

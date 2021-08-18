@@ -125,9 +125,9 @@ const GamesListConfig = () => {
     }));
   };
 
-  useEffect(() => {
-    console.log(objFilter);
-  }, [objFilter])
+  // useEffect(() => {
+  //   console.log(objFilter);
+  // }, [objFilter])
 
   const onSubmit = async (data) => {
     // console.log(data)

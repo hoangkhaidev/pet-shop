@@ -12,7 +12,7 @@ export const ExportExcelPlayersBusinessSummary = ({ excelData }) => {
     var fields = Object.keys(data[0]);
     var sheetData = data.map(function (row) {
       return fields.map(function (fieldName) {
-        return row[fieldName] ? row[fieldName] : 0;
+        return row[fieldName] ? row[fieldName] : "";
       });
     });
     sheetData.unshift(header);
@@ -20,13 +20,8 @@ export const ExportExcelPlayersBusinessSummary = ({ excelData }) => {
   }
 
   const exportToExcel = async () => {
-    // var data = [
-    //   { name: "John", city: "Seattle" },
-    //   { name: "Mike", city: "Los Angeles" },
-    //   { name: "Zach", city: "New York" }
-    // ];
     
-    let header = ["Period", "New Players", "Bet ($)", "Win ($)", "Margin ($)", "Players", "Play Sessions", "Operator Total ($)", "Company Total ($)"];
+    let header = ["Period", "Player ID", "Nickname", "Sign Up Language", "Brand", "Bet", "Win", "Margin", "Currency", "Bet ($)", "Win ($)", "Margin ($)"];
 
     XlsxPopulate.fromBlankAsync().then(async (workbook) => {
       const sheet1 = workbook.sheet(0);
@@ -39,7 +34,7 @@ export const ExportExcelPlayersBusinessSummary = ({ excelData }) => {
       
       
       const endColumn = String.fromCharCode(64 + totalColumns);
-      console.log(endColumn)
+      // console.log(endColumn)
 
       const maxStringLength = sheet1.range("A1:" + endColumn + "1").reduce((max, cell) => {
           const value = cell.value();
@@ -55,17 +50,21 @@ export const ExportExcelPlayersBusinessSummary = ({ excelData }) => {
       sheet1.column("G").width(maxStringLength);
       sheet1.column("H").width(maxStringLength);
       sheet1.column("I").width(maxStringLength);
+      sheet1.column("J").width(maxStringLength);
+      sheet1.column("K").width(maxStringLength);
+      sheet1.column("L").width(maxStringLength);
 
       sheet1.row(1).style("bold", true);
       sheet1.row(1).style("horizontalAlignment", 'center');
       sheet1.range("A1:" + endColumn + "1").style("fill", "BFBFBF");
-      let colRange = ("A" + excelData.length + ":" + endColumn + (excelData.length + 1));
+      let colRange = ("A" + (excelData.length + 1) + ":" + endColumn + (excelData.length + 1));
       sheet1.range(colRange).style("fill", "07bb5f");
       sheet1.range(colRange).style("bold", true);
       sheet1.range("A2:" + endColumn + (excelData.length + 1)).style("horizontalAlignment", 'right');
+      sheet1.range("B2:E" + (excelData.length + 1)).style("horizontalAlignment", 'left');
       range.style("border", true);
       return workbook.outputAsync().then((res) => {
-        saveAs(res, "ReportBusinessSummary.xlsx");
+        saveAs(res, "ReportPlayersBusinessSummary.xlsx");
       });
     });
   }

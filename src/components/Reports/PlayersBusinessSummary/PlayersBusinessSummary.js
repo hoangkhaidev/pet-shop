@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-// import Link from "@material-ui/core/Link";
+import Link from "@material-ui/core/Link";
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import useRouter from "src/utils/hooks/useRouter";
@@ -34,6 +34,7 @@ const PlayersBusinessSummary = () => {
     ...{
       ...router.query,
       player_id: router.query.player_id ? Number(router.query.player_id) : 0,
+      brand_ids: router.query.brand_ids ? [Number(router.query.brand_ids)] : [],
     },
   });
 
@@ -55,71 +56,65 @@ const PlayersBusinessSummary = () => {
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
     const mapDataSum = dataResponse?.sum;
-    const mapDataAverage = dataResponse?.average;
     let forExcel = [];
     let sum = {
-      identifier: "Total:",
-      new_players: mapDataSum?.new_players,
+      period: "",
+      player_id: "",
+      nick_name: "",
+      sign_up_language: "",
+      brand_name: "Total:",
+      bet_native: formatNumber(mapDataSum?.bet_native),
+      win_native: formatNumber(mapDataSum?.win_native),
+      margin_native: formatNumber(mapDataSum?.margin_native),
+      currency_code: mapDataSum?.currency_code,
       bet: formatNumber(mapDataSum?.bet),
       win: formatNumber(mapDataSum?.win),
       margin: formatNumber(mapDataSum?.margin),
-      players_played: mapDataSum?.players_played,
-      play_sessions: mapDataSum?.play_sessions,
-      operator_total: formatNumber(mapDataSum?.operator_total),
-      company_total: formatNumber(mapDataSum?.company_total),
-    };
-    let average = {
-      identifier: "Average:",
-      new_players: mapDataAverage?.new_players,
-      bet: formatNumber(mapDataAverage?.bet),
-      win: formatNumber(mapDataAverage?.win),
-      margin: formatNumber(mapDataAverage?.margin),
-      players_played: mapDataAverage?.players_played,
-      play_sessions: mapDataAverage?.play_sessions,
-      operator_total: formatNumber(mapDataAverage?.operator_total),
-      company_total: formatNumber(mapDataAverage?.company_total),
     };
 
     mapData?.forEach((item) => {
       forExcel.push({
-        identifier: item.identifier,
-        new_players: item.new_players,
+        period: item.period,
+        player_id: item.player_id,
+        nick_name: item.nick_name,
+        sign_up_language: item.sign_up_language,
+        brand_name: item.brand_name,
+        bet_native: formatNumber(item.bet_native),
+        win_native: formatNumber(item.win_native),
+        margin_native: formatNumber(item.margin_native),
+        currency_code: item.currency_code,
         bet: formatNumber(item.bet),
         win: formatNumber(item.win),
         margin: formatNumber(item.margin),
-        players_played: item.players_played,
-        play_sessions: item.play_sessions,
-        operator_total: formatNumber(item.operator_total),
-        company_total: formatNumber(item.company_total),
       });
     });
 
-    forExcel.push(sum, average);
+    forExcel.push(sum);
 
     setExcelData(forExcel);
     setData(mapData);
     setDataSum(mapDataSum)
   }, [dataResponse]);
 
-  useEffect(() => {
-    console.log(dataResponse)
-  }, [dataResponse]);
+  // useEffect(() => {
+  //   console.log(objFilter)
+  // }, [objFilter]);
 
   const columns = [
     {
       data_field: "period",
       column_name: "Period",
       align: "right",
-      // formatter: (cell, row) => {
-      //   return (
-      //     <Link href={`/reports/${row.identifier}/player_summary?option=${row.option}&brand_ids=${row.brand_ids}&product_ids=${row.product_ids}&from_date=${row.from_date}&to_date=${row.to_date}`}>{cell}</Link>
-      //   );
-      // }
     },
     {
       data_field: "player_id",
       column_name: "Player ID",
-      align: "left"
+      align: "left",
+      formatter: (cell, row) => {
+        return (
+          <Link href={`/players/${row.player_id}/information`}>{cell}</Link>
+        );
+      }
     },
     {
       data_field: "nick_name",
@@ -224,8 +219,6 @@ const PlayersBusinessSummary = () => {
   if (!isHasPermission) {
     return <NoPermissionPage />;
   }
-
-  console.log(dataSum)
 
   return (
     <Fragment>

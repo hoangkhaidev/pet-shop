@@ -85,9 +85,9 @@ const Endpoint_Settings = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(dataResponse);
-  }, [dataResponse]);
+  // useEffect(() => {
+  //   console.log(dataResponse);
+  // }, [dataResponse]);
 
   useEffect(() => {
     let dataWhitelist_ips = get(dataResponse, 'whitelist_ips', ['...']);
@@ -124,7 +124,7 @@ const Endpoint_Settings = () => {
   }, [apiWLIP]);
 
   const onSubmit = async (data) => {
-    console.log(data)
+    // console.log(data)
     const formatWLIPEndpoint = apiWLIP.join('.');
 
     const formatWLIPs = whitelistIP.map((item) => {
@@ -140,7 +140,7 @@ const Endpoint_Settings = () => {
     };
     delete form.secret_key;
     delete form.api_key;
-    console.log(form);
+    // console.log(form);
 
     try {
       let response = await api.post(`/api/global/brand_detail/${router.query?.id}/update`, form);

@@ -80,7 +80,7 @@ const PlayerInformation = () => {
     return <NoPermissionPage />;
   }
 
-  console.log(data)
+  // console.log(data)
 
   return (
     <>

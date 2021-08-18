@@ -376,80 +376,81 @@ const BrandCreate = () => {
             />
           ))}
         </div>
-        
-        <FormLabel style={{paddingTop: '10px'}} component="legend">Product<span style={{color: 'red'}}>*</span></FormLabel>
-        <FormControl className={classes.w100}>
-          <FormLabel component="legend" className={classes.checkHelperText}>{errorProductCommission}</FormLabel>
-            {productData.map((item, index) => {
-              return (
-                <div key={item.id} style={{display: 'flex', width: '100%'}}>
-                  <FormControlLabel
-                    className={checkboxListCheck[index] ? classes.w40 : ''}
-                    key={item.id}
-                    style={{padding: '30px'}}
-                    label={item?.label}
-                    // name={`commission.${index}.checked`}
-                    // value={item?.id}
-                    control={
-                      <Controller
-                          name={`commission.${index}.checked`}
-                          control={control}
-                          // inputRef={register}
-                          render={(props) => {
-                            return (
-                              <Checkbox
-                                checked={props.field.value === true}
-                                value={item?.id}
-                                onChange={(e) => {
-                                    props.field.onChange(e.target.checked);
-                                    let ticked = [...checkboxListCheck];
-                                    ticked[index] = e.target.checked;
-                                    setCheckboxListCheck(ticked);
-                                  }
-                                }
-                              />
-                            )
-                          }}
-                        />
-                      }                  
-                  />
-                  <input 
-                    type="hidden"
-                    defaultValue={item.id}
-                    {...register(`commission.${index}.product_id`)} 
-                  />
-                  <FormGroup 
-                    className={clsx(classes.w60, checkboxListCheck[index] ? classes.checkShow : classes.checkHidden)} 
-                    key={index}
-                  >
-                    {checkboxListCheck[index] ?
-                      <FormattedNumberInput
-                        namefileld={`commission.${index}.value`}
-                        label="Comission"
-                        id={`commission_${item.id}`}
-                        control={control}
-                        allowLeadingZeros
-                        allowNegative={false}
-                        decimalScale={0}
-                        errors={get(errors, `commission[${index}].value`)}
-                        required
-                        InputProps={{
-                          endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                        }}
-                        pattern={/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/}
-                        inputProps={{
-                          maxLength: 3,
-                        }}
-                        helperText="From 0% to 100%"
-                        // register={register}
-                        // {...register(`commission.${index}.value`)}
+        {(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') && (
+          <>
+            <FormLabel style={{paddingTop: '10px'}} component="legend">Product<span style={{color: 'red'}}>*</span></FormLabel>
+            <FormControl className={classes.w100}>
+              <FormLabel component="legend" className={classes.checkHelperText}>{errorProductCommission}</FormLabel>
+                {productData.map((item, index) => {
+                  return (
+                    <div key={item.id} style={{display: 'flex', width: '100%'}}>
+                      <FormControlLabel
+                        className={checkboxListCheck[index] ? classes.w40 : ''}
+                        key={item.id}
+                        style={{padding: '30px'}}
+                        label={item?.label}
+                        // name={`commission.${index}.checked`}
+                        // value={item?.id}
+                        control={
+                          <Controller
+                              name={`commission.${index}.checked`}
+                              control={control}
+                              // inputRef={register}
+                              render={(props) => {
+                                return (
+                                  <Checkbox
+                                    checked={props.field.value === true}
+                                    value={item?.id}
+                                    onChange={(e) => {
+                                        props.field.onChange(e.target.checked);
+                                        let ticked = [...checkboxListCheck];
+                                        ticked[index] = e.target.checked;
+                                        setCheckboxListCheck(ticked);
+                                      }
+                                    }
+                                  />
+                                )
+                              }}
+                            />
+                          }                  
                       />
-                    : ''}
-                  </FormGroup>
-                </div>
-              )
-            })}
-        </FormControl>
+                      <input 
+                        type="hidden"
+                        defaultValue={item.id}
+                        {...register(`commission.${index}.product_id`)} 
+                      />
+                      <FormGroup 
+                        className={clsx(classes.w60, checkboxListCheck[index] ? classes.checkShow : classes.checkHidden)} 
+                        key={index}
+                      >
+                        {checkboxListCheck[index] ?
+                          <FormattedNumberInput
+                            namefileld={`commission.${index}.value`}
+                            label="Comission"
+                            id={`commission_${item.id}`}
+                            control={control}
+                            allowLeadingZeros
+                            allowNegative={false}
+                            decimalScale={0}
+                            errors={get(errors, `commission[${index}].value`)}
+                            required
+                            InputProps={{
+                              endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                            }}
+                            pattern={/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/}
+                            helperText="From 0% to 100%"
+                            // register={register}
+                            // {...register(`commission.${index}.value`)}
+                          />
+                        : ''}
+                      </FormGroup>
+                    </div>
+                  )
+                })}
+            </FormControl>
+          </>
+        )}
+
 
         <InputField
           required
