@@ -12,6 +12,7 @@ import GamesFilterConfig from "./GamesFilterConfig";
 import { useSelector } from "react-redux";
 import ChangeStatusGamesConfig from "src/components/Modal/ChangeStatusGamesConfig";
 import cloneDeep from 'lodash/cloneDeep';
+import api from "src/utils/api";
 // import { useForm } from "react-hook-form";
 
 const GamesListConfig = () => {
@@ -39,14 +40,15 @@ const GamesListConfig = () => {
     objFilter
   );
 
-  const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
+  // const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
   const [brandData, setBrandData] = useState([]);
+  const [brandsData, setBrandsData] = useState([]);
 
   useEffect(() => {
     let mapData = [];
-    let newBrand = cloneDeep(dataBrand);
+    let newBrand = cloneDeep(brandsData);
 
-    newBrand.forEach(data => {
+    newBrand?.forEach(data => {
       let optionData = {
         id: data.brand_id,
         value: data.brand_id,
@@ -55,7 +57,24 @@ const GamesListConfig = () => {
       mapData.push(optionData)
     });
     setBrandData([...mapData]);
-  }, [dataBrand, setBrandData]);
+  }, [brandsData, setBrandData]);
+
+  useEffect(() => {
+    if (roleUser.account_type !== 'brand') {
+      onDataBrand();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roleUser]);
+
+  const onDataBrand = async () => {
+    const response = await api.post('/api/brand/public_list', null);
+    if (get(response, "success", false)) {
+      setBrandsData(response?.data);
+    } else {
+      console.log("response", response);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  };
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
@@ -69,8 +88,9 @@ const GamesListConfig = () => {
       column_name: "Game Code",
       align: "left",
       formatter: (cell, row) => {
-        let newBrand = cloneDeep(dataBrand);
-        let brandFirst = newBrand.find((item) => item.brand_name === row.brand_name);
+        let newBrand = cloneDeep(brandsData);
+        console.log(newBrand)
+        let brandFirst = newBrand?.find((item) => item.brand_name === row.brand_name);
         return (
           <Link href={`/configuration/games/${row.game_code}/brand_id/${brandFirst?.brand_id}/edit`}>{cell}</Link>
         )

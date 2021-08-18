@@ -102,6 +102,18 @@ const AdminLogs = lazy(() =>
   import('src/components/Logs/AdminLogs/AdminLogs')
 );
 
+const BrandLogs = lazy(() =>
+  import('src/components/Logs/BrandLogs/BrandLogs')
+);
+
+const OperatorLogs = lazy(() =>
+  import('src/components/Logs/OperatorLogs/OperatorLogs')
+);
+
+const Profile = lazy(() =>
+  import('src/components/Profile/Profile')
+);
+
 const routes = (isLoggedIn) => [
   {
     path: 'home',
@@ -325,6 +337,30 @@ const routes = (isLoggedIn) => [
         fullpath: '/action-log/admin-logs',
         name: 'Admin Logs',
         element: <AdminLogs />,
+      },
+      {
+        path: '/brand-logs',
+        fullpath: '/action-log/brand-logs',
+        name: 'Brand Logs',
+        element: <BrandLogs />,
+      },
+      {
+        path: '/operator-logs',
+        fullpath: '/action-log/operator-logs',
+        name: 'Operator Logs',
+        element: <OperatorLogs />,
+      },
+    ],
+  },
+  {
+    path: 'profile',
+    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+    children: [
+      {
+        path: '/',
+        fullpath: '/profile',
+        name: 'Profile',
+        element: <Profile />,
       },
     ],
   },

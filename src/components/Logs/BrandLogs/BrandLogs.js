@@ -6,10 +6,10 @@ import get from 'lodash/get';
 import useFetchData from "src/utils/hooks/useFetchData";
 import Loading from "src/components/shared/Loading/Loading";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
-import AdminLogsFilter from "./AdminLogsFilter";
+import BrandLogsFilter from "./BrandLogsFilter";
 // import { Link } from "react-router-dom";
 
-const AdminLogs = () => {
+const BrandLogs = () => {
   const router = useRouter();
 
   const [objFilter, setObjFilter] = useState({
@@ -27,7 +27,7 @@ const AdminLogs = () => {
   });
 
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
-    '/api/logs/admin',
+    '/api/logs/brand',
     objFilter
   );
 
@@ -114,7 +114,7 @@ const AdminLogs = () => {
       {/* <PlayerInformation /> */}
       {/* <div style={{ fontWeight: '600', fontSize: '22px'}}>Game Transaction</div> */}
       
-      <AdminLogsFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
+      <BrandLogsFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <TableComponent
         data={data}
         columns={columns}
@@ -132,4 +132,4 @@ const AdminLogs = () => {
   );
 };
 
-export default AdminLogs;
+export default BrandLogs;

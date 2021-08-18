@@ -2,29 +2,21 @@ import { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core";
-// import { useTranslation } from "react-i18next";
-
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
-// import InputField from "src/components/shared/InputField/InputField";
 import SelectField from "src/components/shared/InputField/SelectField";
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
 import { func } from "prop-types";
 import useFetchData from "src/utils/hooks/useFetchData";
 import { useSelector } from "react-redux";
 import cloneDeep from "lodash.clonedeep";
-// import useRouter from "src/utils/hooks/useRouter";
-// import { FormattedNumberInputCaptcha } from "../shared/InputField/InputFieldNumber";
+import api from "src/utils/api";
+import get from 'lodash/get';
 
 const status = [
   {id: 0, value: "all", label: "All"},
   {id: 1, value: "enable", label: "Enable"},
   {id: 2, value: "disable", label: "Disable"},
 ];
-// const jackpot = [
-//   {id: 0, value: "all", label: "All"},
-//   {id: 1, value: "enable", label: "Enable"},
-//   {id: 2, value: "disable", label: "Disable"},
-// ];
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -43,10 +35,12 @@ const GamesFilterConfig = ({
   const classes = useStyles();
   const roleUser = useSelector((state) => state.roleUser);
 
-  const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
+  // const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
   const { dataResponse: dataGame} = useFetchData("/api/games");
   
   const [brandData, setBrandData] = useState([]);
+  const [brandsData, setBrandsData] = useState([]);
+
   const [gameTypeData, setGameTypeData] = useState([]);
   const [gameNameData, setGameNameData] = useState([]);
 
@@ -98,7 +92,7 @@ const GamesFilterConfig = ({
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
-    let newBrand = cloneDeep(dataBrand);
+    let newBrand = cloneDeep(brandsData);
     newBrand.forEach(data => {
       let optionData = {
         id: data.brand_id,
@@ -108,7 +102,24 @@ const GamesFilterConfig = ({
       mapData.push(optionData)
     });
     setBrandData([...mapData]);
-  }, [dataBrand, setBrandData]);
+  }, [brandsData, setBrandData]);
+
+  useEffect(() => {
+    if (roleUser.account_type !== 'brand') {
+      onDataBrand();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roleUser]);
+
+  const onDataBrand = async () => {
+    const response = await api.post('/api/brand/public_list', null);
+    if (get(response, "success", false)) {
+      setBrandsData(response?.data);
+    } else {
+      console.log("response", response);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  };
 
   // useEffect(() => {
   //   console.log(brandData)
