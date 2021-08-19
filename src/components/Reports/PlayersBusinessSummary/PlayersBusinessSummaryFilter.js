@@ -32,7 +32,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const searchByOption = [
-  {id: "", value: "", label: ""},
+  {id: "", value: "", label: "Default"},
   {id: "bet_native", value: "bet_native", label: "Bets"},
   {id: "win_native", value: "win_native", label: "Wins"}
 ];

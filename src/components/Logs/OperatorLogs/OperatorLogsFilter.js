@@ -60,6 +60,8 @@ const OperatorLogsFilter = ({
   const onSubmit = async (data) => {
     const form = {
       ...data,
+      from_date: dateRange.start,
+      to_date: dateRange.end,
     };
     onSubmitProps(form);
   };

@@ -38,9 +38,9 @@ const AdminLogs = () => {
     setData(mapData);
   }, [dataResponse]);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(objFilter);
+  // }, [objFilter]);
 
   const columns = [
     {

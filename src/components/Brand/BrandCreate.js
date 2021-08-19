@@ -251,7 +251,7 @@ const BrandCreate = () => {
         finance_emails: financeEmail,
         product_commission: product_commission,
       };
-      // console.log(form);
+      console.log(form);
       try {
         const response = await api.post('/api/brand/create', form);
         if (get(response, 'success', false)) {

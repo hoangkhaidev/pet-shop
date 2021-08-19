@@ -61,16 +61,17 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
 
       } else {
         
-        // if (dataJSON?.err === 'err:member_not_found') {
-        //   toast.warn('Player not found');
+        // if (dataJSON?.err === 'err:player_business_summary_args_limit') {
+        //   toast.warn('Please select 1 of the 2 fields player ID, nickname');
         //   return setData({
         //     dataResponse: null,
         //     total_size: 0,
-        //     isLoading: false,
-        //     isHasPermission: false,
-        //     refetch: false,
+        //     isLoading: true,
+        //     isHasPermission: true,
+        //     refetch: true,
         //   });
         // }
+
         if (dataJSON?.err === 'err:internal_error') {
           toast.warn('Internal Server Error. Please try again!');
           return setData({
