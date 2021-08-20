@@ -193,7 +193,6 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
           }
         }
       }
-
     }
   }
 

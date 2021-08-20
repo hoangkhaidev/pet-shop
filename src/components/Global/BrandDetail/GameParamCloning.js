@@ -2,34 +2,29 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-lonely-if */
 /* eslint-disable react/jsx-no-duplicate-props */
-import {  useState } from 'react';
-import { useForm } from 'react-hook-form';
-// import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import AdjustIcon from '@material-ui/icons/Adjust';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-// import AddIcon from '@material-ui/icons/Add';
-// import RemoveIcon from '@material-ui/icons/Remove';
 import FormLabel from '@material-ui/core/FormLabel';
 import get from 'lodash/get';
 import { toast } from 'react-toastify';
-import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
-// import InputField from 'src/components/shared/InputField/InputField';
-// import ButtonGroup, {
-//   SubmitButton,
-// } from 'src/components/shared/Button/Button';
-// import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
-import Loading from 'src/components/shared/Loading/Loading';
 import api from 'src/utils/api';
-// import ClearAllIcon from '@material-ui/icons/ClearAll';
-// import InputFieldTime from 'src/components/shared/InputField/InputFieldTime';
-// import InputFieldCopy from 'src/components/shared/InputField/InputFieldCopy';
+import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
-import { Checkbox } from '@material-ui/core';
-import SelectField from 'src/components/shared/InputField/SelectField';
-// import useFetchData from 'src/utils/hooks/useFetchData';
-// import useRouter from 'src/utils/hooks/useRouter';
-// import cloneDeep from 'lodash.clonedeep';
+import { Checkbox, FormControl, InputLabel, Select } from '@material-ui/core';
+import useFetchData from 'src/utils/hooks/useFetchData';
+import cloneDeep from 'lodash.clonedeep';
+import useRouter from 'src/utils/hooks/useRouter';
+import CurrencyComfirm from './CurrencyComfirm';
+import { validate } from 'validate.js';
+import { useNavigate } from 'react-router-dom';
+
+const schema = {
+  copy_brand_id: {
+    presence: { allowEmpty: false, message: 'is required' },
+  },
+}
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -51,87 +46,158 @@ const useStyles = makeStyles((theme) => ({
   checkTitleText: {
     paddingTop: '5px !important',
   },
+  selectField: {
+    margin: '16px 0',
+  },
+  formControl: {
+    width: '100%',
+    paddingBottom: '20px !important',
+  },
+  labelStyle: {
+    color: 'red',
+  },
+  checkHelperError: {
+    color: 'red !important',
+    fontSize: '12px !important',
+    marginLeft: '15px',
+    paddingTop: '5px !important'
+  }
 }));
 
 const GameParamCloning = () => {
-  // const router = useRouter();
+  const router = useRouter();
   const classes = useStyles();
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setError,
-  } = useForm();
-
-  const [isLoading, setIsLoading] = useState(false);
-  // const { dataResponse: dataBrand } = useFetchData(`/api/global/group_brand/${router?.query?.id}`, null);
-  // const [dataBrands, setDataBrands] = useState(false);
-  
-  // const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
-    // console.log(data)
+  const { dataResponse: dataBrand } = useFetchData(`/api/brand/public_list`, null);
+  const [dataBrands, setDataBrands] = useState([]);
 
-    setIsLoading(true);
-    
-    const form = {
-      ...data,
-      product_ids: [data.product_ids],
-    };
-    delete form.commission;
-    delete form.product_ids;
-    // console.log(form);
-
-    try {
-      let response = await api.post('/api/operators/create', form);
-      // console.log(response);
-      if (get(response, 'success', false)) {
-        toast.success('Create Operator Success', {
-          onClose: navigate('/operator/list'),
-        });
-      } else {
-        if (response?.err === 'err:form_validation_failed') {
-          for (const field in response?.data) {
-            // console.log(field);
-            setError(field, {
-              type: 'validate',
-              message: response?.data[field],
-            });
-          }
-        }
-      }
-    } catch (e) {
-      console.log('e', e);
-    }
-    setIsLoading(false);
+  const initFormState = {
+    isValid: false,
+    values: {
+      overwrite: false,
+      include_all_currencies: false,
+      copy_brand_id: '',
+      current_brand_id: Number(router.query.id),
+    },
+    errors: {},
+    touched: {}
   };
 
-  // useEffect(() => {
-  //   let mapData = [];
-  //   let dataBrandList = cloneDeep(dataBrand);
-  //   dataBrandList.forEach((data) => {
-  //     let optionData = {
-  //       id: data.id,
-  //       value: data.id,
-  //       label: data.name,
-  //     };
-  //     mapData.push(optionData);
-  //   });
-  //   setDataBrands([...mapData]);
-  // }, [dataBrand]);
+  const [formState, setFormState] = useState(initFormState);
+  
+  const handleChangeOverwrite = (event) => {
+    setFormState({
+      ...formState,
+      values: {
+        ...formState.values,
+        [event.target.name]:
+          event.target.type === 'checkbox'
+            ? event.target.checked
+            : event.target.value
+      },
+      touched: {
+        ...formState.touched,
+      }
+    });
+  }
 
-  // useEffect(() => {
-  //   console.log(dataBrand)
-  // }, [dataBrand])
+  const handleChangeInclude_all_currencies = (event) => {
+    setFormState({
+      ...formState,
+      values: {
+        ...formState.values,
+        [event.target.name]:
+          event.target.type === 'checkbox'
+            ? event.target.checked
+            : event.target.value
+      },
+      touched: {
+        ...formState.touched,
+      }
+    });
+  }
 
-  // const onCancel = () => {
-  //   navigate('/operator/list');
-  // }
+  const handleChangeBrand = (event) => {
+    setFormState({
+      ...formState,
+      values: {
+        ...formState.values,
+        [event.target.name]:
+          event.target.type === 'checkbox'
+            ? event.target.checked
+            : event.target.value
+      },
+      touched: {
+        ...formState.touched,
+        [event.target.name]: true
+      }
+    });
+  }
+
+  const onSubmit = async (currency_codes) => {
+    // setIsLoading(true);
+    console.log(123)
+    
+    if (formState.isValid === true) {
+      const form = {
+        ...formState.values,
+        copy_brand_id: Number(formState.values.copy_brand_id),
+        currency_codes: currency_codes ? [currency_codes] : [],
+      };
+      try {
+        let response = await api.post('/api/global/brand_detail/clone', form);
+        // console.log(response);
+        if (get(response, 'success', false)) {
+          toast.success('Game Param Cloning Success', {
+            onClose: navigate('/global/group_brand?'),
+          });
+        } else {
+          console.log(response);
+        }
+      } catch (e) {
+        console.log('e', e);
+      }
+    } else{
+      setFormState({
+        ...formState,
+        touched: {
+          ...formState.touched,
+          copy_brand_id: true
+        }
+      });
+    }
+
+  };
+
+  useEffect(() => {
+    let mapData = [];
+    let dataBrandList = cloneDeep(dataBrand);
+    dataBrandList.forEach((data) => {
+      let optionData = {
+        id: data.brand_id,
+        value: data.brand_id,
+        label: data.username,
+      };
+      mapData.push(optionData);
+    });
+    setDataBrands([...mapData]);
+  }, [dataBrand]);
+
+  useEffect(() => {
+    const errors = validate(formState.values, schema);
+    setFormState((formState) => ({
+      ...formState,
+      isValid: errors ? false : true,
+      errors: errors || {}
+    }));
+  }, [formState.values]);
+
+  const hasError = (field) => formState.touched[field] && formState.errors[field] ? true : false;
 
   return (
     <ContentCardPage>
-      <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle}>
+      <form className={classes.formStyle}>
         <FormLabel component="legend" className={classes.checkHelperText}>
           Please be careful changing these settings
         </FormLabel>
@@ -143,43 +209,68 @@ const GameParamCloning = () => {
           <div style={{ paddingLeft: '6rem' }}>
             <div>
               <Checkbox
-                  color="primary"
-                  inputProps={{ 'aria-label': 'secondary checkbox' }}
+                type="checkbox"
+                color="primary"
+                name="overwrite"
+                checked={formState?.values?.overwrite}
+                onChange={handleChangeOverwrite}
+                inputProps={{ 'aria-label': 'secondary checkbox' }}
               />
               <span className={classes.checkboxStyle}>Overwrite / Merge</span>
             </div>
             <div>
               <Checkbox
-                  color="primary"
-                  inputProps={{ 'aria-label': 'secondary checkbox' }}
-                  />
+                type="checkbox"
+                color="primary"
+                name="include_all_currencies"
+                checked={formState?.values?.include_all_currencies}
+                onChange={handleChangeInclude_all_currencies}
+                inputProps={{ 'aria-label': 'secondary checkbox' }}
+              />
               <span className={classes.checkboxStyle}>Include all currencies</span>
             </div>
           </div>
           <TitlePage title="Copy from this brand" />
           <div style={{ width: '500px' }}>
-            <SelectField
-              namefileld="brand_id"
-              id="brand_id"
-              label="Brand"
-              required
-              fullWidth={false}
-              control={control}
-              errors={errors?.brand_id}
-              defaultValue=""
-            />
+            <FormControl variant="outlined" className={classes.formControl}>
+              <InputLabel htmlFor="outlined-age-native-simple">
+                Brand
+                <span className={classes.labelStyle}>*</span>
+              </InputLabel>
+              <Select
+                native
+                value={formState?.values?.copy_brand_id}
+                onChange={handleChangeBrand}
+                label="Brand"
+                name="copy_brand_id"
+                error={hasError('copy_brand_id')}
+              >
+                <option aria-label="None" value="" />
+                {dataBrands?.map((item) => (
+                  <option key={item.id} value={item.value}>{item.label}</option>
+                ))}
+              </Select>
+              <FormLabel component="legend" className={classes.checkHelperError}>
+                { hasError('copy_brand_id') ? formState.errors.copy_brand_id[0] : null }
+              </FormLabel>
+            </FormControl>
           </div>
-          <Button 
-            variant="contained" 
-            color="primary" 
-            style= {{ padding: '10px 30px', marginTop: '10px' }}
-          >
-            Copy
-          </Button>
+          { formState.isValid && formState?.values?.include_all_currencies === false ?
+            <CurrencyComfirm 
+              onSubmit={onSubmit} 
+              include_all_currencies={formState?.values?.include_all_currencies} 
+            />
+          : <Button 
+              variant="contained" 
+              color="primary" 
+              onClick={() => onSubmit()}
+              startIcon={<AdjustIcon fontSize="small" />}
+            >
+              Copy
+            </Button>
+          }
         </div>
-
       </form>
-      {isLoading && <Loading />}
     </ContentCardPage>
   );
 };

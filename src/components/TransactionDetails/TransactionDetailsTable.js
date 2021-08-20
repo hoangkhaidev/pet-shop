@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
@@ -6,6 +7,7 @@ import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
 import Loading from "../shared/Loading/Loading";
 // import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import get from 'lodash/get';
+import RoundDetail from "./RoundDetail";
 
 const TransactionDetailsTable = ({roundId}) => {
   const [pagination, setPagination] = useState({
@@ -20,8 +22,25 @@ const TransactionDetailsTable = ({roundId}) => {
     `/api/transaction/round/${roundId}/details`,
     null
   );
-
+  
   const [data, setData] = useState([]);
+  // const [dataRoundId, setDataRoundId] = useState([]);
+
+  // const onViewRoundDetail = async() => {
+  //   // const response = await api.post('/public/round_detail/PaBmYRfKpR5SVUW', null);
+  //   const res = await fetch(
+  //     `https://sbpubapi.arrowltd.net/public/round_detail/${roundId}`,
+  //     {
+  //       method: 'GET',
+  //     }
+  //   );
+  //   const test = await res.json();
+  //   if (get(test, "success", false)) {
+  //     setDataRoundId(test.data);
+  //   } else {
+  //     console.log("response", test);
+  //   }
+  // }
 
   useEffect(() => {
     const mapData = get(dataResponse, 'transaction_list', []);
@@ -29,12 +48,8 @@ const TransactionDetailsTable = ({roundId}) => {
   }, [dataResponse]);
 
   // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
-
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
+  //   onViewRoundDetail();
+  // }, []);
 
   const columns = [
     {
@@ -119,6 +134,7 @@ const TransactionDetailsTable = ({roundId}) => {
         handleChangePage={handleChangePage}
         handleChangeRowsPerPage={handleChangeRowsPerPage}
       />
+      <RoundDetail roundId={roundId} />
     </div>
   );
 };

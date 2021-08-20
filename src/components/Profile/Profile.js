@@ -70,11 +70,6 @@ const Profile = () => {
   // const { dataResponse: dataBrand } = useFetchData('/api/brand/public_list');
 
   useEffect(() => {
-    console.log(data)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
-
-  useEffect(() => {
     setValue('username', get(dataResponse, 'username', ''));
     setValue('name', get(dataResponse, 'display_name', ''));
     setValue('support_email', get(dataResponse, 'support_email', ''));
@@ -91,10 +86,11 @@ const Profile = () => {
       display_name: dataForm.name ? dataForm.name : '',
       support_email: dataForm.support_email ? dataForm.support_email : '',
       finance_email: financeEmail ? financeEmail : [],
+      current_password: dataForm.current_password ? dataForm.current_password : '',
       password: dataForm.password ? dataForm.password : '',
       password_confirmation: dataForm.password_confirmation ? dataForm.password_confirmation : '',
     };
-    // console.log(form)
+    console.log(form)
     try {
       let response = await api.post(
         `/api/profile/update`,
@@ -241,6 +237,7 @@ const Profile = () => {
           type="password"
           label="Confirm Password"
           pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
+          helperText="From 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
         />
         <ButtonGroup>
           <SubmitButton />

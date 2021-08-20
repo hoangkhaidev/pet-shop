@@ -9,6 +9,7 @@ import moment from 'moment';
 import TabPanel from "src/components/shared/TabPanel/TabPanel";
 import Loading from "src/components/shared/Loading/Loading";
 import GameParamCloning from "./GameParamCloning";
+import { useSelector } from "react-redux";
 
 const Endpoint_Settings = lazy(() => import("./Endpoint_Settings"));
 
@@ -45,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 const BrandDetail = () => {
   const classes = useStyles();
+  const roleUser = useSelector((state) => state.roleUser);
   const [value, setValue] = useState(0);
   const [dateRange, setDateRange] = useState({
     start: moment().format("DD/MM/YYYY"),
@@ -68,7 +70,9 @@ const BrandDetail = () => {
           className={classes.aaaaaaaaa}
         >
           <Tab className={classes.labelTab} label="Endpoint & Settings" {...a11yProps(0)} />
-          <Tab className={classes.labelTab} label={t("Game Param Cloning")} {...a11yProps(1)} />
+          {roleUser.account_type !== 'brand' && (
+            <Tab className={classes.labelTab} label={t("Game Param Cloning")} {...a11yProps(1)} />
+          )}
         </Tabs>
       </AppBar>
       <DateRangeContext.Provider value={valueContext}>
@@ -76,9 +80,11 @@ const BrandDetail = () => {
           <TabPanel value={value} index={0}>
             <Endpoint_Settings />
           </TabPanel>
-          <TabPanel value={value} index={1}>
-            <GameParamCloning />
-          </TabPanel>
+          {roleUser.account_type !== 'brand' && (
+            <TabPanel value={value} index={1}>
+              <GameParamCloning />
+            </TabPanel>
+          )}
         </Suspense>
       </DateRangeContext.Provider>
     </div>

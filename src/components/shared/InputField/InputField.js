@@ -60,6 +60,9 @@ const InputField = ({
     if (errors.message === 'err:invalid_password') {
       return errors.message = 'Invalid password';
     }
+    if (errors.message === 'err:invalid_old_password') {
+      return errors.message = 'Current password is not correct';
+    }
     // console.log(errors)
     if (errors.message === 'err:confirm_password_mismatch') {
       return errors.message = 'Confirm Password mismatch';
