@@ -2,24 +2,18 @@
 import { useEffect, useState } from "react";
 // import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import get from 'lodash/get';
+import api from "src/utils/api";
 
 const RoundDetail = ({roundId}) => {
   
-  const [dataRoundId, setDataRoundId] = useState([]);
+  const [roundIdURL, setRoundIdURL] = useState({});
 
   const onViewRoundDetail = async() => {
-    // const response = await api.post('/public/round_detail/PaBmYRfKpR5SVUW', null);
-    const res = await fetch(
-      `https://sbpubapi.arrowltd.net/public/round_detail/${roundId}`,
-      {
-        method: 'GET',
-      }
-    );
-    const test = await res.json();
-    if (get(test, "success", false)) {
-      setDataRoundId(test.data);
+    const response = await api.post(`/api/transaction/round/${roundId}/url`, null);
+    if (get(response, "success", true)) {
+      setRoundIdURL(response?.url);
     } else {
-      console.log("response", test);
+      console.log("response", response);
     }
   }
 
@@ -28,12 +22,12 @@ const RoundDetail = ({roundId}) => {
   }, []);
 
   useEffect(() => {
-    console.log(dataRoundId);
-  }, [dataRoundId]);
+    console.log(roundIdURL);
+  }, [roundIdURL]);
 
   return (
-    <div>
-      test
+    <div style={{ paddingTop: '10px' }}>
+      <a href={roundIdURL} style={{ fontSize: '24px' }} >Diamond Strike</a>
     </div>
   );
 };

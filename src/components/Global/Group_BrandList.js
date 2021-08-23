@@ -49,9 +49,12 @@ const Group_BrandList = () => {
       data_field: 'operator_name',
       column_name: 'Group / Operator',
       align: 'left',
-      formatter: (cell, row) => (
-        <Link href={`/operator/list/${row.operator_id}/edit`}>{cell}</Link>
-      ),
+      formatter: (cell, row) => {
+        console.log(row)
+        return (
+          <Link href={`/operator/list/${row.operator_id}/edit`}>{cell}</Link>
+        )
+      }
     },
     {
       data_field: 'brand_total',
