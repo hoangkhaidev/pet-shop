@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 // import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import get from 'lodash/get';
 import api from "src/utils/api";
+import { Button } from "@material-ui/core";
 
 const RoundDetail = ({roundId}) => {
   
@@ -25,9 +26,22 @@ const RoundDetail = ({roundId}) => {
     console.log(roundIdURL);
   }, [roundIdURL]);
 
+  
+  const onPopupRoundDetail = () => {
+    let params = "scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=800,height=800";
+    window.open(roundIdURL, 'roundDetail', params);
+  }
+
+
   return (
     <div style={{ paddingTop: '10px' }}>
-      <a href={roundIdURL} style={{ fontSize: '24px' }} >Diamond Strike</a>
+      <Button 
+        color="primary"
+        variant="contained" 
+        onClick={() => onPopupRoundDetail()}
+      >
+        Diamond Strike
+      </Button>
     </div>
   );
 };
