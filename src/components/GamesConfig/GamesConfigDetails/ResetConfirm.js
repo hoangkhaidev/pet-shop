@@ -43,6 +43,7 @@ const ResetConfirm = ({onResetItem, currency_code }) => {
       <Button
         variant="contained"
         onClick={onOpenModal}
+        style={{ background: '#d37b17', marginLeft: '185px' }}
       >
         Reset to Default
       </Button>

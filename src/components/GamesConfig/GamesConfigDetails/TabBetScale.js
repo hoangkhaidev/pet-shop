@@ -105,6 +105,12 @@ const schema = {
 }
 
 export default function TabBetScale({currentData, setObjFilter, objFilter, dataDetail}) {
+  let betList = dataDetail?.bet_scale_list?.map((item) => {
+    let newScale = (Math.round(item.bet_scale * 100) / 100).toFixed(2);
+    return {
+      bet_scale: newScale
+    }
+  });
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
@@ -114,14 +120,7 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
       brand_id: dataDetail?.brand_id,
       bet_scale_id: dataDetail?.id,
       default_bet_scale: dataDetail?.default_bet_scale,
-      bet_scale_list: [
-        {
-          bet_scale: null
-        },
-        {
-          bet_scale: null
-        }
-      ],
+      bet_scale_list: betList,
       total_min: 0,
       total_max: 0
     },
@@ -186,7 +185,11 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
           } else {
             // console.log(response.err)
             if (response.err === "err:form_validation_failed") {
-              toast.warn(`${dataDetail.currency_code} Bet scale must be in range of Total MIN and Total MAX`);
+              if (response?.data?.default_bet === "err:bet_not_found") {
+                toast.warn(`${dataDetail.currency_code} bet not found`);
+              } else {
+                toast.warn(`${dataDetail.currency_code} bet scale must be in range of Total MIN and Total MAX`);
+              }
             }
             // console.log(response);
             // toast.warn('Update Bet Scale Fail');
@@ -205,7 +208,8 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
   };
 
   const handleReset = () => {
-    setFormState(initFormState);
+    // setFormState(initFormState);
+    window.location.reload();
   };
   
   const handleChangeInput = (event) => {
@@ -232,10 +236,9 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
     // eslint-disable-next-line
   }, [dataDetail]);
 
-  // useEffect(() => {
-  //   console.log(formState);
-     // eslint-disable-next-line
-  // }, [formState]);
+  useEffect(() => {
+    console.log(formState);
+  }, [formState]);
 
   useEffect(() => {
     const errors = validate(formState.values, schema);
@@ -267,6 +270,7 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
           <form onSubmit={handleSubmit}>
             <TableBetScale 
                 dataDetail={dataDetail}
+                default_bet_scale={formState?.values?.default_bet_scale}
                 setFormState={setFormState}
             />
             <div className={classes.tableConfiguration}>

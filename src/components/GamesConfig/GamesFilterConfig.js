@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import cloneDeep from "lodash.clonedeep";
 import api from "src/utils/api";
 import get from 'lodash/get';
+import { SORT_ODER } from "src/constants";
 
 const status = [
   {id: 0, value: "all", label: "All"},
@@ -49,7 +50,7 @@ const GamesFilterConfig = ({
       brand_id: "all",
       game_type: "all",
       game_name: "",
-      // jackpot: "all",
+      sort_order: "asc",
       status: "all"
     }
   });
@@ -149,7 +150,7 @@ const GamesFilterConfig = ({
       game_name: "",
       game_type: "",
       sort_field: "brand_name",
-      sort_order: "desc",
+      sort_order: "asc",
       status: "all",
       page: 1,
       page_size: 30,
@@ -188,6 +189,15 @@ const GamesFilterConfig = ({
                 id="game_name"
                 fullWidth={false}
                 options={gameNameData}
+              />
+              <SelectField
+                control={control}
+                namefileld="sort_order"
+                label="Sort Order"
+                id="sort_order"
+                fullWidth={false}
+                options={SORT_ODER}
+                defaultValue="asc"
               />
               {/* <SelectField
                 control={control}

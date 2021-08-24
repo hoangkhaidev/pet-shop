@@ -23,7 +23,7 @@ const GamesListConfig = () => {
     brand_id: 0,
     game_type: "",
     sort_field: "brand_name",
-    sort_order: "desc",
+    sort_order: "asc",
     game_name: "",
     status: "all",
     page: 1,
@@ -80,7 +80,6 @@ const GamesListConfig = () => {
     const mapData = get(dataResponse, 'list', []);
     setData(mapData);
   }, [dataResponse]);
-
  
   const columns = [
     {
@@ -105,7 +104,7 @@ const GamesListConfig = () => {
     },
     {
       data_field: "brand_name",
-      column_name: "Casino / Brand",
+      column_name: "Brand",
       align: "left",
     },
     {
@@ -162,9 +161,7 @@ const GamesListConfig = () => {
   return (
     <Fragment>
       {isLoading && <Loading />}
-      {(roleUser.account_type === 'operator') && (
-        <GamesFilterConfig onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
-      )}
+      <GamesFilterConfig onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <ContentCardPage>
         <TableComponent
           data={data}

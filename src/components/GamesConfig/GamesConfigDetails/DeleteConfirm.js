@@ -38,6 +38,7 @@ const DeleteConfirm = ({onDeleteItem, name }) => {
 
   const deleteItem = () => {
     onDeleteItem(name);
+    onClose();
   }
 
   return (

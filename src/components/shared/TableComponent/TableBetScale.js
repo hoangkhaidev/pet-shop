@@ -49,14 +49,14 @@ const schema = {
   },
 }
 
-export default function TableBetScale({ dataDetail, setFormState }) {
+export default function TableBetScale({ dataDetail, setFormState, default_bet_scale }) {
   const classes = useStyles();
-  let defaultBet = dataDetail?.default_bet_scale;
+  // let defaultBet = dataDetail?.default_bet_scale;
   let betScaleList = dataDetail?.bet_scale_list;
   let lines = dataDetail?.lines;
 
   const [dataScale, setDataScale] = useState(betScaleList);
-  const [checkedRadio, setCheckedRadio] = useState(defaultBet);
+  const [checkedRadio, setCheckedRadio] = useState(default_bet_scale);
 
   const initNewScale = {
     isValid: false,
@@ -126,7 +126,7 @@ export default function TableBetScale({ dataDetail, setFormState }) {
 
   const handleChangeInput = (event) => {
     event.persist();
-    let value = event.target.value?.trim() ? Number(event.target.value?.trim()) : '';
+    let value = event.target.value?.trim();
     let valueTotal = Number(value) * Number(lines);
 
     setNewScale((newScale) => ({
@@ -144,8 +144,8 @@ export default function TableBetScale({ dataDetail, setFormState }) {
   }
 
   useEffect(() => {
-    setCheckedRadio(defaultBet);
-  }, [defaultBet]);
+    setCheckedRadio(default_bet_scale);
+  }, [default_bet_scale]);
 
   useEffect(() => {
     setDataScale(betScaleList);

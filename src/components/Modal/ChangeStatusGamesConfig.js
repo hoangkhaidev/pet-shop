@@ -95,10 +95,12 @@ const ChangeStatusGamesConfig = ({status, game_code, brand_id, brand_name, game_
         </div>
       </ModalComponent>
       <Checkbox
-        color="primary"
         checked={checked}
         onChange={handleChange}
         inputProps={{ 'aria-label': 'secondary checkbox' }}
+        style ={{
+          color: "#1cb13c",
+        }}
       />
     </div>
   );
