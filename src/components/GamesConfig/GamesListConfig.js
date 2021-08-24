@@ -22,7 +22,7 @@ const GamesListConfig = () => {
   const [objFilter, setObjFilter] = useState({
     brand_id: 0,
     game_type: "",
-    sort_field: "brand_name",
+    sort_field: "game_name",
     sort_order: "asc",
     game_name: "",
     status: "all",
@@ -141,9 +141,9 @@ const GamesListConfig = () => {
     }));
   };
 
-  // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter])
+  useEffect(() => {
+    console.log(objFilter);
+  }, [objFilter])
 
   const onSubmit = async (data) => {
     // console.log(data)

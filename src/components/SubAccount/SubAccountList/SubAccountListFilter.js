@@ -13,6 +13,19 @@ import cloneDeep from "lodash.clonedeep";
 import { useSelector } from "react-redux";
 import api from "src/utils/api";
 
+const SORT_FIELD = [
+  {
+    id: 1,
+    value: "username",
+    label: "Username"
+  },
+  {
+    id: 2,
+    value: "name",
+    label: "Name"
+  }
+];
+
 const SubAccountListFilter = ({
   onResetFilter
 }) => {
@@ -92,6 +105,17 @@ const SubAccountListFilter = ({
             options={USER_STATUS}
             defaultValue="all"
           />
+        </Grid>
+        <Grid item xs={12} xl={3} md={4}>
+            <SelectField
+              control={control}
+              namefileld="sort_field"
+              label="Sort Field"
+              id="sort_field"
+              fullWidth={false}
+              options={SORT_FIELD}
+              defaultValue="username"
+            />
         </Grid>
         <Grid item xs={12} xl={3} md={4}>
           <SelectField

@@ -180,7 +180,7 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
             toast.success('Update Bet Scale Success', {
               onClose: setTimeout(() => {
                   window.location.reload()
-              }, 1000),   
+              }, 0),   
             });
           } else {
             // console.log(response.err)
@@ -189,13 +189,13 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
                 toast.warn(`${dataDetail.currency_code} default bet not found`, {
                   onClose: setTimeout(() => {
                       window.location.reload()
-                  }, 1000),
+                  }, 0),
                 }); 
               } else {
                 toast.warn(`${dataDetail.currency_code} bet scale must be in range of Total MIN and Total MAX`, {
                   onClose: setTimeout(() => {
                       window.location.reload()
-                  }, 1000),
+                  }, 0),
                 });
               }
             }

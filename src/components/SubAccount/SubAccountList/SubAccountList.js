@@ -148,9 +148,9 @@ const SubAccountList = () => {
     setData(get(dataResponse, 'list', []));
   }, [dataResponse]);
 
-  // useEffect(() => {
-  //   console.log(dataResponse)
-  // }, [dataResponse]);
+  useEffect(() => {
+    console.log(objFilter)
+  }, [objFilter]);
 
   const columns = [
     {
@@ -310,6 +310,7 @@ const SubAccountList = () => {
     methods.reset({
       name_search: '',
       sort_order: 'asc',
+      sort_field: 'username',
       filter_type: "all",
       brand_ids: [1],
       status_search: '',

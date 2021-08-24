@@ -64,6 +64,19 @@ export const SORT_ODER = [
   }
 ];
 
+export const SORT_FIELD = [
+  {
+    id: 1,
+    value: "game_name",
+    label: "Game Name"
+  },
+  {
+    id: 2,
+    value: "brand_name",
+    label: "Brand"
+  }
+];
+
 export const LIST_PERMISSIONS = [
   {
     label: "None",

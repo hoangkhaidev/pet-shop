@@ -10,6 +10,8 @@ import TabPanel from "src/components/shared/TabPanel/TabPanel";
 import Loading from "src/components/shared/Loading/Loading";
 import GameParamCloning from "./GameParamCloning";
 import { useSelector } from "react-redux";
+import RunDevelopmentTest from "./RunDevelopmentTest/RunDevelopmentTest";
+import DevelopmentVariables from "./DevelopmentVariables/DevelopmentVariables";
 
 const Endpoint_Settings = lazy(() => import("./Endpoint_Settings"));
 
@@ -73,6 +75,8 @@ const BrandDetail = () => {
           {roleUser.account_type !== 'brand' && (
             <Tab className={classes.labelTab} label={t("Game Param Cloning")} {...a11yProps(1)} />
           )}
+          <Tab className={classes.labelTab} label={t("Run Development Test")} {...a11yProps(2)} />
+          <Tab className={classes.labelTab} label={t("Development Variables")} {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <DateRangeContext.Provider value={valueContext}>
@@ -85,6 +89,12 @@ const BrandDetail = () => {
               <GameParamCloning />
             </TabPanel>
           )}
+          <TabPanel value={value} index={2}>
+            <RunDevelopmentTest />
+          </TabPanel>
+          <TabPanel value={value} index={3}>
+            <DevelopmentVariables />
+          </TabPanel>
         </Suspense>
       </DateRangeContext.Provider>
     </div>

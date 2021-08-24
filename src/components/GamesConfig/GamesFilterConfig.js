@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import cloneDeep from "lodash.clonedeep";
 import api from "src/utils/api";
 import get from 'lodash/get';
-import { SORT_ODER } from "src/constants";
+import { SORT_FIELD, SORT_ODER } from "src/constants";
 
 const status = [
   {id: 0, value: "all", label: "All"},
@@ -50,6 +50,7 @@ const GamesFilterConfig = ({
       brand_id: "all",
       game_type: "all",
       game_name: "",
+      sort_field: "game_name",
       sort_order: "asc",
       status: "all"
     }
@@ -142,6 +143,8 @@ const GamesFilterConfig = ({
       brand_id: "all",
       game_name: "",
       game_type: "all",
+      sort_field: "game_name",
+      sort_order: "asc",
       status: "all",
       jackpot: "all",
     });
@@ -149,7 +152,7 @@ const GamesFilterConfig = ({
       brand_id: 0,
       game_name: "",
       game_type: "",
-      sort_field: "brand_name",
+      sort_field: "game_name",
       sort_order: "asc",
       status: "all",
       page: 1,
@@ -190,15 +193,6 @@ const GamesFilterConfig = ({
                 fullWidth={false}
                 options={gameNameData}
               />
-              <SelectField
-                control={control}
-                namefileld="sort_order"
-                label="Sort Order"
-                id="sort_order"
-                fullWidth={false}
-                options={SORT_ODER}
-                defaultValue="asc"
-              />
               {/* <SelectField
                 control={control}
                 namefileld="jackpot"
@@ -219,7 +213,29 @@ const GamesFilterConfig = ({
                 options={brandData}
               />
             </Grid>
-            
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
+              <SelectField
+                control={control}
+                namefileld="sort_field"
+                label="Sort Field"
+                id="sort_field"
+                fullWidth={false}
+                options={SORT_FIELD}
+              />
+            </Grid>
+            <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
+              <SelectField
+                control={control}
+                namefileld="sort_order"
+                label="Sort Order"
+                id="sort_order"
+                fullWidth={false}
+                options={SORT_ODER}
+                defaultValue="asc"
+              />
+            </Grid>
           </Grid>
           <ButtonGroup>
             <SubmitButton text={'Search'} />
