@@ -186,9 +186,17 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
             // console.log(response.err)
             if (response.err === "err:form_validation_failed") {
               if (response?.data?.default_bet === "err:bet_not_found") {
-                toast.warn(`${dataDetail.currency_code} bet not found`);
+                toast.warn(`${dataDetail.currency_code} default bet not found`, {
+                  onClose: setTimeout(() => {
+                      window.location.reload()
+                  }, 1000),
+                }); 
               } else {
-                toast.warn(`${dataDetail.currency_code} bet scale must be in range of Total MIN and Total MAX`);
+                toast.warn(`${dataDetail.currency_code} bet scale must be in range of Total MIN and Total MAX`, {
+                  onClose: setTimeout(() => {
+                      window.location.reload()
+                  }, 1000),
+                });
               }
             }
             // console.log(response);
