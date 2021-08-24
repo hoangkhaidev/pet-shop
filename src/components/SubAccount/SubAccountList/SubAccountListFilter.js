@@ -106,6 +106,8 @@ const SubAccountListFilter = ({
             defaultValue="all"
           />
         </Grid>
+      </Grid>
+      <Grid container spacing={2}>
         <Grid item xs={12} xl={3} md={4}>
             <SelectField
               control={control}
@@ -128,6 +130,7 @@ const SubAccountListFilter = ({
             defaultValue="asc"
           />
         </Grid>
+
       </Grid>
       <ButtonGroup>
         <SubmitButton text="Search"/>
