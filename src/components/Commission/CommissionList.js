@@ -132,7 +132,7 @@ const CommissionList = () => {
       brand_id: brand_id,
       product_commission: productCommission,
     };
-    // console.log(form);
+    console.log(form);
     const response = await api.post('/api/commission/commission_update', form);
     if (get(response, "success", false)) {
       toast.success('Update Commission Success', {
@@ -141,9 +141,16 @@ const CommissionList = () => {
         }, 0)
       });
     } else {
-      toast.false('Update Fail', {
-        onClose: navigate("/configuration/commission")
-      });
+      console.log(response)
+      if (response?.err === 'err:form_validation_failed') {
+        toast.warn('Invalid commission', {
+          onClose: navigate("/configuration/commission")
+        });
+      } else {
+        toast.warn('Product not enable', {
+          onClose: navigate("/configuration/commission")
+        });
+      }
     }
   }
 

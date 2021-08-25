@@ -24,6 +24,12 @@ const CurrencyList = () => {
     [refreshData]
   );
 
+  const formatNumber = (num) => {
+    let cellFormat = (Math.round(num * 100)/100).toFixed(2);
+    let formatNum = cellFormat?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    return formatNum;
+  }
+
   useEffect(() => {
     let mapData = cloneDeep(dataResponse)
     setData(mapData)
@@ -57,6 +63,9 @@ const CurrencyList = () => {
       data_field: 'rate',
       column_name: 'USD Rate',
       align: 'right',
+      formatter: (cell, row) => {
+        return formatNumber(cell);
+      }
     },
     {
       data_field: 'status',

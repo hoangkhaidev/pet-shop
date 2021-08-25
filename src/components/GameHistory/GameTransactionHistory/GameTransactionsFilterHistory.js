@@ -15,6 +15,7 @@ import useRouter from "src/utils/hooks/useRouter";
 import { useSelector } from "react-redux";
 import cloneDeep from "lodash.clonedeep";
 import api from "src/utils/api";
+import { SORT_ODER } from "src/constants";
 
 const useStyles = makeStyles(() => ({
   inputDataPicked: {
@@ -187,8 +188,8 @@ const GameTransactionFilterHistory = ({
       page: 1,
       page_size: 30,
       time_zone: tz,
-      sort_field: "start_at",
-      sort_order: "DESC",
+      sort_field: "end_at",
+      sort_order: "desc",
       brand_id: "all",
       player_id: "",
       nick_name: "",
@@ -205,8 +206,8 @@ const GameTransactionFilterHistory = ({
       page_size: 30,
       time_zone: tz,
       brand_id: 1,
-      sort_field: "start_at",
-      sort_order: "DESC",
+      sort_field: "end_at",
+      sort_order: "desc",
       player_id: "",
       nick_name: "",
       round_id: "",
@@ -315,6 +316,48 @@ const GameTransactionFilterHistory = ({
               />
             </Grid>
             
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} xl={3} md={3}>
+              <SelectField
+                control={control}
+                namefileld="sort_field"
+                id="sort_field"
+                label="Sort field"
+                fullWidth={false}
+                options={
+                  [
+                    {
+                      id: 1,
+                      value: "start_at",
+                      label: "Start Date"
+                    },
+                    {
+                      id: 2,
+                      value: "end_at",
+                      label: "End Date"
+                    },
+                    {
+                      id: 2,
+                      value: "game",
+                      label: "Game"
+                    }
+                  ]
+                }
+                defaultValue="end_at"
+              />
+            </Grid>
+            <Grid item xs={12} xl={3} md={3}>
+              <SelectField
+                control={control}
+                namefileld="sort_order"
+                id="sort_order"
+                label="Sort order"
+                options={SORT_ODER}
+                fullWidth={false}
+                defaultValue="desc"
+              />
+            </Grid>
           </Grid>
           <ButtonGroup>
             <SubmitButton text='Search' clickRef={clickRef} />

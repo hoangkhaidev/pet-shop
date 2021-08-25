@@ -200,9 +200,6 @@ const GamesSummaryFilter = ({
                   <FormControlLabel value="week" control={<Radio />} label="Total by Week" />
                   <FormControlLabel value="year" control={<Radio />} label="Total by Year" />
                 </div>
-                <div style={{ whiteSpace: 'nowrap' }}>
-                  <FormControlLabel value="brand" control={<Radio />} label="Total by Brand" />
-                </div>
               </div>
 
             </RadioGroup>

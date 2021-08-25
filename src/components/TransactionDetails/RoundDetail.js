@@ -22,9 +22,9 @@ const RoundDetail = ({roundId}) => {
     onViewRoundDetail();
   }, []);
 
-  useEffect(() => {
-    console.log(roundIdURL);
-  }, [roundIdURL]);
+  // useEffect(() => {
+  //   console.log(roundIdURL);
+  // }, [roundIdURL]);
 
   
   const onPopupRoundDetail = () => {

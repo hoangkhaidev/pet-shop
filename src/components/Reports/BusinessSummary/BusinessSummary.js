@@ -93,7 +93,7 @@ const BusinessSummary = () => {
   const columns = [
     {
       data_field: "identifier",
-      column_name: "Period",
+      column_name: objFilter.option === 'brand' ? "Brand" : "Period",
       align: "right",
       formatter: (cell, row) => {
         // console.log(row)
@@ -180,9 +180,9 @@ const BusinessSummary = () => {
     }));
   };
 
-  // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter])
+  useEffect(() => {
+    console.log(objFilter);
+  }, [objFilter])
 
   const onSubmit = async (data) => {
     // console.log(data)

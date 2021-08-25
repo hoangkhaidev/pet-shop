@@ -98,7 +98,7 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
               icon={faBan} 
               size={'2x'} 
               color={'red'} 
-              title={labelShow} 
+              title={'Inactivate'} 
               onClick={(onOpenModal)} 
               style={types !== 'statusView' ? {cursor: 'pointer'} : ''}
             />
@@ -107,7 +107,7 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
               icon={faCheckCircle} 
               size={'2x'} 
               color={'#82c91e'} 
-              title={labelShow} 
+              title={'Activate'} 
               onClick={(onOpenModal)} 
               style={types !== 'statusView' ? {cursor: 'pointer'} : ''}
             />

@@ -40,12 +40,12 @@ const STATUS_ALL = [
   {
     id: 1,
     value: 'suspended',
-    label: 'Suspend',
+    label: 'Suspended',
   },
   {
     id: 2,
     value: 'locked',
-    label: 'Lock',
+    label: 'Locked',
   },
   {
     id: 3,
@@ -148,9 +148,9 @@ const SubAccountList = () => {
     setData(get(dataResponse, 'list', []));
   }, [dataResponse]);
 
-  useEffect(() => {
-    console.log(objFilter)
-  }, [objFilter]);
+  // useEffect(() => {
+  //   console.log(objFilter)
+  // }, [objFilter]);
 
   const columns = [
     {

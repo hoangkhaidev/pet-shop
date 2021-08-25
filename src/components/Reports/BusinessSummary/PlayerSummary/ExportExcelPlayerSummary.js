@@ -5,6 +5,8 @@ import { saveAs } from "file-saver";
 import XlsxPopulate from "xlsx-populate";
 import Button from '@material-ui/core/Button';
 // import cloneDeep from "lodash.clonedeep";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 
 export const ExportExcelPlayerSummary = ({ excelData }) => {
 
@@ -76,7 +78,7 @@ export const ExportExcelPlayerSummary = ({ excelData }) => {
           
   return (
       <>
-          <Button
+          {/* <Button
               variant="contained"
               type="submit"
               color="primary"
@@ -84,7 +86,21 @@ export const ExportExcelPlayerSummary = ({ excelData }) => {
               onClick={e => exportToExcel()}
           >
               Download Excel
-          </Button>
+          </Button> */}
+          <div style={{ textAlign: 'right', marginBottom: '10px' }}>
+            <Button 
+              style={{ background: '#15aabf', padding: '10px' }} 
+              onClick={e => exportToExcel()}
+            >
+              <FontAwesomeIcon 
+                icon={faFileExcel} 
+                size={'2x'} 
+                color={'#fff'} 
+                title={'Download Excel'} 
+                style={{cursor: 'pointer'}}
+              />
+            </Button>
+          </div>
       </>
   )
 }

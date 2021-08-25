@@ -54,9 +54,9 @@ const TransactionRequestResponse = ({roundId}) => {
   //   console.log(data);
   // }, [data]);
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
+  useEffect(() => {
+    console.log(dataResponse);
+  }, [dataResponse]);
 
   const columns = [
     {
@@ -87,6 +87,11 @@ const TransactionRequestResponse = ({roundId}) => {
     {
       data_field: "response",
       column_name: "Response",
+      align: "left"
+    },
+    {
+      data_field: "note",
+      column_name: "Note",
       align: "left"
     }
   ];

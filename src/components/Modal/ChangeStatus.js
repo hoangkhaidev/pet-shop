@@ -18,8 +18,41 @@ import TableComponentStatus from "../shared/TableComponent/TableComponentStatus"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSign } from '@fortawesome/free-solid-svg-icons';
 
+const STATUS_ALL = [
+  {
+    id: 1,
+    value: 'suspended',
+    label: 'Suspended',
+  },
+  {
+    id: 2,
+    value: 'locked',
+    label: 'Locked',
+  },
+  {
+    id: 3,
+    value: 'inactive',
+    label: 'Inactive',
+  },
+  {
+    id: 4,
+    value: 'unsuspended',
+    label: 'Unsuspend',
+  },
+  {
+    id: 5,
+    value: 'unlocked',
+    label: 'Unlock',
+  },
+  {
+    id: 3,
+    value: 'active',
+    label: 'Active',
+  },
+];
+
 const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, statuses, types, setRefreshData = () => {} }) => {
-  // console.log(statuses)
+  // console.log(STATUS)
   const [statusLabels, setStatusLabels] = useState(labels);
 
   const [label, setLabel] = useState(newlabel);
@@ -77,14 +110,14 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
       align: "left",
       formatter: (cell, row) => {
         const newlabel = row?.status;
-        // console.log(row);
+        console.log(row);
 
         return (
           <ChangeStatus
             types='viewStatusList'
             newlabel={newlabel}
             linkApi={`/api/subs/${row.id}/update_status`}
-            STATUS={STATUS}
+            STATUS={STATUS_ALL}
             username={row.username}
             statuses={row.statuses}
           />
@@ -153,10 +186,10 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
 
   let labelView = '';
   if (label === 'active') labelView = 'Active';
-  if (label === 'suspended') labelView = 'Suspend';
+  if (label === 'suspended') labelView = 'Suspended';
   if (label === 'inactive') labelView = 'Inactive';
   if (label === 'unsuspended') labelView = 'Unsuspend';
-  if (label === 'locked') labelView = 'Lock';
+  if (label === 'locked') labelView = 'Locked';
   if (label === 'unlocked') labelView = 'Unlock';
 
   return (
@@ -251,17 +284,6 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
           </form>
           {/* <ContentCardPage> */}
             <TitlePage title="Status History" />
-            {/* <TableComponent
-              data={data}
-              columns={columns}
-              pagination={{
-                total_size: fakeData.length,
-                page: +objFilter.page,
-                page_size: +objFilter.page_size
-              }}
-              handleChangePage={handleChangePage}
-              handleChangeRowsPerPage={handleChangeRowsPerPage}
-            /> */}
             <TableComponentStatus 
               data={data}
               columns={columns}
