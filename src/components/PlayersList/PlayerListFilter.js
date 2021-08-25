@@ -80,7 +80,7 @@ const PLayerListFilter = ({
       let optionData = {
         id: data.code,
         value: data.code,
-        label: data.name,
+        label: `${data.code} - ${data.name}`,
       };
       mapData.push(optionData)
     });

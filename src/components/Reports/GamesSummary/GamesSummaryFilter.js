@@ -192,11 +192,11 @@ const GamesSummaryFilter = ({
             <Grid item xs={12} xl={3} md={6}>
             <RadioGroup aria-label="gender" name="option" value={radio} onChange={handleChange}>
               <div style={{ display: 'flex', paddingTop: '25px', paddingLeft: '15px' }}>
-                <div>
+                <div style={{ display: 'grid', marginRight: '1rem' }}>
                   <FormControlLabel value="day" control={<Radio />} label="Total by Day" />
                   <FormControlLabel value="month" control={<Radio />} label="Total by Month" />
                 </div>
-                <div>
+                <div style={{ display: 'grid' }}>
                   <FormControlLabel value="week" control={<Radio />} label="Total by Week" />
                   <FormControlLabel value="year" control={<Radio />} label="Total by Year" />
                 </div>
