@@ -208,7 +208,7 @@ const OperatorEdit = () => {
       }
       return item;
     });
-    // console.log(dataProCon);
+    console.log(dataProCon);
     // setProductCommission(dataProCon);
     setProductCommission((productCommission) => ({
       ...productCommission,
@@ -259,7 +259,15 @@ const OperatorEdit = () => {
     // const defaultPro = cloneDeep(data.product_commission);
     if (productCommission.isValid === true) {
 
-      const product_form = productCommission.values.filter((item) => item.checked === true );
+      let dataFinanceEmail = [];
+      
+      if (finance_emails.trim()) {
+        dataFinanceEmail = [...financeEmails, finance_emails];
+      } else {
+        dataFinanceEmail = financeEmails;
+      }
+
+      const product_form = cloneDeep(productCommission.values).filter((item) => item.checked === true );
       const product_commission = product_form.map((item) => {
         delete item.label;
         delete item.checked;
@@ -280,7 +288,7 @@ const OperatorEdit = () => {
         password: dataForm.password ? dataForm.password : '',
         password_confirmation: dataForm.password_confirmation ? dataForm.password_confirmation : '',
         whitelist_ips: formatWLIPs,
-        finance_email: financeEmails,
+        finance_email: dataFinanceEmail,
         product_commission: product_commission,
       };
       delete form.commission;
@@ -343,6 +351,10 @@ const OperatorEdit = () => {
       }));
     }
   };
+
+  useEffect(() => {
+    console.log(productCommission);
+  }, [productCommission]);
 
   const addingFinanceEmail = () => {
     // console.log(finance_emails);

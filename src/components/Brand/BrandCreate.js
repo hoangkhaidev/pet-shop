@@ -226,6 +226,15 @@ const BrandCreate = () => {
 
   const onSubmit = async (dataForm) => {
     // console.log(dataForm);
+      let dataFinanceEmail = [];
+        
+      if (finance_email.trim()) {
+        dataFinanceEmail = [...financeEmail, finance_email];
+      } else {
+        dataFinanceEmail = financeEmail;
+      }
+      // console.log(dataFinanceEmail);
+
       const product_form = dataForm.commission.filter((item) => item.checked === true );
       const product_commission = product_form.map((item) => {
         let arr = {
@@ -248,7 +257,7 @@ const BrandCreate = () => {
         ...dataForm,
         api_whitelist_ip: formatWLIPEndpoint,
         whitelist_ips: formatWLIPs,
-        finance_emails: financeEmail,
+        finance_emails: dataFinanceEmail,
         product_commission: product_commission,
       };
       console.log(form);

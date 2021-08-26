@@ -133,7 +133,15 @@ const OperatorCreate = () => {
   }, [checkboxListCheck]);
 
   const onSubmit = async (data) => {
-    // console.log(data)
+    let dataFinanceEmail = [];
+      
+    if (finance_email.trim()) {
+      dataFinanceEmail = [...financeEmail, finance_email];
+    } else {
+      dataFinanceEmail = financeEmail;
+    }
+    console.log(dataFinanceEmail);
+
     const product_form = data.commission.filter((item) => item.checked === true );
     const product_commission = product_form.map((item) => {
       return {
@@ -156,7 +164,7 @@ const OperatorCreate = () => {
       api_whitelist_ip: formatWLIPEndpoint,
       whitelist_ips: formatWLIPs,
       product_ids: [data.product_ids],
-      finance_email: financeEmail,
+      finance_email: dataFinanceEmail,
       product_commission: product_commission,
     };
     delete form.commission;

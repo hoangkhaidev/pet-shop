@@ -82,10 +82,18 @@ const Profile = () => {
 
   const onSubmit = async (dataForm) => {
 
+    let dataFinanceEmail = [];
+      
+      if (finance_emails.trim()) {
+        dataFinanceEmail = [...financeEmail, finance_emails];
+      } else {
+        dataFinanceEmail = financeEmail;
+      }
+
     const form = {
       display_name: dataForm.name ? dataForm.name : '',
       support_email: dataForm.support_email ? dataForm.support_email : '',
-      finance_email: financeEmail ? financeEmail : [],
+      finance_email: dataFinanceEmail,
       current_password: dataForm.current_password ? dataForm.current_password : '',
       password: dataForm.password ? dataForm.password : '',
       password_confirmation: dataForm.password_confirmation ? dataForm.password_confirmation : '',

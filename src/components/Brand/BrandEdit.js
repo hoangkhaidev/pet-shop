@@ -260,7 +260,18 @@ const BrandEdit = () => {
 
   const onSubmit = async (dataForm) => {
     if (productCommission.isValid === true) {
-      const product_form = productCommission.values.filter((item) => item.checked === true );
+
+      let dataFinanceEmail = [];
+      
+      if (finance_emails.trim()) {
+        dataFinanceEmail = [...financeEmail, finance_emails];
+      } else {
+        dataFinanceEmail = financeEmail;
+      }
+
+      console.log(dataFinanceEmail);
+
+      const product_form = cloneDeep(productCommission.values).filter((item) => item.checked === true );
       const product_commission = cloneDeep(product_form).map((item) => {
         delete item.label;
         delete item.checked;
@@ -282,7 +293,7 @@ const BrandEdit = () => {
         password: dataForm.password ? dataForm.password : '',
         password_confirmation: dataForm.password_confirmation ? dataForm.password_confirmation : '',
         whitelist_ips: formatWLIPs,
-        finance_emails: financeEmail,
+        finance_emails: dataFinanceEmail,
         operator_id: 0,
         product_commission: product_commission,
       };
