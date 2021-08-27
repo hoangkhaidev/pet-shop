@@ -7,6 +7,7 @@ import useFetchData from "src/utils/hooks/useFetchData";
 import useRouter from "src/utils/hooks/useRouter";
 import get from 'lodash/get';
 import { toast } from "react-toastify";
+import cloneDeep from "lodash.clonedeep";
 
 const useStyles = makeStyles(() => ({
     tableDevelopment: {
@@ -92,8 +93,27 @@ const TableDevelopmentVariables = () => {
     }
   }
 
-  const onResetRefund = () => {
-    setFormStateRefund(initFormState)
+  const onResetRefund = async() => {
+    let form = {
+        config_type: "refund"
+    }
+    try {
+        let response = await api.post(
+          `/api/global/brand_detail/${router?.query?.id}/development_variable/reset`,
+          form
+        );
+        if (get(response, 'success', false)) {
+          toast.success('Reset Refund Success', {
+            onClose: setTimeout(() => {
+                window.location.reload()
+            }, 0),   
+          });
+        } else {
+          console.log(response);
+        }
+    } catch (e) {
+        console.log('e', e);
+    }
   }
 
   //  retry
@@ -147,8 +167,27 @@ const TableDevelopmentVariables = () => {
     }
   }
 
-  const onResetRetry = () => {
-    setFormStateRetry(initFormState)
+  const onResetRetry = async() => {
+    let form = {
+        config_type: "retry"
+    }
+    try {
+        let response = await api.post(
+          `/api/global/brand_detail/${router?.query?.id}/development_variable/reset`,
+          form
+        );
+        if (get(response, 'success', false)) {
+          toast.success('Reset Retry Success', {
+            onClose: setTimeout(() => {
+                window.location.reload()
+            }, 0),   
+          });
+        } else {
+          console.log(response);
+        }
+    } catch (e) {
+        console.log('e', e);
+    }
   }
 
   // m_refund
@@ -186,8 +225,27 @@ const TableDevelopmentVariables = () => {
     }
   }
 
-  const onResetMRefund = () => {
-    setFormStateMRefund(initFormState)
+  const onResetMRefund = async() => {
+    let form = {
+        config_type: "m_refund"
+    }
+    try {
+        let response = await api.post(
+          `/api/global/brand_detail/${router?.query?.id}/development_variable/reset`,
+          form
+        );
+        if (get(response, 'success', false)) {
+          toast.success('Reset Manual Refund Success', {
+            onClose: setTimeout(() => {
+                window.location.reload()
+            }, 0),   
+          });
+        } else {
+          console.log(response);
+        }
+    } catch (e) {
+        console.log('e', e);
+    }
   }
   // m_retry
   const handleChangeInputMRetry = (event) => {
@@ -225,27 +283,47 @@ const TableDevelopmentVariables = () => {
     
   }
 
-  const onResetMRetry = () => {
-    setFormStateMRetry(initFormState)
+  const onResetMRetry = async() => {
+    let form = {
+        config_type: "m_retry"
+    }
+    try {
+        let response = await api.post(
+          `/api/global/brand_detail/${router?.query?.id}/development_variable/reset`,
+          form
+        );
+        if (get(response, 'success', false)) {
+          toast.success('Reset Manual Retry Success', {
+            onClose: setTimeout(() => {
+                window.location.reload()
+            }, 0),   
+          });
+        } else {
+          console.log(response);
+        }
+    } catch (e) {
+        console.log('e', e);
+    }
   }
   //get api
 
   useEffect(() => {
+    let dataState = cloneDeep(dataResponse);
     setFormStateRefund({
-        count: dataResponse?.refund?.count,
-        username: dataResponse?.refund?.username
+        count: dataState?.refund?.count,
+        username: dataState?.refund?.username
     });
     setFormStateRetry({
-        count: dataResponse?.retry?.count,
-        username: dataResponse?.retry?.username
+        count: dataState?.retry?.count,
+        username: dataState?.retry?.username
     });
     setFormStateMRefund({
-        count: dataResponse?.m_refund?.count,
-        username: dataResponse?.m_refund?.username
+        count: dataState?.m_refund?.count,
+        username: dataState?.m_refund?.username
     });
     setFormStateMRetry({
-        count: dataResponse?.m_retry?.count,
-        username: dataResponse?.m_retry?.username
+        count: dataState?.m_retry?.count,
+        username: dataState?.m_retry?.username
     });
   }, [dataResponse]);
 

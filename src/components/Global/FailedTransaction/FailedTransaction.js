@@ -96,14 +96,14 @@ const FailedTransaction = () => {
       align: "right",
       formatter: cell => formatNumberWithComma(toString(cell))
     },
+    // {
+    //   data_field: "jackpot",
+    //   column_name: "Jackpot",
+    //   align: "right",
+    //   formatter: cell => formatNumberWithComma(toString(cell))
+    // },
     {
-      data_field: "jackpot",
-      column_name: "Jackpot",
-      align: "right",
-      formatter: cell => formatNumberWithComma(toString(cell))
-    },
-    {
-      data_field: "balance_after",
+      data_field: "new_balance",
       column_name: "Balance",
       align: "right",
       formatter: cell => formatNumberWithComma(toString(cell))
@@ -117,6 +117,16 @@ const FailedTransaction = () => {
       data_field: "game_name",
       column_name: "Game",
       align: "left"
+    },
+    {
+      data_field: 'process_status',
+      column_name: 'Action',
+      align: 'left',
+      formatter: (cell, row) => {
+        return (
+          cell
+        )
+      }
     }
   ];
 
