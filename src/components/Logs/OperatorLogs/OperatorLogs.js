@@ -65,17 +65,17 @@ const OperatorLogs = () => {
     {
       data_field: "activity",
       column_name: "Activity",
-      align: "right",
+      align: "left",
     },
     {
       data_field: "target_name",
       column_name: "Target",
-      align: "right",
+      align: "left",
     },
     {
       data_field: "description",
       column_name: "Description",
-      align: "right",
+      align: "left",
       formatter: (cell, row) => {
         let newText = cell.split("\n").map((item, i) => {
           return <p key={i}>{item}</p>;
