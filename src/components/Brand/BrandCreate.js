@@ -228,7 +228,7 @@ const BrandCreate = () => {
     // console.log(dataForm);
       let dataFinanceEmail = [];
         
-      if (finance_email.trim()) {
+      if (finance_email) {
         dataFinanceEmail = [...financeEmail, finance_email];
       } else {
         dataFinanceEmail = financeEmail;

@@ -114,6 +114,10 @@ const Profile = lazy(() =>
   import('src/components/Profile/Profile')
 );
 
+const FailedTransaction = lazy(() =>
+  import('src/components/Global/FailedTransaction/FailedTransaction')
+);
+
 const routes = (isLoggedIn) => [
   {
     path: 'home',
@@ -265,6 +269,12 @@ const routes = (isLoggedIn) => [
         fullpath: '/global/brand_detail/:id',
         name: 'Brand Detail',
         element: <BrandGlobalEdit />,
+      },
+      {
+        path: '/failed_transaction',
+        fullpath: '/global/failed_transaction',
+        name: 'Failed Transaction',
+        element: <FailedTransaction />,
       },
     ],
   },

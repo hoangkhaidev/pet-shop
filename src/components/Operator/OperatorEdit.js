@@ -261,7 +261,7 @@ const OperatorEdit = () => {
 
       let dataFinanceEmail = [];
       
-      if (finance_emails.trim()) {
+      if (finance_emails) {
         dataFinanceEmail = [...financeEmails, finance_emails];
       } else {
         dataFinanceEmail = financeEmails;

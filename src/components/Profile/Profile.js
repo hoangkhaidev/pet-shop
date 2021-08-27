@@ -84,7 +84,7 @@ const Profile = () => {
 
     let dataFinanceEmail = [];
       
-      if (finance_emails.trim()) {
+      if (finance_emails) {
         dataFinanceEmail = [...financeEmail, finance_emails];
       } else {
         dataFinanceEmail = financeEmail;
