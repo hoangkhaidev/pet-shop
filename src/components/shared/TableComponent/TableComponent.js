@@ -67,7 +67,8 @@ TableHeader.propTypes = {
 const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
   const classes = useStyles();
   let newAt = moment(rowData.at).format("DD/MM/YY, hh:mm a");
-  rowData.at = newAt; 
+  rowData.at = newAt;
+  // console.log(rowData.description)
   return (
     <StyledTableRow align={cellInfo.align}>
       {cellInfo.map((info, index) => {

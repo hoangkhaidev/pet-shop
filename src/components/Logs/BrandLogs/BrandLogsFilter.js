@@ -1,20 +1,13 @@
-import { Fragment, useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
-// import { useTranslation } from "react-i18next";
-// import FormControl from "@material-ui/core/FormControl";
-// import FormLabel from "@material-ui/core/FormLabel";
 import { makeStyles } from "@material-ui/core";
 import moment from 'moment';
 import { func } from "prop-types";
-
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
-import DateRangePickerComponent from "src/components/shared/DateRangePickerComponent/DateRangePickerComponent";
 import InputField from "src/components/shared/InputField/InputField";
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
-
-// import { DateRangeContext } from "../SearchGameHistory";
-// import useRouter from "src/utils/hooks/useRouter";
+import DateRangePickerLogs from "src/components/shared/DateRangePickerComponent/DateRangePickerLogs";
 
 const useStyles = makeStyles(() => ({
   inputDataPicked: {
@@ -34,8 +27,6 @@ const BrandLogsFilter = ({
   const classes = useStyles();
   // const router = useRouter();
 
-  const dateRangeRef = useRef(null);
-
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       username: "",
@@ -46,8 +37,8 @@ const BrandLogsFilter = ({
   });
 
   const [dateRange, setDateRange] = useState({
-    start: moment().format("DD/MM/YYYY"),
-    end: moment().format("DD/MM/YYYY"),
+    start: "",
+    end: "",
   });
 
   const onChangeDateRange = (startDate, endDate) => {
@@ -74,16 +65,16 @@ const BrandLogsFilter = ({
       target: "",
     });
     setDateRange({
-      start: moment().format("DD/MM/YYYY"),
-      end: moment().format("DD/MM/YYYY")
+      start: "",
+      end: ""
     });
     setObjFilter({
       username: "",
       description: "",
       activity: "",
       target: "",
-      from_date: moment().format("DD/MM/YYYY"),
-      to_date: moment().format("DD/MM/YYYY"),
+      from_date: "",
+      to_date: "",
       sort_field: "created_at",
       sort_order: "DESC",
       page: 1,
@@ -91,25 +82,16 @@ const BrandLogsFilter = ({
     });
   };
 
-  useEffect(() => {
-    dateRangeRef.current.setStartDate(dateRange.start);
-    dateRangeRef.current.setEndDate(dateRange.end);
-  }, [dateRange]);
-
   return (
     <>
       <ContentCardPage>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid className={classes.inputDataPicked} item xs={12} xl={3} md={4}>
-                <DateRangePickerComponent
+                <DateRangePickerLogs
                   className={classes.inputDataPicked}
                   control={control}
-                  timePicker
-                  startDate={dateRange.start}
-                  endDate={dateRange.end}
                   handleCallback={onChangeDateRange}
-                  dateRangeRef={dateRangeRef}
                   format="DD/MM/YYYY"
                 />
                 {/* <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>

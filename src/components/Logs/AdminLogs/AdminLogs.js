@@ -1,5 +1,4 @@
 import { Fragment, useEffect, useState } from "react";
-import moment from "moment";
 import useRouter from "src/utils/hooks/useRouter";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import get from 'lodash/get';
@@ -17,8 +16,8 @@ const AdminLogs = () => {
     description: "",
     activity: "",
     target: "",
-    from_date: moment().format("DD/MM/YYYY"),
-    to_date: moment().format("DD/MM/YYYY"),
+    from_date: "",
+    to_date: "",
     sort_field: "created_at",
     sort_order: "DESC",
     page: 1,
@@ -38,9 +37,9 @@ const AdminLogs = () => {
     setData(mapData);
   }, [dataResponse]);
 
-  // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter]);
+  useEffect(() => {
+    console.log(objFilter);
+  }, [objFilter]);
 
   const columns = [
     {
@@ -69,7 +68,7 @@ const AdminLogs = () => {
       align: "right",
     },
     {
-      data_field: "target",
+      data_field: "target_name",
       column_name: "Target",
       align: "right",
     },
@@ -77,6 +76,12 @@ const AdminLogs = () => {
       data_field: "description",
       column_name: "Description",
       align: "right",
+      formatter: (cell, row) => {
+        let newText = cell.split("\n").map((item, i) => {
+          return <p key={i}>{item}</p>;
+        });
+        return <div style={{ textAlign: 'left' }}>{newText}</div>;
+      },
     },
   ];
 
@@ -111,8 +116,6 @@ const AdminLogs = () => {
   return (
     <Fragment>
       {isLoading && <Loading />}
-      {/* <PlayerInformation /> */}
-      {/* <div style={{ fontWeight: '600', fontSize: '22px'}}>Game Transaction</div> */}
       
       <AdminLogsFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <TableComponent
