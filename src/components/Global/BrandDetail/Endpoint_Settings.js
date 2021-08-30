@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
@@ -247,6 +248,8 @@ const Endpoint_Settings = () => {
           errors={errors?.api_endpoint}
           type="text"
           label="API Endpoint"
+          pattern={/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/}
+          helperText="Accept URL only"
         />
         {/* <InputFieldTime
           autoFocus
