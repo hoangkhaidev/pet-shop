@@ -11,6 +11,7 @@ import useFetchData from 'src/utils/hooks/useFetchData';
 
 import CurrencyListFilter from './CurrencyListFilter';
 import ChangeStatusCurrency from 'src/components/Modal/ChangeStatusCurrency';
+import RateHistory from './RateHistory';
 
 const CurrencyList = () => {
   // const router = useRouter();
@@ -64,7 +65,10 @@ const CurrencyList = () => {
       column_name: 'USD Rate',
       align: 'right',
       formatter: (cell, row) => {
-        return formatNumber(cell);
+        let titleCurrency = formatNumber(cell);
+        return (
+          <RateHistory titleCurrency={titleCurrency} currencyCode={row.code} />
+        );
       }
     },
     {
