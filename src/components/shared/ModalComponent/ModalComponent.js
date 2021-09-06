@@ -9,9 +9,11 @@ function getModalStyle() {
   const left = 50;
 
   return {
-    top: `${top}%`,
+    top: 0,
     left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
+    transform: `translate(-${top}%, 0)`,
+    height: '100%',
+    overflowX: 'auto',
   };
 }
 

@@ -11,10 +11,11 @@ import TitlePage from "src/components/shared/TitlePage/TitlePage";
 
 const RateHistory = ({ titleCurrency, currencyCode }) => {
   //   const classes = useStyles();
-  // const { dataResponse, isHasPermission } = useFetchData(
-  //   `/api/global/group_brand/${roundId}`,
-  //   null
-  // );
+  const { dataResponse, isHasPermission } = useFetchData(
+    `/api/currency/${currencyCode}/history`,
+    null
+  );
+
   const [pagination, setPagination] = useState({
     page: 1,
     page_size: 30
@@ -34,14 +35,14 @@ const RateHistory = ({ titleCurrency, currencyCode }) => {
 
   const [data, setData] = useState([]);
 
-  // useEffect(() => {
-  //   const mapData = cloneDeep(dataResponse);
-  //   setData(mapData);
-  // }, [dataResponse]);
+  useEffect(() => {
+    const mapData = cloneDeep(dataResponse);
+    setData(mapData);
+  }, [dataResponse]);
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   const columns = [
     {
@@ -50,7 +51,7 @@ const RateHistory = ({ titleCurrency, currencyCode }) => {
       align: "left",
     },
     {
-      data_field: "players",
+      data_field: "rate",
       column_name: "USD Rate",
       align: "right",
     },

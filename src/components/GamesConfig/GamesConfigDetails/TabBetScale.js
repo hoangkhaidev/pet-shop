@@ -105,12 +105,13 @@ const schema = {
 }
 
 export default function TabBetScale({currentData, setObjFilter, objFilter, dataDetail}) {
-  let betList = dataDetail?.bet_scale_list?.map((item) => {
-    let newScale = (Math.round(item.bet_scale * 100) / 100).toFixed(2);
-    return {
-      bet_scale: newScale
-    }
-  });
+  console.log(dataDetail?.bet_scale_list);
+  // let betList = dataDetail?.bet_scale_list?.map((item) => {
+  //   let newScale = (Math.round(item.bet_scale * 100) / 100).toFixed(2);
+  //   return {
+  //     bet_scale: newScale
+  //   }
+  // });
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
@@ -120,7 +121,7 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
       brand_id: dataDetail?.brand_id,
       bet_scale_id: dataDetail?.id,
       default_bet_scale: dataDetail?.default_bet_scale,
-      bet_scale_list: betList,
+      bet_scale_list: dataDetail?.bet_scale_list,
       total_min: 0,
       total_max: 0
     },
@@ -153,7 +154,19 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
             });
           } else {
             if (response.err === "err:form_validation_failed") {
-              toast.warn(`${dataDetail.currency_code} Bet scale must be in range of Total MIN and Total MAX`);
+              if (response?.data?.default_bet === "err:bet_not_found") {
+                toast.warn(`${dataDetail.currency_code} default bet not found`, {
+                  onClose: setTimeout(() => {
+                      window.location.reload()
+                  }, 0),
+                }); 
+              } else {
+                toast.warn(`${dataDetail.currency_code} bet scale must be in range of Total MIN and Total MAX`, {
+                  onClose: setTimeout(() => {
+                      window.location.reload()
+                  }, 0),
+                });
+              }
             }
           }
       } else {

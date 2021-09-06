@@ -154,9 +154,8 @@ export default function TableBetScale({ dataDetail, setFormState, default_bet_sc
 
   useEffect(() => {
     let dataScaleNew = (dataScale || []).map((item) => {
-      let betNew = (Math.round(item.bet_scale * 100)/100).toFixed(2);
       return { 
-        bet_scale: betNew
+        bet_scale: item.bet_scale
       }
     });
     setFormState((formState) => ({
