@@ -12,6 +12,7 @@ import cloneDeep from "lodash.clonedeep";
 import api from "src/utils/api";
 import get from 'lodash/get';
 import { SORT_FIELD, SORT_ODER } from "src/constants";
+import SelectFieldMutiple from "../shared/InputField/SelectFieldMutiple";
 
 const status = [
   {id: 0, value: "all", label: "All"},
@@ -42,12 +43,13 @@ const GamesFilterConfig = ({
   const [brandData, setBrandData] = useState([]);
   const [brandsData, setBrandsData] = useState([]);
 
+  const [brandMultiple, setBrandMultiple] = useState(['all']);
+
   const [gameTypeData, setGameTypeData] = useState([]);
   const [gameNameData, setGameNameData] = useState([]);
 
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      brand_id: "all",
       game_type: "all",
       game_name: "",
       sort_field: "game_name",
@@ -123,16 +125,12 @@ const GamesFilterConfig = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
-  // useEffect(() => {
-  //   console.log(brandData)
-  // }, [brandData]);
-
-
   const onSubmit = async (data) => {
+    let checkBrand = brandMultiple?.findIndex(item => (item === 'all')) > -1;
     const form = {
       ...data,
       game_type: data.game_type === 'all' ? '' : data.game_type,
-      brand_id: data.brand_id === 'all' ? 0 : Number(data.brand_id),
+      brand_id: checkBrand ? [] : brandMultiple,
       status: data.status,
     };
     onSubmitProps(form);
@@ -140,7 +138,6 @@ const GamesFilterConfig = ({
 
   const onResetFilterPlayer = () => {
     reset({
-      brand_id: "all",
       game_name: "",
       game_type: "all",
       sort_field: "game_name",
@@ -149,7 +146,7 @@ const GamesFilterConfig = ({
       jackpot: "all",
     });
     setObjFilter({
-      brand_id: 0,
+      brand_id: [],
       game_name: "",
       game_type: "",
       sort_field: "game_name",
@@ -158,6 +155,7 @@ const GamesFilterConfig = ({
       page: 1,
       page_size: 30,
     });
+    setBrandMultiple(['all']);
   }
 
   return (
@@ -203,7 +201,7 @@ const GamesFilterConfig = ({
               /> */}
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
-              <SelectField
+              {/* <SelectField
                 selectDisabled= {roleUser.account_type === 'brand' ? true : false}
                 control={control}
                 namefileld="brand_id"
@@ -211,6 +209,15 @@ const GamesFilterConfig = ({
                 label="Brand"
                 fullWidth={false}
                 options={brandData}
+              /> */}
+              <SelectFieldMutiple
+                selectDisabled= {roleUser.account_type === 'brand' ? true : false}
+                options={brandData} 
+                label={'Brand'} 
+                id={'brand_id'}
+                setBrandMultiple={setBrandMultiple}
+                brandMultiple={brandMultiple}
+                defaultValue={'all'}
               />
             </Grid>
           </Grid>

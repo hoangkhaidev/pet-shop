@@ -7,7 +7,6 @@ import { FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup
 import cloneDeep from 'lodash/cloneDeep';
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 // import InputField from "src/components/shared/InputField/InputField";
-import SelectField from "src/components/shared/InputField/SelectField";
 import DateRangePickerComponent from "src/components/shared/DateRangePickerComponent/DateRangePickerComponent";
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
 import { func } from "prop-types";
@@ -15,6 +14,8 @@ import useFetchData from "src/utils/hooks/useFetchData";
 import { useSelector } from "react-redux";
 import api from "src/utils/api";
 import get from 'lodash/get';
+import SelectFieldMutiple from "src/components/shared/InputField/SelectFieldMutiple";
+import SelectFieldMutipleProduct from "src/components/shared/InputField/SelectFieldMutipleProduct";
 // import useRouter from "src/utils/hooks/useRouter";
 // import { useSelector } from "react-redux";
 // import { FormattedNumberInputCaptcha } from "../shared/InputField/InputFieldNumber";
@@ -38,8 +39,6 @@ const BusinessSummaryFilter = ({
   const roleUser = useSelector((state) => state.roleUser);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      brand_ids: "all",
-      product_ids: "all",
       option: "day",
     }
   });
@@ -48,6 +47,10 @@ const BusinessSummaryFilter = ({
     start: moment().startOf('month').format("DD/MM/YYYY"),
     end: moment().endOf('month').format("DD/MM/YYYY")
   });
+
+  const [brandMultiple, setBrandMultiple] = useState(['all']);
+  const [productMultiple, setProductMultiple] = useState(['all']);
+
   const dateRangeRef = useRef(null);
   const classes = useStyles();
 
@@ -118,23 +121,21 @@ const BusinessSummaryFilter = ({
   };
 
   const onSubmit = async (data) => {
-    // console.log(data)
+    let checkBrand = brandMultiple?.findIndex(item => (item === 'all')) > -1;
+    let checkProduct = productMultiple?.findIndex(item => (item === 'all')) > -1;
     const form = {
       ...data,
-      brand_ids: data.brand_ids === 'all' ? [] : [Number(data.brand_ids)],
-      product_ids: data.product_ids === 'all' ? [] : [Number(data.product_ids)],
+      brand_ids: checkBrand ? [] : brandMultiple,
+      product_ids: checkProduct ? [] : productMultiple,
       option: radio,
       from_date: dateRange.start,
       to_date: dateRange.end,
     };
-    // console.log(form)
     onSubmitProps(form);
   };
 
   const onResetFilterPlayer = () => {
     reset({
-      brand_ids: "all",
-      product_ids: "all",
       option: "day",
     });
     setDateRange({
@@ -148,6 +149,8 @@ const BusinessSummaryFilter = ({
       to_date: moment().endOf('month').format("DD/MM/YYYY"),
       option: "day",
     });
+    setBrandMultiple(['all']);
+    setProductMultiple(['all']);
     setRadio('day')
    
   }
@@ -179,23 +182,31 @@ const BusinessSummaryFilter = ({
               </FormControl>
             </Grid>
             <Grid item xs={12} xl={3} md={3}>
-              <SelectField
+              <SelectFieldMutiple
                 selectDisabled= {roleUser.account_type === 'brand' ? true : false}
-                control={control}
-                namefileld="brand_ids"
-                id="brand_ids"
-                label="Brand"
-                fullWidth={false}
-                options={brandData}
+                options={brandData} 
+                label={'Brand'} 
+                id={'brand_ids'}
+                setBrandMultiple={setBrandMultiple}
+                brandMultiple={brandMultiple}
+                defaultValue={'all'}
               />
-              <SelectField
+              <SelectFieldMutipleProduct
+                options={productData}
+                label={'Product'} 
+                id={'product_ids'}
+                setProductMultiple={setProductMultiple}
+                productMultiple={productMultiple}
+                defaultValue={'all'}
+              />
+              {/* <SelectField
                 control={control}
                 namefileld="product_ids"
                 id="product_ids"
                 label="Product"
                 fullWidth={false}
                 options={productData}
-              />
+              /> */}
             </Grid>
             <Grid item xs={12} xl={3} md={6}>
             <RadioGroup aria-label="gender" name="option" value={radio} onChange={handleChange}>

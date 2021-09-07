@@ -30,6 +30,7 @@ import api from 'src/utils/api';
 import Loading from '../shared/Loading/Loading';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
 import cloneDeep from 'lodash.clonedeep';
+import SelectFieldMutiple from '../shared/InputField/SelectFieldMutiple';
 
 const useStyles = makeStyles(() => ({
   whitelistIPLine: {
@@ -67,16 +68,12 @@ const SubAccountEdit = () => {
   const [brandData, setBrandData] = useState([]);
   const [brandsData, setBrandsData] = useState([]);
 
+  const [brandMultiple, setBrandMultiple] = useState([]);
+
+  const [errorBrandMul, setErrorBrandMul] = useState('');
+
   const [checkWhiteIP, setCheckWhiteIP] = useState('');
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
-
-  // const { dataResponse: dataBrand } = useFetchData('/api/brand/public_list');
-
-  // useEffect(() => {
-  //   console.log(dataResponse)
- 
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [dataResponse]);
 
   useEffect(() => {
     let mapData = [];
@@ -129,6 +126,7 @@ const SubAccountEdit = () => {
     // console.log(formatWhitelistIP)
     // mapdata.push(formatWhitelistIP);
     setWhitelistIP(formatWhitelistIP);
+    setBrandMultiple(get(dataResponse, 'brand_ids', ''))
   }, [dataResponse, setValue]);
 
   useEffect(() => {
@@ -149,17 +147,12 @@ const SubAccountEdit = () => {
     setCheckWhiteIP('');
   }, [whitelistIP]);
 
+  useEffect(() => {
+    console.log(brandMultiple);
+  }, [brandMultiple]);
+
   const onSubmit = async (dataform) => {
-    // const formatWLIPs = whitelistIP.map((item) => {
-    //   let check = false;
-    //   item.map((item1) => {
-    //     if (item1 === '') check = true;
-    //     return item1;
-    //   })
-    //   if (check === true) item = null;
-    //   else item = item.join('.');
-    //   return item;
-    // }).filter((item) => item)
+
     const formatWLIPs = whitelistIP.map((item) => {
       item = item.join('.');
       if (item === '...') return null;
@@ -167,7 +160,7 @@ const SubAccountEdit = () => {
     }).filter((item) => item);
 
     const form = {
-      brand_ids: dataform?.brand ? [+dataform.brand] : [],
+      brand_ids: brandMultiple,
       display_name: dataform.name,
       password: dataform.password ? dataform.password : '',
       password_confirmation: dataform.password_confirmation ? dataform.password_confirmation : '',
@@ -195,7 +188,9 @@ const SubAccountEdit = () => {
           for (const field in response?.data) {
             if (response?.data[field] === 'err:invalid_ip_address') {
               setCheckWhiteIP('Invalid IP address');
-            } else {
+            } else if (response?.data[field] === 'err:invalid_brand_ids') {
+              setErrorBrandMul('Field is required.');
+            }else {
               setError(field, {
                 type: 'validate',
                 message: response?.data[field],
@@ -248,18 +243,28 @@ const SubAccountEdit = () => {
       <TitlePage title="Edit Sub Account" />
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: '50%' }}>
         {!(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') && (
-          <SelectField
+          // <SelectField
+          //   selectDisabled= {roleUser.account_type === 'brand' ? true : false}
+          //   control={control}
+          //   namefileld="brand"
+          //   id="brand"
+          //   label="Brand"
+          //   // eslint-disable-next-line react/jsx-no-duplicate-props
+          //   control={control}
+          //   errors={errors?.brand}
+          //   options={brandData}
+          //   required
+          //   defaultValue={roleUser.username ? roleUser.username : ''}
+          // />
+          <SelectFieldMutiple 
             selectDisabled= {roleUser.account_type === 'brand' ? true : false}
-            control={control}
-            namefileld="brand"
-            id="brand"
-            label="Brand"
-            // eslint-disable-next-line react/jsx-no-duplicate-props
-            control={control}
-            errors={errors?.brand}
-            options={brandData}
-            required
-            defaultValue={roleUser.username ? roleUser.username : ''}
+            options={brandData} 
+            label={'Brand'} 
+            required 
+            id={'brand_id'}
+            setBrandMultiple={setBrandMultiple}
+            brandMultiple={brandMultiple}
+            errorBrandMul={errorBrandMul}
           />
         )}
         <InputField

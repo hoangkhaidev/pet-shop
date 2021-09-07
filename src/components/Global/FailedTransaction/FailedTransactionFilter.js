@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import cloneDeep from "lodash.clonedeep";
 import api from "src/utils/api";
 import { SORT_ODER } from "src/constants";
+import SelectFieldMutiple from "src/components/shared/InputField/SelectFieldMutiple";
 
 const useStyles = makeStyles(() => ({
   inputDataPicked: {
@@ -78,6 +79,8 @@ const FailedTransactionFilter = ({
   const [brandData, setBrandData] = useState([]);
   const [brandsData, setBrandsData] = useState([]);
 
+  const [brandMultiple, setBrandMultiple] = useState(['all']);
+
   const pad = (number, length) => {
     let str = "" + number
     while (str.length < length) {
@@ -91,7 +94,6 @@ const FailedTransactionFilter = ({
 
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      brand_id: "all",
       player_id: router.query.player_id ? router.query.player_id : "",
       nick_name: "",
       round_id: "",
@@ -161,11 +163,12 @@ const FailedTransactionFilter = ({
   };
 
   const onSubmit = async (data) => {
+    let checkBrand = brandMultiple?.findIndex(item => (item === 'all')) > -1;
     const form = {
       ...data,
       nick_name: data.nick_name ? data.nick_name : '',
       round_id: data.round_id ? data.round_id : '',
-      brand_id: data.brand_id === 'all' ? 1 : Number(data.brand_id),
+      brand_ids: checkBrand ? [] : brandMultiple,
       player_id: Number(data.player_id),
       from_date: dateRange.start,
       to_date: dateRange.end,
@@ -181,7 +184,7 @@ const FailedTransactionFilter = ({
       time_zone: tz,
       sort_field: "end_at",
       sort_order: "desc",
-      brand_id: "all",
+      brand_ids: "all",
       round_id: "",
       player_id: "",
       nick_name: "",
@@ -195,7 +198,7 @@ const FailedTransactionFilter = ({
       page: 1,
       page_size: 30,
       time_zone: tz,
-      brand_id: 1,
+      brand_ids: [],
       sort_field: "end_at",
       sort_order: "desc",
       player_id: 0,
@@ -205,6 +208,7 @@ const FailedTransactionFilter = ({
       to_date: moment().format("DD/MM/YYYY 23:59"),
       status_list: []
     });
+    setBrandMultiple(['all']);
   };
 
   useEffect(() => {
@@ -245,7 +249,7 @@ const FailedTransactionFilter = ({
                 
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
-              <SelectField
+              {/* <SelectField
                   control={control}
                   selectDisabled= {roleUser.account_type === 'brand' ? true : false}
                   namefileld="brand_id"
@@ -255,6 +259,15 @@ const FailedTransactionFilter = ({
                   options={brandData}
                   fullWidth={false}
                   defaultValue='all'
+              /> */}
+              <SelectFieldMutiple
+                selectDisabled= {roleUser.account_type === 'brand' ? true : false}
+                options={brandData} 
+                label={'Brand'} 
+                id={'brand_ids'}
+                setBrandMultiple={setBrandMultiple}
+                brandMultiple={brandMultiple}
+                defaultValue={'all'}
               />
               <SelectField
                 control={control}

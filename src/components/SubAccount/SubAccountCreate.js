@@ -25,6 +25,7 @@ import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import api from 'src/utils/api';
 import cloneDeep from 'lodash.clonedeep';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
+import SelectFieldMutiple from '../shared/InputField/SelectFieldMutiple';
 // import useRouter from 'src/utils/hooks/useRouter';
 
 const useStyles = makeStyles(() => ({
@@ -50,11 +51,14 @@ const SubAccountCreate = () => {
   const [brandData, setBrandData] = useState([]);
   const [brandsData, setBrandsData] = useState([]);
 
+  const [brandMultiple, setBrandMultiple] = useState([]);
+
+  const [errorBrandMul, setErrorBrandMul] = useState('');
+
   const [checkWhiteIP, setCheckWhiteIP] = useState('');
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
   const roleUser = useSelector((state) => state.roleUser);
   // console.log(router);
-  // console.log(roleUser);
 
   const {
     control,
@@ -122,16 +126,21 @@ const SubAccountCreate = () => {
       if (item === '...') return null;
       return item;
     }).filter((item) => item);
+
    
     const form = {
       username: dataForm.username,
-      brand_ids: dataForm?.brand ? [dataForm?.brand] : [],
-      display_name: dataForm.name,
+      brand_ids: brandMultiple,
+      display_name: dataForm.name ? dataForm.name : '',
       password: dataForm.password,
       password_confirmation: dataForm.password_confirmation,
       role_id: dataForm.role,
       whitelist_ips: formatWLIPs,
     };
+
+    console.log(form);
+
+    
       try {
         const response = await api.post('/api/subs/create', form);
         if (get(response, 'success', false)) {
@@ -150,6 +159,8 @@ const SubAccountCreate = () => {
               // console.log(response?.data[field]);
               if (response?.data[field] === 'err:invalid_ip_address') {
                 setCheckWhiteIP('Invalid IP address');
+              } else if (response?.data[field] === 'err:invalid_brand_ids') {
+                setErrorBrandMul('Field is required.');
               } else {
                 setError(field, {
                   type: 'validate',
@@ -171,6 +182,11 @@ const SubAccountCreate = () => {
   useEffect(() => {
     setCheckWhiteIP('');
   }, [whitelistIP]);
+
+  // useEffect(() => {
+  //   setErrorBrandMul('');
+  //   console.log(errorBrandMul);
+  // }, [errorBrandMul]);
 
   const onChangeWhitelistIp = (e, index, rowIndex) => {
     const { formattedValue } = e;
@@ -210,17 +226,14 @@ const SubAccountCreate = () => {
           label="Brand"
         /> */}
         {!(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub' || roleUser.account_type === 'brand') && (
-          <SelectField
-            selectDisabled= {roleUser.account_type === 'brand' ? true : false}
-            namefileld="brand"
-            id="brand"
-            label="Brand"
-            fullWidth={false}
-            control={control}
-            errors={errors?.brand}
-            options={brandData}
-            required
-            defaultValue={roleUser.username ? roleUser.username : ''}
+          <SelectFieldMutiple 
+            options={brandData} 
+            label={'Brand'} 
+            required 
+            id={'brand_id'}
+            setBrandMultiple={setBrandMultiple}
+            brandMultiple={brandMultiple}
+            errorBrandMul={errorBrandMul}
           />
         )}
         {(roleUser.account_type === 'brand') && (

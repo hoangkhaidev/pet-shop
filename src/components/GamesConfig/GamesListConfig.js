@@ -20,7 +20,7 @@ const GamesListConfig = () => {
   const roleUser = useSelector((state) => state.roleUser);
 
   const [objFilter, setObjFilter] = useState({
-    brand_id: 0,
+    brand_id: [],
     game_type: "",
     sort_field: "game_name",
     sort_order: "asc",
@@ -30,7 +30,7 @@ const GamesListConfig = () => {
     page_size: 30,
     ...{
       ...router.query,
-      brand_id: router.query.brand_id ? Number(router.query.brand_id) : 0,
+      brand_id: router.query.brand_id ? [Number(router.query.brand_id)] : [],
     },
   });
   const [data, setData] = useState([]);

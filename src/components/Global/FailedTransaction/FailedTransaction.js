@@ -35,6 +35,7 @@ const FailedTransaction = () => {
     sort_field: "end_at",
     sort_order: "desc",
     player_id: "",
+    brand_ids: [],
     nick_name: "",
     round_id: "",
     time_zone: tz,
@@ -141,11 +142,10 @@ const FailedTransaction = () => {
       ...data
     };
 
-    delete dataForm.brand_id;
     console.log(dataForm)
 
     try {
-        const response = await api.post(`/api/global/brand_detail/${data.brand_id}/failed_transactions`, dataForm);
+        const response = await api.post(`/api/global/brand_detail/failed_transactions`, dataForm);
         
         console.log(response)
         if (get(response, 'success', false)) {
@@ -175,10 +175,8 @@ const FailedTransaction = () => {
       page: pageNew,
     };
 
-    delete dataForm.brand_id;
-
     try {
-      const response = await api.post(`/api/global/brand_detail/${objFilter.brand_id}/failed_transactions`, dataForm);
+      const response = await api.post(`/api/global/brand_detail/failed_transactions`, dataForm);
       
       if (get(response, 'success', false)) {
         const mapData = get(response.data, 'list', []);
@@ -207,10 +205,8 @@ const FailedTransaction = () => {
       page_size: parseInt(event.target.value, 10)
     };
 
-    delete dataForm.brand_id;
-
     try {
-      const response = await api.post(`/api/global/brand_detail/${objFilter.brand_id}/failed_transactions`, dataForm);
+      const response = await api.post(`/api/global/brand_detail/failed_transactions`, dataForm);
       
       if (get(response, 'success', false)) {
         const mapData = get(response.data, 'list', []);

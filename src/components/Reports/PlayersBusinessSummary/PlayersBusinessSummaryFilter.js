@@ -17,6 +17,7 @@ import api from "src/utils/api";
 import get from 'lodash/get';
 import InputField from "src/components/shared/InputField/InputField";
 import InputNumberValue from "./InputNumberValue";
+import SelectFieldMutiple from "src/components/shared/InputField/SelectFieldMutiple";
 // import useRouter from "src/utils/hooks/useRouter";
 // import { useSelector } from "react-redux";
 // import { FormattedNumberInputCaptcha } from "../shared/InputField/InputFieldNumber";
@@ -46,7 +47,6 @@ const PlayersBusinessSummaryFilter = ({
   const roleUser = useSelector((state) => state.roleUser);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      brand_ids: "all",
       option: "day",
       player_id: "",
       nick_name: "",
@@ -57,6 +57,8 @@ const PlayersBusinessSummaryFilter = ({
       value: "0",
     }
   });
+
+  const [brandMultiple, setBrandMultiple] = useState(['all']);
 
   const [dateRange, setDateRange] = useState({
     start: moment().format("DD/MM/YYYY"),
@@ -161,9 +163,10 @@ const PlayersBusinessSummaryFilter = ({
 
   const onSubmit = async (data) => {
     // console.log(data)
+    let checkBrand = brandMultiple?.findIndex(item => (item === 'all')) > -1;
     const form = {
       ...data,
-      brand_ids: data.brand_ids === 'all' ? [] : [Number(data.brand_ids)],
+      brand_ids: checkBrand ? [] : brandMultiple,
       player_id: data.player_id ? Number(data.player_id) : 0,
       value: String(data.value),
       option: radio,
@@ -176,7 +179,6 @@ const PlayersBusinessSummaryFilter = ({
 
   const onResetFilterPlayer = () => {
     reset({
-      brand_ids: "all",
       option: "day",
       player_id: "",
       nick_name: "",
@@ -209,6 +211,7 @@ const PlayersBusinessSummaryFilter = ({
     });
     setRadio('day');
     setRadioSearchBy('');
+    setBrandMultiple(['all']);
    
   }
 
@@ -313,7 +316,7 @@ const PlayersBusinessSummaryFilter = ({
               </RadioGroup>
             </Grid>
             <Grid item xs={12} xl={3} md={3}>
-              <SelectField
+              {/* <SelectField
                 selectDisabled= {roleUser.account_type === 'brand' ? true : false}
                 control={control}
                 namefileld="brand_ids"
@@ -321,6 +324,15 @@ const PlayersBusinessSummaryFilter = ({
                 label="Brand"
                 fullWidth={false}
                 options={brandData}
+              /> */}
+              <SelectFieldMutiple
+                selectDisabled= {roleUser.account_type === 'brand' ? true : false}
+                options={brandData} 
+                label={'Brand'} 
+                id={'brand_ids'}
+                setBrandMultiple={setBrandMultiple}
+                brandMultiple={brandMultiple}
+                defaultValue={'all'}
               />
             </Grid>
           </Grid>
