@@ -9,6 +9,7 @@ import { FormHelperText } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   formControl: {
     width: '100%',
+    // marginTop: '16px !important',
     marginTop: '16px !important',
   },
   chips: {
@@ -37,55 +38,64 @@ const MenuProps = {
   },
 };
 
-function getStyles(name, productMultiple, theme) {
+function getStyles(name, stateMultiple, theme) {
   return {
     fontWeight:
-      productMultiple.indexOf(name) === -1
+      stateMultiple.indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
 }
 
-export default function SelectFieldMutipleProduct({ options, label, required, id, setProductMultiple, productMultiple, errorProductMul, selectDisabled, defaultValue }) {
+export default function SelectFieldMutipleCustom({ 
+  options, 
+  label,
+  required,
+  id,
+  setStateMultiple,
+  stateMultiple,
+  errorMul,
+  selectDisabled, 
+  defaultValue 
+}) {
   const classes = useStyles();
   const theme = useTheme();
 
   const handleChange = (event) => {
-    setProductMultiple(event.target.value);
+    setStateMultiple(event.target.value);
   };
 
   return (
     <div>
-      <FormControl 
-        className={classes.formControl} 
-        variant="outlined" 
-        error={ errorProductMul ? true : false } 
+      <FormControl
+        className={classes.formControl}
+        variant="outlined"
+        error={errorMul ? true : false}
         disabled={selectDisabled}
       >
-        {/* <InputLabel id="demo-mutiple-name-label">{label}</InputLabel> */}
         <InputLabel id="demo-simple-select-outlined-label" htmlFor={id}>{label}
-            <span className={classes.labelStyle}>
-              {required ? '*' : ''}
-            </span>
+          <span className={classes.labelStyle}>
+            {required ? '*' : ''}
+          </span>
         </InputLabel>
         <Select
           labelId="demo-simple-select-outlined-label"
           multiple
-          value={productMultiple ? productMultiple : [] }
+          value={stateMultiple ? stateMultiple : []}
           onChange={handleChange}
           MenuProps={MenuProps}
-          label="Product"
+          label={label}
           defaultValue={defaultValue}
         >
           {(options || []).map((option, index) => (
-            <MenuItem key={index} value={option.value} style={getStyles(option.label, productMultiple, theme)}>
+            <MenuItem key={index} value={option.value} style={getStyles(option.label, stateMultiple, theme)}>
               {option.label}
             </MenuItem>
           ))}
         </Select>
-        {errorProductMul ? (<FormHelperText>{errorProductMul}</FormHelperText>) : ''}
+        {errorMul ? (<FormHelperText>{errorMul}</FormHelperText>) : ''}
       </FormControl>
-      
+
     </div>
   );
 }

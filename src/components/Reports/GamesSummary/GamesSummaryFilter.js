@@ -12,7 +12,7 @@ import useFetchData from "src/utils/hooks/useFetchData";
 import { useSelector } from "react-redux";
 import api from "src/utils/api";
 import get from 'lodash/get';
-import SelectFieldMutipleProduct from "src/components/shared/InputField/SelectFieldMutipleProduct";
+import SelectFieldMutipleCustom from "src/components/shared/InputField/SelectFieldMutipleCustom";
 import SelectFieldMutiple from "src/components/shared/InputField/SelectFieldMutiple";
 
 const useStyles = makeStyles(() => ({
@@ -186,12 +186,12 @@ const GamesSummaryFilter = ({
                 brandMultiple={brandMultiple}
                 defaultValue={'all'}
               />
-              <SelectFieldMutipleProduct
+              <SelectFieldMutipleCustom
                 options={productData}
                 label={'Product'} 
                 id={'product_ids'}
-                setProductMultiple={setProductMultiple}
-                productMultiple={productMultiple}
+                setStateMultiple={setProductMultiple}
+                stateMultiple={productMultiple}
                 defaultValue={'all'}
               />
             </Grid>

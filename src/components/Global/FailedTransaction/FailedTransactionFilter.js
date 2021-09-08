@@ -17,6 +17,7 @@ import cloneDeep from "lodash.clonedeep";
 import api from "src/utils/api";
 import { SORT_ODER } from "src/constants";
 import SelectFieldMutiple from "src/components/shared/InputField/SelectFieldMutiple";
+import SelectFieldMutipleCustom from "src/components/shared/InputField/SelectFieldMutipleCustom";
 
 const useStyles = makeStyles(() => ({
   inputDataPicked: {
@@ -80,6 +81,7 @@ const FailedTransactionFilter = ({
   const [brandsData, setBrandsData] = useState([]);
 
   const [brandMultiple, setBrandMultiple] = useState(['all']);
+  const [statusMultiple, setStatusMultiple] = useState(['all']);
 
   const pad = (number, length) => {
     let str = "" + number
@@ -164,6 +166,7 @@ const FailedTransactionFilter = ({
 
   const onSubmit = async (data) => {
     let checkBrand = brandMultiple?.findIndex(item => (item === 'all')) > -1;
+    let checkStatus = statusMultiple?.findIndex(item => (item === 'all')) > -1;
     const form = {
       ...data,
       nick_name: data.nick_name ? data.nick_name : '',
@@ -172,7 +175,7 @@ const FailedTransactionFilter = ({
       player_id: Number(data.player_id),
       from_date: dateRange.start,
       to_date: dateRange.end,
-      status_list: data.status_list === 'all' ? [] : [data.status_list],
+      status_list: checkStatus ? [] : statusMultiple,
     };
     onSubmitProps(form);
   };
@@ -188,7 +191,6 @@ const FailedTransactionFilter = ({
       round_id: "",
       player_id: "",
       nick_name: "",
-      status_list: "all"
     });
     setDateRange({
       start: moment().format("DD/MM/YYYY 00:00"),
@@ -209,6 +211,7 @@ const FailedTransactionFilter = ({
       status_list: []
     });
     setBrandMultiple(['all']);
+    setStatusMultiple(['all']);
   };
 
   useEffect(() => {
@@ -288,7 +291,7 @@ const FailedTransactionFilter = ({
                 id="player_id"
                 fullWidth={false}
               />
-              <SelectField
+              {/* <SelectField
                 control={control}
                 namefileld="status_list"
                 id="status_list"
@@ -296,7 +299,17 @@ const FailedTransactionFilter = ({
                 fullWidth={false}
                 options={statusData}
                 defaultValue={tz}
-              />
+              /> */}
+              <div style={{ marginTop: '-16px' }}>
+                <SelectFieldMutipleCustom
+                  options={statusData} 
+                  label={'Round Status'} 
+                  id={'status_list'}
+                  setStateMultiple={setStatusMultiple}
+                  stateMultiple={statusMultiple}
+                  defaultValue={'all'}
+                />
+              </div>
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
               <InputField

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 // import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import get from 'lodash/get';
 import api from "src/utils/api";
-import { Button, Link } from "@material-ui/core";
+import { Link } from "@material-ui/core";
 
 const RoundDetail = ({roundId}) => {
   

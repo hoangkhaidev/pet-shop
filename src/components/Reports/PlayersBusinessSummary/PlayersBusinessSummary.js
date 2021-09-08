@@ -237,7 +237,7 @@ const PlayersBusinessSummary = () => {
           page = { Number(objFilter.page) }
           page_size = { Number(objFilter.page_size) }
           pagination={{
-            total_size: Number(dataResponse?.list?.length),
+            total_size,
             page: Number(objFilter.page),
             page_size: Number(objFilter.page_size),
           }}

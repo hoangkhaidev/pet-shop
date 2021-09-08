@@ -130,7 +130,7 @@ const GamesFilterConfig = ({
     const form = {
       ...data,
       game_type: data.game_type === 'all' ? '' : data.game_type,
-      brand_id: checkBrand ? [] : brandMultiple,
+      brand_ids: checkBrand ? [] : brandMultiple,
       status: data.status,
     };
     onSubmitProps(form);
@@ -146,7 +146,7 @@ const GamesFilterConfig = ({
       jackpot: "all",
     });
     setObjFilter({
-      brand_id: [],
+      brand_ids: [],
       game_name: "",
       game_type: "",
       sort_field: "game_name",
@@ -214,7 +214,7 @@ const GamesFilterConfig = ({
                 selectDisabled= {roleUser.account_type === 'brand' ? true : false}
                 options={brandData} 
                 label={'Brand'} 
-                id={'brand_id'}
+                id={'brand_ids'}
                 setBrandMultiple={setBrandMultiple}
                 brandMultiple={brandMultiple}
                 defaultValue={'all'}

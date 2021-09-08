@@ -1,13 +1,14 @@
 /* eslint-disable arrow-body-style */
 import { Button } from "@material-ui/core";
 import { Fragment, useCallback, useState, useEffect } from "react";
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 import useFetchData from "src/utils/hooks/useFetchData";
 import cloneDeep from "lodash.clonedeep";
-import moment from 'moment';
+// import moment from 'moment';
 import ModalComponent from "src/components/shared/ModalComponent/ModalComponent";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
+import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 
 const RateHistory = ({ titleCurrency, currencyCode }) => {
   //   const classes = useStyles();
@@ -71,6 +72,9 @@ const RateHistory = ({ titleCurrency, currencyCode }) => {
     });
   };
 
+  if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
 
   return (
     <Fragment>

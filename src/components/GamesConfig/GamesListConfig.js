@@ -9,18 +9,14 @@ import get from 'lodash/get';
 import Loading from "../shared/Loading/Loading";
 import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
 import GamesFilterConfig from "./GamesFilterConfig";
-import { useSelector } from "react-redux";
 import ChangeStatusGamesConfig from "src/components/Modal/ChangeStatusGamesConfig";
-import cloneDeep from 'lodash/cloneDeep';
-import api from "src/utils/api";
 // import { useForm } from "react-hook-form";
 
 const GamesListConfig = () => {
   const router = useRouter();
-  const roleUser = useSelector((state) => state.roleUser);
 
   const [objFilter, setObjFilter] = useState({
-    brand_id: [],
+    brand_ids: [],
     game_type: "",
     sort_field: "game_name",
     sort_order: "asc",
@@ -28,10 +24,7 @@ const GamesListConfig = () => {
     status: "all",
     page: 1,
     page_size: 30,
-    ...{
-      ...router.query,
-      brand_id: router.query.brand_id ? [Number(router.query.brand_id)] : [],
-    },
+    ...router.query,
   });
   const [data, setData] = useState([]);
 
@@ -39,42 +32,6 @@ const GamesListConfig = () => {
     '/api/game_config/game_list',
     objFilter
   );
-
-  // const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
-  const [brandData, setBrandData] = useState([]);
-  const [brandsData, setBrandsData] = useState([]);
-
-  useEffect(() => {
-    let mapData = [];
-    let newBrand = cloneDeep(brandsData);
-
-    newBrand?.forEach(data => {
-      let optionData = {
-        id: data.brand_id,
-        value: data.brand_id,
-        label: data.brand_name,
-      };
-      mapData.push(optionData)
-    });
-    setBrandData([...mapData]);
-  }, [brandsData, setBrandData]);
-
-  useEffect(() => {
-    if (roleUser.account_type !== 'brand') {
-      onDataBrand();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roleUser]);
-
-  const onDataBrand = async () => {
-    const response = await api.post('/api/brand/public_list', null);
-    if (get(response, "success", false)) {
-      setBrandsData(response?.data);
-    } else {
-      console.log("response", response);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  };
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);

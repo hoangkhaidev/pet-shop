@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import api from "src/utils/api";
 import get from 'lodash/get';
 import SelectFieldMutiple from "src/components/shared/InputField/SelectFieldMutiple";
-import SelectFieldMutipleProduct from "src/components/shared/InputField/SelectFieldMutipleProduct";
+import SelectFieldMutipleCustom from "src/components/shared/InputField/SelectFieldMutipleCustom";
 // import useRouter from "src/utils/hooks/useRouter";
 // import { useSelector } from "react-redux";
 // import { FormattedNumberInputCaptcha } from "../shared/InputField/InputFieldNumber";
@@ -191,12 +191,12 @@ const BusinessSummaryFilter = ({
                 brandMultiple={brandMultiple}
                 defaultValue={'all'}
               />
-              <SelectFieldMutipleProduct
+              <SelectFieldMutipleCustom
                 options={productData}
                 label={'Product'} 
                 id={'product_ids'}
-                setProductMultiple={setProductMultiple}
-                productMultiple={productMultiple}
+                setStateMultiple={setProductMultiple}
+                stateMultiple={productMultiple}
                 defaultValue={'all'}
               />
               {/* <SelectField
