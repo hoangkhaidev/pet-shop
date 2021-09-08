@@ -98,7 +98,7 @@ const Profile = () => {
       password: dataForm.password ? dataForm.password : '',
       password_confirmation: dataForm.password_confirmation ? dataForm.password_confirmation : '',
     };
-    console.log(form)
+    // console.log(form)
     try {
       let response = await api.post(
         `/api/profile/update`,

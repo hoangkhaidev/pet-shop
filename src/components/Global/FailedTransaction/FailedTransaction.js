@@ -142,12 +142,12 @@ const FailedTransaction = () => {
       ...data
     };
 
-    console.log(dataForm)
+    // console.log(dataForm)
 
     try {
         const response = await api.post(`/api/global/brand_detail/failed_transactions`, dataForm);
         
-        console.log(response)
+        // console.log(response)
         if (get(response, 'success', false)) {
           const mapData = get(response.data, 'list', []);
           const total_sizeData = get(response.data, 'total_size', []);
@@ -222,9 +222,9 @@ const FailedTransaction = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(objFilter);
-  }, [objFilter]);
+  // useEffect(() => {
+  //   console.log(objFilter);
+  // }, [objFilter]);
 
   return (
     <Fragment>

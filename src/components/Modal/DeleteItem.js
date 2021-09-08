@@ -46,6 +46,9 @@ const DeleteItem = ({title, linkApi, types, username }) => {
         if (data?.err === 'err:suspended_account') {
           toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
         }
+        if (data?.err === 'err:no_permission') {
+          toast.warn("No Permission");
+        }
         if (data.err === 'err:role_in_use') toast.warn(<div>{mess}<br /> <div style={{fontSize: '14px'}}>Role in use</div></div>, { position: toast.POSITION.UPPER_RIGHT });
         else toast.warn(`Failed to Delete`);
       } else {

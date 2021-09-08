@@ -18,6 +18,7 @@ import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
 import SubAccountListFilter from './SubAccountListFilter';
+// import { useSelector } from 'react-redux';
 
 const ChangePasswordForm = lazy(() =>
   import('src/components/Modal/ChangePasswordForm')
@@ -131,6 +132,8 @@ const SubAccountList = () => {
   });
   const navigate = useNavigate();
   const classes = useStyles();
+  // const roleUser = useSelector((state) => state.roleUser);
+  // roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub'
 
   const methods = useForm({
     defaultValues: router.query,
@@ -316,7 +319,7 @@ const SubAccountList = () => {
       status_search: '',
     });
   };
-  console.log(isHasPermission);
+  // console.log(isHasPermission);
   if (!isHasPermission) {
     return <NoPermissionPage />;
   }

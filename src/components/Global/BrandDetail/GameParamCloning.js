@@ -137,7 +137,7 @@ const GameParamCloning = () => {
 
   const onSubmit = async (currency_codes) => {
     // setIsLoading(true);
-    console.log(123)
+    // console.log(123)
     
     if (formState.isValid === true) {
       const form = {

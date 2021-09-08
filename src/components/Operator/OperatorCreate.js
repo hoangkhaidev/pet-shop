@@ -141,7 +141,7 @@ const OperatorCreate = () => {
     } else {
       dataFinanceEmail = financeEmail;
     }
-    console.log(dataFinanceEmail);
+    // console.log(dataFinanceEmail);
 
     const product_form = data.commission.filter((item) => item.checked === true );
     const product_commission = product_form.map((item) => {

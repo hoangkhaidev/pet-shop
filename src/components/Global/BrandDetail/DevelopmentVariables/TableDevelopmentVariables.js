@@ -83,7 +83,7 @@ const TableDevelopmentVariables = () => {
             }, 0),   
           });
         } else {
-          console.log(response)
+          // console.log(response)
           if (response?.err === 'err:player_not_found') {
             toast.warn('Player not found');
           }
@@ -145,10 +145,9 @@ const TableDevelopmentVariables = () => {
         ...formStateRetry,
         config_type: 'retry',
     }
-    console.log(dataForm);
+    // console.log(dataForm);
     try {
         const response = await api.post(`/api/global/brand_detail/${router.query?.id}/development_variable/update`, dataForm);
-        console.log(response)
         if (get(response, 'success', false)) {
             // toast.success('Update Retry Success');
           toast.success('Update Retry Success', {
@@ -157,10 +156,9 @@ const TableDevelopmentVariables = () => {
             }, 0),   
           });
         } else {
-            if (response?.err === 'err:player_not_found') {
-                toast.warn('Player not found');
-            }
-          console.log(response)
+          if (response?.err === 'err:player_not_found') {
+              toast.warn('Player not found');
+          }
         }
     } catch (e) {
         console.log('e', e);
@@ -203,10 +201,9 @@ const TableDevelopmentVariables = () => {
         ...formStateMRefund,
         config_type: 'm_refund',
     }
-    console.log(dataForm);
+    // console.log(dataForm);
     try {
         const response = await api.post(`/api/global/brand_detail/${router.query?.id}/development_variable/update`, dataForm);
-        console.log(response)
         if (get(response, 'success', false)) {
           // toast.success('Update Manual Refund Success');
           toast.success('Update Manual Refund Success', {
@@ -215,7 +212,6 @@ const TableDevelopmentVariables = () => {
             }, 0),   
           });
         } else {
-          console.log(response)
           if (response?.err === 'err:player_not_found') {
             toast.warn('Player not found');
           }
@@ -260,10 +256,10 @@ const TableDevelopmentVariables = () => {
         ...formStateMRetry,
         config_type: 'm_retry',
     }
-    console.log(dataForm);
+    // console.log(dataForm);
     try {
         const response = await api.post(`/api/global/brand_detail/${router.query?.id}/development_variable/update`, dataForm);
-        console.log(response)
+        // console.log(response)
         if (get(response, 'success', false)) {
           // toast.success('Update Manual Retry Success');
           toast.success('Update Manual Retry Success', {
@@ -272,7 +268,6 @@ const TableDevelopmentVariables = () => {
             }, 0),   
           });
         } else {
-          console.log(response)
           if (response?.err === 'err:player_not_found') {
             toast.warn('Player not found');
           }

@@ -192,7 +192,7 @@ const OperatorList = () => {
       page: 1,
       page_size: 30,
     });
-    console.log(1);
+    // console.log(1);
   };
 
   if (!isHasPermission) {

@@ -194,7 +194,7 @@ export const FormattedNumberInputNew = ({
     if (errors.message === 'err:invalid_manual_retry_refund_after_hours') {
       return errors.message = 'Manual retry/refund after: min is 3';
     }
-    console.log(errors)
+    // console.log(errors)
     return errors.message;
   };
 

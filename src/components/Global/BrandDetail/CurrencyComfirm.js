@@ -149,9 +149,9 @@ const CurrencyComfirm = ({include_all_currencies, onSubmit}) => {
     
     const hasError = (field) => formStateCurrency.touched[field] && formStateCurrency.errors[field] ? true : false;
 
-    useEffect(() => {
-        console.log(formStateCurrency);
-    }, [formStateCurrency]);
+    // useEffect(() => {
+    //     console.log(formStateCurrency);
+    // }, [formStateCurrency]);
     return (
         <>
             <Button

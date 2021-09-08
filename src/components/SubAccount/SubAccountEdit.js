@@ -147,9 +147,9 @@ const SubAccountEdit = () => {
     setCheckWhiteIP('');
   }, [whitelistIP]);
 
-  useEffect(() => {
-    console.log(brandMultiple);
-  }, [brandMultiple]);
+  // useEffect(() => {
+  //   console.log(brandMultiple);
+  // }, [brandMultiple]);
 
   const onSubmit = async (dataform) => {
 

@@ -50,7 +50,7 @@ const Group_BrandList = () => {
       column_name: 'Group / Operator',
       align: 'left',
       formatter: (cell, row) => {
-        console.log(row)
+        // console.log(row)
         return (
           <Link href={`/operator/list/${row.operator_id}/edit`}>{cell}</Link>
         )

@@ -270,7 +270,7 @@ const BrandEdit = () => {
         dataFinanceEmail = financeEmail;
       }
 
-      console.log(dataFinanceEmail);
+      // console.log(dataFinanceEmail);
 
       const product_form = cloneDeep(productCommission.values).filter((item) => item.checked === true );
       const product_commission = cloneDeep(product_form).map((item) => {

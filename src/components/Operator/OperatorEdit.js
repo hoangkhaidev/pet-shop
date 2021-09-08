@@ -209,7 +209,7 @@ const OperatorEdit = () => {
       }
       return item;
     });
-    console.log(dataProCon);
+    // console.log(dataProCon);
     // setProductCommission(dataProCon);
     setProductCommission((productCommission) => ({
       ...productCommission,
@@ -353,9 +353,9 @@ const OperatorEdit = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(productCommission);
-  }, [productCommission]);
+  // useEffect(() => {
+  //   console.log(productCommission);
+  // }, [productCommission]);
 
   const addingFinanceEmail = () => {
     // console.log(finance_emails);

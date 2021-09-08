@@ -54,9 +54,9 @@ const TransactionRequestResponse = ({roundId}) => {
   //   console.log(data);
   // }, [data]);
 
-  useEffect(() => {
-    console.log(dataResponse);
-  }, [dataResponse]);
+  // useEffect(() => {
+  //   console.log(dataResponse);
+  // }, [dataResponse]);
 
   const columns = [
     {

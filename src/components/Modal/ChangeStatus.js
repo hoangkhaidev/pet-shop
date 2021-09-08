@@ -110,7 +110,7 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
       align: "left",
       formatter: (cell, row) => {
         const newlabel = row?.status;
-        console.log(row);
+        // console.log(row);
 
         return (
           <ChangeStatus

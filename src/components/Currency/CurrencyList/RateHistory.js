@@ -5,10 +5,10 @@ import { Fragment, useCallback, useState, useEffect } from "react";
 import useFetchData from "src/utils/hooks/useFetchData";
 import cloneDeep from "lodash.clonedeep";
 // import moment from 'moment';
-import ModalComponent from "src/components/shared/ModalComponent/ModalComponent";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
+import ModalComponentRateHistory from "src/components/shared/ModalComponent/ModalComponentRateHistory";
 
 const RateHistory = ({ titleCurrency, currencyCode }) => {
   //   const classes = useStyles();
@@ -41,9 +41,9 @@ const RateHistory = ({ titleCurrency, currencyCode }) => {
     setData(mapData);
   }, [dataResponse]);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   const columns = [
     {
@@ -79,7 +79,7 @@ const RateHistory = ({ titleCurrency, currencyCode }) => {
   return (
     <Fragment>
       <Button onClick={(onOpenModal)}>{titleCurrency}</Button>
-      <ModalComponent
+      <ModalComponentRateHistory
         open={open}
         onClose={onClose}
         width="800px"
@@ -97,7 +97,7 @@ const RateHistory = ({ titleCurrency, currencyCode }) => {
             handleChangePage={handleChangePage}
             handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
-      </ModalComponent>
+      </ModalComponentRateHistory>
     </Fragment>
   );
 };

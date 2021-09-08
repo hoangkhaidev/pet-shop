@@ -105,7 +105,7 @@ const schema = {
 }
 
 export default function TabBetScale({currentData, setObjFilter, objFilter, dataDetail}) {
-  console.log(dataDetail?.bet_scale_list);
+  // console.log(dataDetail?.bet_scale_list);
   // let betList = dataDetail?.bet_scale_list?.map((item) => {
   //   let newScale = (Math.round(item.bet_scale * 100) / 100).toFixed(2);
   //   return {
@@ -257,9 +257,9 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
     // eslint-disable-next-line
   }, [dataDetail]);
 
-  useEffect(() => {
-    console.log(formState);
-  }, [formState]);
+  // useEffect(() => {
+  //   console.log(formState);
+  // }, [formState]);
 
   useEffect(() => {
     const errors = validate(formState.values, schema);

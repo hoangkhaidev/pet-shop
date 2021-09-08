@@ -1,7 +1,6 @@
 /* eslint-disable arrow-body-style */
 import { Button, makeStyles } from "@material-ui/core";
 import { Fragment, useCallback, useState, createContext, lazy } from "react";
-import ModalComponent from "../shared/ModalComponent/ModalComponent";
 import moment from 'moment';
 import TransactionDetailsInfo from "./TransactionDetailInfo";
 // import TransactionDetailsTable from "./TransactionDetailsTable";
@@ -11,6 +10,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
 import TransactionRequestResponse from "./TransactionRequestResponse";
+import ModalComponentRateHistory from "../shared/ModalComponent/ModalComponentRateHistory";
 
 const TransactionDetailsTable = lazy(() => import("./TransactionDetailsTable"));
 
@@ -69,9 +69,9 @@ const TransactionDetails = ({roundId}) => {
   };
 
   return (
-    <Fragment>
+    <>
       <Button onClick={(onOpenModal)}>{roundId}</Button>
-      <ModalComponent
+      <ModalComponentRateHistory
         open={open}
         onClose={onClose}
         width="800px"
@@ -96,8 +96,8 @@ const TransactionDetails = ({roundId}) => {
           {/* <TransactionDetailsTable /> */}
           <TransactionRequestResponse roundId={roundId} />
         </TabPanel>
-      </ModalComponent>
-    </Fragment>
+      </ModalComponentRateHistory>
+    </>
   );
 };
 

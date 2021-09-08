@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from '@material-ui/core/styles';
 import { node, bool, func } from "prop-types";
@@ -9,9 +9,11 @@ function getModalStyle() {
   const left = 50;
 
   return {
-    top: `${top}%`,
+    top: 0,
     left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
+    transform: `translate(-${top}%, 0)`,
+    height: '100%',
+    overflowX: 'auto',
   };
 }
 
@@ -23,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+
   closer: {
     cursor: 'pointer',
     position: 'absolute',
@@ -31,9 +34,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ModalComponent = ({ children, open, onClose }) => {
-  const [modalStyle] = useState(getModalStyle);
+const ModalComponentRateHistory = ({ children, open, onClose, width }) => {
+  const [modalStyle, setModalStyle] = useState(getModalStyle);
   const classes = useStyles();
+
+  useEffect(() => {
+    let style = {...modalStyle};
+    style.width = width;
+    setModalStyle(style)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [width])
 
   return (
     <Modal
@@ -50,15 +60,15 @@ const ModalComponent = ({ children, open, onClose }) => {
   );
 };
 
-ModalComponent.propTypes = {
+ModalComponentRateHistory.propTypes = {
   children: node.isRequired,
   open: bool,
   onClose: func
 };
 
-ModalComponent.defaultProps = {
+ModalComponentRateHistory.defaultProps = {
   open: false,
   onClose: () => {}
 };
 
-export default ModalComponent;
+export default ModalComponentRateHistory;

@@ -57,6 +57,14 @@ const ChangePasswordForm = ({ linkApi, username }) => {
             });
           }
         }
+        if (response?.err === 'err:no_permission') {
+          toast.warn("No Permission", {
+            onClose: onClose()
+          });
+        }
+        if (response?.err === 'err:suspended_account') {
+          toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
+        }
       }
     } catch (e) {
       console.log('e', e);
