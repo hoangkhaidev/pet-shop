@@ -62,6 +62,14 @@ export default function SelectFieldMutipleCustom({
   const theme = useTheme();
 
   const handleChange = (event) => {
+    let index = event.target.value.findIndex((item) => item === 'all');
+    if (index !== -1) {
+      if (index === 0) { 
+        event.target.value.splice(index, 1);
+      } else {
+        event.target.value = ['all'];
+      }
+    }
     setStateMultiple(event.target.value);
   };
 

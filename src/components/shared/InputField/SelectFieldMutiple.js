@@ -64,6 +64,15 @@ export default function SelectFieldMutiple({ options, label, required, id, setBr
   const theme = useTheme();
 
   const handleChange = (event) => {
+    let index = event.target.value.findIndex((item) => item === 'all');
+    if (index !== -1) {
+      if (index === 0) { 
+        event.target.value.splice(index, 1);
+      } else {
+        event.target.value = ['all'];
+      }
+    }
+
     setBrandMultiple(event.target.value);
   };
 
