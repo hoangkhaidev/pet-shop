@@ -7,7 +7,9 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import isEmpty from 'lodash/isEmpty';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { useTranslation } from 'react-i18next';
-import { Button } from '@material-ui/core';
+// import { Button } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCopy } from '@fortawesome/free-solid-svg-icons';
 
 const useStyles = makeStyles(() => ({
   inputField: {
@@ -143,7 +145,15 @@ const InputFieldCopy = ({
               InputProps={{
                 readOnly,
                 endAdornment: <InputAdornment position="end">
-                        <Button variant="contained" color="primary" onClick={callbackInputProps}>{endText}</Button>
+                          <FontAwesomeIcon 
+                            icon={faCopy} 
+                            size={'2x'} 
+                            color={'#1cb13c'} 
+                            title={endText} 
+                            onClick={callbackInputProps}
+                            style={{cursor: 'pointer'}}
+                          />
+                        {/* <Button variant="contained" color="primary" onClick={callbackInputProps}>{endText}</Button> */}
                     </InputAdornment>,
               }}
             />

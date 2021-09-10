@@ -14,7 +14,8 @@ import useRouter from 'src/utils/hooks/useRouter';
 // import { toast } from 'react-toastify';
 // import { useNavigate } from 'react-router-dom';
 import Group_BrandFilter from './Group_BrandFilter';
-import BrandListBelow from './BrandListBelow';
+// import BrandListBelow from './BrandListBelow';
+import cloneDeep from 'lodash.clonedeep';
 
 const Group_BrandList = () => {
   const router = useRouter();
@@ -33,12 +34,9 @@ const Group_BrandList = () => {
   );
 
   useEffect(() => {
-    setData(dataResponse);
+    let mapData = cloneDeep(dataResponse);
+    setData(mapData);
   }, [dataResponse]);
-
-  // useEffect(()=> {
-  //   console.log(objFilter);
-  // }, [objFilter]);
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
@@ -50,9 +48,10 @@ const Group_BrandList = () => {
       column_name: 'Group / Operator',
       align: 'left',
       formatter: (cell, row) => {
-        console.log(row)
+        // console.log(row)
+
         return (
-          <Link href={`/operator/list/${row.operator_id}/edit`}>{cell}</Link>
+          <Link href={`/operator/list/${row.account_id}/edit`}>{cell}</Link>
         )
       }
     },
@@ -62,7 +61,10 @@ const Group_BrandList = () => {
       align: 'right',
       formatter: (cell, row) => {
         return (
-          <BrandListBelow roundId={row.operator_id} cell={cell} />
+          // <BrandListBelow roundId={row.operator_id} cell={cell} />
+          <Link href={`/global/group_brand/${row.operator_id}/list_below`}>
+            {cell}
+          </Link>
         );
       },
     }
@@ -85,11 +87,9 @@ const Group_BrandList = () => {
   };
 
   const onSubmit = async (dataForm) => {
-    // console.log(dataForm)
     const form = {
       ...dataForm,
     };
-    // console.log(form)
 
     setObjFilter({
       ...form,

@@ -6,6 +6,8 @@ export default function useRouter() {
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  // console.log(location)
+  // console.log(params)
 
 
   // Return our custom router object
@@ -13,6 +15,7 @@ export default function useRouter() {
   return useMemo(() => ({
     // For convenience add push(), replace(), pathname at top level
     pathname: location.pathname,
+    active_name: location.pathname,
     // Merge params and parsed query string into single "query" object
     // so that they can be used interchangeably.
     // Example: /:topic?sort=popular -> { topic: "react", sort: "popular" }

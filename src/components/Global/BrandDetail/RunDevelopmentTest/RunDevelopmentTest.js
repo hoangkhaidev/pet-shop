@@ -1,47 +1,36 @@
-import { Fragment, useState, useEffect } from 'react';
-// import { useTranslation } from 'react-i18next';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Fragment, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import TableComponent from 'src/components/shared/TableComponent/TableComponent';
-import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
-// import TitlePage from 'src/components/shared/TitlePage/TitlePage';
-import Loading from 'src/components/shared/Loading/Loading';
-import useFetchData from 'src/utils/hooks/useFetchData';
 import RunDevelopmentTestFilter from './RunDevelopmentTestFilter';
 import useRouter from 'src/utils/hooks/useRouter';
+import api from 'src/utils/api';
 
 const RunDevelopmentTest = () => {
   const router = useRouter();
-  // const classes = useStyles();
-  const [data, setData] = useState([]);
-  const [objFilter, setObjFilter] = useState({
-    token: ""
-  });
 
   const methods = useForm({
     defaultValues: router.query,
   });
 
-  const { dataResponse, isLoading, isHasPermission } = useFetchData(
-    `/api/global/brand_detail/${router?.query?.id}/verify_api_integration`,
-    objFilter,
-  );
-
+  const [data, setData] = useState([]);
   
-  useEffect(() => {
-    let mapData = cloneDeep(dataResponse)
-    setData(mapData)
-  }, [dataResponse]);
+  const onSubmitFilter = async (data) => {
+    try {
+        const response = await api.post(`/api/global/brand_detail/${router?.query?.id}/verify_api_integration`, data);
+        
+        if (get(response, 'success', false)) {
+          const mapData = response?.data;
+          setData(mapData);
+        } else {
+          console.log(response)
+        }
+    } catch (e) {
+      console.log('e', e);
+    }
 
-  const onSubmit = async (dataForm) => {
-    const form = {
-      token: dataForm?.token,
-    };
-
-    setObjFilter({
-      ...form,
-    });
   };
 
   const columns = [ 
@@ -73,17 +62,12 @@ const RunDevelopmentTest = () => {
     },
   ];
 
-  if (!isHasPermission) {
-    return <NoPermissionPage />;
-  }
-
   return (
     <Fragment>
-      {isLoading && <Loading />}
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <RunDevelopmentTestFilter />
-        </form>
+        {/* <form onSubmit={methods.handleSubmit(onSubmit)}> */}
+          <RunDevelopmentTestFilter onSubmitFilter={onSubmitFilter} />
+        {/* </form> */}
       </FormProvider>
       <ContentCardPage>
         <TableComponent

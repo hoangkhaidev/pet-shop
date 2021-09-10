@@ -109,6 +109,7 @@ const Endpoint_Settings = () => {
     if (data) {
         setValue('secret_key', data?.secret_key);
         setValue('api_key', data?.api_key);
+        setValue('api_endpoint', data?.api_endpoint);
         setValue('manual_retry_refund_after_hours', data?.manual_retry_refund_after_hours);
         setValue('player_inactivity_logout_after_mins', data?.player_inactivity_logout_after_mins);
         // setValue('password', data?.password);

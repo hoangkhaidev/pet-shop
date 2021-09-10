@@ -71,6 +71,12 @@ const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // useEffect(() => {
+  //   console.log(listNav.NavItems);
+  //   console.log(currentMenu);
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [listNav])
+
   useEffect(() => {
     getListNav();
   }, [getListNav]);
@@ -86,13 +92,16 @@ const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
       <Divider />
       <Box sx={{ p: 2 }}>
         <List>
-          {(listNav?.NavItems || []).map((item) => (
-            <NavItem
-              item={item}
-              key={item.name}
-              isActiveMenu={currentMenu?.name === item.name}
-            />
-          ))}
+          {(listNav?.NavItems || []).map((item) => {
+            let urlActive = '/' + currentMenu?.path;
+            return (
+              <NavItem
+                item={item}
+                key={item.name}
+                isActiveMenu={urlActive === item.url}
+              />
+            )
+          })}
         </List>
       </Box>
       <Box sx={{ flexGrow: 1 }} />

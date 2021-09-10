@@ -49,6 +49,8 @@ const NavItem = ({
   };
 
   // console.log(router);
+  // console.log(item?.children);
+  // console.log(router);
   // const active = href ? !!matchPath({
   //   path: href,
   //   end: false
@@ -100,21 +102,25 @@ const NavItem = ({
             // color={isActiveMenu ? "primany" : "none"}
           >
             <List component="div" disablePadding>
-              {(item?.children || []).map((sub) => (
-                <ListItem
-                  button
-                  component={RouterLink}
-                  to={sub.url}
-                  key={sub.name}
-                  className={classes.nested}
-                  sx={{
-                    py: 2,
-                    color: sub?.url === router.pathname ? 'text.active' : 'text.secondary',
-                  }}
-                >
-                  {sub.name}
-                </ListItem>
-              ))}
+              {(item?.children || []).map((sub) => {
+                // console.log(sub.url);
+               
+                return (
+                  <ListItem
+                    button
+                    component={RouterLink}
+                    to={sub.url}
+                    key={sub.name}
+                    className={classes.nested}
+                    sx={{
+                      py: 2,
+                      color: sub?.url === router.pathname ? 'text.active' : 'text.secondary',
+                    }}
+                  >
+                    {sub.name}
+                  </ListItem>
+                )
+              })}
             </List>
           </Collapse>
         </>

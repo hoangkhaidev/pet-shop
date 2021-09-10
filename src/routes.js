@@ -78,6 +78,10 @@ const Group_BrandList = lazy(() =>
   import('src/components/Global/Group_BrandList')
 );
 
+const BrandListBelow = lazy(() =>
+  import('src/components/Global/BrandListBelow')
+);
+
 const BrandGlobalEdit = lazy(() =>
   import('src/components/Global/BrandDetail/BrandDetail')
 );
@@ -263,6 +267,12 @@ const routes = (isLoggedIn) => [
         fullpath: '/global/group_brand',
         name: 'Group/Brand List',
         element: <Group_BrandList />,
+      },
+      {
+        path: '/group_brand/:id/list_below',
+        fullpath: '/global/group_brand/:id/list_below',
+        name: 'Brand List Below',
+        element: <BrandListBelow />,
       },
       {
         path: '/brand_detail/:id',

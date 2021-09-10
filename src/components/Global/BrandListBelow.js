@@ -1,18 +1,24 @@
 /* eslint-disable arrow-body-style */
-import { Button } from "@material-ui/core";
-import { Fragment, useCallback, useState, useEffect } from "react";
-import ModalComponent from "../shared/ModalComponent/ModalComponent";
+import { Fragment, useState, useEffect } from "react";
 import TableComponent from "../shared/TableComponent/TableComponent";
 import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
 import Link from '@material-ui/core/Link';
 import useFetchData from "src/utils/hooks/useFetchData";
 import cloneDeep from "lodash.clonedeep";
 import moment from 'moment';
+import useRouter from "src/utils/hooks/useRouter";
+import ContentCardPage from "../ContentCardPage/ContentCardPage";
+import ClearAllIcon from '@material-ui/icons/ClearAll';
+import { Button } from "@material-ui/core";
+import { useNavigate } from "react-router";
 
-const BrandListBelow = ({ roundId, cell }) => {
+const BrandListBelow = () => {
   //   const classes = useStyles();
+  const router = useRouter();
+  const navigate = useNavigate();
+
   const { dataResponse, isHasPermission } = useFetchData(
-    `/api/global/group_brand/${roundId}`,
+    `/api/global/group_brand/${router.query.id}`,
     null
   );
   const [pagination, setPagination] = useState({
@@ -20,28 +26,12 @@ const BrandListBelow = ({ roundId, cell }) => {
     page_size: 30
   });
 
-  const [open, setOpen] = useState(false);
-
-  const onOpenModal = useCallback(() => {
-    // setOpen(true);
-    setOpen(true);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const onClose = () => {
-    setOpen(false);
-  };
-
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const mapData = cloneDeep(dataResponse);
     setData(mapData);
   }, [dataResponse]);
-
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
 
   const columns = [
     {
@@ -84,6 +74,10 @@ const BrandListBelow = ({ roundId, cell }) => {
       page_size: parseInt(event.target.value, 10)
     });
   };
+  
+  const onCancel = () => {
+    navigate('/global/group_brand');
+  }
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
@@ -91,25 +85,31 @@ const BrandListBelow = ({ roundId, cell }) => {
 
   return (
     <Fragment>
-      <Button onClick={(onOpenModal)}>{cell}</Button>
-      <ModalComponent
-        open={open}
-        onClose={onClose}
-        width="800px"
-      >
+      <ContentCardPage>
+        <div style={{ fontWeight: '600', fontSize: '22px'}}>Brand List Below</div>
+        <Button
+          startIcon={<ClearAllIcon fontSize="small" />}
+          variant="contained"
+          type="button"
+          color="secondary"
+          style={{ margin: '15px 0px' }}
+          onClick={() => onCancel()}
+        >
+          Back
+        </Button>
         <TableComponent
-            data={data}
-            columns={columns}
-            types='RoleList'
-            pagination={{
-            total_size: data.length,
-            page: pagination.page,
-            page_size: pagination.page_size
-            }}
-            handleChangePage={handleChangePage}
-            handleChangeRowsPerPage={handleChangeRowsPerPage}
+          data={data}
+          columns={columns}
+          types='RoleList'
+          pagination={{
+          total_size: data.length,
+          page: pagination.page,
+          page_size: pagination.page_size
+          }}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
-      </ModalComponent>
+      </ContentCardPage>
     </Fragment>
   );
 };
