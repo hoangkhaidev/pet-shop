@@ -94,7 +94,7 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
         }
 
         if (dataJSON?.err === 'err:operator_not_found') {
-          toast.warn('Operator not found');
+          toast.warn('The page you are looking for is temporarily unavailable.');
           return setData({
             dataResponse: null,
             total_size: 0,

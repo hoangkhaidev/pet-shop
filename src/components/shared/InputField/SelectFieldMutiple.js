@@ -73,6 +73,15 @@ export default function SelectFieldMutiple({ options, label, required, id, setBr
       }
     }
 
+    let arrOptions = options.map((item) => {
+      return item.value;
+    });
+    arrOptions.splice(0, 1);
+   
+    if (arrOptions?.length === event.target.value?.length)  {
+      event.target.value = ['all'];
+    }
+
     setBrandMultiple(event.target.value);
   };
 
