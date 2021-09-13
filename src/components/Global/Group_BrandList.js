@@ -36,6 +36,7 @@ const Group_BrandList = () => {
   useEffect(() => {
     let mapData = cloneDeep(dataResponse);
     setData(mapData);
+    console.log(dataResponse);
   }, [dataResponse]);
 
   if (!isHasPermission) {
