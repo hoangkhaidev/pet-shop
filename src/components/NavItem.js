@@ -48,9 +48,9 @@ const NavItem = ({
     setIsOpen((open) => !open);
   };
 
-  // console.log(router);
+  // console.log(item);
   // console.log(item?.children);
-  // console.log(router);
+  // console.log(router.pathname.indexOf('/global/group_brand'));
   // const active = href ? !!matchPath({
   //   path: href,
   //   end: false
@@ -104,6 +104,24 @@ const NavItem = ({
             <List component="div" disablePadding>
               {(item?.children || []).map((sub) => {
                 // console.log(sub.url);
+                let checkGroupBrand = router.pathname.indexOf('/global/group_brand');
+                if (checkGroupBrand !== -1) {
+                  return (
+                    <ListItem
+                      button
+                      component={RouterLink}
+                      to={sub.url}
+                      key={sub.name}
+                      className={classes.nested}
+                      sx={{
+                        py: 2,
+                        color: sub?.url === '/global/group_brand' ? 'text.active' : 'text.secondary',
+                      }}
+                    >
+                      {sub.name}
+                    </ListItem>
+                  )
+                }
                
                 return (
                   <ListItem

@@ -40,7 +40,7 @@ const BrandListBelow = () => {
       align: "left",
       formatter: (cell, row) => {
         return (
-          <Link href={`/global/brand_detail/${row.brand_id}`}>{cell}</Link>
+          <Link href={`/global/group_brand/brand_detail/${row.brand_id}`}>{cell}</Link>
         )
       }
     },

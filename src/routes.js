@@ -275,8 +275,8 @@ const routes = (isLoggedIn) => [
         element: <BrandListBelow />,
       },
       {
-        path: '/brand_detail/:id',
-        fullpath: '/global/brand_detail/:id',
+        path: '/group_brand/brand_detail/:id',
+        fullpath: '/global/group_brand/brand_detail/:id',
         name: 'Brand Detail',
         element: <BrandGlobalEdit />,
       },
