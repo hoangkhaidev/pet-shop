@@ -23,6 +23,7 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
   });
 
   const fetchData = useCallback(async () => {
+    // console.log('xxxxxxxxxxxxxxxx');
     setData((prevState) => ({
       ...prevState,
       isLoading: true,
@@ -35,7 +36,6 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
     router.navigate(url);
 
     try {
-
       const response = await fetch(`${ROOT_API_URL}${endpoint}`, {
         method: 'POST',
         headers: {
@@ -60,46 +60,73 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
         });
 
       } else {
-        
-        // if (dataJSON?.err === 'err:player_business_summary_args_limit') {
-        //   toast.warn('Please select 1 of the 2 fields player ID, nickname');
-        //   return setData({
-        //     dataResponse: null,
-        //     total_size: 0,
-        //     isLoading: true,
-        //     isHasPermission: true,
-        //     refetch: true,
-        //   });
-        // }
 
         if (dataJSON?.err === 'err:internal_error') {
+          // console.log(1)
           toast.warn('Internal Server Error. Please try again!');
           return setData({
+            isLoading: false,
             dataResponse: null,
             total_size: 0,
-            isLoading: false,
+            isLoaded: false,
             isHasPermission: false,
+            total: 0,
             refetch: false,
           });
         }
+
         if (dataJSON?.err === 'err:no_permission') {
+          // console.log(2)
           toast.warn('No Permission');
           return setData({
+            isLoading: false,
             dataResponse: null,
             total_size: 0,
-            isLoading: false,
+            isLoaded: false,
             isHasPermission: false,
+            total: 0,
+            refetch: false,
+          });
+        }
+
+        if (dataJSON?.err === 'err:brand_not_found') {
+          // console.log(3)
+          toast.warn('Brand not found');
+          return setData({
+            isLoading: false,
+            dataResponse: null,
+            total_size: 0,
+            isLoaded: false,
+            isHasPermission: false,
+            total: 0,
             refetch: false,
           });
         }
 
         if (dataJSON?.err === 'err:operator_not_found') {
+          // console.log(4)
           toast.warn('Operator not found');
           return setData({
+            isLoading: false,
             dataResponse: null,
             total_size: 0,
-            isLoading: false,
+            isLoaded: false,
             isHasPermission: false,
+            total: 0,
+            refetch: false,
+          });
+        }
+
+        if (dataJSON?.err === 'err:account_not_found') {
+          // console.log(5)
+          toast.warn('Account not found');
+          return setData({
+            isLoading: false,
+            dataResponse: null,
+            total_size: 0,
+            isLoaded: false,
+            isHasPermission: false,
+            total: 0,
             refetch: false,
           });
         }

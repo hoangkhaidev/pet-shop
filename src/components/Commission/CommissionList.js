@@ -49,10 +49,11 @@ const CommissionList = () => {
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
     setData(mapData);
-    // console.log(mapData)
+    // console.log(mapData);
     let product_commission = [];
     mapData.map((item) => {
       item.product_commission.map((product) => {
+        // console.log(product)
         let index = product_commission.findIndex((pro) => {
           return pro.product_id === product.product_id;
         });
@@ -78,17 +79,24 @@ const CommissionList = () => {
           formatter: (cell, row) => {
             // console.log(row)
             let valueCommission = 0;
+            let disabledInput = false;
             row.product_commission.forEach((itemPro) => {
               if (itemPro.enable === true) {
                 if (itemPro.product_id === item?.product_id) {
                   valueCommission = itemPro.commission;
+                  disabledInput = true;
                 }
               }
             });
+            // console.log(valueCommission);
+            // console.log(disabledInput);
+            console.log(row);
+
             return (
               <CommissionInput 
                 name={`${row.brand_name}_${item?.product_id}`}
                 defaultValue={valueCommission}
+                disabled={!disabledInput}
                 {...register(`${row.brand_name}_${item?.product_id}` ,  { required: true })}
                 ref={`${row.brand_name}_${item?.product_id}`.ref}
                 control={control}
@@ -159,8 +167,8 @@ const CommissionList = () => {
   }, [getColumns]);
 
   // useEffect(()=> {
-  //   console.log(data);
-  // }, [data]);
+  //   console.log(listProductCommission);
+  // }, [listProductCommission]);
 
   if (!isHasPermission) {
     return <NoPermissionPage />;

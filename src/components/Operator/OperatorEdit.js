@@ -400,15 +400,15 @@ const OperatorEdit = () => {
     setWhitelistIP(cloneArr);
   };
 
-  if (!isHasPermission) {
-    return <NoPermissionPage />;
-  }
-
   const onCancel = () => {
     navigate('/operator/list');
   }
 
   const hasError = (field) => productCommission.touched[field] && productCommission.errors[field] ? true : false;
+
+  if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
 
   return (
     <ContentCardPage>

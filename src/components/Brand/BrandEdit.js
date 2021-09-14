@@ -404,14 +404,6 @@ const BrandEdit = () => {
     setWhitelistIP(cloneArr);
   };
 
-  if (!isHasPermission) {
-    return <NoPermissionPage />;
-  }
-
-  if (!isHasAccessPermission) {
-    return <NoPermissionPage />;
-  }
-
   const onCancel = () => {
     navigate('/brand/list');
   }
@@ -441,6 +433,14 @@ const BrandEdit = () => {
 
   const hasError = (field) => productCommission.touched[field] && productCommission.errors[field] ? true : false;
   
+  if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
+
+  if (!isHasAccessPermission) {
+    return <NoPermissionPage />;
+  }
+
   return (
     <ContentCardPage>
       <TitlePage title="Edit Brand" />

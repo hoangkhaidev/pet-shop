@@ -63,7 +63,7 @@ const Group_BrandList = () => {
       formatter: (cell, row) => {
         return (
           // <BrandListBelow roundId={row.operator_id} cell={cell} />
-          <Link href={`/global/group_brand/${row.operator_id}/list_below`}>
+          <Link href={`/global/group_brand/${row.operator_id}/operator_name/${row.operator_name}`}>
             {cell}
           </Link>
         );

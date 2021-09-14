@@ -86,7 +86,11 @@ const BrandListBelow = () => {
   return (
     <Fragment>
       <ContentCardPage>
-        <div style={{ fontWeight: '600', fontSize: '22px'}}>Brand List Below</div>
+        <div 
+          style={{ fontWeight: '600', fontSize: '22px', textTransform: 'capitalize' }}
+        >
+          {router.query.operator_name} - Brand List
+        </div>
         <Button
           startIcon={<ClearAllIcon fontSize="small" />}
           variant="contained"
