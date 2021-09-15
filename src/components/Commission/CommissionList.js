@@ -90,7 +90,7 @@ const CommissionList = () => {
             });
             // console.log(valueCommission);
             // console.log(disabledInput);
-            console.log(row);
+            // console.log(row);
 
             return (
               <CommissionInput 
@@ -114,33 +114,38 @@ const CommissionList = () => {
 
   const onHandleUpdate = async (brand_id, brand_name, row) => {
     const formData = getValues();
-    // console.log(formData)
+    console.log(formData);
     let productCommission = [];
     row.product_commission.forEach(item => {
-      const inputKey = `${brand_name}_${item?.product_id}`
-      let commissionChange = formData[inputKey];
-      // console.log(commissionChange);
-      if (!commissionChange) {
-        data.forEach((dataItem) => {
-          if (dataItem.brand_name === brand_name) {
-            dataItem.product_commission.forEach((itemPro) => {
-              if (itemPro.product_id === item.product_id) {
-                commissionChange = itemPro.commission;
-              }
-            });
-          }
+      console.log(item.enable)
+      if (item.enable) {
+        const inputKey = `${brand_name}_${item?.product_id}`
+        let commissionChange = formData[inputKey];
+        // console.log(commissionChange);
+        if (!commissionChange) {
+          data.forEach((dataItem) => {
+            if (dataItem.brand_name === brand_name) {
+              dataItem.product_commission.forEach((itemPro) => {
+                if (itemPro.product_id === item.product_id) {
+                  commissionChange = itemPro.commission;
+                }
+              });
+            }
+          });
+        }
+        productCommission.push({
+          "product_id": item?.product_id,
+          "commission": commissionChange
         });
       }
-      productCommission.push({
-        "product_id": item?.product_id,
-        "commission": commissionChange
-      })
     });
+
     const form = {
       brand_id: brand_id,
       product_commission: productCommission,
     };
-    // console.log(form);
+    
+    console.log(form);
     const response = await api.post('/api/commission/commission_update', form);
     if (get(response, "success", false)) {
       toast.success('Update Commission Success', {
