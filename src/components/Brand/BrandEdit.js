@@ -209,21 +209,6 @@ const BrandEdit = () => {
   }, [data, setValue]);
 
   useEffect(() => {
-    setErrorProductCommission('');
-    cloneDeep(productCommission.values).map((item) => {
-      if (item.checked) {
-        schema = {
-          ...schema,
-          [`commission-${item.product_id}`]: {
-            presence: { allowEmpty: false, message: 'is required' },
-          },
-        }
-      }
-      return item;
-    });
-  }, [productCommission]);
-
-  useEffect(() => {
     let dataProCon = [];
     const dataProductCommission = dataProduct.map((item) => {
       let index = (dataResponse?.product_commission || []).findIndex((itemEdit) => {
@@ -409,13 +394,24 @@ const BrandEdit = () => {
   }
 
   useEffect(() => {
+    setErrorProductCommission('');
+  }, [productCommission]);
+
+  useEffect(() => {
     let validateValues = {};
+    schema = {};
     cloneDeep(productCommission.values).map((item) => {
       if (item.checked) {
+        schema = {
+          ...schema,
+          [`commission-${item.product_id}`]: {
+            presence: { allowEmpty: false, message: 'is required' },
+          },
+        };
         validateValues = {
           ...validateValues,
           [`commission-${item.product_id}`]: item.commission
-        }
+        };
       }
       return item;
     })

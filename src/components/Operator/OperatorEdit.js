@@ -222,6 +222,11 @@ const OperatorEdit = () => {
   
   useEffect(() => {
     setErrorProductCommission('');
+  }, [productCommission]);
+
+  useEffect(() => {
+    let validateValues = {};
+    schema = {};
     cloneDeep(productCommission.values).map((item) => {
       if (item.checked) {
         schema = {
@@ -229,25 +234,19 @@ const OperatorEdit = () => {
           [`commission-${item.product_id}`]: {
             presence: { allowEmpty: false, message: 'is required' },
           },
-        }
-      }
-      return item;
-    });
-  }, [productCommission]);
-
-  useEffect(() => {
-    let validateValues = {};
-    cloneDeep(productCommission.values).map((item) => {
-      if (item.checked) {
+        };
         validateValues = {
           ...validateValues,
           [`commission-${item.product_id}`]: item.commission
-        }
+        };
       }
       return item;
     })
 
     const errors = validate(validateValues, schema);
+
+    // console.log(validateValues)
+    // console.log(errors)
 
     setProductCommission((productCommission) => ({
       ...productCommission,
@@ -294,7 +293,7 @@ const OperatorEdit = () => {
       };
       delete form.commission;
       delete form.username;
-      // console.log(form)
+      console.log(form)
       try {
         let response = await api.post(
           `/api/operators/${router.query?.id}/update`,
@@ -342,6 +341,7 @@ const OperatorEdit = () => {
         }
         return item;
       })
+      console.log(abc)
       
       setProductCommission((productCommission) => ({
         ...productCommission,
@@ -353,9 +353,9 @@ const OperatorEdit = () => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(productCommission);
-  // }, [productCommission]);
+  useEffect(() => {
+    console.log(productCommission);
+  }, [productCommission]);
 
   const addingFinanceEmail = () => {
     // console.log(finance_emails);

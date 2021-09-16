@@ -30,6 +30,8 @@ const ProductCommission = ({ item, productCommission, setProductCommission, requ
       return items;
     });
 
+    // console.log(proCon)
+
     // setProductCommission(proCon);
     setProductCommission((productCommission) => ({
       ...productCommission,
