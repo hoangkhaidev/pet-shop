@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
 const CommissionInput = props => {
   const { name, defaultValue, id, placeholder, onChange = null, disabled = false, ref } = props;
   const classes = useStyles();
-
   const handlerCommissionChange = (event) => {
     let value = event.target.value;
     // console.log(value);

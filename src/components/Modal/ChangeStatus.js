@@ -229,24 +229,6 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
         <div>
           <TitlePage title="Change Status" />
           <form onSubmit={handleSubmit(onSubmit)}>
-            {/* <InputField
-              namefileld="username"
-              control={control}
-              id="username"
-              errors={errors?.username}
-              type="text"
-              label="Username"
-              disabled
-            />  
-            <InputField
-              namefileld="current_status"
-              control={control}
-              id="current_status"
-              errors={errors?.current_status}
-              type="text"
-              label="Current Status"
-              disabled
-            />   */}
             <div style={{color: '#747f93', fontSize: '18px', paddingTop: '10px'}}>
               Username:<b> {username}</b>
             </div>

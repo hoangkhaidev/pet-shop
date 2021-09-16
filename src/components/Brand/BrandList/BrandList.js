@@ -297,7 +297,6 @@ const BrandList = () => {
       column_name: 'Players',
       align: 'right',
       formatter: (cell, row) => {
-        // console.log(row.BrandId)
         return (
           <Link href={`/players/players?brand_id=${row.BrandId}&currency=&from_date=${moment().format("DD/MM/YYYY")}&ip_address=&language=&nick_name=&page=1&page_size=30&player_id=0&sort_field=id&sort_order=desc&to_date=${moment().format("DD/MM/YYYY")}`}>{cell}</Link>
         )

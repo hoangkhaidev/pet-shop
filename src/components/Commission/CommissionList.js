@@ -19,6 +19,15 @@ import api from 'src/utils/api';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
+const getCommissionByProduct = (list, product_id) => {
+  const product_commission = list.find((obj) => obj.product_id === product_id);
+  if (product_commission) return product_commission;
+  return {
+    commission: '0',
+    enable: false
+  };
+};
+
 const CommissionList = () => {
   const router = useRouter();
   // const classes = useStyles();
@@ -31,7 +40,8 @@ const CommissionList = () => {
   const [objFilter , setObjFilter] = useState({
     name_search: "",
     page: 1,
-    page_size: 30
+    page_size: 30,
+    ...router.query,
   });
   // const [commission, setCommission] = useState([]);
 
@@ -39,16 +49,19 @@ const CommissionList = () => {
     defaultValues: router.query,
   });
 
-  const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
+  const { dataResponse, total_size, isHasPermission } = useFetchData(
     '/api/commission',
-    objFilter
+    objFilter,
   );
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const { register, getValues, control } = useForm();
   
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
     setData(mapData);
+
     // console.log(mapData);
     let product_commission = [];
     mapData.map((item) => {
@@ -61,15 +74,15 @@ const CommissionList = () => {
         return product;
       });
       return item;
-    })
+    });
     setListProductCommission(product_commission);
    
   }, [dataResponse]);
 
-
   const getColumns = useCallback(async () => {
+    // console.log(123);
     if (listProductCommission && arrayCommissionColumn.length <= 0) {
-      // setIsLoading(true);
+      setIsLoading(true);
       const arrayColumns = map(listProductCommission, item => {
         // console.log(item)
         return ({
@@ -77,26 +90,14 @@ const CommissionList = () => {
           column_name: `${t(item?.product_name)}`,
           align: 'right',
           formatter: (cell, row) => {
-            // console.log(row)
-            let valueCommission = 0;
-            let disabledInput = false;
-            row.product_commission.forEach((itemPro) => {
-              if (itemPro.enable === true) {
-                if (itemPro.product_id === item?.product_id) {
-                  valueCommission = itemPro.commission;
-                  disabledInput = true;
-                }
-              }
-            });
-            // console.log(valueCommission);
-            // console.log(disabledInput);
-            // console.log(row);
+           
+            let proCommission = getCommissionByProduct(row.product_commission, item?.product_id);
 
             return (
               <CommissionInput 
                 name={`${row.brand_name}_${item?.product_id}`}
-                defaultValue={valueCommission}
-                disabled={!disabledInput}
+                defaultValue={proCommission.commission}
+                disabled={!proCommission.enable}
                 {...register(`${row.brand_name}_${item?.product_id}` ,  { required: true })}
                 ref={`${row.brand_name}_${item?.product_id}`.ref}
                 control={control}
@@ -108,7 +109,7 @@ const CommissionList = () => {
         })
     });
       setArrayCommissionColumn(arrayColumns);
-      // setIsLoading(false);
+      setIsLoading(false);
     }
   }, [listProductCommission]);
 
@@ -172,12 +173,8 @@ const CommissionList = () => {
   }, [getColumns]);
 
   // useEffect(()=> {
-  //   console.log(listProductCommission);
-  // }, [listProductCommission]);
-
-  if (!isHasPermission) {
-    return <NoPermissionPage />;
-  }
+  //   console.log(data);
+  // }, [data]);
 
   const columns = [ 
     {
@@ -235,6 +232,10 @@ const CommissionList = () => {
       page_size: 30,
     });
   };
+
+  if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
 
   return (
     <Fragment>
