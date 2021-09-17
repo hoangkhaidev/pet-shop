@@ -300,6 +300,10 @@ const BrandEdit = () => {
           if (response?.err === "err:no_permission") {
             setIsHasPermission(false);
           }
+          if (response?.err === 'err:brand_not_found') {
+            toast.warn('Brand not found');
+            // setIsHasPermission(false);
+          }
           if (response?.err === 'err:suspended_account') {
             toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
           }

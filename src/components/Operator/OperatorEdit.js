@@ -100,6 +100,7 @@ const OperatorEdit = () => {
   const [financeEmails, setFinanceEmails] = useState([]);
   const [productData, setProductData] = useState([]);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
+  const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
   const [errorWhiteIP, setErrorWhiteIP] = useState('');
   const [errorApiWLIP, setErrorApiWLIP] = useState('');
@@ -308,6 +309,13 @@ const OperatorEdit = () => {
           if (response?.err === 'err:suspended_account') {
             toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
           }
+          if (response?.err === 'err:operator_not_found') {
+            toast.warn('Operator not found');
+            // setIsHasPermission(false);
+          }
+          if (response?.err === "err:no_permission") {
+            setIsHasPermission(false);
+          }
           if (response?.err === 'err:form_validation_failed') {
             for (const field in response?.data) {
               if (response?.data['product_commission'] === 'err:invalid_product') {
@@ -407,6 +415,10 @@ const OperatorEdit = () => {
   const hasError = (field) => productCommission.touched[field] && productCommission.errors[field] ? true : false;
 
   if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
+
+  if (!isHasAccessPermission) {
     return <NoPermissionPage />;
   }
 
