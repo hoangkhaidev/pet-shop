@@ -17,7 +17,7 @@ const CurrencyList = () => {
   // const router = useRouter();
   // const classes = useStyles();
   const [data, setData] = useState([]);
-  const [refreshData, setRefreshData] = useState('');
+  const [refreshData, setRefreshData] = useState(null);
 
   const { dataResponse, isLoading, isHasPermission } = useFetchData(
     '/api/currency',
@@ -36,9 +36,9 @@ const CurrencyList = () => {
     setData(mapData)
   }, [dataResponse]);
 
-  // useEffect(() => {
-  //   console.log(cloneDeep(data).map(item => item.status));
-  // }, [data]);
+  useEffect(() => {
+    console.log(refreshData);
+  }, [refreshData]);
 
   if (!isHasPermission) {
     return <NoPermissionPage />;

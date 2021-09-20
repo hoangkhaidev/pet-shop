@@ -152,6 +152,7 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
       if (get(response, 'success', false)) {
         setLabel(data.status);
         setValue("reason", "");
+        setRefreshData(label);
         toast.success("Update Status Success", {
           onClose: onClose()
         });
@@ -179,10 +180,10 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
     }
   };
 
-  useEffect(() => {
-    setRefreshData(label);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [label])
+  // useEffect(() => {
+  //   setRefreshData(label);
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [label])
 
   let labelView = '';
   if (label === 'active') labelView = 'Active';

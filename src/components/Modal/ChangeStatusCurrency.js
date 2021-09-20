@@ -40,9 +40,9 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
     setLabel(newlabel);
   }, [newlabel]);
 
-  useEffect(() => {
-    setRefreshData(() => Math.random());
-  }, [label]);
+  // useEffect(() => {
+  //   setRefreshData(() => Math.random());
+  // }, [label]);
 
   const onOpenModal = useCallback(() => {
     if (types !== 'statusView') setOpen(true);
@@ -64,6 +64,7 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
       
       if (get(response, 'success', false)) {
         setLabel(() => currentStatus);
+        setRefreshData(() => Math.random());
         toast.success("Update Status Success", {
           onClose: onClose()
         });
