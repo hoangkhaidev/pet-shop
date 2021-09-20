@@ -1,21 +1,17 @@
 /* eslint-disable arrow-body-style */
 import { Button } from "@material-ui/core";
-import { Fragment, useCallback, useState, useEffect } from "react";
+import { Fragment, useCallback, useState } from "react";
 // import Link from '@material-ui/core/Link';
-import useFetchData from "src/utils/hooks/useFetchData";
 import cloneDeep from "lodash.clonedeep";
 // import moment from 'moment';
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
-import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import ModalComponentRateHistory from "src/components/shared/ModalComponent/ModalComponentRateHistory";
+import api from "src/utils/api";
+import get from 'lodash/get';
 
 const RateHistory = ({ titleCurrency, currencyCode }) => {
   //   const classes = useStyles();
-  const { dataResponse, isHasPermission } = useFetchData(
-    `/api/currency/${currencyCode}/history`,
-    null
-  );
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -25,9 +21,7 @@ const RateHistory = ({ titleCurrency, currencyCode }) => {
   const [open, setOpen] = useState(false);
 
   const onOpenModal = useCallback(() => {
-    // setOpen(true);
     setOpen(true);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onClose = () => {
@@ -35,11 +29,6 @@ const RateHistory = ({ titleCurrency, currencyCode }) => {
   };
 
   const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const mapData = cloneDeep(dataResponse);
-    setData(mapData);
-  }, [dataResponse]);
 
   // useEffect(() => {
   //   console.log(data);
@@ -72,13 +61,22 @@ const RateHistory = ({ titleCurrency, currencyCode }) => {
     });
   };
 
-  if (!isHasPermission) {
-    return <NoPermissionPage />;
-  }
+  const onSubmitData = async (currencyCodeData) => {
+    const response = await api.post(`/api/currency/${currencyCodeData}/history`, null);
+    if (get(response, "success", false)) {
+      // console.log(response)
+      const mapData = cloneDeep(response?.data);
+      setData(mapData);
+    } else {
+      console.log("response", response);
+    }
+    onOpenModal();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  };
 
   return (
     <Fragment>
-      <Button onClick={(onOpenModal)}>{titleCurrency}</Button>
+      <Button onClick={() => onSubmitData(currencyCode)}>{titleCurrency}</Button>
       <ModalComponentRateHistory
         open={open}
         onClose={onClose}
