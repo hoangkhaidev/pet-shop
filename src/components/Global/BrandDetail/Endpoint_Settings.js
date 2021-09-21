@@ -152,6 +152,14 @@ const Endpoint_Settings = () => {
           onClose: navigate('/global/group_brand'),
         });
       } else {
+        if (response?.err === 'err:brand_not_found') {
+          toast.warn('Brand not found');
+          // setIsHasPermission(false);
+        }
+        if (response?.err === 'err:account_not_found') {
+          toast.warn('Brand not found');
+          // setIsHasPermission(false);
+        }
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
             // console.log(field);
