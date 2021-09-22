@@ -12,6 +12,9 @@ import GameParamCloning from "./GameParamCloning";
 import { useSelector } from "react-redux";
 import RunDevelopmentTest from "./RunDevelopmentTest/RunDevelopmentTest";
 import DevelopmentVariables from "./DevelopmentVariables/DevelopmentVariables";
+import useRouter from "src/utils/hooks/useRouter";
+import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
+import useFetchData from "src/utils/hooks/useFetchData";
 
 const Endpoint_Settings = lazy(() => import("./Endpoint_Settings"));
 
@@ -48,18 +51,29 @@ const useStyles = makeStyles((theme) => ({
 
 const BrandDetail = () => {
   const classes = useStyles();
+  const router = useRouter();
   const roleUser = useSelector((state) => state.roleUser);
   const [value, setValue] = useState(0);
   const [dateRange, setDateRange] = useState({
     start: moment().format("DD/MM/YYYY"),
     end: moment().format("DD/MM/YYYY")
   });
+
+  const { dataResponse, isHasPermission } = useFetchData(
+    `/api/global/brand_detail/${router.query?.id}`,
+    null
+  );
+
   const { t } = useTranslation();
   const valueContext = { dateRange, setDateRange };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
 
   return (
     <div className={classes.root}>
@@ -82,7 +96,7 @@ const BrandDetail = () => {
       <DateRangeContext.Provider value={valueContext}>
         <Suspense fallback={<Loading />}>
           <TabPanel value={value} index={0}>
-            <Endpoint_Settings />
+            <Endpoint_Settings dataResponse={dataResponse} />
           </TabPanel>
           {roleUser.account_type !== 'brand' && (
             <TabPanel value={value} index={1}>

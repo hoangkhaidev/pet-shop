@@ -22,14 +22,14 @@ import ButtonGroup, {
   SubmitButton,
 } from 'src/components/shared/Button/Button';
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
-import Loading from 'src/components/shared/Loading/Loading';
+// import Loading from 'src/components/shared/Loading/Loading';
 import api from 'src/utils/api';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 // import InputFieldTime from 'src/components/shared/InputField/InputFieldTime';
 import InputFieldCopy from 'src/components/shared/InputField/InputFieldCopy';
 import useRouter from 'src/utils/hooks/useRouter';
-import useFetchData from 'src/utils/hooks/useFetchData';
-import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
+// import useFetchData from 'src/utils/hooks/useFetchData';
+// import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
 import { FormattedNumberInputNew } from 'src/components/shared/InputField/InputFieldNumber';
 import { InputAdornment } from '@material-ui/core';
 
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Endpoint_Settings = () => {
+const Endpoint_Settings = ({ dataResponse }) => {
   const router = useRouter();
   const classes = useStyles();
   const {
@@ -72,10 +72,10 @@ const Endpoint_Settings = () => {
     setValue,
   } = useForm();
 
-  const { dataResponse, isLoading, isHasPermission } = useFetchData(
-    `/api/global/brand_detail/${router.query?.id}`,
-    null
-  );
+  // const { dataResponse, isLoading, isHasPermission } = useFetchData(
+  //   `/api/global/brand_detail/${router.query?.id}`,
+  //   null
+  // );
 
   const [data, setData] = useState({});
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
@@ -211,9 +211,9 @@ const Endpoint_Settings = () => {
     navigate('/global/group_brand');
   }
 
-  if (!isHasPermission) {
-    return <NoPermissionPage />;
-  }
+  // if (!isHasPermission) {
+  //   return <NoPermissionPage />;
+  // }
 
   return (
     <ContentCardPage>
@@ -360,7 +360,6 @@ const Endpoint_Settings = () => {
           </Button>
         </ButtonGroup>
       </form>
-      {isLoading && <Loading />}
     </ContentCardPage>
   );
 };
