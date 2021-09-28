@@ -1,6 +1,6 @@
 /* eslint-disable arrow-body-style */
 import { Button, makeStyles } from "@material-ui/core";
-import { Fragment, useCallback, useState, createContext, lazy } from "react";
+import { useCallback, useState, createContext, lazy } from "react";
 import moment from 'moment';
 import TransactionDetailsInfo from "./TransactionDetailInfo";
 // import TransactionDetailsTable from "./TransactionDetailsTable";

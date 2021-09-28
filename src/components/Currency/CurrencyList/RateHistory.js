@@ -1,6 +1,6 @@
 /* eslint-disable arrow-body-style */
 import { Button } from "@material-ui/core";
-import { Fragment, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 // import Link from '@material-ui/core/Link';
 import cloneDeep from "lodash.clonedeep";
 // import moment from 'moment';
@@ -75,7 +75,7 @@ const RateHistory = ({ titleCurrency, currencyCode }) => {
   };
 
   return (
-    <Fragment>
+    <>
       <Button onClick={() => onSubmitData(currencyCode)}>{titleCurrency}</Button>
       <ModalComponentRateHistory
         open={open}
@@ -96,7 +96,7 @@ const RateHistory = ({ titleCurrency, currencyCode }) => {
             handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </ModalComponentRateHistory>
-    </Fragment>
+    </>
   );
 };
 

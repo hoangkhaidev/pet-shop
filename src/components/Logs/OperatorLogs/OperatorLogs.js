@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useRouter from "src/utils/hooks/useRouter";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import get from 'lodash/get';
@@ -114,7 +114,7 @@ const OperatorLogs = () => {
   }
 
   return (
-    <Fragment>
+    <>
       {isLoading && <Loading />}
       {/* <PlayerInformation /> */}
       {/* <div style={{ fontWeight: '600', fontSize: '22px'}}>Game Transaction</div> */}
@@ -133,7 +133,7 @@ const OperatorLogs = () => {
         handleChangePage={handleChangePage}
         handleChangeRowsPerPage={handleChangeRowsPerPage}
       />
-    </Fragment>
+    </>
   );
 };
 

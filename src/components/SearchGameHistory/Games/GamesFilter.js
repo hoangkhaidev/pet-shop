@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 // import FormControl from "@material-ui/core/FormControl";
 // import { useTranslation } from "react-i18next";
@@ -180,7 +180,7 @@ const GameFilter = ({
   }, [dateRange]);
   
   return (
-    <Fragment>
+    <>
       <ContentCardPage>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
@@ -245,7 +245,7 @@ const GameFilter = ({
           </ButtonGroup>
         </form>
       </ContentCardPage>
-    </Fragment>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import { useRef, Fragment } from 'react';
+import { Fragment, useRef } from 'react';
 import { array, func, number } from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import NumberFormat from 'react-number-format';
@@ -32,17 +32,6 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
         ref.current[index + 1]?.focus();
       }, 0);
     }
-    // console.log(formattedValue)
-    // if (formattedValue > 256) {
-    //   onChange({ target: { value: 255 } })
-    // } else {
-    //   onChange({ target: { value: formattedValue } });
-    // }
-    // if (formattedValue < 0)  {
-    //   onChange({ target: { value: 0 } })
-    // } else {
-    //   onChange({ target: { value: formattedValue } });
-    // }
     onChange(e, index, rowIndex);
   };
 
@@ -55,7 +44,7 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
   };
 
   return (
-    <Fragment>
+    <>
       <div className={classes.listInput}>
         {(apiWLIP || []).map((value, index) => (
           <Fragment key={index}>
@@ -82,7 +71,7 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
           </Fragment>
         ))}
       </div>
-    </Fragment>
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 /* eslint-disable arrow-body-style */
-import { Fragment, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import TableComponent from "../shared/TableComponent/TableComponent";
 import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
 import Link from '@material-ui/core/Link';
@@ -84,7 +84,7 @@ const BrandListBelow = () => {
   }
 
   return (
-    <Fragment>
+    <>
       <ContentCardPage>
         <div 
           style={{ fontWeight: '600', fontSize: '22px', textTransform: 'capitalize' }}
@@ -114,7 +114,7 @@ const BrandListBelow = () => {
           handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </ContentCardPage>
-    </Fragment>
+    </>
   );
 };
 

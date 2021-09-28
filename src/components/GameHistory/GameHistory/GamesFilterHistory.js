@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import moment from 'moment';
 import Grid from "@material-ui/core/Grid";
@@ -226,7 +226,7 @@ const GamesFilterHistory = ({
   }, [dateRange]);
   
   return (
-    <Fragment>
+    <>
       <ContentCardPage>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
@@ -318,7 +318,7 @@ const GamesFilterHistory = ({
           </ButtonGroup>
         </form>
       </ContentCardPage>
-    </Fragment>
+    </>
   );
 };
 

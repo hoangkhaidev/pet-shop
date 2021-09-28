@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Fragment, useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 // import { useTranslation } from 'react-i18next';
 import { FormProvider, useForm } from 'react-hook-form';
 import get from 'lodash/get';
@@ -238,7 +238,7 @@ const CommissionList = () => {
   }
 
   return (
-    <Fragment>
+    <>
       {isLoading && <Loading />}
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
@@ -260,7 +260,7 @@ const CommissionList = () => {
           handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </ContentCardPage>
-    </Fragment>
+    </>
   );
 };
 

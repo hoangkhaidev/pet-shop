@@ -11,7 +11,7 @@ import { TableBody } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 
 import TablePagination from "./TablePagination";
-import React from "react";
+import { Fragment } from "react";
 
 const useStyles = makeStyles({
   table: {
@@ -213,7 +213,7 @@ const TableComponentGamesSummary = ({
                   {formatNumber(dataSum?.margin)}
                 </TableCell>
                 {dataSum?.currency_entry_list?.map((item, index) => (
-                  <React.Fragment key={index} >
+                  <Fragment key={index} >
                     <TableCell
                       sx={{
                         padding: 1
@@ -241,7 +241,7 @@ const TableComponentGamesSummary = ({
                       className={classes.tableCellBody}>
                       {formatNumber(item?.margin)}
                     </TableCell>
-                  </React.Fragment>
+                  </Fragment>
                 ))}
               </TableRow>
             </>

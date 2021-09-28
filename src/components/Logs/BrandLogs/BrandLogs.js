@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useRouter from "src/utils/hooks/useRouter";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import get from 'lodash/get';
@@ -114,7 +114,7 @@ const BrandLogs = () => {
   }
 
   return (
-    <Fragment>
+    <>
       {isLoading && <Loading />}
       
       <BrandLogsFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
@@ -131,7 +131,7 @@ const BrandLogs = () => {
         handleChangePage={handleChangePage}
         handleChangeRowsPerPage={handleChangeRowsPerPage}
       />
-    </Fragment>
+    </>
   );
 };
 

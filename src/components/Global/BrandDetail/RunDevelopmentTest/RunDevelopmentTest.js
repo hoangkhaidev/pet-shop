@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import get from 'lodash/get';
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
@@ -63,7 +63,7 @@ const RunDevelopmentTest = () => {
   ];
 
   return (
-    <Fragment>
+    <>
       <FormProvider {...methods}>
         {/* <form onSubmit={methods.handleSubmit(onSubmit)}> */}
           <RunDevelopmentTestFilter onSubmitFilter={onSubmitFilter} />
@@ -76,7 +76,7 @@ const RunDevelopmentTest = () => {
           types="RoleList"
         />
       </ContentCardPage>
-    </Fragment>
+    </>
   );
 };
 

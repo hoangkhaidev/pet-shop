@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "@material-ui/core/Link";
 
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
@@ -157,7 +157,7 @@ const PlayersList = () => {
   }
 
   return (
-    <Fragment>
+    <>
       {isLoading && <Loading />}
       <PlayerListFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <ContentCardPage>
@@ -175,7 +175,7 @@ const PlayersList = () => {
           handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </ContentCardPage>
-    </Fragment>
+    </>
   );
 };
 

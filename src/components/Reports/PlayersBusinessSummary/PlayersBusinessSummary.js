@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "@material-ui/core/Link";
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
@@ -221,7 +221,7 @@ const PlayersBusinessSummary = () => {
   }
 
   return (
-    <Fragment>
+    <>
       {isLoading && <Loading />}
       <PlayersBusinessSummaryFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <ContentCardPage>
@@ -245,7 +245,7 @@ const PlayersBusinessSummary = () => {
           handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </ContentCardPage>
-    </Fragment>
+    </>
   );
 };
 

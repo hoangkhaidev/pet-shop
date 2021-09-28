@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import AdjustIcon from '@material-ui/icons/Adjust';
@@ -61,12 +60,12 @@ const ButtonGroup = ({
 }) => {
   const classes = useStyles();
   return (
-    <Fragment>
+    <>
       <div className={classes.buttonGroup}>
         {children}
       </div>
       <div className="clearfix" />
-    </Fragment>
+    </>
   );
 };
 

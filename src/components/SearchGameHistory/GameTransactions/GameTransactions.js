@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import toString from "lodash/toString";
 
@@ -149,7 +149,7 @@ const GameTransactions = () => {
   }
 
   return (
-    <Fragment>
+    <>
       {isLoading && <Loading />}
       {/* <PlayerInformation /> */}
       <div style={{ fontWeight: '600', fontSize: '22px'}}>Game Transaction</div>
@@ -168,7 +168,7 @@ const GameTransactions = () => {
         handleChangePage={handleChangePage}
         handleChangeRowsPerPage={handleChangeRowsPerPage}
       />
-    </Fragment>
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import queryString from 'query-string';
 import useRouter from "src/utils/hooks/useRouter";
@@ -141,7 +141,7 @@ const GamesListHistory = () => {
   // }, [objFilter]);
 
   return (
-    <Fragment>
+    <>
       <TitlePage title="Games" />
       <GamesFilterHistory onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <TableComponent
@@ -155,7 +155,7 @@ const GamesListHistory = () => {
         handleChangePage={handleChangePage}
         handleChangeRowsPerPage={handleChangeRowsPerPage}
       />
-    </Fragment>
+    </>
   );
 };
 

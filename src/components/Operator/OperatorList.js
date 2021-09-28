@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect, lazy } from 'react';
+import { useState, useEffect, lazy } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import get from 'lodash/get';
 import Link from '@material-ui/core/Link';
@@ -370,7 +370,7 @@ const OperatorList = () => {
   }
 
   return (
-    <Fragment>
+    <>
       {isLoading && <Loading />}
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
@@ -393,7 +393,7 @@ const OperatorList = () => {
           handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </ContentCardPage>
-    </Fragment>
+    </>
   );
 };
 

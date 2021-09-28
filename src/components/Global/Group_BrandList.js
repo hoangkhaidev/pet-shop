@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-pascal-case */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Fragment, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 // import { useTranslation } from 'react-i18next';
 import { FormProvider, useForm } from 'react-hook-form';
 import Link from '@material-ui/core/Link';
@@ -98,7 +98,7 @@ const Group_BrandList = () => {
   };
 
   return (
-    <Fragment>
+    <>
       {isLoading && <Loading />}
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
@@ -121,7 +121,7 @@ const Group_BrandList = () => {
           types="RoleList"
         />
       </ContentCardPage>
-    </Fragment>
+    </>
   );
 };
 

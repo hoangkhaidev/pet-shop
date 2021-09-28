@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Fragment, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 // import Link from "@material-ui/core/Link";
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import useRouter from "src/utils/hooks/useRouter";
@@ -178,7 +178,7 @@ const GamesSummary = () => {
   }
 
   return (
-    <Fragment>
+    <>
       {isLoading && <Loading />}
       <GamesSummaryFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <ContentCardPage>
@@ -202,7 +202,7 @@ const GamesSummary = () => {
           handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </ContentCardPage>
-    </Fragment>
+    </>
   );
 };
 

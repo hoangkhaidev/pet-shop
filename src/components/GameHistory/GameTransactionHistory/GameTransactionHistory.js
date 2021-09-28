@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import toString from "lodash/toString";
 import queryString from 'query-string';
@@ -217,7 +217,7 @@ const GameTransactionHistory = () => {
   // }, [objFilter]);
 
   return (
-    <Fragment>
+    <>
       <TitlePage title="Game Transaction" />
       <GameTransactionsFilterHistory onSubmitProps={onSubmit} setObjFilter={setObjFilter} clickRef={clickRef}/>
       <TableComponent
@@ -233,7 +233,7 @@ const GameTransactionHistory = () => {
         handleChangePage={handleChangePage}
         handleChangeRowsPerPage={handleChangeRowsPerPage}
       />
-    </Fragment>
+    </>
   );
 };
 

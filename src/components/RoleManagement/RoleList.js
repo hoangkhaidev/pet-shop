@@ -1,5 +1,5 @@
 /* eslint-disable arrow-body-style */
-import { Fragment, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -126,7 +126,7 @@ const RoleList = () => {
   };
 
   return (
-    <Fragment>
+    <>
       {isLoading && <Loading />}
       <ContentCardPage>
         <Button
@@ -154,7 +154,7 @@ const RoleList = () => {
           handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </ContentCardPage>
-    </Fragment>
+    </>
   );
 };
 

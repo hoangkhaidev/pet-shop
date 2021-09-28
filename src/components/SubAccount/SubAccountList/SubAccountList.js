@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Fragment } from 'react';
+import { useState, useEffect, lazy } from 'react';
 import get from 'lodash/get';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -329,7 +329,7 @@ const SubAccountList = () => {
   };
 
   return (
-    <Fragment>
+    <>
       {isLoading && <Loading />}
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
@@ -361,7 +361,7 @@ const SubAccountList = () => {
           handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </ContentCardPage>
-    </Fragment>
+    </>
   );
 };
 

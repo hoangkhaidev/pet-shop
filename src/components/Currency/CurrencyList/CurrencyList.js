@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 // import { useTranslation } from 'react-i18next';
 import { FormProvider } from 'react-hook-form';
 import cloneDeep from 'lodash/cloneDeep';
@@ -103,7 +103,7 @@ const CurrencyList = () => {
   ];
 
   return (
-    <Fragment>
+    <>
       {isLoading && <Loading />}
       <FormProvider>
         <CurrencyListFilter />
@@ -115,7 +115,7 @@ const CurrencyList = () => {
           types="RoleList"
         />
       </ContentCardPage>
-    </Fragment>
+    </>
   );
 };
 

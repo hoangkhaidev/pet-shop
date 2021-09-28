@@ -1,4 +1,4 @@
-import { Suspense, Fragment, useEffect, useMemo, useState, createContext } from "react";
+import { Suspense, useEffect, useMemo, useState, createContext } from "react";
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import { useRoutes } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core';
@@ -35,9 +35,6 @@ const Routes = () => {
     });
     return listUrl;
   }, []);
-  // console.log(isLoggedIn)
-  // console.log(curPage)
-  // console.log(routerHasUrl)
 
   useEffect(() => {
     const currentPage = find(routerHasUrl, item => item.fullpath === router.pathname);
@@ -49,7 +46,7 @@ const Routes = () => {
   const valueContext = { currentMenu };
 
   return (
-    <Fragment>
+    <>
       <CurrentPageContext.Provider value={valueContext}>
         <Helmet>
           <title>
@@ -58,7 +55,7 @@ const Routes = () => {
         </Helmet>
         {routing}
       </CurrentPageContext.Provider>
-    </Fragment>
+    </>
   );
 };
 

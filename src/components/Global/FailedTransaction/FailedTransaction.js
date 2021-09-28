@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import toString from "lodash/toString";
 import queryString from 'query-string';
@@ -227,7 +227,7 @@ const FailedTransaction = () => {
   // }, [objFilter]);
 
   return (
-    <Fragment>
+    <>
       <TitlePage title="Failed Transactions" />
       <FailedTransactionFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} clickRef={clickRef}/>
       <TableComponent
@@ -243,7 +243,7 @@ const FailedTransaction = () => {
         handleChangePage={handleChangePage}
         handleChangeRowsPerPage={handleChangeRowsPerPage}
       />
-    </Fragment>
+    </>
   );
 };
 

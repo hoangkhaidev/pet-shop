@@ -1,5 +1,4 @@
-import { Fragment, useState, useEffect, lazy } from 'react';
-// import { useTranslation } from 'react-i18next';
+import { useState, useEffect, lazy } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import get from 'lodash/get';
 import Link from '@material-ui/core/Link';
@@ -198,11 +197,7 @@ const BrandList = () => {
       page: 1,
       page_size: 30,
     });
-  }
-
-  // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter]);
+  };
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
@@ -389,7 +384,7 @@ const BrandList = () => {
   };
 
   return (
-    <Fragment>
+    <>
       {isLoading && <Loading />}
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
@@ -412,7 +407,7 @@ const BrandList = () => {
           handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </ContentCardPage>
-    </Fragment>
+    </>
   );
 };
 

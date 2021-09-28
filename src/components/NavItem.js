@@ -1,4 +1,4 @@
-import { useState, Fragment } from 'react';
+import { useState } from 'react';
 import {
   NavLink as RouterLink
 } from 'react-router-dom';
@@ -13,7 +13,6 @@ import {
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useRouter from "src/utils/hooks/useRouter";
-
 
 const useStyles = makeStyles((theme) => ({
   nested: {
@@ -48,14 +47,6 @@ const NavItem = ({
     setIsOpen((open) => !open);
   };
 
-  // console.log(item);
-  // console.log(item?.children);
-  // console.log(router.pathname.indexOf('/global/group_brand'));
-  // const active = href ? !!matchPath({
-  //   path: href,
-  //   end: false
-  // }, location?.pathname) : false;
-
   return (
     <>
       
@@ -78,16 +69,12 @@ const NavItem = ({
                 py: 1.25,
                 textTransform: 'none',
                 width: '100%',
-                // ...(active && {
-                //   color: 'primary.main'
-                // }),
                 '& svg': {
                   mr: 1
                 }
               }}
             >
               <div className={classes.menuItemLeft}>
-                {/* {Icon && <Icon size="20" />} */}
                 <span>{item.name}</span>
               </div>
               {item?.children && (
@@ -143,29 +130,6 @@ const NavItem = ({
           </Collapse>
         </>
       ) : (
-        // <Button
-        //   sx={{
-        //     color: 'text.secondary',
-        //     fontWeight: 'medium',
-        //     justifyContent: 'space-between',
-        //     letterSpacing: 0,
-        //     py: 1.25,
-        //     textTransform: 'none',
-        //     width: '100%',
-        //     // ...(active && {
-        //     //   color: 'primary.main'
-        //     // }),
-        //     '& svg': {
-        //       mr: 1
-        //     }
-        //   }}
-        // >
-        //   <Link
-        //     href={item.url}
-        //   >
-        //     {item.name}
-        //   </Link>
-        // </Button>
         <ListItem
           button
           component={RouterLink}

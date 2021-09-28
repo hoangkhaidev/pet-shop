@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 
 import useRouter from "src/utils/hooks/useRouter";
@@ -138,7 +138,7 @@ const GamesList = () => {
   }
 
   return (
-    <Fragment>
+    <>
       {isLoading && <Loading />}
       <GamesFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <TitlePage title="Games" />
@@ -154,7 +154,7 @@ const GamesList = () => {
         handleChangePage={handleChangePage}
         handleChangeRowsPerPage={handleChangeRowsPerPage}
       />
-    </Fragment>
+    </>
   );
 };
 
