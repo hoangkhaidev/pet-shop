@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { array, string, object, bool } from 'prop-types';
 import { Controller } from 'react-hook-form';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -47,6 +46,8 @@ const SelectField = ({
     return errors.message;
   };
 
+  // console.log(options)
+
   return (
     <div className={classes.selectField}>
       <FormControl
@@ -63,29 +64,33 @@ const SelectField = ({
         <Controller
           control={control}
           name={namefileld}
-          render={({ field }) => (
-            <Select
-              {...field}
-              defaultValue={defaultValue}
-              label={
-                <div>
-                  {label}
-                  <span className={classes.labelStyle}>
-                    {required ? '*' : ''}
-                  </span>
-                </div>
-              }
-              labelId={id}
-            >
-              {options.map((option, index) => {
-                return (
-                  <MenuItem key={index} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                )
-              })}
-            </Select>
-          )}
+          render={({ field }) => {
+            if (options?.length === 0) return null;
+            return (
+              <Select
+                {...field}
+                defaultValue={defaultValue}
+                label={
+                  <div>
+                    {label}
+                    <span className={classes.labelStyle}>
+                      {required ? '*' : ''}
+                    </span>
+                  </div>
+                }
+                labelId={id}
+              >
+                {options?.map((option, index) => {
+                  // console.log(option)
+                  return (
+                    <MenuItem key={option.id} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  )
+                })}
+              </Select>
+            )
+          }}
           rules={{
             required,
           }}

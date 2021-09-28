@@ -52,8 +52,6 @@ const DateRangePickerLogs = ({ handleCallback, format }) => {
 
 DateRangePickerLogs.propTypes = {
   timePicker: bool,
-  startDate: string.isRequired,
-  endDate: string.isRequired,
   handleCallback: func,
   format: string,
   abcRef: any,

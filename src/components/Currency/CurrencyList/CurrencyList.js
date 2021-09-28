@@ -36,10 +36,6 @@ const CurrencyList = () => {
     setData(mapData)
   }, [dataResponse]);
 
-  useEffect(() => {
-    console.log(refreshData);
-  }, [refreshData]);
-
   if (!isHasPermission) {
     return <NoPermissionPage />;
   }

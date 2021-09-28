@@ -66,7 +66,8 @@ TableHeader.propTypes = {
 
 const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
   const classes = useStyles();
-  let newAt = moment(rowData.at).format("DD/MM/YY, hh:mm a");
+  // let newAt = moment(rowData.at).format("DD/MM/YY, hh:mm a");
+  let newAt = moment(rowData.at, ["DD/MM/YY, hh:mm a"]);
   rowData.at = newAt;
   // console.log(rowData.description)
   return (
@@ -122,7 +123,7 @@ const TableComponent = ({
               // console.log(row);
               let startIndex = (page - 1) * page_size + 1; 
               return (
-                <TableRowComponent indexRow={startIndex + index} key={row?.brand_id || index} rowData={row} cellInfo={cellInfo} />
+                <TableRowComponent indexRow={startIndex + index} key={row?.brand_name || index} rowData={row} cellInfo={cellInfo} />
               )
             }) : <TableRow>
                   <TableCell component="th" scope="row">

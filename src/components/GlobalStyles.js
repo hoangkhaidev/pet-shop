@@ -1,6 +1,6 @@
-import { createStyles, makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles(() => createStyles({
+// import { createStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/core';
+const useStyles = makeStyles(() => ({
   '@global': {
     '*': {
       boxSizing: 'border-box',
