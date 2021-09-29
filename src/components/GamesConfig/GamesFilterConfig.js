@@ -54,7 +54,8 @@ const GamesFilterConfig = ({
       game_name: "",
       sort_field: "game_name",
       sort_order: "asc",
-      status: "all"
+      status: "all",
+      brand_ids: "all"
     }
   });
 

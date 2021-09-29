@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Input, makeStyles } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
@@ -357,23 +358,30 @@ const TableDevelopmentVariables = () => {
   //get api
 
   useEffect(() => {
-    let dataState = cloneDeep(dataResponse);
-    setFormStateRefund({
-        count: dataState?.refund?.count,
-        username: dataState?.refund?.username
-    });
-    setFormStateRetry({
-        count: dataState?.retry?.count,
-        username: dataState?.retry?.username
-    });
-    setFormStateMRefund({
-        count: dataState?.m_refund?.count,
-        username: dataState?.m_refund?.username
-    });
-    setFormStateMRetry({
-        count: dataState?.m_retry?.count,
-        username: dataState?.m_retry?.username
-    });
+    // let dataState = cloneDeep(dataResponse);
+    // console.log(dataResponse)
+    let dataRefund = cloneDeep(dataResponse?.refund);
+    let dataRetry = cloneDeep(dataResponse?.retry);
+    let dataM_refund = cloneDeep(dataResponse?.m_refund);
+    let dataM_retry = cloneDeep(dataResponse?.m_retry);
+    setFormStateRefund((formStateRefund) => ({
+      ...formStateRefund,
+      count: dataRefund?.count ? dataRefund?.count : 0,
+      username: dataRefund?.username ? dataRefund?.username : ''
+    }));
+    setFormStateRetry((formStateRetry) => ({
+      ...formStateRetry,
+      count: dataRetry?.count ? dataRetry?.count : 0,
+      username: dataRetry?.username ? dataRetry?.username : ''
+    }));
+    setFormStateMRefund((formStateMRefund) => ({
+      ...formStateMRefund,
+      username: dataM_refund?.username ? dataM_refund?.username : ''
+    }));
+    setFormStateMRetry((formStateMRetry) => ({
+      ...formStateMRefund,
+      username: dataM_retry?.username ? dataM_retry?.username : ''
+    }));
   }, [dataResponse]);
 
   if (!isHasPermission) {

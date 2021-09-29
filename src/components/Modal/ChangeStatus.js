@@ -245,6 +245,7 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
                 STATUS
               }
               required
+              defaultValue=''
               label="New Status"
             />
             <InputField

@@ -87,8 +87,8 @@ const SubAccountListFilter = ({
           <SelectField
             selectDisabled= {roleUser.account_type === 'brand' ? true : false}
             control={control}
-            namefileld="brand"
-            id="brand"
+            namefileld="brand_ids"
+            id="brand_ids"
             label="Brand"
             fullWidth={false}
             options={brandData}

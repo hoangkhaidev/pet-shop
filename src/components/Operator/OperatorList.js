@@ -151,7 +151,7 @@ const OperatorList = () => {
   const [data, setData] = useState([]);
   const [objFilter, setObjFilter] = useState({
     name_search: '',
-    status_search: '',
+    status_search: 'all',
     sort_field: 'username',
     sort_order: 'asc',
     page: 1,
@@ -170,10 +170,6 @@ const OperatorList = () => {
     [refreshData]
   );
 
-  // useEffect(() => {
-  //   console.log(dataResponse);
-  // }, [dataResponse]);
-
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
     mapData.map((data) => (data.id = data.account_id));
@@ -185,7 +181,7 @@ const OperatorList = () => {
     const form = {
       ...dataForm,
       status_search:
-        dataForm?.status_search === 'all' ? '' : dataForm?.status_search,
+        dataForm?.status_search ? dataForm?.status_search : '',
     };
     setObjFilter({
       ...form,
@@ -194,10 +190,6 @@ const OperatorList = () => {
     });
     // console.log(1);
   };
-
-  if (!isHasPermission) {
-    return <NoPermissionPage />;
-  }
 
   const columns = [
     {
@@ -353,7 +345,7 @@ const OperatorList = () => {
   const onResetFilter = () => {
     methods.reset({
       name_search: '',
-      status_search: '',
+      status_search: 'all',
       sort_field: 'username',
       sort_order: 'asc',
       page: 1,
@@ -361,12 +353,16 @@ const OperatorList = () => {
     });
     setObjFilter({
       name_search: '',
-      status_search: '',
+      status_search: 'all',
       sort_field: 'username',
       sort_order: 'asc',
       page: 1,
       page_size: 30,
     });
+  }
+
+  if (!isHasPermission) {
+    return <NoPermissionPage />;
   }
 
   return (

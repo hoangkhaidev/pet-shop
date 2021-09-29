@@ -122,12 +122,12 @@ const SubAccountList = () => {
     sort_field: 'username',
     sort_order: 'asc',
     filter_type: "all",
-    brand_ids: [1],
+    brand_ids: [],
     page: 1,
     page_size: 30,
     ...{
       ...router.query,
-      brand_ids: router.query.brand_ids ? [Number(router.query.brand_ids)] : [1],
+      brand_ids: router.query.brand_ids ? [Number(router.query.brand_ids)] : [],
     },
   });
   const navigate = useNavigate();
@@ -278,17 +278,17 @@ const SubAccountList = () => {
       page: 1,
       page_size: 30
     };
-    if (dataSubmit?.brand === 'all') {
+    if (dataSubmit?.brand_ids === 'all') {
       dataForm = {
         ...dataForm,
         filter_type: dataSubmit?.brand,
-        brand_ids: [1],
+        brand_ids: [],
       };
     } else {
       dataForm = {
         ...dataForm,
         filter_type: 'brand',
-        brand_ids: dataSubmit?.brand ? [Number(dataSubmit?.brand)] : [1],
+        brand_ids: dataSubmit?.brand ? [Number(dataSubmit?.brand)] : [],
       };
     }
     delete dataForm.brand;
@@ -305,18 +305,18 @@ const SubAccountList = () => {
       sort_field: 'username',
       sort_order: 'asc',
       filter_type: "all",
-      brand_ids: [1],
+      brand_ids: [],
       page: 1,
       page_size: 30,
-      status_search: ''
+      status_search: 'all'
     });
     methods.reset({
       name_search: '',
       sort_order: 'asc',
       sort_field: 'username',
-      filter_type: "all",
-      brand_ids: [1],
-      status_search: '',
+      filter_type: 'all',
+      brand_ids: 'all',
+      status_search: 'all',
     });
   };
   // console.log(isHasPermission);

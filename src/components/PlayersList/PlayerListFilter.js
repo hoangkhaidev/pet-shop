@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const PLayerListFilter = ({
-  onResetFilter, onSubmitProps, setObjFilter
+  onSubmitProps, setObjFilter
 }) => {
   const { t } = useTranslation();
   const roleUser = useSelector((state) => state.roleUser);
@@ -249,6 +249,7 @@ const PLayerListFilter = ({
                 label="Brand"
                 fullWidth={false}
                 options={brandData}
+                defaultValue="all"
               />
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>

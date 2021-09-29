@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, lazy } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import get from 'lodash/get';
@@ -163,9 +164,7 @@ const BrandList = () => {
     },
   });
   
-  const methods = useForm({
-    defaultValues: router.query,
-  });
+  const methods = useForm();
   // const { t } = useTranslation();
   // console.log(t);
   const [refreshData, setRefreshData] = useState('');
@@ -181,7 +180,7 @@ const BrandList = () => {
   const onResetFilter = () => {
     methods.reset({
       name_search: '',
-      status_search: '',
+      status_search: 'all',
       operator_id: 'all',
       sort_field: 'username',
       sort_order: 'asc',
@@ -190,7 +189,7 @@ const BrandList = () => {
     });
     setObjFilter({
       name_search: '',
-      status_search: '',
+      status_search: 'all',
       operator_id: 0,
       sort_field: 'username',
       sort_order: 'asc',
@@ -204,14 +203,14 @@ const BrandList = () => {
     mapData.map((data) => (data.id = data.account_id));
     setData(mapData);
 
-    const data = dataResponse?.list;
+    const dataList = dataResponse?.list;
     if (!data) return;
     let mapDataO = [{
       id: 0,
       value: 'all',
       label: 'All',
     }];
-    data.forEach((data) => {
+    dataList?.forEach((data) => {
       let optionData = {
         id: data.operator_id,
         value: data.operator_id,
@@ -222,10 +221,6 @@ const BrandList = () => {
     setOperatorData([...mapDataO]);
   }, [dataResponse]);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   const onSubmit = async (dataForm) => {
     // console.log(dataForm)
     const form = {
@@ -233,7 +228,7 @@ const BrandList = () => {
       name_search:
         dataForm?.name_search ? dataForm?.name_search : '',
       status_search:
-        dataForm?.status_search === 'all' ? '' : dataForm?.status_search,
+        dataForm?.status_search ? dataForm?.status_search : '',
       operator_id:
         dataForm?.operator_id === 'all' ? 0 : Number(dataForm.operator_id),
     };
@@ -245,10 +240,6 @@ const BrandList = () => {
       page_size: 30,
     });
   };
-
-  if (!isHasPermission) {
-    return <NoPermissionPage />;
-  }
 
   const columns = [ 
     {
@@ -384,6 +375,10 @@ const BrandList = () => {
       page_size: parseInt(event.target.value, 10),
     }));
   };
+
+  if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
 
   return (
     <>
