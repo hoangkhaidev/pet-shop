@@ -162,6 +162,8 @@ const CommissionList = () => {
         });
       } else if (response?.err === 'err:suspended_account') {
         toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
+      } else if (response?.err === 'err:no_permission') {
+        toast.warn('No Permission');
       } else {
         toast.warn('Product not enable', {
           onClose: navigate("/configuration/commission")

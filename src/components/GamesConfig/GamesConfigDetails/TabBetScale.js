@@ -153,7 +153,13 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
               }, 1000),   
             });
           } else {
-            if (response.err === "err:form_validation_failed") {
+            if (response?.err === 'err:suspended_account') {
+              toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
+            }
+            if (response?.err === 'err:no_permission') {
+              toast.warn('No Permission');
+            }
+            if (response?.err === "err:form_validation_failed") {
               if (response?.data?.default_bet === "err:bet_not_found") {
                 toast.warn(`${dataDetail.currency_code} default bet not found`, {
                   onClose: setTimeout(() => {
@@ -197,7 +203,13 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
             });
           } else {
             // console.log(response.err)
-            if (response.err === "err:form_validation_failed") {
+            if (response?.err === 'err:suspended_account') {
+              toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
+            }
+            if (response?.err === 'err:no_permission') {
+              toast.warn('No Permission');
+            }
+            if (response?.err === "err:form_validation_failed") {
               if (response?.data?.default_bet === "err:bet_not_found") {
                 toast.warn(`${dataDetail.currency_code} default bet not found`, {
                   onClose: setTimeout(() => {
