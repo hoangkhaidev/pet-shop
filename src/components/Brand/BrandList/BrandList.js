@@ -203,12 +203,10 @@ const BrandList = () => {
     const mapData = get(dataResponse, 'list', []);
     mapData.map((data) => (data.id = data.account_id));
     setData(mapData);
-  }, [dataResponse]);
 
-  useEffect(() => {
     const data = dataResponse?.list;
     if (!data) return;
-    let mapData = [{
+    let mapDataO = [{
       id: 0,
       value: 'all',
       label: 'All',
@@ -219,10 +217,14 @@ const BrandList = () => {
         value: data.operator_id,
         label: data.username,
       };
-      mapData.push(optionData);
+      mapDataO.push(optionData);
     });
-    setOperatorData([...mapData]);
+    setOperatorData([...mapDataO]);
   }, [dataResponse]);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   const onSubmit = async (dataForm) => {
     // console.log(dataForm)

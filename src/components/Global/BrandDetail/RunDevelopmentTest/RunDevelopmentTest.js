@@ -7,6 +7,7 @@ import TableComponent from 'src/components/shared/TableComponent/TableComponent'
 import RunDevelopmentTestFilter from './RunDevelopmentTestFilter';
 import useRouter from 'src/utils/hooks/useRouter';
 import api from 'src/utils/api';
+import { toast } from 'react-toastify';
 
 const RunDevelopmentTest = () => {
   const router = useRouter();
@@ -25,7 +26,16 @@ const RunDevelopmentTest = () => {
           const mapData = response?.data;
           setData(mapData);
         } else {
-          console.log(response)
+          // console.log(response)
+          if (response?.err === 'err:brand_not_found') {
+            toast.warn('Brand not found');
+          }
+          if (response?.err === 'err:account_not_found') {
+            toast.warn('Brand not found');
+          }
+          if (response?.err === 'err:suspended_account') {
+            toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
+          }
         }
     } catch (e) {
       console.log('e', e);

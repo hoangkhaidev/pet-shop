@@ -153,7 +153,16 @@ const GameParamCloning = () => {
             onClose: navigate('/global/group_brand?'),
           });
         } else {
-          console.log(response);
+          // console.log(response);
+          if (response?.err === 'err:brand_not_found') {
+            toast.warn('Brand not found');
+          }
+          if (response?.err === 'err:account_not_found') {
+            toast.warn('Brand not found');
+          }
+          if (response?.err === 'err:suspended_account') {
+            toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
+          }
         }
       } catch (e) {
         console.log('e', e);

@@ -22,14 +22,10 @@ import ButtonGroup, {
   SubmitButton,
 } from 'src/components/shared/Button/Button';
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
-// import Loading from 'src/components/shared/Loading/Loading';
 import api from 'src/utils/api';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
-// import InputFieldTime from 'src/components/shared/InputField/InputFieldTime';
 import InputFieldCopy from 'src/components/shared/InputField/InputFieldCopy';
 import useRouter from 'src/utils/hooks/useRouter';
-// import useFetchData from 'src/utils/hooks/useFetchData';
-// import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
 import { FormattedNumberInputNew } from 'src/components/shared/InputField/InputFieldNumber';
 import { InputAdornment } from '@material-ui/core';
 
@@ -72,11 +68,6 @@ const Endpoint_Settings = ({ dataResponse }) => {
     setValue,
   } = useForm();
 
-  // const { dataResponse, isLoading, isHasPermission } = useFetchData(
-  //   `/api/global/brand_detail/${router.query?.id}`,
-  //   null
-  // );
-
   const [data, setData] = useState({});
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [apiWLIP, setAPIWLIP] = useState(['', '', '', '']);
@@ -86,14 +77,10 @@ const Endpoint_Settings = ({ dataResponse }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   console.log(dataResponse);
-  // }, [dataResponse]);
-
   useEffect(() => {
     let dataWhitelist_ips = get(dataResponse, 'whitelist_ips', ['...']);
     dataWhitelist_ips.push('...');
-    // console.log(data)
+
     if (!dataWhitelist_ips.length) {
       dataWhitelist_ips = ['...'];
     }
@@ -112,8 +99,6 @@ const Endpoint_Settings = ({ dataResponse }) => {
         setValue('api_endpoint', data?.api_endpoint);
         setValue('manual_retry_refund_after_hours', data?.manual_retry_refund_after_hours);
         setValue('player_inactivity_logout_after_mins', data?.player_inactivity_logout_after_mins);
-        // setValue('password', data?.password);
-        // setValue('password_confirmation', data?.password_confirmation);
     }
   }, [data, setValue]);
   
@@ -143,7 +128,6 @@ const Endpoint_Settings = ({ dataResponse }) => {
     delete form.secret_key;
     delete form.api_key;
     // console.log(form);
-
     try {
       let response = await api.post(`/api/global/brand_detail/${router.query?.id}/update`, form);
       // console.log(response);
@@ -154,11 +138,12 @@ const Endpoint_Settings = ({ dataResponse }) => {
       } else {
         if (response?.err === 'err:brand_not_found') {
           toast.warn('Brand not found');
-          // setIsHasPermission(false);
         }
         if (response?.err === 'err:account_not_found') {
           toast.warn('Brand not found');
-          // setIsHasPermission(false);
+        }
+        if (response?.err === 'err:suspended_account') {
+          toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
         }
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {

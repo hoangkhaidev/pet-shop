@@ -160,6 +160,8 @@ const CommissionList = () => {
         toast.warn('Invalid commission', {
           onClose: navigate("/configuration/commission")
         });
+      } else if (response?.err === 'err:suspended_account') {
+        toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
       } else {
         toast.warn('Product not enable', {
           onClose: navigate("/configuration/commission")
