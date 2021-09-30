@@ -96,10 +96,6 @@ const PlayersBusinessSummary = () => {
     setDataSum(mapDataSum)
   }, [dataResponse]);
 
-  // useEffect(() => {
-  //   console.log(objFilter)
-  // }, [objFilter]);
-
   const columns = [
     {
       data_field: "period",

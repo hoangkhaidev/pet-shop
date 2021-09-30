@@ -180,11 +180,6 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
     }
   };
 
-  // useEffect(() => {
-  //   setRefreshData(label);
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [label])
-
   let labelView = '';
   if (label === 'active') labelView = 'Active';
   if (label === 'suspended') labelView = 'Suspended';

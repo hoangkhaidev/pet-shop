@@ -16,7 +16,6 @@ import useFetchData from 'src/utils/hooks/useFetchData';
 import ButtonGroup, {
   SubmitButton,
 } from 'src/components/shared/Button/Button';
-// import Loading from 'src/components/shared/Loading/Loading';
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import InputField from 'src/components/shared/InputField/InputField';
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
@@ -79,8 +78,6 @@ const useStyles = makeStyles((theme) => ({
 
 const BrandCreate = () => {
   const roleUser = useSelector((state) => state.roleUser);
-  // if (roleUser.account_type === 'operator')
-  // const { dataResponse } = useFetchData('/api/operators/public_list');
   const { dataResponse: dataProduct } = useFetchData('/api/product');
 
   const classes = useStyles();
@@ -98,12 +95,10 @@ const BrandCreate = () => {
   } = useForm();
 
   const finance_email = watch('finance_emails');
-  // const commission = watch('commission');
 
   useFieldArray({
-    control, // control props comes from useForm (optional: if you are using FormContext)
-    name: "commission", // unique name for your Field Array
-    // keyName: "id", default to "id", you can change the key name
+    control, 
+    name: "commission",
   });
 
   const [financeEmail, setFinanceEmail] = useState([]);
@@ -111,7 +106,6 @@ const BrandCreate = () => {
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [operatorData, setOperatorData] = useState([]);
   const [operatorDatas, setOperatorDatas] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
   const [productData, setProductData] = useState([]);
 
   const [errorWhiteIP, setErrorWhiteIP] = useState('');
@@ -121,13 +115,11 @@ const BrandCreate = () => {
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
   const [checkboxListCheck, setCheckboxListCheck] = useState(productData.map((item) => false ));
-  // const [checkProduct, setCheckProduct] = useState(false);
 
   useEffect(() => {
     if (roleUser.account_type !== 'operator' && roleUser.account_type !== 'operatorsub') {
       onDataBrand();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roleUser]);
 
   useEffect(() => {
@@ -182,7 +174,6 @@ const BrandCreate = () => {
     } else {
       console.log("response", response);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   const onRemoveFinanceEmail = (email) => {
@@ -226,7 +217,6 @@ const BrandCreate = () => {
   };
 
   const onSubmit = async (dataForm) => {
-    // console.log(dataForm);
       let dataFinanceEmail = [];
         
       if (finance_email) {
@@ -234,7 +224,6 @@ const BrandCreate = () => {
       } else {
         dataFinanceEmail = financeEmail;
       }
-      // console.log(dataFinanceEmail);
 
       const product_form = dataForm.commission.filter((item) => item.checked === true );
       const product_commission = product_form.map((item) => {
@@ -252,7 +241,6 @@ const BrandCreate = () => {
         return item;
       }).filter((item) => item);
 
-      // setIsLoading(true);
       delete dataForm.commission;
       const form = {
         ...dataForm,
@@ -261,7 +249,7 @@ const BrandCreate = () => {
         finance_emails: dataFinanceEmail,
         product_commission: product_commission,
       };
-      // console.log(form);
+
       try {
         const response = await api.post('/api/brand/create', form);
         if (get(response, 'success', false)) {
@@ -297,16 +285,11 @@ const BrandCreate = () => {
       } catch (e) {
         console.log('e', e);
       }
-      // setIsLoading(false);
   };
 
   const onCancel = () => {
     navigate('/brand/list');
   }
-
-  // if (!isHasPermission) {
-  //   return <NoPermissionPage />;
-  // }
   
   if (!isHasAccessPermission) {
     return <NoPermissionPage />;

@@ -3,10 +3,8 @@ import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
 import moment from 'moment';
 import { FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup } from "@material-ui/core";
-// import { useTranslation } from "react-i18next";
 import cloneDeep from 'lodash/cloneDeep';
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
-// import InputField from "src/components/shared/InputField/InputField";
 import DateRangePickerComponent from "src/components/shared/DateRangePickerComponent/DateRangePickerComponent";
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
 import { func } from "prop-types";
@@ -16,9 +14,6 @@ import api from "src/utils/api";
 import get from 'lodash/get';
 import SelectFieldMutiple from "src/components/shared/InputField/SelectFieldMutiple";
 import SelectFieldMutipleCustom from "src/components/shared/InputField/SelectFieldMutipleCustom";
-// import useRouter from "src/utils/hooks/useRouter";
-// import { useSelector } from "react-redux";
-// import { FormattedNumberInputCaptcha } from "../shared/InputField/InputFieldNumber";
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -33,9 +28,6 @@ const useStyles = makeStyles(() => ({
 const BusinessSummaryFilter = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
-  // const { t } = useTranslation();
-//   const roleUser = useSelector((state) => state.roleUser);
-//   const router = useRouter();
   const roleUser = useSelector((state) => state.roleUser);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -55,7 +47,6 @@ const BusinessSummaryFilter = ({
   const classes = useStyles();
 
   const { dataResponse: dataProduct } = useFetchData('/api/product');
-  // const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
   
   const [brandData, setBrandData] = useState([]);
   const [brandsData, setBrandsData] = useState([]);
@@ -99,7 +90,6 @@ const BusinessSummaryFilter = ({
     if (roleUser.account_type !== 'brand') {
       onDataBrand();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roleUser]);
 
   const onDataBrand = async () => {
@@ -109,11 +99,9 @@ const BusinessSummaryFilter = ({
     } else {
       console.log("response", response);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   const onChangeDateRange = (startDate, endDate) => {
-    // console.log(startDate, endDate);
     setDateRange({
       start: moment(startDate).format("DD/MM/YYYY"),
       end: moment(endDate).format("DD/MM/YYYY")
@@ -160,8 +148,6 @@ const BusinessSummaryFilter = ({
     dateRangeRef.current.setEndDate(dateRange.end);
   }, [dateRange]);
 
-  // console.log(roleUser)
-
   return (
     <>
       <ContentCardPage>
@@ -199,14 +185,6 @@ const BusinessSummaryFilter = ({
                 stateMultiple={productMultiple}
                 defaultValue={'all'}
               />
-              {/* <SelectField
-                control={control}
-                namefileld="product_ids"
-                id="product_ids"
-                label="Product"
-                fullWidth={false}
-                options={productData}
-              /> */}
             </Grid>
             <Grid item xs={12} xl={3} md={6}>
             <RadioGroup aria-label="gender" name="option" value={radio} onChange={handleChange}>
@@ -223,7 +201,6 @@ const BusinessSummaryFilter = ({
                   <FormControlLabel value="brand" control={<Radio />} label="Total by Brand" />
                 </div>
               </div>
-
             </RadioGroup>
             </Grid>
           </Grid>

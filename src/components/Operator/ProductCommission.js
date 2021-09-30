@@ -1,11 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/jsx-no-duplicate-props */
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import clsx from 'clsx';
 import { FormHelperText, TextField } from '@material-ui/core';
 import { Checkbox, InputAdornment } from '@material-ui/core';
-// import cloneDeep from 'lodash.clonedeep';
 
 const useStyles = makeStyles((theme) => ({
   checkboxStyle: {
@@ -30,9 +27,6 @@ const ProductCommission = ({ item, productCommission, setProductCommission, requ
       return items;
     });
 
-    // console.log(proCon)
-
-    // setProductCommission(proCon);
     setProductCommission((productCommission) => ({
       ...productCommission,
       values: proCon,
@@ -40,7 +34,6 @@ const ProductCommission = ({ item, productCommission, setProductCommission, requ
   };
 
   const handleChangeCommission = (event, item) => {
-    
     let value = event.target.value;
     
     let regex = /^(\d{0,3})+(\.\d{0,2})?$/g;
@@ -67,8 +60,6 @@ const ProductCommission = ({ item, productCommission, setProductCommission, requ
       return items;
     });
 
-    // setProductCommission(proCon);
-    
     setProductCommission((productCommission) => ({
       ...productCommission,
       values: proCon,
@@ -80,15 +71,11 @@ const ProductCommission = ({ item, productCommission, setProductCommission, requ
   }
 
   const formatInput = (e) => {
-    // Prevent characters that are not numbers ("e", ".", "+" & "-")
-    
     let checkIfNum;
     if (e.key !== undefined) {
-    // Check if it's a "e", ".", "+" or "-"
       checkIfNum = e.key === "e" || e.key === "+" || e.key === "-" || (e.key === "." && e.target.value.indexOf(".") !== -1) ;
     }
     else if (e.keyCode !== undefined) {
-    // Check if it's a "e" (69), "." (190), "+" (187) or "-" (189)
       checkIfNum = e.keyCode === 69 || e.keyCode === 190 || e.keyCode === 187 || e.keyCode === 189;
     } 
     

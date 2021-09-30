@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import moment from "moment";
 import toString from "lodash/toString";
-
 import useRouter from "src/utils/hooks/useRouter";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
-// import PlayerInformation from "src/components/PlayerInformation/PlayerInformation";
 import { formatNumberWithComma } from "src/utils/function";
 import get from 'lodash/get';
 import GameTransactionsFilter from "./GameTransactionsFilter";
@@ -12,11 +10,9 @@ import useFetchData from "src/utils/hooks/useFetchData";
 import Loading from "src/components/shared/Loading/Loading";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import TransactionDetails from "src/components/TransactionDetails/TransactionDetails";
-// import { Link } from "react-router-dom";
 
 const GameTransactions = () => {
   const router = useRouter();
-  // console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
   const pad = (number, length) => {
     let str = "" + number
@@ -28,7 +24,7 @@ const GameTransactions = () => {
 
   let tz = new Date().getTimezoneOffset()
   tz = ((tz <0 ? '+' : '-') + pad(parseInt(Math.abs(tz / 60)), 2) + pad(Math.abs(tz % 60), 2));
-  // console.log(router.query);
+
   const [objFilter, setObjFilter] = useState({
     round_id: "",
     time_zone: tz,
@@ -58,10 +54,6 @@ const GameTransactions = () => {
     const mapData = get(dataResponse, 'list', []);
     setData(mapData);
   }, [dataResponse]);
-
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
 
   const columns = [
     {
@@ -151,7 +143,6 @@ const GameTransactions = () => {
   return (
     <>
       {isLoading && <Loading />}
-      {/* <PlayerInformation /> */}
       <div style={{ fontWeight: '600', fontSize: '22px'}}>Game Transaction</div>
       
       <GameTransactionsFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />

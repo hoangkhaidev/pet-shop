@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import toString from "lodash/toString";
@@ -7,9 +8,6 @@ import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import { formatNumberWithComma } from "src/utils/function";
 import get from 'lodash/get';
-// import useFetchData from "src/utils/hooks/useFetchData";
-// import Loading from "src/components/shared/Loading/Loading";
-// import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import api from "src/utils/api";
 import { toast } from "react-toastify";
 import TransactionDetails from "src/components/TransactionDetails/TransactionDetails";
@@ -28,7 +26,7 @@ const FailedTransaction = () => {
 
   let tz = new Date().getTimezoneOffset()
   tz = ((tz <0 ? '+' : '-') + pad(parseInt(Math.abs(tz / 60)), 2) + pad(Math.abs(tz % 60), 2));
-  // console.log(router.query);
+
   const [objFilter, setObjFilter] = useState({
     page: 1,
     page_size: 30,
@@ -51,14 +49,12 @@ const FailedTransaction = () => {
     if (router.query.player_id) {
       clickRef.current.click();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     const stringified = queryString.stringify(objFilter);
     let url = `${router.location.pathname}?${stringified}`;
     router.navigate(url);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [objFilter]);
 
   const [data, setData] = useState([]);
@@ -97,12 +93,6 @@ const FailedTransaction = () => {
       align: "right",
       formatter: cell => formatNumberWithComma(toString(cell))
     },
-    // {
-    //   data_field: "jackpot",
-    //   column_name: "Jackpot",
-    //   align: "right",
-    //   formatter: cell => formatNumberWithComma(toString(cell))
-    // },
     {
       data_field: "new_balance",
       column_name: "Balance",
@@ -142,12 +132,9 @@ const FailedTransaction = () => {
       ...data
     };
 
-    // console.log(dataForm)
-
     try {
         const response = await api.post(`/api/global/brand_detail/failed_transactions`, dataForm);
         
-        // console.log(response)
         if (get(response, 'success', false)) {
           const mapData = get(response.data, 'list', []);
           const total_sizeData = get(response.data, 'total_size', []);
@@ -160,7 +147,6 @@ const FailedTransaction = () => {
     } catch (e) {
       console.log('e', e);
     }
-
   };
 
   const handleChangePage = async (page) => {
@@ -221,10 +207,6 @@ const FailedTransaction = () => {
       console.log('e', e);
     }
   };
-
-  // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter]);
 
   return (
     <>

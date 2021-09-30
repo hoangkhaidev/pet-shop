@@ -3,8 +3,6 @@ import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import TableDevelopmentVariables from './TableDevelopmentVariables';
 
 const DevelopmentVariables = () => {
-  // const router = useRouter();
-  // const classes = useStyles();
 
   return (
     <>

@@ -9,7 +9,6 @@ import remove from 'lodash/remove';
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import ButtonGroup, {
   SubmitButton,
@@ -18,14 +17,11 @@ import ButtonGroup, {
 import InputField from 'src/components/shared/InputField/InputField';
 import SelectField from 'src/components/shared/InputField/SelectField';
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
-
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
 import { useEffect, useState } from 'react';
 import get from 'lodash/get';
-
 import FormLabel from '@material-ui/core/FormLabel';
-
 import api from 'src/utils/api';
 import Loading from '../shared/Loading/Loading';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
@@ -69,7 +65,6 @@ const SubAccountEdit = () => {
   const [brandsData, setBrandsData] = useState([]);
 
   const [brandMultiple, setBrandMultiple] = useState([]);
-
   const [errorBrandMul, setErrorBrandMul] = useState('');
 
   const [checkWhiteIP, setCheckWhiteIP] = useState('');
@@ -78,8 +73,6 @@ const SubAccountEdit = () => {
   useEffect(() => {
     let mapData = [];
     let newBrand = cloneDeep(brandsData);
-    // if (!newBrand) return;
-    // if (newBrand.length <= 0) return;
     newBrand?.forEach((data) => {
       let optionData = {
         id: data.brand_id,
@@ -95,7 +88,6 @@ const SubAccountEdit = () => {
     if (roleUser.account_type !== 'brand') {
       onDataBrand();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roleUser]);
 
   const onDataBrand = async () => {
@@ -105,7 +97,6 @@ const SubAccountEdit = () => {
     } else {
       console.log("response", response);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   useEffect(() => {
@@ -114,42 +105,34 @@ const SubAccountEdit = () => {
     setValue('name', get(dataResponse, 'name', ''));
     setValue('role', get(dataResponse, 'role_id', ''));
     setData(dataResponse);
-    // let mapdata = [['', '', '', '']];
     let data = get(dataResponse, 'whitelist_ips', ['...']);
     data.push('...');
-    // console.log(data)
     if (!data.length) {
       data = ['...'];
     }
     const formatWhitelistIP = data.map((ip) => ip.split('.'));
     
-    // console.log(formatWhitelistIP)
-    // mapdata.push(formatWhitelistIP);
     setWhitelistIP(formatWhitelistIP);
     setBrandMultiple(get(dataResponse, 'brand_ids', ''))
   }, [dataResponse, setValue]);
 
   useEffect(() => {
     if (dataRole.length <= 0) return;
-    let mapdata = [];
+    let mapData = [];
     dataRole.forEach((data) => {
       let optionData = {
         id: data.id,
         value: data.id,
         label: data.role_name,
       };
-      mapdata.push(optionData);
+      mapData.push(optionData);
     });
-    setRoleData([...mapdata]);
+    setRoleData([...mapData]);
   }, [dataRole, setRoleData]);
 
   useEffect(() => {
     setCheckWhiteIP('');
   }, [whitelistIP]);
-
-  // useEffect(() => {
-  //   console.log(brandMultiple);
-  // }, [brandMultiple]);
 
   const onSubmit = async (dataform) => {
 
@@ -167,7 +150,7 @@ const SubAccountEdit = () => {
       role_id: dataform.role,
       whitelist_ips: formatWLIPs,
     };
-    // console.log(form)
+
     try {
       let response = await api.post(
         `/api/subs/${router.query?.id}/update`,
@@ -218,7 +201,6 @@ const SubAccountEdit = () => {
   const onAddingWLIPAddress = () => {
     const cloneArr = whitelistIP.slice();
     const newArray = [...cloneArr, ['', '', '', '']];
-    // setWhitelistIP(newArray);
     if (newArray.length <= 20 ) setWhitelistIP(newArray);
   };
 
@@ -236,26 +218,11 @@ const SubAccountEdit = () => {
     return <NoPermissionPage />;
   }
 
-  // console.log(roleUser)
-
   return (
     <ContentCardPage>
       <TitlePage title="Edit Sub Account" />
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: '50%' }}>
         {!(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') && (
-          // <SelectField
-          //   selectDisabled= {roleUser.account_type === 'brand' ? true : false}
-          //   control={control}
-          //   namefileld="brand"
-          //   id="brand"
-          //   label="Brand"
-          //   // eslint-disable-next-line react/jsx-no-duplicate-props
-          //   control={control}
-          //   errors={errors?.brand}
-          //   options={brandData}
-          //   required
-          //   defaultValue={roleUser.username ? roleUser.username : ''}
-          // />
           <SelectFieldMutiple 
             selectDisabled= {roleUser.account_type === 'brand' ? true : false}
             options={brandData} 

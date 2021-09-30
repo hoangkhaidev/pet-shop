@@ -16,7 +16,6 @@ import useRouter from "src/utils/hooks/useRouter";
 import { useSelector } from "react-redux";
 import api from "src/utils/api";
 import get from 'lodash/get';
-// import { FormattedNumberInputCaptcha } from "../shared/InputField/InputFieldNumber";
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -34,9 +33,10 @@ const PLayerListFilter = ({
   const { t } = useTranslation();
   const roleUser = useSelector((state) => state.roleUser);
   const router = useRouter();
+  
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      brand_id: router.query.brand_id ? Number(router.query.brand_id) : "all"
+      brand_id: router?.query?.brand_id ? router?.query?.brand_id : 0
     }
   });
   const [dateRange, setDateRange] = useState({
@@ -46,18 +46,13 @@ const PLayerListFilter = ({
   const dateRangeRef = useRef(null);
   const classes = useStyles();
 
-  // const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
   const { dataResponse: dataCurrency} = useFetchData("/api/currency/public_list");
   const { dataResponse: dataLanguage} = useFetchData("/api/language");
   
   const [brandData, setBrandData] = useState([]);
   const [brandsData, setBrandsData] = useState([]);
-  const [currencydata, setCurrencydata] = useState([]);
+  const [currencyData, setCurrencyData] = useState([]);
   const [languageData, setLanguageData] = useState([]);
-
-  // useEffect(() => {
-  //   console.log(currencydata);
-  // }, [currencydata])
 
   useEffect(() => {
     let mapData = [];
@@ -84,11 +79,11 @@ const PLayerListFilter = ({
       };
       mapData.push(optionData)
     });
-    setCurrencydata([...mapData]);
-  }, [dataCurrency, setCurrencydata]);
+    setCurrencyData([...mapData]);
+  }, [dataCurrency, setCurrencyData]);
 
   useEffect(() => {
-    let mapData = [{id: 0, value: "all", label: "All"}];
+    let mapData = [{id: 0, value: 0, label: "All"}];
     let newBrand = cloneDeep(brandsData);
 
     (newBrand || []).forEach(data => {
@@ -106,7 +101,6 @@ const PLayerListFilter = ({
     if (roleUser.account_type !== 'brand') {
       onDataBrand();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roleUser]);
 
   const onDataBrand = async () => {
@@ -116,23 +110,16 @@ const PLayerListFilter = ({
     } else {
       console.log("response", response);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   const onChangeDateRange = (startDate, endDate) => {
-    // console.log(startDate, endDate);
     setDateRange({
       start: moment(startDate).format("DD/MM/YYYY"),
       end: moment(endDate).format("DD/MM/YYYY")
     });
   };
 
-  // useEffect(() => {
-  //   console.log(dateRange);
-  // }, [dateRange])
-
   const onSubmit = async (data) => {
-    // console.log(data)
     const form = {
       ...data,
       brand_id: data.brand_id === 'all' ? 0 : Number(data.brand_id),
@@ -149,7 +136,7 @@ const PLayerListFilter = ({
     reset({
       player_id: "",
       nick_name: "",
-      brand_id: "all",
+      brand_id: 0,
       ip_address: "",
       language: "",
       currency: "",
@@ -183,8 +170,6 @@ const PLayerListFilter = ({
     dateRangeRef.current.setStartDate(dateRange.start);
     dateRangeRef.current.setEndDate(dateRange.end);
   }, [dateRange]);
-
-  // console.log(roleUser)
 
   return (
     <>
@@ -249,7 +234,6 @@ const PLayerListFilter = ({
                 label="Brand"
                 fullWidth={false}
                 options={brandData}
-                defaultValue="all"
               />
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
@@ -259,7 +243,7 @@ const PLayerListFilter = ({
                 id="currency"
                 label="Currency"
                 fullWidth={false}
-                options={currencydata}
+                options={currencyData}
                 defaultValue=""
               />
             </Grid>

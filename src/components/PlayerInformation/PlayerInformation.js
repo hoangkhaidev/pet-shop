@@ -1,5 +1,4 @@
 import { Button, makeStyles, Typography } from "@material-ui/core";
-// import PersonIcon from '@material-ui/icons/Person';
 import Grid from "@material-ui/core/Grid";
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
@@ -36,7 +35,6 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     alignItems: "center",
     marginBottom: '2rem',
-    // justifyContent: "space-between"
   },
   labelLine: {
     fontWeight: "bold",
@@ -67,10 +65,6 @@ const PlayerInformation = () => {
     setData(dataResponse);
   }, [dataResponse]);
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
-
   const navigate = useNavigate();
   const onCancel = () => {
     navigate('/players/players');
@@ -79,8 +73,6 @@ const PlayerInformation = () => {
   if (!isHasPermission) {
     return <NoPermissionPage />;
   }
-
-  // console.log(data)
 
   return (
     <>

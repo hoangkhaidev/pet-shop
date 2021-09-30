@@ -1,6 +1,5 @@
 import { useState, useEffect} from "react";
 import { useFormContext } from "react-hook-form";
-// import useFetchData from "src/utils/hooks/useFetchData";
 import Grid from "@material-ui/core/Grid";
 import { func } from "prop-types";
 import get from 'lodash/get';
@@ -34,13 +33,9 @@ const SubAccountListFilter = ({
   const { control } = useFormContext();
   const roleUser = useSelector((state) => state.roleUser);
 
-  // const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
-
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
     let newBrand = cloneDeep(brandsData);
-    // if (!newBrand) return;
-    // if (newBrand.length <= 0) return;
     newBrand?.forEach(data => {
       let optionData = {
         id: data.brand_id,
@@ -56,7 +51,6 @@ const SubAccountListFilter = ({
     if (roleUser.account_type !== 'brand') {
       onDataBrand();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roleUser]);
 
   const onDataBrand = async () => {
@@ -66,9 +60,7 @@ const SubAccountListFilter = ({
     } else {
       console.log("response", response);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   };
-
 
   return (
     <ContentCardPage>
@@ -130,7 +122,6 @@ const SubAccountListFilter = ({
             defaultValue="asc"
           />
         </Grid>
-
       </Grid>
       <ButtonGroup>
         <SubmitButton text="Search"/>

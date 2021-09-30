@@ -1,10 +1,7 @@
 import React from "react";
-// import FileSaver from "file-saver";
-// import XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import XlsxPopulate from "xlsx-populate";
 import Button from '@material-ui/core/Button';
-// import cloneDeep from "lodash.clonedeep";
 
 export const ExportExcel = ({ excelData }) => {
 
@@ -20,26 +17,17 @@ export const ExportExcel = ({ excelData }) => {
   }
 
   const exportToExcel = async () => {
-    // var data = [
-    //   { name: "John", city: "Seattle" },
-    //   { name: "Mike", city: "Los Angeles" },
-    //   { name: "Zach", city: "New York" }
-    // ];
-    
     let header = ["Period", "New Players", "Bet ($)", "Win ($)", "Margin ($)", "Players", "Play Sessions", "Operator Total ($)", "Company Total ($)"];
 
     XlsxPopulate.fromBlankAsync().then(async (workbook) => {
       const sheet1 = workbook.sheet(0);
       const sheetData = getSheetData(excelData, header);
       const totalColumns = sheetData[0].length;
-      // sheet1.cell("A1").width(25).hidden(false);
       sheet1.cell("A1").value(sheetData);
 
       const range = sheet1.usedRange();
       
-      
       const endColumn = String.fromCharCode(64 + totalColumns);
-      // console.log(endColumn)
 
       const maxStringLength = sheet1.range("A1:" + endColumn + "1").reduce((max, cell) => {
           const value = cell.value();
@@ -71,16 +59,16 @@ export const ExportExcel = ({ excelData }) => {
   }
           
   return (
-      <>
-          <Button
-              variant="contained"
-              type="submit"
-              color="primary"
-              style={{ marginBottom: '10px' }}
-              onClick={e => exportToExcel()}
-          >
-              Download Excel
-          </Button>
-      </>
+    <>
+      <Button
+          variant="contained"
+          type="submit"
+          color="primary"
+          style={{ marginBottom: '10px' }}
+          onClick={e => exportToExcel()}
+      >
+          Download Excel
+      </Button>
+    </>
   )
 }

@@ -1,20 +1,13 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
-// import { useTranslation } from "react-i18next";
-// import FormControl from "@material-ui/core/FormControl";
-// import FormLabel from "@material-ui/core/FormLabel";
 import { makeStyles } from "@material-ui/core";
 import moment from 'moment';
 import { func } from "prop-types";
-
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import InputField from "src/components/shared/InputField/InputField";
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
 import DateRangePickerLogs from "src/components/shared/DateRangePickerComponent/DateRangePickerLogs";
-
-// import { DateRangeContext } from "../SearchGameHistory";
-// import useRouter from "src/utils/hooks/useRouter";
 
 const useStyles = makeStyles(() => ({
   inputDataPicked: {
@@ -32,7 +25,6 @@ const AdminLogsFilter = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
   const classes = useStyles();
-  // const router = useRouter();
 
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -101,9 +93,6 @@ const AdminLogsFilter = ({
                   handleCallback={onChangeDateRange}
                   format="DD/MM/YYYY"
                 />
-                {/* <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>
-                  {t("From - To")}
-                </FormLabel> */}
             </Grid>
             <Grid item xs={12} xl={3} md={4}>
               <InputField

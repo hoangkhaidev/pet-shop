@@ -48,7 +48,6 @@ const TableDevelopmentVariables = () => {
  
   const handleChangeCountRefund = (event) => {
     let value = event.target.value;
-    // console.log(value);
     let regex = /^\d+(\\d{0})?$/g;
     if (!regex.test(value)) {
       event.target.value = value.slice(0, -1)
@@ -358,8 +357,6 @@ const TableDevelopmentVariables = () => {
   //get api
 
   useEffect(() => {
-    // let dataState = cloneDeep(dataResponse);
-    // console.log(dataResponse)
     let dataRefund = cloneDeep(dataResponse?.refund);
     let dataRetry = cloneDeep(dataResponse?.retry);
     let dataM_refund = cloneDeep(dataResponse?.m_refund);

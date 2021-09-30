@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useState } from "react";
-// import Link from "@material-ui/core/Link";
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import useRouter from "src/utils/hooks/useRouter";
 import useFetchData from "src/utils/hooks/useFetchData";
@@ -8,7 +7,6 @@ import get from 'lodash/get';
 import moment from "moment";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import Loading from "src/components/shared/Loading/Loading";
-// import map from "lodash/map";
 import GamesSummaryFilter from "./GamesSummaryFilter";
 import TableComponentGamesSummary from "src/components/shared/TableComponent/TableComponentGamesSummary";
 
@@ -27,7 +25,6 @@ const GamesSummary = () => {
   const [dataSum, setDataSum] = useState({});
   const [arrayCurrencyColumn, setArrayCurrencyColumn] = useState([]);
   const [listCurrency, setListCurrency] = useState([]);
-  // const [excelData, setExcelData] = useState([]);
 
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
     '/api/report/games_reports',
@@ -42,7 +39,6 @@ const GamesSummary = () => {
 
   const getColumns = useCallback(async () => {
     if (listCurrency && arrayCurrencyColumn.length <= 0) {
-      // setIsLoading(true);
       let a = [];
       listCurrency[0]?.currency_entry_list?.map((item) => {
 
@@ -87,7 +83,6 @@ const GamesSummary = () => {
         return item;
       });
       setArrayCurrencyColumn(a);
-      // setIsLoading(false);
     }
   }, [listCurrency]);
 
@@ -114,9 +109,6 @@ const GamesSummary = () => {
       data_field: "period",
       column_name: "Period",
       align: "right",
-      // formatter: (cell, row) => (
-      //   <Link href={`/players/${row.id}/information`}>{cell}</Link>
-      // ),
     },
     {
       data_field: "bet",
@@ -165,7 +157,6 @@ const GamesSummary = () => {
   };
 
   const onSubmit = async (data) => {
-    // console.log(data)
     
     setObjFilter(prevState => ({
       ...prevState,
@@ -182,9 +173,6 @@ const GamesSummary = () => {
       {isLoading && <Loading />}
       <GamesSummaryFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <ContentCardPage>
-        {/* <ExportExcel
-          excelData={excelData}
-        /> */}
         <TableComponentGamesSummary
           data={data}
           listCurrency={listCurrency[0]?.currency_entry_list}

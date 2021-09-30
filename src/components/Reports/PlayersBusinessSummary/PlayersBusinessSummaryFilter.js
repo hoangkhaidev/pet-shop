@@ -3,10 +3,8 @@ import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
 import moment from 'moment';
 import { FormControl, FormControlLabel, FormLabel, makeStyles, Radio, RadioGroup } from "@material-ui/core";
-// import { useTranslation } from "react-i18next";
 import cloneDeep from 'lodash/cloneDeep';
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
-// import InputField from "src/components/shared/InputField/InputField";
 import SelectField from "src/components/shared/InputField/SelectField";
 import DateRangePickerComponent from "src/components/shared/DateRangePickerComponent/DateRangePickerComponent";
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
@@ -18,9 +16,6 @@ import get from 'lodash/get';
 import InputField from "src/components/shared/InputField/InputField";
 import InputNumberValue from "./InputNumberValue";
 import SelectFieldMutiple from "src/components/shared/InputField/SelectFieldMutiple";
-// import useRouter from "src/utils/hooks/useRouter";
-// import { useSelector } from "react-redux";
-// import { FormattedNumberInputCaptcha } from "../shared/InputField/InputFieldNumber";
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -41,9 +36,6 @@ const searchByOption = [
 const PlayersBusinessSummaryFilter = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
-  // const { t } = useTranslation();
-//   const roleUser = useSelector((state) => state.roleUser);
-//   const router = useRouter();
   const roleUser = useSelector((state) => state.roleUser);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -68,7 +60,6 @@ const PlayersBusinessSummaryFilter = ({
   const classes = useStyles();
 
   const { dataResponse: dataGame} = useFetchData("/api/games");
-  // const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
   
   const [brandData, setBrandData] = useState([]);
   const [brandsData, setBrandsData] = useState([]);
@@ -140,7 +131,6 @@ const PlayersBusinessSummaryFilter = ({
     if (roleUser.account_type !== 'brand') {
       onDataBrand();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roleUser]);
 
   const onDataBrand = async () => {
@@ -150,11 +140,9 @@ const PlayersBusinessSummaryFilter = ({
     } else {
       console.log("response", response);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   const onChangeDateRange = (startDate, endDate) => {
-    // console.log(startDate, endDate);
     setDateRange({
       start: moment(startDate).format("DD/MM/YYYY"),
       end: moment(endDate).format("DD/MM/YYYY")
@@ -162,7 +150,6 @@ const PlayersBusinessSummaryFilter = ({
   };
 
   const onSubmit = async (data) => {
-    // console.log(data)
     let checkBrand = brandMultiple?.findIndex(item => (item === 'all')) > -1;
     const form = {
       ...data,
@@ -219,8 +206,6 @@ const PlayersBusinessSummaryFilter = ({
     dateRangeRef.current.setStartDate(dateRange.start);
     dateRangeRef.current.setEndDate(dateRange.end);
   }, [dateRange]);
-
-  // console.log(roleUser)
 
   return (
     <>
@@ -316,15 +301,6 @@ const PlayersBusinessSummaryFilter = ({
               </RadioGroup>
             </Grid>
             <Grid item xs={12} xl={3} md={3}>
-              {/* <SelectField
-                selectDisabled= {roleUser.account_type === 'brand' ? true : false}
-                control={control}
-                namefileld="brand_ids"
-                id="brand_ids"
-                label="Brand"
-                fullWidth={false}
-                options={brandData}
-              /> */}
               <SelectFieldMutiple
                 selectDisabled= {roleUser.account_type === 'brand' ? true : false}
                 options={brandData} 

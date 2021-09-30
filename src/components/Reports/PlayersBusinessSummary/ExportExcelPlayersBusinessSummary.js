@@ -1,6 +1,4 @@
 import React from "react";
-// import FileSaver from "file-saver";
-// import XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import XlsxPopulate from "xlsx-populate";
 import Button from '@material-ui/core/Button';
@@ -21,21 +19,17 @@ export const ExportExcelPlayersBusinessSummary = ({ excelData }) => {
   }
 
   const exportToExcel = async () => {
-    
     let header = ["Period", "Player ID", "Nickname", "Sign Up Language", "Brand", "Bet", "Win", "Margin", "Currency", "Bet ($)", "Win ($)", "Margin ($)"];
 
     XlsxPopulate.fromBlankAsync().then(async (workbook) => {
       const sheet1 = workbook.sheet(0);
       const sheetData = getSheetData(excelData, header);
       const totalColumns = sheetData[0].length;
-      // sheet1.cell("A1").width(25).hidden(false);
       sheet1.cell("A1").value(sheetData);
 
       const range = sheet1.usedRange();
       
-      
       const endColumn = String.fromCharCode(64 + totalColumns);
-      // console.log(endColumn)
 
       const maxStringLength = sheet1.range("A1:" + endColumn + "1").reduce((max, cell) => {
           const value = cell.value();
@@ -71,30 +65,21 @@ export const ExportExcelPlayersBusinessSummary = ({ excelData }) => {
   }
           
   return (
-      <>
-          {/* <Button
-              variant="contained"
-              type="submit"
-              color="primary"
-              style={{ marginBottom: '10px' }}
-              onClick={e => exportToExcel()}
-          >
-              Download Excel
-          </Button> */}
-          <div style={{ textAlign: 'right', marginBottom: '10px' }}>
-            <Button 
-              style={{ background: '#15aabf', padding: '10px' }} 
-              onClick={e => exportToExcel()}
-            >
-              <FontAwesomeIcon 
-                icon={faFileExcel} 
-                size={'2x'} 
-                color={'#fff'} 
-                title={'Download Excel'} 
-                style={{cursor: 'pointer'}}
-              />
-            </Button>
-          </div>
-      </>
+    <>
+      <div style={{ textAlign: 'right', marginBottom: '10px' }}>
+        <Button 
+          style={{ background: '#15aabf', padding: '10px' }} 
+          onClick={e => exportToExcel()}
+        >
+          <FontAwesomeIcon 
+            icon={faFileExcel} 
+            size={'2x'} 
+            color={'#fff'} 
+            title={'Download Excel'} 
+            style={{cursor: 'pointer'}}
+          />
+        </Button>
+      </div>
+    </>
   )
 }

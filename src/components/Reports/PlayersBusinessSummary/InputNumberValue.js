@@ -51,7 +51,6 @@ NumberFormatCustom.propTypes = {
 };
 
 const InputNumberValue = ({
-  // eslint-disable-next-line react/prop-types
   label,
   pattern,
   control,
@@ -75,7 +74,6 @@ const InputNumberValue = ({
       return 'Field is required';
     }
     if (errors.type === 'pattern') {
-      // return 'Field is required';
     }
     return errors.message;
   };
@@ -91,7 +89,6 @@ const InputNumberValue = ({
           render={({ field: { onChange, onBlur, value, name, ref } }) => {
             return (
               <NumberFormat
-                // getInputRef={ref}
                 namefileld={namefileld}
                 label={
                   <div>

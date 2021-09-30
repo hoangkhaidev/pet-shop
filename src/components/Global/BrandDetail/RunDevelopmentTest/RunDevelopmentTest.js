@@ -26,7 +26,6 @@ const RunDevelopmentTest = () => {
           const mapData = response?.data;
           setData(mapData);
         } else {
-          // console.log(response)
           if (response?.err === 'err:brand_not_found') {
             toast.warn('Brand not found');
           }
@@ -40,7 +39,6 @@ const RunDevelopmentTest = () => {
     } catch (e) {
       console.log('e', e);
     }
-
   };
 
   const columns = [ 
@@ -75,9 +73,7 @@ const RunDevelopmentTest = () => {
   return (
     <>
       <FormProvider {...methods}>
-        {/* <form onSubmit={methods.handleSubmit(onSubmit)}> */}
-          <RunDevelopmentTestFilter onSubmitFilter={onSubmitFilter} />
-        {/* </form> */}
+        <RunDevelopmentTestFilter onSubmitFilter={onSubmitFilter} />
       </FormProvider>
       <ContentCardPage>
         <TableComponent

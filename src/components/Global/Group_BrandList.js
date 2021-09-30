@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-pascal-case */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
-// import { useTranslation } from 'react-i18next';
 import { FormProvider, useForm } from 'react-hook-form';
 import Link from '@material-ui/core/Link';
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
@@ -10,11 +9,7 @@ import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
 import Loading from 'src/components/shared/Loading/Loading';
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
-// import api from 'src/utils/api';
-// import { toast } from 'react-toastify';
-// import { useNavigate } from 'react-router-dom';
 import Group_BrandFilter from './Group_BrandFilter';
-// import BrandListBelow from './BrandListBelow';
 import cloneDeep from 'lodash.clonedeep';
 
 const Group_BrandList = () => {
@@ -36,7 +31,6 @@ const Group_BrandList = () => {
   useEffect(() => {
     let mapData = cloneDeep(dataResponse);
     setData(mapData);
-    // console.log(dataResponse);
   }, [dataResponse]);
 
   if (!isHasPermission) {
@@ -49,7 +43,6 @@ const Group_BrandList = () => {
       column_name: 'Group / Operator',
       align: 'left',
       formatter: (cell, row) => {
-        // console.log(row)
 
         return (
           <Link href={`/operator/list/${row.account_id}/edit`}>{cell}</Link>
@@ -62,7 +55,6 @@ const Group_BrandList = () => {
       align: 'right',
       formatter: (cell, row) => {
         return (
-          // <BrandListBelow roundId={row.operator_id} cell={cell} />
           <Link href={`/global/group_brand/${row.operator_id}/operator_name/${row.operator_name}`}>
             {cell}
           </Link>

@@ -6,7 +6,6 @@ import useFetchData from "src/utils/hooks/useFetchData";
 import Loading from "src/components/shared/Loading/Loading";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import AdminLogsFilter from "./AdminLogsFilter";
-// import { Link } from "react-router-dom";
 
 const AdminLogs = () => {
   const router = useRouter();
@@ -36,10 +35,6 @@ const AdminLogs = () => {
     const mapData = get(dataResponse, 'list', []);
     setData(mapData);
   }, [dataResponse]);
-
-  // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter]);
 
   const columns = [
     {

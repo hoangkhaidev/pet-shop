@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 
 const RunDevelopmentTestFilter = ({onSubmitFilter}) => {
 
-  // const { control } = useFormContext();
   const {
     control,
     formState: { errors },

@@ -1,7 +1,6 @@
 import { useFormContext } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
 import { func } from "prop-types";
-
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import InputField from "src/components/shared/InputField/InputField";
 import SelectField from "src/components/shared/InputField/SelectField";
@@ -10,7 +9,6 @@ import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Bu
 import { OPERATOR_STATUS, SORT_ODER } from "src/constants";
 
 const OperatorListFilter = ({onResetFilter}) => {
-  // console.log(onResetFilter);
   const { control } = useFormContext();
 
   return (

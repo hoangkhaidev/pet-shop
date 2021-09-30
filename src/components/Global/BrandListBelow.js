@@ -13,7 +13,6 @@ import { Button } from "@material-ui/core";
 import { useNavigate } from "react-router";
 
 const BrandListBelow = () => {
-  //   const classes = useStyles();
   const router = useRouter();
   const navigate = useNavigate();
 

@@ -1,8 +1,4 @@
 /* eslint-disable no-useless-escape */
-/* eslint-disable guard-for-in */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-lonely-if */
-/* eslint-disable react/jsx-no-duplicate-props */
 import { useState, useEffect } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -28,7 +24,6 @@ import ButtonGroup, {
   SubmitButton,
 } from 'src/components/shared/Button/Button';
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
-// import { FormattedNumberInputComission } from 'src/components/shared/InputField/InputFieldNumber';
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
 import Loading from 'src/components/shared/Loading/Loading';
 import api from 'src/utils/api';
@@ -82,7 +77,6 @@ const OperatorCreate = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [apiWLIP, setAPIWLIP] = useState(['', '', '', '']);
   const [productData, setProductData] = useState([]);
-
   const [errorWhiteIP, setErrorWhiteIP] = useState('');
   const [errorApiWLIP, setErrorApiWLIP] = useState('');
   const [errorFinanceEmail, setErrorFinanceEmail] = useState('');
@@ -93,12 +87,10 @@ const OperatorCreate = () => {
   const navigate = useNavigate();
 
   const finance_email = watch('finance_email');
-  // const commission = watch('commission');
 
   useFieldArray({
-    control, // control props comes from useForm (optional: if you are using FormContext)
-    name: "commission", // unique name for your Field Array
-    // keyName: "id", default to "id", you can change the key name
+    control,
+    name: "commission",
   });
 
   const { dataResponse: dataProduct } = useFetchData('/api/product');
@@ -141,7 +133,6 @@ const OperatorCreate = () => {
     } else {
       dataFinanceEmail = financeEmail;
     }
-    // console.log(dataFinanceEmail);
 
     const product_form = data.commission.filter((item) => item.checked === true );
     const product_commission = product_form.map((item) => {
@@ -170,11 +161,9 @@ const OperatorCreate = () => {
     };
     delete form.commission;
     delete form.product_ids;
-    // console.log(form);
 
     try {
       let response = await api.post('/api/operators/create', form);
-      // console.log(response);
       if (get(response, 'success', false)) {
         toast.success('Create Operator Success', {
           onClose: navigate('/operator/list'),
@@ -182,7 +171,6 @@ const OperatorCreate = () => {
       } else {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
-            // console.log(field);
             if (response?.data['product_commission'] === 'err:invalid_product') {
               setErrorProductCommission('Invalid product');
             } else if (response?.data['finance_emails'] === 'err:invalid_email') {
@@ -202,7 +190,6 @@ const OperatorCreate = () => {
         if (response?.err === 'err:suspended_account') {
           toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
         }
-       
       }
     } catch (e) {
       console.log('e', e);
@@ -314,7 +301,6 @@ const OperatorCreate = () => {
                       <Controller
                           name={`commission.${index}.checked`}
                           control={control}
-                          // noRef={true}
                           render={(props) => {
                             return (
                               <Checkbox
@@ -361,9 +347,6 @@ const OperatorCreate = () => {
                         }}
                         helperText="From 0% to 100%"
                         required
-                        // noRef={true}
-                        // register={register}
-                        // {...register(`commission.${index}.value`)}
                       />
                     : ''}
                   </FormGroup>

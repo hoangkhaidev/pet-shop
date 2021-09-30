@@ -3,22 +3,18 @@ import get from 'lodash/get';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
-
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import TableComponent from 'src/components/shared/TableComponent/TableComponent';
 import Loading from 'src/components/shared/Loading/Loading';
 import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
-
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
 import SubAccountListFilter from './SubAccountListFilter';
-// import { useSelector } from 'react-redux';
 
 const ChangePasswordForm = lazy(() =>
   import('src/components/Modal/ChangePasswordForm')
@@ -132,8 +128,6 @@ const SubAccountList = () => {
   });
   const navigate = useNavigate();
   const classes = useStyles();
-  // const roleUser = useSelector((state) => state.roleUser);
-  // roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub'
 
   const methods = useForm({
     defaultValues: router.query,
@@ -150,10 +144,6 @@ const SubAccountList = () => {
   useEffect(() => {
     setData(get(dataResponse, 'list', []));
   }, [dataResponse]);
-
-  // useEffect(() => {
-  //   console.log(objFilter)
-  // }, [objFilter]);
 
   const columns = [
     {
@@ -189,7 +179,6 @@ const SubAccountList = () => {
       column_name: 'Status',
       align: 'center',
       formatter: (cell, row) => {
-        // const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
         const labels = row.statuses.map(item => item.status);
         return (
           <ChangeStatus
@@ -292,7 +281,6 @@ const SubAccountList = () => {
       };
     }
     delete dataForm.brand;
-    // console.log(dataForm)
     setObjFilter((prevState) => ({
       ...prevState,
       ...dataForm,
@@ -319,14 +307,14 @@ const SubAccountList = () => {
       status_search: 'all',
     });
   };
-  // console.log(isHasPermission);
-  if (!isHasPermission) {
-    return <NoPermissionPage />;
-  }
 
   const onGotoAddSubPage = () => {
     navigate('/sub/create');
   };
+
+  if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
 
   return (
     <>

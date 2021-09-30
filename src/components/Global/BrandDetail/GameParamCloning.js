@@ -1,7 +1,3 @@
-/* eslint-disable guard-for-in */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-lonely-if */
-/* eslint-disable react/jsx-no-duplicate-props */
 import { useEffect, useState } from 'react';
 import AdjustIcon from '@material-ui/icons/Adjust';
 import { makeStyles } from '@material-ui/core/styles';
@@ -136,8 +132,6 @@ const GameParamCloning = () => {
   }
 
   const onSubmit = async (currency_codes) => {
-    // setIsLoading(true);
-    // console.log(123)
     
     if (formState.isValid === true) {
       const form = {
@@ -147,13 +141,11 @@ const GameParamCloning = () => {
       };
       try {
         let response = await api.post('/api/global/brand_detail/clone', form);
-        // console.log(response);
         if (get(response, 'success', false)) {
           toast.success('Game Param Cloning Success', {
             onClose: navigate('/global/group_brand?'),
           });
         } else {
-          // console.log(response);
           if (response?.err === 'err:brand_not_found') {
             toast.warn('Brand not found');
           }
@@ -176,7 +168,6 @@ const GameParamCloning = () => {
         }
       });
     }
-
   };
 
   useEffect(() => {

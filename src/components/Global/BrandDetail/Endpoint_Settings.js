@@ -1,9 +1,5 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable guard-for-in */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-lonely-if */
-/* eslint-disable react/jsx-no-duplicate-props */
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -111,7 +107,6 @@ const Endpoint_Settings = ({ dataResponse }) => {
   }, [apiWLIP]);
 
   const onSubmit = async (data) => {
-    // console.log(data)
     const formatWLIPEndpoint = apiWLIP.join('.');
 
     const formatWLIPs = whitelistIP.map((item) => {
@@ -127,10 +122,9 @@ const Endpoint_Settings = ({ dataResponse }) => {
     };
     delete form.secret_key;
     delete form.api_key;
-    // console.log(form);
+
     try {
       let response = await api.post(`/api/global/brand_detail/${router.query?.id}/update`, form);
-      // console.log(response);
       if (get(response, 'success', false)) {
         toast.success('Update Brand Setting Success', {
           onClose: navigate('/global/group_brand'),
@@ -216,7 +210,6 @@ const Endpoint_Settings = ({ dataResponse }) => {
           endText="Copy"
           onClick={() => {navigator.clipboard.writeText(data?.secret_key)}}
         />
-        {/* <FormLabel>{t('API Key')}</FormLabel> */}
         <InputFieldCopy
           readOnly
           namefileld="api_key"
@@ -245,19 +238,6 @@ const Endpoint_Settings = ({ dataResponse }) => {
           pattern={/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/}
           helperText="Accept URL only"
         />
-        {/* <InputFieldTime
-          autoFocus
-          required
-          namefileld="player_inactivity_logout_after_mins"
-          control={control}
-          id="player_inactivity_logout_after_mins"
-          errors={errors?.player_inactivity_logout_after_mins}
-          type="text"
-          label="Player Inactivity Logout Time"
-          endText="Minutes"
-          minLength={15}
-          defaultValue={60}
-        /> */}
         <FormattedNumberInputNew
           required
           label="Player Inactivity Logout Time"
@@ -284,18 +264,6 @@ const Endpoint_Settings = ({ dataResponse }) => {
             endAdornment: <InputAdornment position="end">Hours</InputAdornment>,
           }}
         />
-        {/* <InputFieldTime
-          required
-          namefileld="manual_retry_refund_after_hours"
-          control={control}
-          id="manual_retry_refund_after_hours"
-          errors={errors?.manual_retry_refund_after_hours}
-          type="text"
-          label="Manual retry/refund after"
-          endText="Hours"
-          minLength={3}
-          defaultValue={24}
-        /> */}
         <FormLabel>{t('Whitelist IP Address for BO')}</FormLabel>
         {whitelistIP.map((item, index) => (
           <div className={classes.whitelistIPLine} key={index}>

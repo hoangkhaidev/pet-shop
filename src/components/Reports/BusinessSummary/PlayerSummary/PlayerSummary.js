@@ -1,5 +1,4 @@
 import { Button, makeStyles, Typography } from "@material-ui/core";
-// import PersonIcon from '@material-ui/icons/Person';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import { useNavigate } from "react-router";
 import useFetchData from "src/utils/hooks/useFetchData";
@@ -9,7 +8,6 @@ import TableComponent from "src/components/shared/TableComponent/TableComponent"
 import Link from "@material-ui/core/Link";
 import get from 'lodash/get';
 import moment from "moment";
-// import { ExportExcel } from "./ExportExcel";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import Loading from "src/components/shared/Loading/Loading";
 import { useSelector } from "react-redux";
@@ -45,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     marginBottom: '2rem',
-    // justifyContent: "space-between"
   },
   labelLine: {
     fontWeight: "bold",
@@ -67,7 +64,6 @@ const PlayerSummary = () => {
   const roleUser = useSelector((state) => state.roleUser);
   
   const router = useRouter();
-  // console.log(router.query.option);
   const [objFilter, setObjFilter] = useState({
     brand_ids: router.query.brand_ids ? [Number(router.query.brand_ids)] : [],
     product_ids: router.query.product_ids ? [Number(router.query.product_ids)] : [],
@@ -105,11 +101,7 @@ const PlayerSummary = () => {
     let cellFormat = (Math.round(num * 100)/100).toFixed(2);
     let formatNum = cellFormat?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
     return formatNum;
-  }
-
-  // useEffect(() => {
-  //   console.log(objFilter)
-  // }, [objFilter])
+  };
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
@@ -162,7 +154,6 @@ const PlayerSummary = () => {
       column_name: "Player ID",
       align: "left",
       formatter: (cell, row) => {
-        // console.log(router.query)
         let timeFrom_date = moment().format("DD/MM/YYYY 00:00");
         let timeTo_date = moment().format("DD/MM/YYYY 23:59");
         if (router.query.option === 'day') {
@@ -172,7 +163,6 @@ const PlayerSummary = () => {
           timeFrom_date = router.query.from_date;
           timeTo_date = router.query.to_date;
         }
-        // console.log(timeFrom_date, timeTo_date)
         return (
           <Link href={`/players/${row.player_id}/information?from_date=${timeFrom_date}&game_name=&game_type=&id=${row.player_id}&page=1&page_size=30&player_id=${row.player_id}&round_id=&sort_field=start_at&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${timeTo_date}`}>{cell}</Link>
         )
@@ -311,7 +301,6 @@ const PlayerSummary = () => {
         >
           Player Summary
         </Typography>
-        
         <span>
           {router.query.option === 'day' ? `Total by day over: ${moment(router.query.id).format("DD/MM/YYYY")}` : '' }
           {router.query.option === 'week' ? `Total by week from: ${router.query.from_date} to: ${router.query.to_date}` : '' }

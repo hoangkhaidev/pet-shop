@@ -19,7 +19,6 @@ const ChangePasswordForm = lazy(() =>
   import('src/components/Modal/ChangePasswordForm')
 );
 const ChangeStatus = lazy(() => import('src/components/Modal/ChangeStatus'));
-
 const DeleteItem = lazy(() => import('src/components/Modal/DeleteItem'));
 
 const STATUS_ALL = [
@@ -165,8 +164,6 @@ const BrandList = () => {
   });
   
   const methods = useForm();
-  // const { t } = useTranslation();
-  // console.log(t);
   const [refreshData, setRefreshData] = useState('');
 
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
@@ -222,7 +219,6 @@ const BrandList = () => {
   }, [dataResponse]);
 
   const onSubmit = async (dataForm) => {
-    // console.log(dataForm)
     const form = {
       ...dataForm,
       name_search:
@@ -232,7 +228,6 @@ const BrandList = () => {
       operator_id:
         dataForm?.operator_id === 'all' ? 0 : Number(dataForm.operator_id),
     };
-    // console.log(form)
 
     setObjFilter({
       ...form,

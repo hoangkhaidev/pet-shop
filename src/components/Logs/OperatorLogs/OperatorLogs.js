@@ -6,7 +6,6 @@ import useFetchData from "src/utils/hooks/useFetchData";
 import Loading from "src/components/shared/Loading/Loading";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import OperatorLogsFilter from "./OperatorLogsFilter";
-// import { Link } from "react-router-dom";
 
 const OperatorLogs = () => {
   const router = useRouter();
@@ -36,10 +35,6 @@ const OperatorLogs = () => {
     const mapData = get(dataResponse, 'list', []);
     setData(mapData);
   }, [dataResponse]);
-
-  // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter]);
 
   const columns = [
     {
@@ -116,9 +111,6 @@ const OperatorLogs = () => {
   return (
     <>
       {isLoading && <Loading />}
-      {/* <PlayerInformation /> */}
-      {/* <div style={{ fontWeight: '600', fontSize: '22px'}}>Game Transaction</div> */}
-      
       <OperatorLogsFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <TableComponent
         data={data}

@@ -68,7 +68,6 @@ const FailedTransactionFilter = ({
   onResetFilter, onSubmitProps, setObjFilter, clickRef
 }) => {
   const classes = useStyles();
-  // const { t } = useTranslation();
   const router = useRouter();
 
   const dateRangeRef = useRef(null);
@@ -225,10 +224,6 @@ const FailedTransactionFilter = ({
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid className={classes.inputDataPicked} item xs={12} xl={3} md={3}>
-                
-                {/* <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>
-                  {t("From - To")}
-                </FormLabel> */}
                 <DateRangePickerComponent
                   className={classes.inputDataPicked}
                   control={control}
@@ -252,17 +247,6 @@ const FailedTransactionFilter = ({
                 
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
-              {/* <SelectField
-                  control={control}
-                  selectDisabled= {roleUser.account_type === 'brand' ? true : false}
-                  namefileld="brand_id"
-                  id="brand_id"
-                  label="Brand"
-                  disabled
-                  options={brandData}
-                  fullWidth={false}
-                  defaultValue='all'
-              /> */}
               <SelectFieldMutiple
                 selectDisabled= {roleUser.account_type === 'brand' ? true : false}
                 options={brandData} 
@@ -291,15 +275,6 @@ const FailedTransactionFilter = ({
                 id="player_id"
                 fullWidth={false}
               />
-              {/* <SelectField
-                control={control}
-                namefileld="status_list"
-                id="status_list"
-                label="Round Status"
-                fullWidth={false}
-                options={statusData}
-                defaultValue={tz}
-              /> */}
               <div style={{ marginTop: '-16px' }}>
                 <SelectFieldMutipleCustom
                   options={statusData} 

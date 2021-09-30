@@ -18,7 +18,6 @@ const ChangePasswordForm = lazy(() =>
   import('src/components/Modal/ChangePasswordForm')
 );
 const ChangeStatus = lazy(() => import('src/components/Modal/ChangeStatus'));
-
 const DeleteItem = lazy(() => import('src/components/Modal/DeleteItem'));
 
 const STATUS_ALL = [

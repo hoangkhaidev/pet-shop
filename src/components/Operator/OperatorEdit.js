@@ -1,14 +1,11 @@
 /* eslint-disable no-useless-escape */
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/jsx-no-duplicate-props */
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Chip from '@material-ui/core/Chip';
 import { makeStyles } from '@material-ui/core/styles';
-// import InputAdornment from '@material-ui/core/InputAdornment';
 import Typography from '@material-ui/core/Typography';
 import remove from 'lodash/remove';
 import get from 'lodash/get';
@@ -27,7 +24,6 @@ import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput'
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import ButtonGroup, {
   SubmitButton,
-  // ResetButton,
 } from 'src/components/shared/Button/Button';
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
@@ -98,7 +94,6 @@ const OperatorEdit = () => {
   const [apiWLIP, setApiWLIP] = useState(['', '', '', '']);
   const [data, setData] = useState([]);
   const [financeEmails, setFinanceEmails] = useState([]);
-  const [productData, setProductData] = useState([]);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
@@ -123,7 +118,6 @@ const OperatorEdit = () => {
     watch,
     setValue,
     setError,
-    // reset,
   } = useForm();
 
   const finance_emails = watch('finance_emails', '');
@@ -143,7 +137,6 @@ const OperatorEdit = () => {
   useEffect(() => {
     let dataWhitelist_ips = get(dataResponse, 'whitelist_ips', ['...']);
     dataWhitelist_ips.push('...');
-    // console.log(data)
     if (!dataWhitelist_ips.length) {
       dataWhitelist_ips = ['...'];
     }
@@ -154,28 +147,10 @@ const OperatorEdit = () => {
     setData(dataResponse);
     setFinanceEmails(get(dataResponse, 'finance_emails', []));
     setWhitelistIP(formatWhitelistIP?.length > 0 ? formatWhitelistIP : whitelistIP);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataResponse]);
-  
-  useEffect(() => {
-    if (dataProduct.length <= 0) return;
-    let mapData = [];
-    dataProduct.forEach((data) => {
-      let optionData = {
-        id: data.id,
-        value: data.id,
-        label: data.name,
-      };
-      mapData.push(optionData);
-    });
-    setProductData(mapData)
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataProduct]);
 
   useEffect(() => {
     if (data) {
-      // setValue('commission', product_commission_new);
       setValue('name', data?.operator_name);
       setValue('support_email', data?.support_email);
       setValue('username', data?.username);
@@ -183,16 +158,14 @@ const OperatorEdit = () => {
       setValue('password', data?.password);
       setValue('password_confirmation', data?.password_confirmation);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, setValue]);
 
   useEffect(() => {
     let dataProCon = [];
-    const dataProductCommission = dataProduct.map((item) => {
+    dataProduct.map((item) => {
       let index = (dataResponse?.product_commission || []).findIndex((itemEdit) => {
         return itemEdit.product_id === item.id;
       });
-      // console.log(index);
       if (index !== -1) {
         dataProCon.push({
           label: item.name,
@@ -210,8 +183,6 @@ const OperatorEdit = () => {
       }
       return item;
     });
-    // console.log(dataProCon);
-    // setProductCommission(dataProCon);
     setProductCommission((productCommission) => ({
       ...productCommission,
       values: dataProCon,
@@ -246,9 +217,6 @@ const OperatorEdit = () => {
 
     const errors = validate(validateValues, schema);
 
-    // console.log(validateValues)
-    // console.log(errors)
-
     setProductCommission((productCommission) => ({
       ...productCommission,
       isValid: errors ? false : true,
@@ -257,9 +225,7 @@ const OperatorEdit = () => {
   }, [productCommission.values]);
 
   const onSubmit = async (dataForm) => {
-    // const defaultPro = cloneDeep(data.product_commission);
     if (productCommission.isValid === true) {
-
       let dataFinanceEmail = [];
       
       if (finance_emails) {
@@ -294,13 +260,11 @@ const OperatorEdit = () => {
       };
       delete form.commission;
       delete form.username;
-      console.log(form)
       try {
         let response = await api.post(
           `/api/operators/${router.query?.id}/update`,
           form
         );
-        // console.log(response)
         if (get(response, 'success', false)) {
           toast.success('Update operator Success', {
             onClose: navigate('/operator/list'),
@@ -311,7 +275,6 @@ const OperatorEdit = () => {
           }
           if (response?.err === 'err:operator_not_found') {
             toast.warn('Operator not found');
-            // setIsHasPermission(false);
           }
           if (response?.err === "err:no_permission") {
             setIsHasPermission(false);
@@ -349,7 +312,6 @@ const OperatorEdit = () => {
         }
         return item;
       })
-      console.log(abc)
       
       setProductCommission((productCommission) => ({
         ...productCommission,
@@ -361,12 +323,7 @@ const OperatorEdit = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(productCommission);
-  }, [productCommission]);
-
   const addingFinanceEmail = () => {
-    // console.log(finance_emails);
     if (finance_emails) {
       const arrCloneFinanceEmail = financeEmails.slice();
       setFinanceEmails([...arrCloneFinanceEmail, finance_emails]);

@@ -19,7 +19,6 @@ import get from "lodash/get";
 import map from "lodash/map";
 import every from "lodash/every";
 import { toast } from "react-toastify";
-
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import InputField from 'src/components/shared/InputField/InputField';
 import Loading from 'src/components/shared/Loading/Loading';
@@ -55,8 +54,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-// const permissions = ["create_sub_account", "create_operator", "edit_operator"];
-
 const RoleEdit = () => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -74,31 +71,22 @@ const RoleEdit = () => {
   } = useForm();
 
   const { dataResponse, isLoading, isHasPermission } = useFetchData(`/api/role/${router.query?.id}`);
-
-  // useEffect(() => {
-  //   console.log(dataResponse);
-  // }, [dataResponse]);
   
   useEffect(() => {
     setValue("role_name", dataResponse?.role_name);
     setValue("description", dataResponse?.description);
-    
     setPermissionGroup(dataResponse?.permission_group);
-    // console.log(dataResponse)
   }, [dataResponse, setValue]);
 
   useEffect(() => {
     let name;
     if (permissionGroup) {
       LIST_PERMISSIONS.forEach(permission => {
-        // console.log(permission);
         const arr = map(permissionGroup, item => item.permissions.every(itemPermission => itemPermission[permission.value]));
-        // console.log(arr);
         if (every(arr, item => item)) {
           name = permission.value;
         }
       });
-      // console.log(name);
       setSelectedColumn(name);
     }
   }, [permissionGroup]);

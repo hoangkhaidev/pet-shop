@@ -12,7 +12,6 @@ import remove from 'lodash/remove';
 import get from 'lodash/get';
 import useFetchData from 'src/utils/hooks/useFetchData';
 import { toast } from 'react-toastify';
-
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import InputField from 'src/components/shared/InputField/InputField';
 import SelectField from 'src/components/shared/InputField/SelectField';
@@ -26,7 +25,6 @@ import api from 'src/utils/api';
 import cloneDeep from 'lodash.clonedeep';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
 import SelectFieldMutiple from '../shared/InputField/SelectFieldMutiple';
-// import useRouter from 'src/utils/hooks/useRouter';
 
 const useStyles = makeStyles(() => ({
   whitelistIPLine: {
@@ -44,7 +42,6 @@ const useStyles = makeStyles(() => ({
 
 const SubAccountCreate = () => {
   const classes = useStyles();
-  // const router = useRouter();
   const { t } = useTranslation();
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [roleData, setRoleData] = useState([]);
@@ -52,13 +49,11 @@ const SubAccountCreate = () => {
   const [brandsData, setBrandsData] = useState([]);
 
   const [brandMultiple, setBrandMultiple] = useState([]);
-
   const [errorBrandMul, setErrorBrandMul] = useState('');
 
   const [checkWhiteIP, setCheckWhiteIP] = useState('');
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
   const roleUser = useSelector((state) => state.roleUser);
-  // console.log(router);
 
   const {
     control,
@@ -69,44 +64,39 @@ const SubAccountCreate = () => {
   const navigate = useNavigate();
 
   const { dataResponse: dataRole } = useFetchData('/api/role');
-  // const { dataResponse: dataBrand } = useFetchData('/api/brand/public_list');
 
   useEffect(() => {
     if (dataRole.length <= 0) return;
-    let mapdata = [];
+    let mapData = [];
     dataRole.forEach((data) => {
       let optionData = {
         id: data.id,
         value: data.id,
         label: data.role_name,
       };
-      mapdata.push(optionData);
+      mapData.push(optionData);
     });
-    setRoleData([...mapdata]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    setRoleData([...mapData]);
   }, [dataRole, setRoleData]);
 
   useEffect(() => {
-    let mapdata = [];
+    let mapData = [];
     let newBrand = cloneDeep(brandsData);
-    // if (!newBrand) return;
-    // if (newBrand.length <= 0) return;
     newBrand?.forEach((data) => {
       let optionData = {
         id: data.brand_id,
         value: data.brand_id,
         label: data.username,
       };
-      mapdata.push(optionData);
+      mapData.push(optionData);
     });
-    setBrandData([...mapdata]);
+    setBrandData([...mapData]);
   }, [brandsData, setBrandData]);
 
   useEffect(() => {
     if (roleUser.account_type !== 'brand') {
       onDataBrand();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roleUser]);
 
   const onDataBrand = async () => {
@@ -116,17 +106,14 @@ const SubAccountCreate = () => {
     } else {
       console.log("response", response);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   const onSubmit = async (dataForm) => {
-    // console.log(whitelistIP);
     const formatWLIPs = whitelistIP.map((item) => {
       item = item.join('.');
       if (item === '...') return null;
       return item;
     }).filter((item) => item);
-
    
     const form = {
       username: dataForm.username,
@@ -137,42 +124,38 @@ const SubAccountCreate = () => {
       role_id: dataForm.role,
       whitelist_ips: formatWLIPs,
     };
-
-    // console.log(form);
-
     
-      try {
-        const response = await api.post('/api/subs/create', form);
-        if (get(response, 'success', false)) {
-          toast.success('Create SubAccount Success', {
-            onClose: navigate('/sub/list'),
-          });
-        } else {
-          if (response.err === "err:no_permission") {
-            setIsHasPermission(false);
-          }
-          if (response?.err === 'err:suspended_account') {
-            toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
-          }
-          if (response?.err === 'err:form_validation_failed') {
-            for (const field in response?.data) {
-              // console.log(response?.data[field]);
-              if (response?.data[field] === 'err:invalid_ip_address') {
-                setCheckWhiteIP('Invalid IP address');
-              } else if (response?.data[field] === 'err:invalid_brand_ids') {
-                setErrorBrandMul('Field is required.');
-              } else {
-                setError(field, {
-                  type: 'validate',
-                  message: response?.data[field],
-                });
-              }
+    try {
+      const response = await api.post('/api/subs/create', form);
+      if (get(response, 'success', false)) {
+        toast.success('Create SubAccount Success', {
+          onClose: navigate('/sub/list'),
+        });
+      } else {
+        if (response.err === "err:no_permission") {
+          setIsHasPermission(false);
+        }
+        if (response?.err === 'err:suspended_account') {
+          toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
+        }
+        if (response?.err === 'err:form_validation_failed') {
+          for (const field in response?.data) {
+            if (response?.data[field] === 'err:invalid_ip_address') {
+              setCheckWhiteIP('Invalid IP address');
+            } else if (response?.data[field] === 'err:invalid_brand_ids') {
+              setErrorBrandMul('Field is required.');
+            } else {
+              setError(field, {
+                type: 'validate',
+                message: response?.data[field],
+              });
             }
           }
         }
-      } catch (e) {
-        console.log('e', e);
       }
+    } catch (e) {
+      console.log('e', e);
+    }
   };
 
   const onCancel = () => {
@@ -182,11 +165,6 @@ const SubAccountCreate = () => {
   useEffect(() => {
     setCheckWhiteIP('');
   }, [whitelistIP]);
-
-  // useEffect(() => {
-  //   setErrorBrandMul('');
-  //   console.log(errorBrandMul);
-  // }, [errorBrandMul]);
 
   const onChangeWhitelistIp = (e, index, rowIndex) => {
     const { formattedValue } = e;
@@ -198,7 +176,6 @@ const SubAccountCreate = () => {
   const onAddingWLIPAddress = () => {
     const cloneArr = whitelistIP.slice();
     const newArray = [...cloneArr, ['', '', '', '']];
-    // setWhitelistIP(newArray);
     if (newArray.length <= 20 ) setWhitelistIP(newArray);
   };
 
@@ -216,15 +193,6 @@ const SubAccountCreate = () => {
     <ContentCardPage>
       <TitlePage title="Create Sub Account" />
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: '50%' }}>
-        {/* <InputField
-          required
-          namefileld="brand"
-          control={control}
-          id="brand"
-          errors={errors?.brand}
-          type="text"
-          label="Brand"
-        /> */}
         {!(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub' || roleUser.account_type === 'brand') && (
           <SelectFieldMutiple 
             options={brandData} 

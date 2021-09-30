@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Link from "@material-ui/core/Link";
-
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import useRouter from "src/utils/hooks/useRouter";
@@ -12,7 +11,6 @@ import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
 import moment from "moment";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHistory } from '@fortawesome/free-solid-svg-icons';
-// import { useForm } from "react-hook-form";
 
 const PlayersList = () => {
   const router = useRouter();
@@ -59,10 +57,6 @@ const PlayersList = () => {
     const mapData = get(dataResponse, 'list', []);
     setData(mapData);
   }, [dataResponse]);
-
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
 
   const columns = [
     {
@@ -139,13 +133,7 @@ const PlayersList = () => {
     }));
   };
 
-  // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter])
-
   const onSubmit = async (data) => {
-    // console.log(data)
-    
     setObjFilter(prevState => ({
       ...prevState,
       ...data,

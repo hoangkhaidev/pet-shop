@@ -25,7 +25,6 @@ const BrandLogsFilter = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
   const classes = useStyles();
-  // const router = useRouter();
 
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -94,9 +93,6 @@ const BrandLogsFilter = ({
                   handleCallback={onChangeDateRange}
                   format="DD/MM/YYYY"
                 />
-                {/* <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>
-                  {t("From - To")}
-                </FormLabel> */}
             </Grid>
             <Grid item xs={12} xl={3} md={4}>
               <InputField

@@ -5,12 +5,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { useTranslation } from "react-i18next";
 import moment from 'moment';
-
 import TabPanel from "src/components/shared/TabPanel/TabPanel";
 import Loading from "src/components/shared/Loading/Loading";
 import PlayerInformation from "../PlayerInformation/PlayerInformation";
-// import { colors } from "src/utils/styles";
-
 const GameTransactions = lazy(() => import("./GameTransactions/GameTransactions"));
 const GamesList = lazy(() => import("./Games/GamesList"));
 
@@ -70,7 +67,6 @@ const SearchGameHistory = () => {
           indicatorColor="secondary"
           className={classes.aaaaaaaaa}
         >
-          {/* <Tab className={classes.labelTab} label="Player Infomation" {...a11yProps(0)} /> */}
           <Tab className={classes.labelTab} label="Game Transaction" {...a11yProps(0)} />
           <Tab className={classes.labelTab} label={t("Games")} {...a11yProps(1)} />
         </Tabs>

@@ -6,7 +6,6 @@ import useFetchData from "src/utils/hooks/useFetchData";
 import Loading from "src/components/shared/Loading/Loading";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import BrandLogsFilter from "./BrandLogsFilter";
-// import { Link } from "react-router-dom";
 
 const BrandLogs = () => {
   const router = useRouter();
@@ -36,10 +35,6 @@ const BrandLogs = () => {
     const mapData = get(dataResponse, 'list', []);
     setData(mapData);
   }, [dataResponse]);
-
-  // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter]);
 
   const columns = [
     {

@@ -28,7 +28,6 @@ const useStyles = makeStyles(() => ({
 const GamesSummaryFilter = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
-  //   const router = useRouter();
   const roleUser = useSelector((state) => state.roleUser);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -90,7 +89,6 @@ const GamesSummaryFilter = ({
     if (roleUser.account_type !== 'brand') {
       onDataBrand();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roleUser]);
 
   const onDataBrand = async () => {
@@ -100,11 +98,9 @@ const GamesSummaryFilter = ({
     } else {
       console.log("response", response);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   const onChangeDateRange = (startDate, endDate) => {
-    // console.log(startDate, endDate);
     setDateRange({
       start: moment(startDate).format("DD/MM/YYYY"),
       end: moment(endDate).format("DD/MM/YYYY")
@@ -114,7 +110,6 @@ const GamesSummaryFilter = ({
   const onSubmit = async (data) => {
     let checkBrand = brandMultiple?.findIndex(item => (item === 'all')) > -1;
     let checkProduct = productMultiple?.findIndex(item => (item === 'all')) > -1;
-    // console.log(data)
     const form = {
       ...data,
       brand_ids: checkBrand ? [] : brandMultiple,
@@ -123,7 +118,6 @@ const GamesSummaryFilter = ({
       from_date: dateRange.start,
       to_date: dateRange.end,
     };
-    // console.log(form)
     onSubmitProps(form);
   };
 
@@ -147,15 +141,12 @@ const GamesSummaryFilter = ({
     setRadio('day');
     setBrandMultiple(['all']);
     setProductMultiple(['all']);
-   
   }
 
   useEffect(() => {
     dateRangeRef.current.setStartDate(dateRange.start);
     dateRangeRef.current.setEndDate(dateRange.end);
   }, [dateRange]);
-
-  // console.log(roleUser)
 
   return (
     <>

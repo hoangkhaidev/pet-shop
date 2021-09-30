@@ -1,8 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable guard-for-in */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-lonely-if */
-/* eslint-disable react/jsx-no-duplicate-props */
 import { useCallback, useEffect, useState } from 'react';
 import AdjustIcon from '@material-ui/icons/Adjust';
 import { makeStyles } from '@material-ui/core/styles';
@@ -76,10 +72,8 @@ const CurrencyComfirm = ({include_all_currencies, onSubmit}) => {
 
     const [open, setOpen] = useState(false);
     const [formStateCurrency, setFormStateCurrency] = useState(initFormState);
-    // const [currency_codes, setCurrency_codes] = useState([]);
 
     const handleChangeCurrency = (event) => {
-        // setCurrency_codes(event.target.value);
         setFormStateCurrency({
             ...formStateCurrency,
             values: {
@@ -117,7 +111,6 @@ const CurrencyComfirm = ({include_all_currencies, onSubmit}) => {
               }
             });
         }
-
     }
 
     useEffect(() => {
@@ -149,9 +142,6 @@ const CurrencyComfirm = ({include_all_currencies, onSubmit}) => {
     
     const hasError = (field) => formStateCurrency.touched[field] && formStateCurrency.errors[field] ? true : false;
 
-    // useEffect(() => {
-    //     console.log(formStateCurrency);
-    // }, [formStateCurrency]);
     return (
         <>
             <Button

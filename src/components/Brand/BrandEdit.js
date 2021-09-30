@@ -1,8 +1,6 @@
 /* eslint-disable no-useless-escape */
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable react/jsx-no-duplicate-props */
+/* eslint-disable no-unused-vars */
 import { useState, useEffect, useMemo } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +18,6 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import FormattedNumberInput from 'src/components/shared/InputField/InputFieldNumber';
-// import FormControl from "@material-ui/core/FormControl";
 import InputField from 'src/components/shared/InputField/InputField';
 import Loading from 'src/components/shared/Loading/Loading';
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
@@ -118,7 +115,6 @@ const BrandEdit = () => {
   const [apiWLIP, setApiWLIP] = useState(['', '', '', '']);
   const [data, setData] = useState([]);
   const [financeEmail, setFinanceEmail] = useState([]);
-  const [productData, setProductData] = useState([]);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
@@ -150,25 +146,8 @@ const BrandEdit = () => {
   const finance_emails = watch('finance_emails', '');
 
   useEffect(() => {
-    if (dataProduct.length <= 0) return;
-    
-    let mapData = [];
-    dataProduct.forEach((data) => {
-      let optionData = {
-        id: data.id,
-        value: data.id,
-        label: data.name,
-      };
-      mapData.push(optionData);
-    });
-
-    setProductData(mapData);
-  }, [dataProduct]);
-
-  useEffect(() => {
     let dataWhitelist_ips = get(dataResponse, 'whitelist_ips', ['...']);
     dataWhitelist_ips.push('...');
-    // console.log(data)
     if (!dataWhitelist_ips.length) {
       dataWhitelist_ips = ['...'];
     }
@@ -179,7 +158,6 @@ const BrandEdit = () => {
     setData(dataResponse);
     setFinanceEmail(get(dataResponse, 'finance_emails', []));
     setWhitelistIP(formatWhitelistIP?.length > 0 ? formatWhitelistIP : whitelistIP);
-
   }, [dataResponse]);
 
   useEffect(() => {
@@ -196,8 +174,6 @@ const BrandEdit = () => {
   
   useEffect(() => {
     if (data) {
-        // setValue('commission', product_commission_new);
-      
         setValue('operator', data?.operator_name);
         setValue('name', data?.brand_name);
         setValue('support_email', data?.support_email);
@@ -214,7 +190,6 @@ const BrandEdit = () => {
       let index = (dataResponse?.product_commission || []).findIndex((itemEdit) => {
         return itemEdit.product_id === item.id;
       });
-      // console.log(index);
       if (index !== -1) {
         dataProCon.push({
           label: item.name,
@@ -240,8 +215,6 @@ const BrandEdit = () => {
         ...productCommission.touched,
       }
     }));
-    // setProductCommission(dataProCon);
-
   }, [dataResponse, dataProduct]);
 
   const onSubmit = async (dataForm) => {
@@ -254,8 +227,6 @@ const BrandEdit = () => {
       } else {
         dataFinanceEmail = financeEmail;
       }
-
-      // console.log(dataFinanceEmail);
 
       const product_form = cloneDeep(productCommission.values).filter((item) => item.checked === true );
       const product_commission = cloneDeep(product_form).map((item) => {
@@ -291,7 +262,6 @@ const BrandEdit = () => {
 
       try {
         let response = await api.post(`/api/brand/${router.query?.id}/update`, form);
-        // console.log(response)
         if (get(response, 'success', false)) {
           toast.success("Update Brand Success", {
             onClose: navigate("/brand/list")
@@ -302,11 +272,9 @@ const BrandEdit = () => {
           }
           if (response?.err === 'err:brand_not_found') {
             toast.warn('Brand not found');
-            // setIsHasPermission(false);
           }
           if (response?.err === 'err:account_not_found') {
             toast.warn('Brand not found');
-            // setIsHasPermission(false);
           }
           if (response?.err === 'err:suspended_account') {
             toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
@@ -426,8 +394,6 @@ const BrandEdit = () => {
 
     const errors = validate(validateValues, schema);
 
-    // console.log(errors)
-
     setProductCommission((productCommission) => ({
       ...productCommission,
       isValid: errors ? false : true,
@@ -535,7 +501,6 @@ const BrandEdit = () => {
           pattern={/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/}
           helperText="Accept URL only"
         />
-        {/* <FormLabel>Whitelist IP Address for API</FormLabel> */}
         <FormLabel>Whitelist IP Address for API<span style={{color: 'red'}}>*</span></FormLabel>
         <IPAddressInput apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} />
         <FormLabel component="legend" className={classes.checkHelperText}>{errorApiWLIP}</FormLabel>

@@ -14,9 +14,7 @@ import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
 import forEach from 'lodash/forEach';
 import findIndex from 'lodash/findIndex';
-
 import get from 'lodash/get';
-
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import InputField from 'src/components/shared/InputField/InputField';
 import Loading from 'src/components/shared/Loading/Loading';
@@ -68,11 +66,6 @@ const RoleAdd = () => {
   const { dataResponse, isLoading, isHasPermission } = useFetchData(
     '/api/role/permissions'
   );
-
-
-  // useEffect(() => {
-  //   console.log(dataResponse);
-  // }, [dataResponse])
 
   useEffect(() => {
     const cloneArr = dataResponse.slice();
@@ -158,7 +151,6 @@ const RoleAdd = () => {
     if (isAllPermissionsAreSameColumn) {
       setSelectedColumn(name);
     }
-    // console.log(cloneArr);
     setPermissionGroup(cloneArr);
   };
 
