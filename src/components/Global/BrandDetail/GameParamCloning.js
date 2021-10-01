@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const GameParamCloning = () => {
+const GameParamCloning = ({ setValue }) => {
   const router = useRouter();
   const classes = useStyles();
   const navigate = useNavigate();

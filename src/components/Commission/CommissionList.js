@@ -30,12 +30,10 @@ const getCommissionByProduct = (list, product_id) => {
 
 const CommissionList = () => {
   const router = useRouter();
-  // const classes = useStyles();
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [arrayCommissionColumn, setArrayCommissionColumn] = useState([]);
   const [listProductCommission, setListProductCommission] = useState([]);
-  // const [refreshData , setRefreshData] = useState('');
   const { t } = useTranslation();
   const [objFilter , setObjFilter] = useState({
     name_search: "",
@@ -43,7 +41,6 @@ const CommissionList = () => {
     page_size: 30,
     ...router.query,
   });
-  // const [commission, setCommission] = useState([]);
 
   const methods = useForm({
     defaultValues: router.query,
@@ -62,11 +59,9 @@ const CommissionList = () => {
     const mapData = get(dataResponse, 'list', []);
     setData(mapData);
 
-    // console.log(mapData);
     let product_commission = [];
     mapData.map((item) => {
       item.product_commission.map((product) => {
-        // console.log(product)
         let index = product_commission.findIndex((pro) => {
           return pro.product_id === product.product_id;
         });
@@ -76,23 +71,18 @@ const CommissionList = () => {
       return item;
     });
     setListProductCommission(product_commission);
-   
   }, [dataResponse]);
 
   const getColumns = useCallback(async () => {
-    // console.log(123);
     if (listProductCommission && arrayCommissionColumn.length <= 0) {
       setIsLoading(true);
       const arrayColumns = map(listProductCommission, item => {
-        // console.log(item)
         return ({
           dataField: item?.product_id,
           column_name: `${t(item?.product_name)}`,
           align: 'right',
           formatter: (cell, row) => {
-           
             let proCommission = getCommissionByProduct(row.product_commission, item?.product_id);
-
             return (
               <CommissionInput 
                 name={`${row.brand_name}_${item?.product_id}`}
@@ -115,14 +105,11 @@ const CommissionList = () => {
 
   const onHandleUpdate = async (brand_id, brand_name, row) => {
     const formData = getValues();
-    // console.log(formData);
     let productCommission = [];
     row.product_commission.forEach(item => {
-      // console.log(item.enable)
       if (item.enable) {
         const inputKey = `${brand_name}_${item?.product_id}`
         let commissionChange = formData[inputKey];
-        // console.log(commissionChange);
         if (!commissionChange) {
           data.forEach((dataItem) => {
             if (dataItem.brand_name === brand_name) {
@@ -146,7 +133,6 @@ const CommissionList = () => {
       product_commission: productCommission,
     };
 
-    // console.log(form);
     const response = await api.post('/api/commission/commission_update', form);
     if (get(response, "success", false)) {
       toast.success('Update Commission Success', {
@@ -155,7 +141,6 @@ const CommissionList = () => {
         }, 0)
       });
     } else {
-      // console.log(response)
       if (response?.err === 'err:form_validation_failed') {
         toast.warn('Invalid commission', {
           onClose: navigate("/configuration/commission")
@@ -176,10 +161,6 @@ const CommissionList = () => {
     getColumns();
   }, [getColumns]);
 
-  // useEffect(()=> {
-  //   console.log(data);
-  // }, [data]);
-
   const columns = [ 
     {
       data_field: 'brand_name',
@@ -192,7 +173,6 @@ const CommissionList = () => {
       column_name: 'Action',
       align: 'center',
       formatter: (cell, row) => {
-        // console.log(row)
         return (
           <UpdateCommission 
             onHandleUpdate={onHandleUpdate} 

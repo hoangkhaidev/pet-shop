@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Endpoint_Settings = ({ dataResponse }) => {
+const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
   const router = useRouter();
   const classes = useStyles();
   const {

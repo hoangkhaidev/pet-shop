@@ -54,6 +54,7 @@ const BrandDetail = () => {
   const router = useRouter();
   const roleUser = useSelector((state) => state.roleUser);
   const [value, setValue] = useState(0);
+
   const [dateRange, setDateRange] = useState({
     start: moment().format("DD/MM/YYYY"),
     end: moment().format("DD/MM/YYYY")
@@ -107,7 +108,7 @@ const BrandDetail = () => {
             <RunDevelopmentTest />
           </TabPanel>
           <TabPanel value={value} index={3}>
-            <DevelopmentVariables />
+            <DevelopmentVariables setValueTab={setValue} />
           </TabPanel>
         </Suspense>
       </DateRangeContext.Provider>

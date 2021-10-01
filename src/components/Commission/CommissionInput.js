@@ -24,7 +24,6 @@ const CommissionInput = props => {
   const classes = useStyles();
   const handlerCommissionChange = (event) => {
     let value = event.target.value;
-    // console.log(value);
     let regex = /^\d+(\.\d{0,2})?$/g;
     if (!regex.test(value)) {
       event.target.value = value.slice(0, -1)
@@ -57,18 +56,13 @@ const CommissionInput = props => {
   }
   
   const formatInput = (e) => {
-    // Prevent characters that are not numbers ("e", ".", "+" & "-")
-    
     let checkIfNum;
     if (e.key !== undefined) {
-    // Check if it's a "e", ".", "+" or "-"
       checkIfNum = e.key === "e" || e.key === "+" || e.key === "-" || (e.key === "." && e.target.value.indexOf(".") !== -1) ;
     }
     else if (e.keyCode !== undefined) {
-    // Check if it's a "e" (69), "." (190), "+" (187) or "-" (189)
       checkIfNum = e.keyCode === 69 || e.keyCode === 190 || e.keyCode === 187 || e.keyCode === 189;
     } 
-    
     return checkIfNum && e.preventDefault();
   }
 

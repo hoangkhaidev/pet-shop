@@ -26,7 +26,7 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-const TableDevelopmentVariables = () => {
+const TableDevelopmentVariables = ({ setValueTab }) => {
   const classes = useStyles();
   const router = useRouter();
 
@@ -76,12 +76,8 @@ const TableDevelopmentVariables = () => {
     try {
         const response = await api.post(`/api/global/brand_detail/${router.query?.id}/development_variable/update`, dataForm);
         if (get(response, 'success', false)) {
-          //toast.success('Update Refund Success');
-          toast.success('Update Refund Success', {
-            onClose: setTimeout(() => {
-                window.location.reload()
-            }, 0),   
-          });
+          toast.success('Update Refund Success');
+          setValueTab(3);
         } else {
           // console.log(response)
           if (response?.err === 'err:player_not_found') {
@@ -115,11 +111,9 @@ const TableDevelopmentVariables = () => {
           form
         );
         if (get(response, 'success', false)) {
-          toast.success('Reset Refund Success', {
-            onClose: setTimeout(() => {
-                window.location.reload()
-            }, 0),   
-          });
+          toast.success('Reset Refund Success');
+          setFormStateRefund(initFormState);
+          setValueTab(3);
         } else {
           if (response?.err === 'err:suspended_account') {
             toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
@@ -168,11 +162,8 @@ const TableDevelopmentVariables = () => {
         const response = await api.post(`/api/global/brand_detail/${router.query?.id}/development_variable/update`, dataForm);
         if (get(response, 'success', false)) {
             // toast.success('Update Retry Success');
-          toast.success('Update Retry Success', {
-            onClose: setTimeout(() => {
-                window.location.reload()
-            }, 0),   
-          });
+          toast.success('Update Retry Success');
+          setValueTab(3);
         } else {
           if (response?.err === 'err:player_not_found') {
               toast.warn('Player not found');
@@ -199,11 +190,9 @@ const TableDevelopmentVariables = () => {
           form
         );
         if (get(response, 'success', false)) {
-          toast.success('Reset Retry Success', {
-            onClose: setTimeout(() => {
-                window.location.reload()
-            }, 0),   
-          });
+          toast.success('Reset Retry Success');
+          setFormStateRetry(initFormState);
+          setValueTab(3);
         } else {
           // console.log(response);
           if (response?.err === 'err:suspended_account') {
@@ -236,11 +225,8 @@ const TableDevelopmentVariables = () => {
         const response = await api.post(`/api/global/brand_detail/${router.query?.id}/development_variable/update`, dataForm);
         if (get(response, 'success', false)) {
           // toast.success('Update Manual Refund Success');
-          toast.success('Update Manual Refund Success', {
-            onClose: setTimeout(() => {
-                window.location.reload()
-            }, 0),   
-          });
+          toast.success('Update Manual Refund Success');
+          setValueTab(3);
         } else {
           if (response?.err === 'err:player_not_found') {
             toast.warn('Player not found');
@@ -267,11 +253,9 @@ const TableDevelopmentVariables = () => {
           form
         );
         if (get(response, 'success', false)) {
-          toast.success('Reset Manual Refund Success', {
-            onClose: setTimeout(() => {
-                window.location.reload()
-            }, 0),   
-          });
+          toast.success('Reset Manual Refund Success');
+          setFormStateMRefund(initFormState);
+          setValueTab(3);
         } else {
           // console.log(response);
           if (response?.err === 'err:suspended_account') {
@@ -303,12 +287,8 @@ const TableDevelopmentVariables = () => {
         const response = await api.post(`/api/global/brand_detail/${router.query?.id}/development_variable/update`, dataForm);
         // console.log(response)
         if (get(response, 'success', false)) {
-          // toast.success('Update Manual Retry Success');
-          toast.success('Update Manual Retry Success', {
-            onClose: setTimeout(() => {
-                window.location.reload()
-            }, 0),   
-          });
+          toast.success('Update Manual Retry Success');
+          setValueTab(3);
         } else {
           if (response?.err === 'err:player_not_found') {
             toast.warn('Player not found');
@@ -336,11 +316,9 @@ const TableDevelopmentVariables = () => {
           form
         );
         if (get(response, 'success', false)) {
-          toast.success('Reset Manual Retry Success', {
-            onClose: setTimeout(() => {
-                window.location.reload()
-            }, 0),   
-          });
+          toast.success('Reset Manual Retry Success');
+          setFormStateMRetry(initFormState);
+          setValueTab(3);
         } else {
           // console.log(response);
           if (response?.err === 'err:suspended_account') {

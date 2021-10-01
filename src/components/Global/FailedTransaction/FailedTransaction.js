@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
 import moment from "moment";
@@ -12,6 +13,7 @@ import api from "src/utils/api";
 import { toast } from "react-toastify";
 import TransactionDetails from "src/components/TransactionDetails/TransactionDetails";
 import FailedTransactionFilter from "./FailedTransactionFilter";
+import ButtonResume from "./ButtonResume";
 
 const FailedTransaction = () => {
   const router = useRouter();
@@ -114,9 +116,7 @@ const FailedTransaction = () => {
       column_name: 'Action',
       align: 'left',
       formatter: (cell, row) => {
-        return (
-          cell
-        )
+        return <ButtonResume cell={cell} row={row} />
       }
     }
   ];
