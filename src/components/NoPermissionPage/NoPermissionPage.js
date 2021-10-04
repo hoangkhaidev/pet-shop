@@ -4,7 +4,6 @@ import HttpsIcon from '@material-ui/icons/Https';
 import { useTranslation } from "react-i18next";
 import Button from "@material-ui/core/Button";
 import { useNavigate } from "react-router-dom";
-
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 
 const useStyles = makeStyles(() => ({
@@ -30,7 +29,6 @@ const NoPermissionPage = () => {
           No Permission
         </Typography>
         <div>
-          {/* The page you are looking for is temporarily unavailable. */}
           {t("NoPermissionHelpText")}
         </div>
         <Button

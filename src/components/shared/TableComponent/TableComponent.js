@@ -66,10 +66,8 @@ TableHeader.propTypes = {
 
 const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
   const classes = useStyles();
-  // let newAt = moment(rowData.at).format("DD/MM/YY, hh:mm a");
   let newAt = moment(rowData.at, ["DD/MM/YY, hh:mm a"]);
   rowData.at = newAt;
-  // console.log(rowData.description)
   return (
     <StyledTableRow align={cellInfo.align}>
       {cellInfo.map((info, index) => {
@@ -79,7 +77,6 @@ const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
               padding: 1
             }}
             className={classes.tableCellBody}
-            // key={info.data_field}
             key={index}
             align={info.align ? info.align : "left"}
           >
@@ -102,7 +99,6 @@ TableRowComponent.propTypes = {
 };
 
 const TableComponent = ({
-  // eslint-disable-next-line react/prop-types
   data, roleUser , dataType = null, dataSum = {}, dataAverage = {}, columns, pagination, handleChangePage, handleChangeRowsPerPage, types, page, page_size
 }) => {
   const formatNumber = (num) => {
@@ -111,7 +107,6 @@ const TableComponent = ({
     return formatNum;
   }
   const classes = useStyles();
-  // eslint-disable-next-line camelcase
   const cellInfo = map(columns, ({ data_field, align, formatter, fontWeight }) => ({ data_field, align, formatter, fontWeight
    }));
 
@@ -120,7 +115,6 @@ const TableComponent = ({
       <Table className={classes.table} aria-label="table-component">
         <TableHeader headers={columns.map(item => item.column_name)} />
         <TableBody>{data.length > 0 ? data.map((row, index) => {
-              // console.log(row);
               let startIndex = (page - 1) * page_size + 1; 
               return (
                 <TableRowComponent indexRow={startIndex + index} key={ `${row?.game_code}_${index}` || `${row?.brand_name}_${index}` || index } rowData={row} cellInfo={cellInfo} />

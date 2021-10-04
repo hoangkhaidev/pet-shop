@@ -36,11 +36,6 @@ const rows = [
 
 export default function TablePayoutConfiguration() {
   const classes = useStyles();
-//   const [checked, setChecked] = useState(false);
-
-//   const handleChange = (event) => {
-//     setChecked(event.target.checked)
-//   };
 
   return (
     <TableContainer component={Paper} style={{ width: '80%', marginLeft: '10px' }}>

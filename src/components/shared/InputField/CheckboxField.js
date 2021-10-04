@@ -4,7 +4,6 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const CheckboxField = ({
-  // eslint-disable-next-line react/prop-types
   control, onChange, checked, label, value
 }) => (
   <Controller
@@ -14,7 +13,6 @@ const CheckboxField = ({
       <FormControlLabel
         control={(
           <Checkbox
-            // onChange={(e) => field.onChange(e.target.checked)}
             checked={checked}
             onChange={onChange}
             value={value}

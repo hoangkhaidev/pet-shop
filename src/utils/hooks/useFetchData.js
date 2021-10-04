@@ -1,5 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useCallback } from 'react';
-// import { toast } from "react-toastify";
 import queryString from 'query-string';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -23,7 +23,6 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
   });
 
   const fetchData = useCallback(async () => {
-    // console.log('xxxxxxxxxxxxxxxx');
     setData((prevState) => ({
       ...prevState,
       isLoading: true,
@@ -62,7 +61,6 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
       } else {
 
         if (dataJSON?.err === 'err:internal_error') {
-          // console.log(1)
           toast.warn('Internal Server Error. Please try again!');
           return setData({
             isLoading: false,
@@ -76,7 +74,6 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
         }
 
         if (dataJSON?.err === 'err:no_permission') {
-          // console.log(2)
           toast.warn('No Permission');
           return setData({
             isLoading: false,
@@ -90,7 +87,6 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
         }
 
         if (dataJSON?.err === 'err:brand_not_found') {
-          // console.log(3)
           toast.warn('Brand not found');
           return setData({
             isLoading: false,
@@ -104,7 +100,6 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
         }
 
         if (dataJSON?.err === 'err:operator_not_found') {
-          // console.log(4)
           toast.warn('Operator not found');
           return setData({
             isLoading: false,
@@ -118,7 +113,6 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
         }
 
         if (dataJSON?.err === 'err:account_not_found') {
-          // console.log(5)
           toast.warn('Account not found');
           return setData({
             isLoading: false,
@@ -146,7 +140,6 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
     } catch (e) {
       console.log('e', e);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [objFilter, token, router.navigate, endpoint, ...dependency]);
 
   useEffect(() => {

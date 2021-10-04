@@ -33,7 +33,6 @@ const InputField = ({
   isHasInputProps,
   callbackInputProps,
   autoFocus,
-  // eslint-disable-next-line react/prop-types
   control,
   errors,
   namefileld,
@@ -63,7 +62,6 @@ const InputField = ({
     if (errors.message === 'err:invalid_old_password') {
       return errors.message = 'Current password is not correct';
     }
-    // console.log(errors)
     if (errors.message === 'err:confirm_password_mismatch') {
       return errors.message = 'Confirm Password mismatch';
     }
@@ -108,11 +106,7 @@ const InputField = ({
     }
     if (errors.type === 'maxLength') {
     }
-    // if (errors.type === 'minLength') {
-    //   return 'Length 3 - 15 chars.';
-    // }
     if (errors.type === 'pattern') {
-      // return 'Length 3 - 15 chars, allow letter (lowercase), digit and underscore(_).';
     }
     return errors.message;
   };

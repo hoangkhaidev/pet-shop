@@ -5,7 +5,6 @@ import Chip from '@material-ui/core/Chip';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from "react-i18next";
 import capitalize from "lodash/capitalize";
-
 import { colors } from "src/utils/styles";
 
 const colorDefine = {

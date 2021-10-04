@@ -46,8 +46,6 @@ const SelectField = ({
     return errors.message;
   };
 
-  // console.log(options)
-
   return (
     <div className={classes.selectField}>
       <FormControl
@@ -65,7 +63,6 @@ const SelectField = ({
           control={control}
           name={namefileld}
           render={({ field }) => {
-            // console.log(options);
             if (options?.length === 0) return null;
             return (
               <Select
@@ -82,7 +79,6 @@ const SelectField = ({
                 labelId={id}
               >
                 {options?.map((option, index) => {
-                  // console.log(option)
                   return (
                     <MenuItem key={index} value={option.value}>
                       {option.label}

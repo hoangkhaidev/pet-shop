@@ -16,7 +16,6 @@ const useStyles = makeStyles(() => ({
     paddingLeft: '0 !important',
     paddingRight: '0 !important',
   },
-
   labelStyle: {
     color: 'red',
   },
@@ -51,7 +50,6 @@ NumberFormatCustom.propTypes = {
 };
 
 const FormattedNumberInput = ({
-  // eslint-disable-next-line react/prop-types
   label,
   pattern,
   control,
@@ -76,7 +74,6 @@ const FormattedNumberInput = ({
       return 'Field is required';
     }
     if (errors.type === 'pattern') {
-      // return 'Field is required';
     }
     return errors.message;
   };
@@ -167,7 +164,6 @@ FormattedNumberInput.defaultProps = {
 export default FormattedNumberInput;
 
 export const FormattedNumberInputNew = ({
-  // eslint-disable-next-line react/prop-types
   label,
   control,
   namefileld,
@@ -260,7 +256,6 @@ FormattedNumberInputNew.defaultProps = {
 };
 
 export const FormattedNumberInputCaptcha = ({
-  // eslint-disable-next-line react/prop-types
   label,
   pattern,
   control,

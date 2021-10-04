@@ -18,14 +18,11 @@ import ButtonGroup, {
 import InputField from 'src/components/shared/InputField/InputField';
 import SelectField from 'src/components/shared/InputField/SelectField';
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
-
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
 import { useEffect, useState } from 'react';
 import get from 'lodash/get';
-
 import FormLabel from '@material-ui/core/FormLabel';
-
 import api from 'src/utils/api';
 import Loading from '../shared/Loading/Loading';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
@@ -67,7 +64,6 @@ const Profile = () => {
   const [errorFinanceEmail, setErrorFinanceEmail] = useState('');
 
   const finance_emails = watch('finance_emails', '');
-  // const { dataResponse: dataBrand } = useFetchData('/api/brand/public_list');
 
   useEffect(() => {
     setValue('username', get(dataResponse, 'username', ''));
@@ -81,7 +77,6 @@ const Profile = () => {
   }, [dataResponse]);
 
   const onSubmit = async (dataForm) => {
-
     let dataFinanceEmail = [];
       
       if (finance_emails) {
@@ -98,7 +93,6 @@ const Profile = () => {
       password: dataForm.password ? dataForm.password : '',
       password_confirmation: dataForm.password_confirmation ? dataForm.password_confirmation : '',
     };
-    // console.log(form)
     try {
       let response = await api.post(
         `/api/profile/update`,
@@ -169,53 +163,53 @@ const Profile = () => {
           disabled
         />
         {
-            (roleUser.account_type === 'adminsub') && (
-                <InputField
-                    namefileld="name"
-                    control={control}
-                    id="name"
-                    errors={errors?.name}
-                    type="text"
-                    label="Name"
-                    maxLength={100}
-                    helperText="Max length 100 chars"
-                />
-            )
+          (roleUser.account_type === 'adminsub') && (
+            <InputField
+                namefileld="name"
+                control={control}
+                id="name"
+                errors={errors?.name}
+                type="text"
+                label="Name"
+                maxLength={100}
+                helperText="Max length 100 chars"
+            />
+          )
         } 
         {
-            (roleUser.account_type === 'operator' || roleUser.account_type === 'brand') && (
-                <>
-                    <InputField
-                    namefileld="support_email"
-                    control={control}
-                    id="support_email"
-                    errors={errors?.support_email}
-                    type="text"
-                    label="Support Email"
+          (roleUser.account_type === 'operator' || roleUser.account_type === 'brand') && (
+            <>
+                <InputField
+                namefileld="support_email"
+                control={control}
+                id="support_email"
+                errors={errors?.support_email}
+                type="text"
+                label="Support Email"
+                />
+                <InputField
+                namefileld="finance_emails"
+                control={control}
+                id="finance_emails"
+                errors={errors?.finance_emails}
+                type="text"
+                label="Finance Email"
+                callbackInputProps={addingFinanceEmail}
+                isHasInputProps
+                />
+                <div className={classes.rootChip} style={{ paddingBottom: '15px' }}>
+                {financeEmail?.map((email) => (
+                    <Chip
+                    className={classes.financeEmailItem}
+                    key={email}
+                    label={email}
+                    onDelete={() => onRemoveFinanceEmail(email)}
                     />
-                    <InputField
-                    namefileld="finance_emails"
-                    control={control}
-                    id="finance_emails"
-                    errors={errors?.finance_emails}
-                    type="text"
-                    label="Finance Email"
-                    callbackInputProps={addingFinanceEmail}
-                    isHasInputProps
-                    />
-                    <div className={classes.rootChip} style={{ paddingBottom: '15px' }}>
-                    {financeEmail?.map((email) => (
-                        <Chip
-                        className={classes.financeEmailItem}
-                        key={email}
-                        label={email}
-                        onDelete={() => onRemoveFinanceEmail(email)}
-                        />
-                    ))}
-                    </div>
-                    <FormLabel style={{marginTop: '-15px'}} component="legend" className={classes.checkHelperText}>{errorFinanceEmail}</FormLabel>
-                </>
-            )
+                ))}
+                </div>
+                <FormLabel style={{marginTop: '-15px'}} component="legend" className={classes.checkHelperText}>{errorFinanceEmail}</FormLabel>
+            </>
+          )
         } 
         <InputField
           namefileld="current_password"

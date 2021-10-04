@@ -7,7 +7,6 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import isEmpty from 'lodash/isEmpty';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { useTranslation } from 'react-i18next';
-// import { Button } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 
@@ -35,7 +34,6 @@ const InputFieldCopy = ({
   isHasInputProps,
   callbackInputProps,
   autoFocus,
-  // eslint-disable-next-line react/prop-types
   control,
   errors,
   namefileld,
@@ -63,7 +61,6 @@ const InputFieldCopy = ({
     if (errors.message === 'err:invalid_password') {
       return errors.message = 'Invalid password';
     }
-    // console.log(errors)
     if (errors.message === 'err:confirm_password_mismatch') {
       return errors.message = 'Confirm Password mismatch';
     }
@@ -96,11 +93,7 @@ const InputFieldCopy = ({
     }
     if (errors.type === 'maxLength') {
     }
-    // if (errors.type === 'minLength') {
-    //   return 'Length 3 - 15 chars.';
-    // }
     if (errors.type === 'pattern') {
-      // return 'Length 3 - 15 chars, allow letter (lowercase), digit and underscore(_).';
     }
     return errors.message;
   };
@@ -153,7 +146,6 @@ const InputFieldCopy = ({
                             onClick={callbackInputProps}
                             style={{cursor: 'pointer'}}
                           />
-                        {/* <Button variant="contained" color="primary" onClick={callbackInputProps}>{endText}</Button> */}
                     </InputAdornment>,
               }}
             />

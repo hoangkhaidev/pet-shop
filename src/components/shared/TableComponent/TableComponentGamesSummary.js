@@ -9,7 +9,6 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { array, object, number } from "prop-types";
 import { TableBody } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-
 import TablePagination from "./TablePagination";
 import { Fragment } from "react";
 
@@ -41,36 +40,32 @@ const StyledTableRow = withStyles((theme) => ({
 const TableHeader = ({ headers, listCurrency }) => {
   const { t } = useTranslation();
   const classes = useStyles();
-    // console.log(headers)
   return (
     <TableHead className={classes.tableHeader}>
-        <TableRow>
-            <TableCell align="center">
-              
-            </TableCell>
+      <TableRow>
+          <TableCell align="center"></TableCell>
+          <TableCell 
+              align="center" 
+              colSpan={3} 
+              classes={{
+                  root: classes.tableCellHeader
+              }}
+          >
+            Total (USD)
+          </TableCell>
+          {listCurrency?.map((item, index) => (
             <TableCell 
-                align="center" 
-                colSpan={3} 
-                classes={{
-                    root: classes.tableCellHeader
-                }}
+              key={index}
+              align="center" 
+              colSpan={3} 
+              classes={{
+                  root: classes.tableCellHeader
+              }}
             >
-              Total (USD)
+              {item.currency_code}
             </TableCell>
-            {listCurrency?.map((item, index) => (
-              <TableCell 
-                key={index}
-                align="center" 
-                colSpan={3} 
-                classes={{
-                    root: classes.tableCellHeader
-                }}
-              >
-                {item.currency_code}
-              </TableCell>
-            ))}
-        </TableRow>
-        
+          ))}
+      </TableRow>
       <TableRow>
         {(headers || []).map((header, index) => (
           <TableCell
@@ -94,13 +89,11 @@ TableHeader.propTypes = {
 
 const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
   const classes = useStyles();
-  // console.log(rowData.currency_entry_list[cellInfo.currency_code])
  
   return (
     <StyledTableRow align={cellInfo.align}>
       {cellInfo.map((info, index) => {
         const locationIndex = rowData.currency_entry_list.findIndex((item) => item.currency_code === info.currency_code);
-
         const test = rowData.currency_entry_list[locationIndex];
         return (
           <TableCell
@@ -108,7 +101,6 @@ const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
               padding: 1
             }}
             className={classes.tableCellBody}
-            // key={info.data_field}
             key={index}
             align={info.align ? info.align : "left"}
           >
@@ -139,7 +131,6 @@ TableRowComponent.propTypes = {
 };
 
 const TableComponentGamesSummary = ({
-  // eslint-disable-next-line react/prop-types
   data, dataType = null, dataSum = {}, listCurrency, columns, pagination, handleChangePage, handleChangeRowsPerPage, types, page, page_size
 }) => {
   const formatNumber = (num) => {
@@ -148,11 +139,8 @@ const TableComponentGamesSummary = ({
     return formatNum;
   }
   const classes = useStyles();
-  // eslint-disable-next-line camelcase
   const cellInfo = map(columns, ({ data_field, currency_code, align, formatter, fontWeight }) => ({ data_field, currency_code, align, formatter, fontWeight
    }));
-
-  // console.log(dataSum?.currency_entry_list)
 
   return (
     <TableContainer component={Paper}>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable array-callback-return */
 import { useState, useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -10,9 +11,6 @@ import StatusBadge from "src/components/shared/StatusBadge/StatusBadge";
 import ModalComponent from "src/components/shared/ModalComponent/ModalComponent";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import { SubmitButton } from "src/components/shared/Button/Button";
-// import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
-// import TableComponent from "src/components/shared/TableComponent/TableComponent";
-// import useRouter from "src/utils/hooks/useRouter";
 import { Button } from "@material-ui/core";
 import TableComponentStatus from "../shared/TableComponent/TableComponentStatus";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -52,46 +50,27 @@ const STATUS_ALL = [
 ];
 
 const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, statuses, types, setRefreshData = () => {} }) => {
-  // console.log(STATUS)
   const [statusLabels, setStatusLabels] = useState(labels);
 
   const [label, setLabel] = useState(newlabel);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const { handleSubmit, formState: { errors }, control, setError, setValue } = useForm();
-  // const router = useRouter();
-
-  // const [objFilter, setObjFilter] = useState({
-  //   page: 1,
-  //   page_size: 30,
-  //   ...router.query
-  // });
 
   useEffect(() => {
     setLabel(newlabel);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newlabel])
+  }, [newlabel]);
 
   useEffect(() => {
     setStatusLabels(labels);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [labels])
-
-
-  // useEffect(() => {
-  //   setValue("username", username);
-  //   setValue("current_status", newlabel);
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
+  }, [labels]);
 
   useEffect(() => {
     setData(statuses)
   }, [statuses]);
 
   const onOpenModal = useCallback(() => {
-    // setOpen(true);
     if (types !== 'viewStatus') setOpen(true);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onClose = () => {
@@ -110,8 +89,6 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
       align: "left",
       formatter: (cell, row) => {
         const newlabel = row?.status;
-        // console.log(row);
-
         return (
           <ChangeStatus
             types='viewStatusList'
@@ -137,8 +114,6 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
   ];
 
   const onSubmit = async (data) => {
-    // console.log(data);
-    // console.log(linkApi);
     const form = {
       action: data.status,
       reason: data.reason,
@@ -146,8 +121,6 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
 
     try {
       const response = await api.post(linkApi, form);
-
-      // console.log(response);
       
       if (get(response, 'success', false)) {
         setLabel(data.status);
@@ -156,7 +129,6 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
         toast.success("Update Status Success", {
           onClose: onClose()
         });
-        // window.location.reload();
       } else {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
@@ -261,13 +233,11 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
               </Button>
             </div>
           </form>
-          {/* <ContentCardPage> */}
             <TitlePage title="Status History" />
             <TableComponentStatus 
               data={data}
               columns={columns}
             />
-          {/* </ContentCardPage> */}
         </div>
       </ModalComponent>
     </div>

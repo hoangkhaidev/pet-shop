@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,7 +8,6 @@ import CancelIcon from '@material-ui/icons/Cancel';
 function getModalStyle() {
   const top = 50;
   const left = 50;
-
   return {
     top: 0,
     left: `${left}%`,
@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-
   closer: {
     cursor: 'pointer',
     position: 'absolute',
@@ -42,7 +41,6 @@ const ModalComponentRateHistory = ({ children, open, onClose, width }) => {
     let style = {...modalStyle};
     style.width = width;
     setModalStyle(style)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width])
 
   return (

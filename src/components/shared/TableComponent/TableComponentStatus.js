@@ -10,9 +10,6 @@ import { array, object, number } from "prop-types";
 import { TableBody } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 
-// import TablePagination from "./TablePagination";
-// import moment from "moment";
-
 const useStyles = makeStyles({
   table: {
     minWidth: 700,
@@ -20,7 +17,6 @@ const useStyles = makeStyles({
     boxShadow: 'unset'
   },
   tableHeader: {
-    // backgroundColor: "#",
   },
   tableCellHeader: {
     fontWeight: '600 !important',
@@ -39,8 +35,6 @@ const useStyles = makeStyles({
     boxShadow: 'unset', 
     padding: '0',
   }
-  
-  
 });
 
 const StyledTableRow = withStyles((theme) => ({
@@ -81,21 +75,16 @@ TableHeader.propTypes = {
 
 const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
   const classes = useStyles();
-  // let newAt = moment(rowData.at).format("DD/MM/YY, hh:mm a");
-  // rowData.at = newAt; 
-  // console.log(rowData)
 
   return (
     <StyledTableRow align={cellInfo.align}>
       {cellInfo.map((info, index) => {
-        // console.log(info.data_field);
         return (
           <TableCell
             sx={{
               padding: 1
             }}
             className={classes.tableCellBody}
-            // key={info.data_field}
             key={index}
             align={info.align ? info.align : "left"}
           >
@@ -118,11 +107,9 @@ TableRowComponent.propTypes = {
 };
 
 const TableComponentStatus = ({
-  // eslint-disable-next-line react/prop-types
   data, columns
 }) => {
   const classes = useStyles();
-  // eslint-disable-next-line camelcase
   const cellInfo = map(columns, ({ data_field, align, formatter, fontWeight }) => ({ data_field, align, formatter, fontWeight
    }));
 
@@ -131,7 +118,6 @@ const TableComponentStatus = ({
       <Table className={classes.table} aria-label="table-component">
         <TableHeader headers={columns.map(item => item.column_name)} />
         <TableBody>{ data.length > 0 ? data.map((row, index) => {
-            // console.log(row);
             return (
               <TableRowComponent indexRow={index} key={index} rowData={row} cellInfo={cellInfo} />
             )

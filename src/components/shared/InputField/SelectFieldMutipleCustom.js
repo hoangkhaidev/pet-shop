@@ -9,7 +9,6 @@ import { FormHelperText } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   formControl: {
     width: '100%',
-    // marginTop: '16px !important',
     marginTop: '16px !important',
   },
   chips: {
@@ -113,7 +112,6 @@ export default function SelectFieldMutipleCustom({
         </Select>
         {errorMul ? (<FormHelperText>{errorMul}</FormHelperText>) : ''}
       </FormControl>
-
     </div>
   );
 }

@@ -3,7 +3,6 @@ import { useState, useCallback, useEffect } from "react";
 import get from 'lodash/get';
 import { toast } from "react-toastify";
 import api from 'src/utils/api'; 
-// import StatusBadge from "src/components/shared/StatusBadge/StatusBadge";
 import ModalComponent from "src/components/shared/ModalComponent/ModalComponent";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import { Button, makeStyles } from "@material-ui/core";
@@ -20,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
   title__text: {
     marginBottom: "1rem",
   },
-
   title__groupButton: {
       display: "flex",
       justifyContent: "space-evenly",
@@ -32,17 +30,9 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
   const [label, setLabel] = useState(newlabel);
   const [open, setOpen] = useState(false);
 
-  // useEffect(() => {
-  //   console.log(newlabel);
-  // }, [newlabel]);
-
   useEffect(() => {
     setLabel(newlabel);
   }, [newlabel]);
-
-  // useEffect(() => {
-  //   setRefreshData(() => Math.random());
-  // }, [label]);
 
   const onOpenModal = useCallback(() => {
     if (types !== 'statusView') setOpen(true);
@@ -54,7 +44,6 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
 
   const onChangeStatus = async (current_code, label, currentStatus) => {
     onClose();
-    // console.log(currentStatus);
     let statusNew = '';
     if (label === 'active') statusNew = 'activate';
     if (label === 'inactive') statusNew = 'inactivate';
@@ -68,7 +57,6 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
         toast.success("Update Status Success", {
           onClose: onClose()
         });
-        // window.location.reload();
       } else {
         if (response?.err === 'err:no_permission') {
           toast.warn("No Permission", {
@@ -115,7 +103,6 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
           : ''
         )
       }
-      
       <ModalComponent
         open={open}
         onClose={onClose}

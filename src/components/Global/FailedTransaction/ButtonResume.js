@@ -9,6 +9,7 @@ const ButtonResume = ({cell, row }) => {
     const response = await api.post(`/api/global/brand_detail/${row.brand_id}/${row.round_id}/resume`, null);
     if (get(response, 'success', false)) {
         toast.success("Reset Success");
+        // console.log(response)
         window.location.reload();
     } else {
         toast.warn("Fail");

@@ -2,17 +2,6 @@
 /* eslint-disable import/no-cycle */
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
-// import DashboardLayout from 'src/components/DashboardLayout';
-// import MainLayout from 'src/components/MainLayout';
-// import Account from 'src/pages/Account';
-// import CustomerList from 'src/pages/CustomerList';
-// import Dashboard from 'src/pages/Dashboard';
-// import Login from 'src/pages/Login';
-// import NotFound from 'src/pages/NotFound';
-// import ProductList from 'src/pages/ProductList';
-// import Register from 'src/pages/Register';
-// import Settings from 'src/pages/Settings';
-
 const MainLayout = lazy(() => import('src/components/MainLayout'));
 const DashboardLayout = lazy(() => import('src/components/DashboardLayout'));
 const Login = lazy(() => import('src/pages/Login'));
@@ -44,12 +33,11 @@ const RoleEdit = lazy(() => import('src/components/RoleManagement/RoleEdit'));
 const PlayersList = lazy(() =>
   import('src/components/PlayersList/PlayersList')
 );
-// const PlayerInformation = lazy(() =>
-//   import('src/components/PlayerInformation/PlayerInformation')
-// );
+
 const SearchGameHistory = lazy(() =>
   import('src/components/SearchGameHistory/SearchGameHistory')
 );
+
 const TransactionDetails = lazy(() =>
   import('src/components/TransactionDetails/TransactionDetails')
 );

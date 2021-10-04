@@ -51,7 +51,6 @@ const schema = {
 
 export default function TableBetScale({ dataDetail, setFormState, default_bet_scale }) {
   const classes = useStyles();
-  // let defaultBet = dataDetail?.default_bet_scale;
   let betScaleList = dataDetail?.bet_scale_list;
   let lines = dataDetail?.lines;
 
@@ -94,7 +93,6 @@ export default function TableBetScale({ dataDetail, setFormState, default_bet_sc
     });
   
     if (index >= 0) {
-      // console.log("Bet scale is duplicated");
       const errors = {
         bet_scale: ["Bet scale is duplicated"]
       };
@@ -172,7 +170,6 @@ export default function TableBetScale({ dataDetail, setFormState, default_bet_sc
 
   useEffect(() => {
     const errors = validate(newScale.values, schema);
-    // console.log(newScale.values.bet_scale);
     setNewScale((newScale) => ({
       ...newScale,
       isValid: errors ? false : true,
@@ -212,13 +209,6 @@ export default function TableBetScale({ dataDetail, setFormState, default_bet_sc
                   />
                 </TableCell>
                 <TableCell className={classes.cellTable} align="center">
-                  {/* <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => onDeleteItem(row.bet_scale) }
-                  >
-                    Delete
-                  </Button> */}
                   <DeleteConfirm onDeleteItem={onDeleteItem}  name={row.bet_scale} />
                 </TableCell>
               </TableRow>

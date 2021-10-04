@@ -33,7 +33,6 @@ const InputFieldTime = ({
   isHasInputProps,
   callbackInputProps,
   autoFocus,
-  // eslint-disable-next-line react/prop-types
   control,
   errors,
   namefileld,
@@ -60,7 +59,6 @@ const InputFieldTime = ({
     if (errors.message === 'err:invalid_password') {
       return errors.message = 'Invalid password';
     }
-    // console.log(errors)
     if (errors.message === 'err:confirm_password_mismatch') {
       return errors.message = 'Confirm Password mismatch';
     }
@@ -91,25 +89,19 @@ const InputFieldTime = ({
     if (errors.type === 'required') {
       return 'Field is required.';
     }
-    // if (errors.type === 'maxLength') {
-    // }
     if (errors.type === 'minLength') {
       return `min is ${minLength}.`;
     }
     if (errors.type === 'pattern') {
-      // return 'Length 3 - 15 chars, allow letter (lowercase), digit and underscore(_).';
     }
     return errors.message;
   };
 
   const handlerTimeChange = (event) => {
-    // console.log(event.target.value)
     let value = event.target.value;
-    // console.log(value);
     let regex = /^\d+(\.\d{0,0})?$/g;
     if (!regex.test(value)) {
       event.target.value = value.slice(0, -1)
-      // return 
     }
 
   }
@@ -139,7 +131,6 @@ const InputFieldTime = ({
                 fullWidth
                 inputRef={ref}
                 onBlur={onBlur}
-                // onChange={onChange}
                 onChange={handlerTimeChange}
                 name={name}
                 helperText={t(helperText)}

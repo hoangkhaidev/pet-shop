@@ -37,19 +37,6 @@ const MenuProps = {
   },
 };
 
-// const names = [
-//   'Oliver Hansen',
-//   'Van Henry',
-//   'April Tucker',
-//   'Ralph Hubbard',
-//   'Omar Alexander',
-//   'Carlos Abbott',
-//   'Miriam Wagner',
-//   'Bradley Wilkerson',
-//   'Virginia Andrews',
-//   'Kelly Snyder',
-// ];
-
 function getStyles(name, brandMultiple, theme) {
   return {
     fontWeight:
@@ -93,7 +80,6 @@ export default function SelectFieldMutiple({ options, label, required, id, setBr
         error={ errorBrandMul ? true : false } 
         disabled={selectDisabled}
       >
-        {/* <InputLabel id="demo-mutiple-name-label">{label}</InputLabel> */}
         <InputLabel id="demo-simple-select-outlined-label" htmlFor={id}>{label}
             <span className={classes.labelStyle}>
               {required ? '*' : ''}
@@ -116,7 +102,6 @@ export default function SelectFieldMutiple({ options, label, required, id, setBr
         </Select>
         {errorBrandMul ? (<FormHelperText>{errorBrandMul}</FormHelperText>) : ''}
       </FormControl>
-      
     </div>
   );
 }

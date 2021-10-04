@@ -58,7 +58,6 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
               allowLeadingZeros={false}
               allowNegative={false}
               value={value}
-              // eslint-disable-next-line no-return-assign
               getInputRef={(el) => (ref.current[index] = el)}
               onValueChange={(values) => {
                 if (values.formattedValue > 256) values.formattedValue = 255;

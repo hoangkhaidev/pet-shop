@@ -4,7 +4,6 @@ import get from 'lodash/get';
 import { toast } from 'react-toastify';
 import api from 'src/utils/api';
 import ChangePassword from 'src/icons/ChangePassword';
-
 import InputField from 'src/components/shared/InputField/InputField';
 import TooltipIcon from 'src/components/shared/TooltipIcon/TooltipIcon';
 import ModalComponent from 'src/components/shared/ModalComponent/ModalComponent';
@@ -20,11 +19,6 @@ const ChangePasswordForm = ({ linkApi, username }) => {
     control,
     setError,
   } = useForm();
-
-  // useEffect(() => {
-    // setValue('username', username);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   const onOpenModal = useCallback(() => {
     setOpen(true);
@@ -83,15 +77,6 @@ const ChangePasswordForm = ({ linkApi, username }) => {
         <div>
           <TitlePage title="Change Password" />
           <form onSubmit={handleSubmit(onSubmit)}>
-            {/* <InputField
-              namefileld="username"
-              control={control}
-              id="username"
-              errors={errors?.username}
-              type="text"
-              label="Username"
-              disabled
-            /> */}
             <div style={{color: '#747f93', fontSize: '18px', paddingTop: '10px'}}>
               Username:<b> {username}</b>
             </div>

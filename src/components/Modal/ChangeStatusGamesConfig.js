@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
   title__text: {
     marginBottom: "1rem",
   },
-
   title__groupButton: {
       display: "flex",
       justifyContent: "space-evenly",
@@ -44,8 +43,6 @@ const ChangeStatusGamesConfig = ({status, game_code, brand_id, brand_name, game_
   const onChangeStatus = async () => {
     setChecked(valCheck);
     onClose();
-    // console.log(game_code, brand_name);
-    // console.log(brandList);
     let dataForm = {
       brand_id: brand_id,
       game_code: game_code
