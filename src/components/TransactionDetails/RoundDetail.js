@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-// import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import get from 'lodash/get';
 import api from "src/utils/api";
 import { Link } from "@material-ui/core";
@@ -21,11 +20,6 @@ const RoundDetail = ({roundId}) => {
   useEffect(() => {
     onViewRoundDetail();
   }, []);
-
-  // useEffect(() => {
-  //   console.log(roundIdURL);
-  // }, [roundIdURL]);
-
   
   const onPopupRoundDetail = () => {
     let params = "scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=800,height=800";

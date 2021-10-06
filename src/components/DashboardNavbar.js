@@ -25,15 +25,6 @@ import PersonIcon from '@material-ui/icons/Person';
 import { onLogout } from "src/features/authentication/authentication";
 import Logo from './Logo';
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     display: 'flex',
-//   },
-//   paper: {
-//     marginRight: theme.spacing(2),
-//   },
-// }));
-
 const DashboardNavbar = ({ setMobileNavOpen, setOpenMenu, openMenu, ...rest }) => {
   const [notifications] = useState([]);
   const roleUser = useSelector((state) => state.roleUser);
@@ -41,7 +32,6 @@ const DashboardNavbar = ({ setMobileNavOpen, setOpenMenu, openMenu, ...rest }) =
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // const classes = useStyles();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
@@ -53,7 +43,6 @@ const DashboardNavbar = ({ setMobileNavOpen, setOpenMenu, openMenu, ...rest }) =
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
-
     setOpen(false);
   };
 
@@ -187,19 +176,6 @@ const DashboardNavbar = ({ setMobileNavOpen, setOpenMenu, openMenu, ...rest }) =
             </Grow>
           )}
         </Popper>
-        {/* <IconButton
-          onClick={onUserLogout}
-          color="inherit"
-          sx={{
-            display: {
-              lg: "block",
-              md: "none"
-            }
-          }}
-        >
-          <InputIcon />
-        </IconButton> */}
-
         <IconButton
           color="inherit"
           onClick={() => setMobileNavOpen(true)}

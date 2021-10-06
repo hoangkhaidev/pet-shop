@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable import/no-cycle */
 import { useEffect, useState, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
@@ -12,16 +13,9 @@ import api from "src/utils/api";
 import { CurrentPageContext } from "src/App";
 import { useDispatch } from "react-redux";
 import { getUser } from "src/features/roleUser/roleUser";
-
 import NavItem from './NavItem';
-// import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { onLogout } from "src/features/authentication/authentication";
-// const user = {
-//   avatar: '/static/images/avatars/avatar_6.png',
-//   jobTitle: 'Senior Developer',
-//   name: 'Katarina Smith'
-// };
 
 const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
   const [listNav, setListNav] = useState({});
@@ -39,10 +33,6 @@ const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
     if (get(response, "success", false)) {
       setListNav(get(response, "data", {}));
     } else {
-      // if (response?.err === 'err:invalid_token') {
-      //   navigate("/login");
-      //   toast.warn('Your account has been changed password. Please contact your upline to get new password ');
-      // }
       console.log("response", response);
     }
   }, []);
@@ -54,13 +44,9 @@ const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
       dispatch(getUser(data));
     } else {
       if (response?.err === 'err:invalid_token') {
-        // navigate("/login");
         onUserLogout();
         let messageToken = 'Your account has been changed password. Please contact your upline to get new password';
         localStorage.setItem('messageToken', JSON.stringify(messageToken));
-        // return (
-        //   <Navigate to="/login" />
-        // )
       }
       console.log("response", response);
     }
@@ -68,14 +54,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
 
   useEffect(() => {
     getUserData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  // useEffect(() => {
-  //   console.log(listNav.NavItems);
-  //   console.log(currentMenu);
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [listNav])
+  }, []);
 
   useEffect(() => {
     getListNav();
@@ -147,9 +126,6 @@ const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
             width: 256,
             paddingTop: '64px',
             position: 'unset',
-            // top: 64,
-            // height: 'calc(100% - 64px)'
-            // height: 'auto'
           }
         }}
       >

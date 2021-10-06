@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-// import { useState } from "react";
 import Typography from '@material-ui/core/Typography';
 import { Button, makeStyles } from "@material-ui/core";
 import ClearAllIcon from '@material-ui/icons/ClearAll';
@@ -49,16 +48,7 @@ const TransactionDetailInfo = ({onClose, roundId}) => {
     setDataCurrency(mapDataCurrency);
   }, [dataResponse]);
 
-  // useEffect(() => {
-  //   console.log(dataCurrency);
-  // }, [dataCurrency]);
-
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
-
   const onCancel = () => {
-    // navigate('/players/players');
     onClose();
   }
 
@@ -82,7 +72,6 @@ const TransactionDetailInfo = ({onClose, roundId}) => {
         Back
       </Button>
       <div className={classes.transactionDetailInfo}>
-        {/* {Object.keys(playerTransactionDetails).map(key => ( */}
           <div className={classes.infoLine}>
             <div className={classes.labelLine}>
               Player:
@@ -123,7 +112,6 @@ const TransactionDetailInfo = ({onClose, roundId}) => {
               {data.end_date}
             </div>
           </div>
-        {/* ))} */}
       </div>
     </ContentCardPage>
   );

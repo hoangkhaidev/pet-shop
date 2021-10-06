@@ -195,7 +195,7 @@ const routes = (isLoggedIn) => [
         element: <BrandEdit />,
       },
     ],
-  },
+  }, 
   {
     path: 'role',
     name: 'Role',

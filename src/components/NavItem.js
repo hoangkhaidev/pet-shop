@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
     padding: "6px 8px !important",
     lineHeight: 2,
     fontFamily: "sans-serif",
-
     "&:hover": {
       backgroundColor: "rgba(86, 100, 210, 0.04) !important"
     }
@@ -86,11 +85,9 @@ const NavItem = ({
             in={isActiveMenu || isOpen}
             timeout="auto"
             unmountOnExit
-            // color={isActiveMenu ? "primany" : "none"}
           >
             <List component="div" disablePadding>
               {(item?.children || []).map((sub) => {
-                // console.log(sub.url);
                 let checkGroupBrand = router.pathname.indexOf('/global/group_brand');
                 if (checkGroupBrand !== -1) {
                   return (

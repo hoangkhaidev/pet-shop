@@ -1,4 +1,3 @@
-// import { createStyles } from '@material-ui/styles';
 import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles(() => ({
   '@global': {
@@ -30,7 +29,6 @@ const useStyles = makeStyles(() => ({
 
 const GlobalStyles = () => {
   useStyles();
-
   return null;
 };
 

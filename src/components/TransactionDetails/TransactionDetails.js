@@ -3,9 +3,7 @@ import { Button, makeStyles } from "@material-ui/core";
 import { useCallback, useState, createContext, lazy } from "react";
 import moment from 'moment';
 import TransactionDetailsInfo from "./TransactionDetailInfo";
-// import TransactionDetailsTable from "./TransactionDetailsTable";
 import TabPanel from "src/components/shared/TabPanel/TabPanel";
-// import Loading from "src/components/shared/Loading/Loading";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
@@ -49,19 +47,13 @@ const TransactionDetails = ({roundId}) => {
   const [open, setOpen] = useState(false);
 
   const [value, setValue] = useState(0);
- 
-  // const { t } = useTranslation();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  // const [label, setLabel] = useState(newlabel);
-
   const onOpenModal = useCallback(() => {
-    // setOpen(true);
     setOpen(true);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onClose = () => {
@@ -93,7 +85,6 @@ const TransactionDetails = ({roundId}) => {
           <TransactionDetailsTable roundId={roundId} />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          {/* <TransactionDetailsTable /> */}
           <TransactionRequestResponse roundId={roundId} />
         </TabPanel>
       </ModalComponentRateHistory>

@@ -292,6 +292,7 @@ const OperatorList = () => {
         if (newlabel === 'inactive') STATUS = STATUS_INACTIVE;
         if (newlabel === 'locked') STATUS = STATUS_LOCKED;
         if (newlabel === 'suspended') STATUS = STATUS_SUSPENDED;
+        console.log(row.statuses)
         if (row.statuses.length > 1) {
           STATUS = STATUS_LOCKED_SUSPENDED;
         }

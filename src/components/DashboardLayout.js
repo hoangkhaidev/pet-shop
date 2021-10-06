@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { experimentalStyled, useMediaQuery } from '@material-ui/core';
 import { useTheme } from "@material-ui/core/styles";
-
 import DashboardNavbar from './DashboardNavbar';
 import DashboardSidebar from './DashboardSidebar';
 

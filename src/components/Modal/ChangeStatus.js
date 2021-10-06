@@ -1,9 +1,9 @@
+/* eslint-disable no-mixed-operators */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable array-callback-return */
 import { useState, useCallback, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import SelectField from "src/components/shared/InputField/SelectField";
-import InputField from "src/components/shared/InputField/InputField";
+// import SelectField from "src/components/shared/InputField/SelectField";
+// import InputField from "src/components/shared/InputField/InputField";
 import get from 'lodash/get';
 import { toast } from "react-toastify";
 import api from 'src/utils/api'; 
@@ -11,10 +11,14 @@ import StatusBadge from "src/components/shared/StatusBadge/StatusBadge";
 import ModalComponent from "src/components/shared/ModalComponent/ModalComponent";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import { SubmitButton } from "src/components/shared/Button/Button";
-import { Button } from "@material-ui/core";
+import { Button, FormLabel } from "@material-ui/core";
 import TableComponentStatus from "../shared/TableComponent/TableComponentStatus";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSign } from '@fortawesome/free-solid-svg-icons';
+import SelectCustomer from "../shared/InputField/SelectCustomer";
+import Textarea from "../shared/InputField/Textarea";
+import { validate } from "validate.js";
+import { makeStyles } from '@material-ui/core/styles';
 
 const STATUS_ALL = [
   {
@@ -49,13 +53,48 @@ const STATUS_ALL = [
   },
 ];
 
+const schema = {
+  status: {
+    presence: { allowEmpty: false, message: 'is required' },
+  },
+  reason: {
+    presence: { allowEmpty: false, message: 'is required' },
+  },
+}
+
+const useStyles = makeStyles((theme) => ({
+  checkHelperText: {
+    color: 'red !important',
+    fontSize: '12px !important',
+    marginLeft: '15px',
+    // paddingTop: '5px !important'
+    marginTop: '-5px !important',
+  }
+}));
+
 const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, statuses, types, setRefreshData = () => {} }) => {
+  const classes = useStyles();
+  
+  const initFormState = {
+    isValid: false,
+    values: {
+      status: '',
+      reason: ''
+    },
+    errors: {},
+    touched: {}
+  };
+  
   const [statusLabels, setStatusLabels] = useState(labels);
+
+  const [formState, setFormState] = useState(initFormState);
+  // const [statusSelect, setStatusSelect] = useState('');
+  // const [reason, setReason] = useState('');
 
   const [label, setLabel] = useState(newlabel);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
-  const { handleSubmit, formState: { errors }, control, setError, setValue } = useForm();
+  // const { handleSubmit, setError, setValue } = useForm();
 
   useEffect(() => {
     setLabel(newlabel);
@@ -113,44 +152,74 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
     },
   ];
 
-  const onSubmit = async (data) => {
-    const form = {
-      action: data.status,
-      reason: data.reason,
-    };
-
-    try {
-      const response = await api.post(linkApi, form);
-      
-      if (get(response, 'success', false)) {
-        setLabel(data.status);
-        setValue("reason", "");
-        setRefreshData(label);
-        toast.success("Update Status Success", {
-          onClose: onClose()
-        });
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (formState.isValid === true) {
+      let form = {};
+      if (formState?.values?.status === 'unlocked' || formState?.values?.status === 'unsuspended' || formState?.values?.status === 'active'){
+        form = {
+          action: formState?.values?.status,
+          reason: '',
+        };
       } else {
-        if (response?.err === 'err:form_validation_failed') {
-          for (const field in response?.data) {
-            setError(field, {
-              type: 'validate',
-              message: response?.data[field]
-            });
-          }
-        }
-        if (response?.err === 'err:no_permission') {
-          toast.warn("No Permission", {
+        form = {
+          action: formState?.values?.status,
+          reason: formState?.values?.reason,
+        };
+      }
+
+      try {
+        const response = await api.post(linkApi, form);
+        
+        if (get(response, 'success', false)) {
+          setLabel(data.status);
+          // setValue("reason", "");
+          setRefreshData(label);
+          toast.success("Update Status Success", {
             onClose: onClose()
           });
+        } else {
+          if (response?.err === 'err:no_permission') {
+            toast.warn("No Permission", {
+              onClose: onClose()
+            });
+          }
+          if (response?.err === 'err:suspended_account') {
+            toast.warn('Cannot perform status, your account has been suspended, please contact your upline');
+          }
         }
-        if (response?.err === 'err:suspended_account') {
-          toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
-        }
+      } catch (e) {
+        console.log('e', e);
       }
-    } catch (e) {
-      console.log('e', e);
+    } else {
+      setFormState({
+        ...formState,
+        touched: {
+          ...formState.touched,
+          status: true,
+          reason: true
+        }
+      });
     }
   };
+
+  useEffect(() => {
+    setFormState(initFormState);
+  }, [open]);
+
+  useEffect(() => {
+    let errors = validate(formState.values, schema);
+    if (formState?.values?.status === 'unlocked' || formState?.values?.status === 'unsuspended' || formState?.values?.status === 'active') {
+      errors = null;
+    }
+    setFormState((formState) => ({
+      ...formState,
+      isValid: errors ? false : true,
+      errors: errors || {}
+    }));
+  }, [formState.values]);
+
+  const hasError = (field) => formState.touched[field] && formState.errors[field] ? true : false;
 
   let labelView = '';
   if (label === 'active') labelView = 'Active';
@@ -196,14 +265,14 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
       >
         <div>
           <TitlePage title="Change Status" />
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit}>
             <div style={{color: '#747f93', fontSize: '18px', paddingTop: '10px'}}>
               Username:<b> {username}</b>
             </div>
             <div style={{color: '#747f93', fontSize: '18px'}}>
               Current Status:<b> {newlabel}</b>
             </div>
-            <SelectField
+            {/* <SelectField
               namefileld="status"
               id="status"
               control={control}
@@ -212,20 +281,39 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
                 STATUS
               }
               required
+              setStatusSelect={setStatusSelect}
               defaultValue=''
               label="New Status"
-            />
-            <InputField
+            /> */}
+            <SelectCustomer 
+              options={STATUS} 
+              setFormState={setFormState} 
+              formState={formState}
+              error={hasError('status')}
+              name={'status'}
               required
-              namefileld="reason"
-              control={control}
-              id="reason"
-              errors={errors?.reason}
-              type="text"
-              label="Reason"
-              multiline
-              rows={4}
-            />  
+              label={'Status'} 
+              id={'status'}
+            />
+            <FormLabel component="legend" className={classes.checkHelperText}>
+              { hasError('status') ? formState?.errors?.status[0] : null }
+            </FormLabel> 
+            { formState?.values?.status === 'locked' || formState?.values?.status === 'suspended' || formState?.values?.status === 'inactive' ? (
+              <>
+                <Textarea
+                  label="Reason"
+                  id="reason"
+                  name={'reason'}
+                  required
+                  error={hasError('reason')}
+                  setFormState={setFormState} 
+                  formState={formState}
+                /> 
+                <FormLabel component="legend" className={classes.checkHelperText}>
+                  { hasError('reason') ? formState?.errors?.reason[0] : null }
+                </FormLabel> 
+              </>
+            ) : '' }
             <div style={{textAlign: 'right'}}>
               <SubmitButton />
               <Button style={{marginLeft: '10px'}} variant="contained" color="secondary" onClick={() => onClose()}>
