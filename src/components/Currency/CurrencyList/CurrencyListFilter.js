@@ -51,16 +51,13 @@ const CurrencyListFilter = () => {
   }, [dataCurrency, setCurrencydata]);
 
   const onChangeCurrency = (event, value) => {
-    let data = value.split(" - ");
+    let data = value?.split(" - ");
     setFormState({
-      code: data[0],
-      name: data[1],
-      symbol: data[2],
+      code: data?.[0],
+      name: data?.[1],
+      symbol: data?.[2],
     })
-  }
-  // useEffect(() => {
-  //   console.log(formState)
-  // }, [formState])
+  };
 
   const onAddCurrency = async () => {
     try {
@@ -86,13 +83,6 @@ const CurrencyListFilter = () => {
       <Grid container spacing={2}>
         <Grid item xs={12} xl={3} md={6}>
           <FormControl className={ classes.textField } variant="outlined">
-            {/* <TextField 
-              id="Currency" 
-              label="Enter Currency Code" 
-              variant="outlined" 
-              name={searchProductState}
-              onChange={ onSearchCurrency }
-            /> */}
             <Autocomplete
               id="currency"
               onChange={onChangeCurrency}
@@ -106,9 +96,6 @@ const CurrencyListFilter = () => {
           </FormControl>
         </Grid>
         <Grid item xs={12} xl={3} md={6} style={{ alignItems: 'center', display: 'flex', justifyContent: 'center' }}>
-          {/* <Button variant="contained" onClick={() => onAddCurrency()}>
-            Add New Currency
-          </Button> */}
           <Button
             variant="contained"
             style={{ backgroundColor: '#1cb13c' }}

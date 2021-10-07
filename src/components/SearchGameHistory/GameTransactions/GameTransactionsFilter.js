@@ -55,7 +55,7 @@ const GameTransactionFilter = ({
       round_id: "",
       time_zone: tz,
       game_type: "all",
-      game_name: router.query.game_name ? router.query.game_name : ""
+      game_name: router.query.game_name ? router.query.game_name : "all"
     }
   });
 
@@ -78,7 +78,7 @@ const GameTransactionFilter = ({
   }, [dataGame, setGameTypeData]);
 
   useEffect(() => {
-    let mapData = [];
+    let mapData = [{id: 0, value: "all", label: "All"}];
     let newGameName;
     newGameName = dataGame?.games;
     if (!newGameName) return;
@@ -130,6 +130,7 @@ const GameTransactionFilter = ({
     const form = {
       ...data,
       game_type: data.game_type === 'all' ? '' : data.game_type,
+      game_name: data.game_name === 'all' ? '' : data.game_name,
       from_date: dateRange.start,
       to_date: dateRange.end,
     };
@@ -146,7 +147,7 @@ const GameTransactionFilter = ({
       player_id: Number(router.query.id),
       round_id: "",
       game_type: "all",
-      game_name: "",
+      game_name: "all",
     });
     setDateRange({
       start: moment().format("DD/MM/YYYY 00:00"),

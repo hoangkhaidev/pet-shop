@@ -55,7 +55,7 @@ const PLayerListFilter = ({
   const [languageData, setLanguageData] = useState([]);
 
   useEffect(() => {
-    let mapData = [];
+    let mapData = [{id: 0, value: 'all', label: "All"}];
     let newLanguage = cloneDeep(dataLanguage);
     (newLanguage || []).forEach((data, index) => {
       let optionData = {
@@ -69,7 +69,7 @@ const PLayerListFilter = ({
   }, [dataLanguage, setLanguageData]);
   
   useEffect(() => {
-    let mapData = [];
+    let mapData = [{id: 0, value: 'all', label: "All"}];
     let newCurrency = cloneDeep(dataCurrency);
     (newCurrency || []).forEach((data, index) => {
       let optionData = {
@@ -123,6 +123,8 @@ const PLayerListFilter = ({
     const form = {
       ...data,
       brand_id: data.brand_id === 'all' ? 0 : Number(data.brand_id),
+      language: data.language === 'all' ? '' : data.language,
+      currency: data.currency === 'all' ? '' : data.currency,
       ip_address: data.ip_address ? data.ip_address : '',
       nick_name: data.nick_name ? data.nick_name : '',
       player_id: data.player_id ? Number(data.player_id) : 0,
@@ -138,8 +140,8 @@ const PLayerListFilter = ({
       nick_name: "",
       brand_id: 0,
       ip_address: "",
-      language: "",
-      currency: "",
+      language: "all",
+      currency: "all",
       sort_field: "id",
       sort_order: "desc",
       page: 1,
@@ -244,7 +246,7 @@ const PLayerListFilter = ({
                 label="Currency"
                 fullWidth={false}
                 options={currencyData}
-                defaultValue=""
+                defaultValue="all"
               />
             </Grid>
             <Grid item xs={12} xl={3} md={3}>
@@ -255,7 +257,7 @@ const PLayerListFilter = ({
                 label="Language"
                 options={languageData}
                 fullWidth={false}
-                defaultValue=""
+                defaultValue="all"
               />
             </Grid>
           </Grid>

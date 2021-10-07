@@ -33,11 +33,9 @@ const useStyles = makeStyles(() => ({
 const GamesFilterConfig = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
-  // const { t } = useTranslation();
   const classes = useStyles();
   const roleUser = useSelector((state) => state.roleUser);
 
-  // const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
   const { dataResponse: dataGame} = useFetchData("/api/games");
   
   const [brandData, setBrandData] = useState([]);
@@ -51,7 +49,7 @@ const GamesFilterConfig = ({
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       game_type: "all",
-      game_name: "",
+      game_name: "all",
       sort_field: "game_name",
       sort_order: "asc",
       status: "all",
@@ -78,7 +76,7 @@ const GamesFilterConfig = ({
   }, [dataGame, setGameTypeData]);
 
   useEffect(() => {
-    let mapData = [];
+    let mapData = [{id: 0, value: "all", label: "All"}];
     let newGameName;
     newGameName = dataGame?.games;
     if (!newGameName) return;
@@ -113,7 +111,6 @@ const GamesFilterConfig = ({
     if (roleUser.account_type !== 'brand') {
       onDataBrand();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roleUser]);
 
   const onDataBrand = async () => {
@@ -123,7 +120,6 @@ const GamesFilterConfig = ({
     } else {
       console.log("response", response);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   const onSubmit = async (data) => {
@@ -131,6 +127,7 @@ const GamesFilterConfig = ({
     const form = {
       ...data,
       game_type: data.game_type === 'all' ? '' : data.game_type,
+      game_name: data.game_name === 'all' ? '' : data.game_name,
       brand_ids: checkBrand ? [] : brandMultiple,
       status: data.status,
     };
@@ -139,7 +136,7 @@ const GamesFilterConfig = ({
 
   const onResetFilterPlayer = () => {
     reset({
-      game_name: "",
+      game_name: "all",
       game_type: "all",
       sort_field: "game_name",
       sort_order: "asc",
@@ -182,7 +179,6 @@ const GamesFilterConfig = ({
                 options={status}
               />
             </Grid>
-            
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
               <SelectField
                 control={control}
@@ -192,25 +188,8 @@ const GamesFilterConfig = ({
                 fullWidth={false}
                 options={gameNameData}
               />
-              {/* <SelectField
-                control={control}
-                namefileld="jackpot"
-                id="jackpot"
-                label="Jackpot status"
-                fullWidth={false}
-                options={jackpot}
-              /> */}
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
-              {/* <SelectField
-                selectDisabled= {roleUser.account_type === 'brand' ? true : false}
-                control={control}
-                namefileld="brand_id"
-                id="brand_id"
-                label="Brand"
-                fullWidth={false}
-                options={brandData}
-              /> */}
               <SelectFieldMutiple
                 selectDisabled= {roleUser.account_type === 'brand' ? true : false}
                 options={brandData} 

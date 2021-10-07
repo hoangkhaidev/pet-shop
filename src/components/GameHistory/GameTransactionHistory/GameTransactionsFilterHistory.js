@@ -33,7 +33,6 @@ const GameTransactionFilterHistory = ({
   onResetFilter, onSubmitProps, setObjFilter, clickRef
 }) => {
   const classes = useStyles();
-  // const { t } = useTranslation();
   const router = useRouter();
 
   const dateRangeRef = useRef(null);
@@ -41,7 +40,6 @@ const GameTransactionFilterHistory = ({
 
   const { dataResponse: dataGame} = useFetchData("/api/games");
   const { dataResponse: dataTimezone} = useFetchData("/api/timezones");
-  // const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
 
   const [gameTypeData, setGameTypeData] = useState([]);
   const [gameNameData, setGameNameData] = useState([]);
@@ -68,7 +66,7 @@ const GameTransactionFilterHistory = ({
       round_id: "",
       time_zone: tz,
       game_type: "all",
-      game_name: router.query.game_name ? router.query.game_name : ""
+      game_name: router.query.game_name ? router.query.game_name : "all"
     }
   });
 
@@ -105,7 +103,7 @@ const GameTransactionFilterHistory = ({
   }, [dataGame, setGameTypeData]);
 
   useEffect(() => {
-    let mapData = [];
+    let mapData = [{id: 0, value: "all", label: "All"}];
     let newGameName;
     newGameName = dataGame?.games;
     if (!newGameName) return;
@@ -145,7 +143,6 @@ const GameTransactionFilterHistory = ({
     if (roleUser.account_type !== 'brand') {
       onDataBrand();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roleUser]);
 
   const onDataBrand = async () => {
@@ -155,7 +152,6 @@ const GameTransactionFilterHistory = ({
     } else {
       console.log("response", response);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   const [dateRange, setDateRange] = useState({
@@ -174,6 +170,7 @@ const GameTransactionFilterHistory = ({
     const form = {
       ...data,
       game_type: data.game_type === 'all' ? '' : data.game_type,
+      game_name: data.game_name === 'all' ? '' : data.game_name,
       nick_name: data.nick_name ? data.nick_name : '',
       brand_id: data.brand_id === 'all' ? 1 : Number(data.brand_id),
       player_id: Number(data.player_id),
@@ -195,7 +192,7 @@ const GameTransactionFilterHistory = ({
       nick_name: "",
       round_id: "",
       game_type: "all",
-      game_name: "",
+      game_name: "all",
     });
     setDateRange({
       start: moment().format("DD/MM/YYYY 00:00"),
@@ -241,9 +238,6 @@ const GameTransactionFilterHistory = ({
                   fullWidth={false}
                   defaultValue='all'
                 />
-                {/* <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>
-                  {t("From - To")}
-                </FormLabel> */}
                 <DateRangePickerComponent
                   className={classes.inputDataPicked}
                   control={control}

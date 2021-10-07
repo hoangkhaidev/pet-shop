@@ -1,13 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-// import FormControl from "@material-ui/core/FormControl";
-// import { useTranslation } from "react-i18next";
 import moment from 'moment';
 import Grid from "@material-ui/core/Grid";
-// import FormLabel from "@material-ui/core/FormLabel";
 import { makeStyles } from "@material-ui/core";
 import { func } from "prop-types";
-
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import DateRangePickerComponent from "src/components/shared/DateRangePickerComponent/DateRangePickerComponent";
 import InputField from "src/components/shared/InputField/InputField";
@@ -15,7 +11,6 @@ import SelectField from "src/components/shared/InputField/SelectField";
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
 import useRouter from "src/utils/hooks/useRouter";
 import useFetchData from "src/utils/hooks/useFetchData";
-// import { DateRangeContext } from "../SearchGameHistory";
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -37,7 +32,6 @@ const GameFilter = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
   const classes = useStyles();
-  // const { t } = useTranslation();
   const router = useRouter();
 
   const dateRangeRef = useRef(null);
@@ -65,7 +59,7 @@ const GameFilter = ({
       round_id: "",
       time_zone: tz,
       game_type: "all",
-      game_name: ""
+      game_name: "all"
     }
   });
   
@@ -88,7 +82,7 @@ const GameFilter = ({
   }, [dataGame, setGameTypeData]);
 
   useEffect(() => {
-    let mapData = [];
+    let mapData = [{id: 0, value: "all", label: "All"}];
     let newGameName;
     newGameName = dataGame?.games;
     if (!newGameName) return;
@@ -137,10 +131,10 @@ const GameFilter = ({
   };
 
   const onSubmit = async (data) => {
-    // console.log(data);
     const form = {
       ...data,
       game_type: data.game_type === 'all' ? '' : data.game_type,
+      game_name: data.game_name === 'all' ? '' : data.game_name,
       from_date: dateRange.start,
       to_date: dateRange.end,
     };
@@ -155,7 +149,7 @@ const GameFilter = ({
       player_id: Number(router.query.id),
       round_id: "",
       game_type: "all",
-      game_name: "",
+      game_name: "all",
     });
     setDateRange({
       start: moment().format("DD/MM/YYYY"),
@@ -194,9 +188,6 @@ const GameFilter = ({
                 format="DD/MM/YYYY"
                 dateRangeRef={dateRangeRef}
               />
-              {/* <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>
-                {t("From - To")}
-              </FormLabel> */}
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
               <InputField
@@ -234,10 +225,9 @@ const GameFilter = ({
                 label="Game Name"
                 fullWidth={false}
                 options={gameNameData}
-                defaultValue=""
+                defaultValue="all"
               />
             </Grid>
-           
           </Grid>
           <ButtonGroup>
             <SubmitButton text='Search' />

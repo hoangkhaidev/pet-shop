@@ -34,8 +34,6 @@ const GamesFilterHistory = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
   const classes = useStyles();
-  // const { t } = useTranslation();
-  // const router = useRouter();
 
   const roleUser = useSelector((state) => state.roleUser);
 
@@ -43,7 +41,6 @@ const GamesFilterHistory = ({
 
   const { dataResponse: dataGame} = useFetchData("/api/games");
   const { dataResponse: dataTimezone} = useFetchData("/api/timezones");
-  // const { dataResponse: dataBrand} = useFetchData("/api/brand/public_list");
 
   const [gameTypeData, setGameTypeData] = useState([]);
   const [gameNameData, setGameNameData] = useState([]);
@@ -70,7 +67,7 @@ const GamesFilterHistory = ({
       player_id: "",
       time_zone: tz,
       game_type: "all",
-      game_name: ""
+      game_name: "all"
     }
   });
 
@@ -112,7 +109,7 @@ const GamesFilterHistory = ({
   }, [dataGame, setGameTypeData]);
 
   useEffect(() => {
-    let mapData = [];
+    let mapData = [{id: 0, value: "all", label: "All"}];
     let newGameName;
     newGameName = dataGame?.games;
     if (!newGameName) return;
@@ -181,6 +178,7 @@ const GamesFilterHistory = ({
     // console.log(data);
     const form = {
       ...data,
+      game_name: data.game_name === 'all' ? '' : data.game_name,
       game_type: data.game_type === 'all' ? '' : data.game_type,
       brand_id: data.brand_id === 'all' ? 1 : Number(data.brand),
       player_id: Number(data.player_id),
@@ -200,7 +198,7 @@ const GamesFilterHistory = ({
       brand_id: "all",
       nick_name: "",
       game_type: "all",
-      game_name: "",
+      game_name: "all",
     });
     setDateRange({
       start: moment().format("DD/MM/YYYY"),
@@ -242,9 +240,6 @@ const GamesFilterHistory = ({
                 options={brandData}
                 fullWidth={false}
               />
-              {/* <FormLabel style={{marginLeft: '10px', marginTop: '5px'}}>
-                {t("From - To")}
-              </FormLabel> */}
               <DateRangePickerComponent
                 startDate={dateRange.start}
                 endDate={dateRange.end}
@@ -254,7 +249,6 @@ const GamesFilterHistory = ({
                 format="DD/MM/YYYY"
                 dateRangeRef={dateRangeRef}
               />
-              
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
               <InputField

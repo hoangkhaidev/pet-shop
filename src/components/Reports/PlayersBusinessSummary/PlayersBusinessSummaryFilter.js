@@ -42,8 +42,8 @@ const PlayersBusinessSummaryFilter = ({
       option: "day",
       player_id: "",
       nick_name: "",
-      game_type: "",
-      game_name: "",
+      game_type: "all",
+      game_name: "all",
       search_by: "",
       search_by_option: "",
       value: "0",
@@ -77,7 +77,7 @@ const PlayersBusinessSummaryFilter = ({
   };
 
   useEffect(() => {
-    let mapData = [];
+    let mapData = [{id: 0, value: "all", label: "All"}];
     let newGameName;
     newGameName = dataGame?.games;
     if (!newGameName) return;
@@ -154,6 +154,8 @@ const PlayersBusinessSummaryFilter = ({
     const form = {
       ...data,
       brand_ids: checkBrand ? [] : brandMultiple,
+      game_type: data.game_type === 'all' ? '' : data.game_type,
+      game_name: data.game_name === 'all' ? '' : data.game_name,
       player_id: data.player_id ? Number(data.player_id) : 0,
       value: String(data.value),
       option: radio,
@@ -169,8 +171,8 @@ const PlayersBusinessSummaryFilter = ({
       option: "day",
       player_id: "",
       nick_name: "",
-      game_type: "",
-      game_name: "",
+      game_type: "all",
+      game_name: "all",
       search_by: "",
       search_by_option: "",
       value: "0",
