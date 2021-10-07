@@ -168,7 +168,7 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
         const response = await api.post(linkApi, form);
         
         if (get(response, 'success', false)) {
-          setLabel(data.status);
+          setLabel(form.action);
           setRefreshData(label);
           toast.success("Update Status Success", {
             onClose: onClose()
