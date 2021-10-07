@@ -12,7 +12,13 @@ const ButtonResume = ({cell, row }) => {
         // console.log(response)
         window.location.reload();
     } else {
-        toast.warn("Fail");
+        // toast.warn("Fail");
+        if (response?.err === 'err:suspended_account') {
+            toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
+        }
+        if (response?.err === 'err:no_permission') {
+            toast.warn('No Permission');
+        }
     }
   }
 

@@ -163,7 +163,6 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
           reason: formState?.values?.reason,
         };
       }
-      console.log(form)
       try {
         const response = await api.post(linkApi, form);
         

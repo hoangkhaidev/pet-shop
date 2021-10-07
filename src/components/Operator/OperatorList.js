@@ -175,10 +175,6 @@ const OperatorList = () => {
     setData(mapData);
   }, [dataResponse]);
 
-  useEffect(() => {
-    console.log(refreshData)
-  }, [refreshData]);
-
   const onSubmit = async (dataForm) => {
     const form = {
       ...dataForm,
