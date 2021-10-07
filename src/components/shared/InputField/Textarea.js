@@ -17,7 +17,6 @@ export default function Textarea({ error, name, label, required, setFormState, f
   const classes = useStyles();
 
   const handleChange = (event) => {
-    // setReason(event.target.value);
     setFormState((formState) => ({
         ...formState,
         values: {

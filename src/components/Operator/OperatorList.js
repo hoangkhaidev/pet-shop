@@ -176,7 +176,6 @@ const OperatorList = () => {
   }, [dataResponse]);
 
   const onSubmit = async (dataForm) => {
-    // console.log(dataForm);
     const form = {
       ...dataForm,
       status_search:
@@ -187,7 +186,6 @@ const OperatorList = () => {
       page: 1,
       page_size: 30,
     });
-    // console.log(1);
   };
 
   const columns = [
@@ -288,14 +286,26 @@ const OperatorList = () => {
       formatter: (cell, row) => {
         const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
         let STATUS = [];
-        if (newlabel === 'active') STATUS = STATUS_ACTIVE;
-        if (newlabel === 'inactive') STATUS = STATUS_INACTIVE;
-        if (newlabel === 'locked') STATUS = STATUS_LOCKED;
-        if (newlabel === 'suspended') STATUS = STATUS_SUSPENDED;
-        console.log(row.statuses)
-        if (row.statuses.length > 1) {
-          STATUS = STATUS_LOCKED_SUSPENDED;
-        }
+        switch(row.statuses.length > 0) {
+          case row.statuses.length === 1:
+            if (newlabel === 'inactive') STATUS = STATUS_INACTIVE;
+            if (newlabel === 'active') STATUS = STATUS_ACTIVE;
+            if (newlabel === 'locked') STATUS = STATUS_LOCKED;
+            if (newlabel === 'suspended') STATUS = STATUS_SUSPENDED;
+            break;
+          case row.statuses.length === 2:
+            if (row.statuses[0].status === 'inactive' || row.statuses[1].status === 'inactive') {
+              STATUS = STATUS_INACTIVE;
+            } else {
+              STATUS = STATUS_LOCKED_SUSPENDED;
+            }
+            break;
+          case row.statuses.length === 3:
+            STATUS = STATUS_INACTIVE;
+            break;
+          default:
+            STATUS = STATUS_ACTIVE;
+        };
         return (
           <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
             <ChangeStatus

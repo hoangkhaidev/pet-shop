@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -105,13 +106,7 @@ const schema = {
 }
 
 export default function TabBetScale({currentData, setObjFilter, objFilter, dataDetail}) {
-  // console.log(dataDetail?.bet_scale_list);
-  // let betList = dataDetail?.bet_scale_list?.map((item) => {
-  //   let newScale = (Math.round(item.bet_scale * 100) / 100).toFixed(2);
-  //   return {
-  //     bet_scale: newScale
-  //   }
-  // });
+
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
@@ -241,7 +236,6 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
   };
 
   const handleReset = () => {
-    // setFormState(initFormState);
     window.location.reload();
   };
   
@@ -266,12 +260,7 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
 
   useEffect(() => {
     setFormState(initFormState);
-    // eslint-disable-next-line
   }, [dataDetail]);
-
-  // useEffect(() => {
-  //   console.log(formState);
-  // }, [formState]);
 
   useEffect(() => {
     const errors = validate(formState.values, schema);

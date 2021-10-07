@@ -13,7 +13,6 @@ export default function SelectCustomer({ error, name, options, setFormState, for
   const classes = useStyles();
 
   const handleChange = (event) => {
-    // setStatusSelect(event.target.value);
     setFormState((formState) => ({
         ...formState,
         values: {

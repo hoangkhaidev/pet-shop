@@ -67,7 +67,6 @@ const useStyles = makeStyles((theme) => ({
     color: 'red !important',
     fontSize: '12px !important',
     marginLeft: '15px',
-    // paddingTop: '5px !important'
     marginTop: '-5px !important',
   }
 }));
@@ -88,13 +87,10 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
   const [statusLabels, setStatusLabels] = useState(labels);
 
   const [formState, setFormState] = useState(initFormState);
-  // const [statusSelect, setStatusSelect] = useState('');
-  // const [reason, setReason] = useState('');
 
   const [label, setLabel] = useState(newlabel);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
-  // const { handleSubmit, setError, setValue } = useForm();
 
   useEffect(() => {
     setLabel(newlabel);
@@ -167,13 +163,12 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
           reason: formState?.values?.reason,
         };
       }
-
+      console.log(form)
       try {
         const response = await api.post(linkApi, form);
         
         if (get(response, 'success', false)) {
           setLabel(data.status);
-          // setValue("reason", "");
           setRefreshData(label);
           toast.success("Update Status Success", {
             onClose: onClose()
