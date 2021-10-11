@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Link from "@material-ui/core/Link";
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
-import useRouter from "src/utils/hooks/useRouter";
 import useFetchData from "src/utils/hooks/useFetchData";
 import get from 'lodash/get';
 import moment from "moment";
@@ -11,17 +10,28 @@ import Loading from "src/components/shared/Loading/Loading";
 import BusinessSummaryFilter from "./BusinessSummaryFilter";
 import { ExportExcel } from "./ExportExcel";
 import { useSelector } from "react-redux";
+import useRouter from "src/utils/hooks/useRouter";
 
 const BusinessSummary = () => {
-  const router = useRouter();
   const roleUser = useSelector((state) => state.roleUser);
+  const router = useRouter();
+  let brand_router = [];
+
+  if (router?.query.brand_ids) {
+    brand_router = (router?.query?.brand_ids || []).map((item) => {
+      return Number(item);
+    });
+  };
+
   const [objFilter, setObjFilter] = useState({
-    brand_ids: [],
-    product_ids: [],
-    from_date: moment().startOf('month').format("DD/MM/YYYY"),
-    to_date: moment().endOf('month').format("DD/MM/YYYY"),
     option: "day",
-    ...router.query,
+    ...{
+      ...router.query,
+      brand_ids: router.query.brand_ids ? brand_router : [],
+      product_ids: router.query.product_ids ? [Number(router.query.product_ids)] : [],
+      from_date: router.query.from_date ? router.query.from_date : moment().startOf('month').format("DD/MM/YYYY"),
+      to_date: router.query.to_date ? router.query.to_date : moment().endOf('month').format("DD/MM/YYYY"),
+    },
   });
 
   const [data, setData] = useState([]);
@@ -96,8 +106,15 @@ const BusinessSummary = () => {
       column_name: objFilter.option === 'brand' ? "Brand" : "Period",
       align: "right",
       formatter: (cell, row) => {
+        let brandTest = '';
+        if (row?.brand_ids?.length > 0) {
+          row.brand_ids.map((item) => {
+            brandTest += `&brand_ids=${item}`;
+            return item;
+          });
+        }
         return (
-          <Link href={`/reports/${row.identifier}/player_summary?option=${row.option}&brand_ids=${row.brand_ids}&product_ids=${row.product_ids}&from_date=${row.from_date}&to_date=${row.to_date}`}>{cell}</Link>
+          <Link href={`/reports/${row.identifier}/player_summary?option=${row.option}${brandTest}&product_ids=${row.product_ids}&from_date=${row.from_date}&to_date=${row.to_date}`}>{cell}</Link>
         );
       }
     },

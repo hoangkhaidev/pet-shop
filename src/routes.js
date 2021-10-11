@@ -318,7 +318,7 @@ const routes = (isLoggedIn) => [
       },
       {
         path: ':id/player_summary',
-        fullpath: '/reports/:identifier/player_summary?option=:option&brand_ids=:brand_ids&product_ids=:product_ids&from_date=:from_date&to_date=:to_date',
+        fullpath: '/reports/:identifier/player_summary',
         name: 'Player Summary',
         element: <PlayerSummary />,
       },

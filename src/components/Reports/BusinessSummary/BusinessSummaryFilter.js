@@ -14,6 +14,7 @@ import api from "src/utils/api";
 import get from 'lodash/get';
 import SelectFieldMutiple from "src/components/shared/InputField/SelectFieldMutiple";
 import SelectFieldMutipleCustom from "src/components/shared/InputField/SelectFieldMutipleCustom";
+import useRouter from "src/utils/hooks/useRouter";
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -26,8 +27,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 const BusinessSummaryFilter = ({
-  onResetFilter, onSubmitProps, setObjFilter
+  onSubmitProps, setObjFilter
 }) => {
+  const router = useRouter();
   const roleUser = useSelector((state) => state.roleUser);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -36,12 +38,22 @@ const BusinessSummaryFilter = ({
   });
 
   const [dateRange, setDateRange] = useState({
-    start: moment().startOf('month').format("DD/MM/YYYY"),
-    end: moment().endOf('month').format("DD/MM/YYYY")
+    start: router.query.from_date ? router.query.from_date : moment().startOf('month').format("DD/MM/YYYY"),
+    end: router.query.to_date ? router.query.to_date : moment().endOf('month').format("DD/MM/YYYY")
   });
 
-  const [brandMultiple, setBrandMultiple] = useState(['all']);
-  const [productMultiple, setProductMultiple] = useState(['all']);
+  let brand_router = [];
+
+  if (router?.query.brand_ids) {
+    brand_router = (router?.query?.brand_ids || []).map((item) => {
+      return Number(item);
+    });
+  };
+
+  let brandStart = router?.query.brand_ids ? brand_router : ['all'];
+  let productStart = router?.query.product_ids ? [Number(router?.query.product_ids)] : ['all'];
+  const [brandMultiple, setBrandMultiple] = useState(brandStart);
+  const [productMultiple, setProductMultiple] = useState(productStart);
 
   const dateRangeRef = useRef(null);
   const classes = useStyles();
@@ -51,7 +63,9 @@ const BusinessSummaryFilter = ({
   const [brandData, setBrandData] = useState([]);
   const [brandsData, setBrandsData] = useState([]);
   const [productData, setProductData] = useState([]);
-  const [radio, setRadio] = useState('day');
+
+  let optionStart = router?.query.option ? router?.query.option : 'day';
+  const [radio, setRadio] = useState(optionStart);
 
   const handleChange = (event) => {
     setRadio(event.target.value);

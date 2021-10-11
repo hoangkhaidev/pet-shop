@@ -64,9 +64,15 @@ const PlayerSummary = () => {
   const roleUser = useSelector((state) => state.roleUser);
   
   const router = useRouter();
+  let brand_router = [];
+
+  if (router.query.brand_ids) {
+    brand_router = (router?.query?.brand_ids || []).map((item) => {
+      return Number(item);
+    });
+  };
+
   const [objFilter, setObjFilter] = useState({
-    brand_ids: router.query.brand_ids ? [Number(router.query.brand_ids)] : [],
-    product_ids: router.query.product_ids ? [Number(router.query.product_ids)] : [],
     from_date: router.query.from_date,
     to_date: router.query.to_date,
     sort_field: "brand_name",
@@ -74,6 +80,11 @@ const PlayerSummary = () => {
     page: 1,
     page_size: 30,
     option: router.query.option,
+    ...{
+      ...router.query,
+      brand_ids: router.query.brand_ids ? brand_router : [],
+      product_ids: router.query.product_ids ? [Number(router.query.product_ids)] : [],
+    },
   });
 
   const [data, setData] = useState([]);
@@ -283,7 +294,7 @@ const PlayerSummary = () => {
   };
 
   const onCancel = () => {
-    navigate('/reports/business_summary');
+    navigate(`/reports/business_summary${router?.location?.search}`);
   }
 
   if (!isHasPermission) {
