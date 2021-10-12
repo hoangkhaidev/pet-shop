@@ -66,6 +66,7 @@ const Profile = () => {
   const finance_emails = watch('finance_emails', '');
 
   useEffect(() => {
+    setValue('role', get(dataResponse, 'role', ''));
     setValue('username', get(dataResponse, 'username', ''));
     setValue('name', get(dataResponse, 'display_name', ''));
     setValue('support_email', get(dataResponse, 'support_email', ''));
@@ -76,7 +77,12 @@ const Profile = () => {
     setFinanceEmail(get(dataResponse, 'finance_emails', []));
   }, [dataResponse]);
 
+  useEffect(() => {
+    setErrorFinanceEmail('');
+  }, [financeEmail]);
+
   const onSubmit = async (dataForm) => {
+    console.log(dataForm)
     let dataFinanceEmail = [];
       
       if (finance_emails) {
@@ -86,13 +92,21 @@ const Profile = () => {
       }
 
     const form = {
-      display_name: dataForm.name ? dataForm.name : '',
+      // display_name: data?.username,
+      role: dataForm.role ? dataForm.role : '',
       support_email: dataForm.support_email ? dataForm.support_email : '',
-      finance_email: dataFinanceEmail,
+      finance_emails: dataFinanceEmail,
       current_password: dataForm.current_password ? dataForm.current_password : '',
       password: dataForm.password ? dataForm.password : '',
       password_confirmation: dataForm.password_confirmation ? dataForm.password_confirmation : '',
     };
+
+    if (form?.display_name === 'admin') {
+      delete form.finance_email;
+      delete form.support_email;
+    }
+    console.log(form);
+
     try {
       let response = await api.post(
         `/api/profile/update`,
@@ -163,17 +177,28 @@ const Profile = () => {
           disabled
         />
         {
-          (roleUser.account_type === 'adminsub') && (
-            <InputField
-                namefileld="name"
+          (roleUser.account_type === 'adminsub' || roleUser.account_type === 'brandsub' || roleUser.account_type === 'operatorsub') && (
+            <>
+              <InputField
+                  namefileld="name"
+                  control={control}
+                  id="name"
+                  errors={errors?.name}
+                  type="text"
+                  label="Name"
+                  maxLength={100}
+                  helperText="Max length 100 chars"
+              />
+              <InputField
+                namefileld="role"
                 control={control}
-                id="name"
-                errors={errors?.name}
+                id="role"
+                errors={errors?.role}
                 type="text"
-                label="Name"
-                maxLength={100}
-                helperText="Max length 100 chars"
-            />
+                label="Role"
+                disabled
+              />
+            </>
           )
         } 
         {
