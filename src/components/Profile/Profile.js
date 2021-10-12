@@ -66,7 +66,7 @@ const Profile = () => {
   const finance_emails = watch('finance_emails', '');
 
   useEffect(() => {
-    setValue('role', get(dataResponse, 'role', ''));
+    setValue('role_name', get(dataResponse, 'role_name', ''));
     setValue('username', get(dataResponse, 'username', ''));
     setValue('name', get(dataResponse, 'display_name', ''));
     setValue('support_email', get(dataResponse, 'support_email', ''));
@@ -93,7 +93,7 @@ const Profile = () => {
 
     const form = {
       // display_name: data?.username,
-      role: dataForm.role ? dataForm.role : '',
+      // role: dataForm?.role ? dataForm?.role : '',
       support_email: dataForm.support_email ? dataForm.support_email : '',
       finance_emails: dataFinanceEmail,
       current_password: dataForm.current_password ? dataForm.current_password : '',
@@ -180,6 +180,15 @@ const Profile = () => {
           (roleUser.account_type === 'adminsub' || roleUser.account_type === 'brandsub' || roleUser.account_type === 'operatorsub') && (
             <>
               <InputField
+                namefileld="role_name"
+                control={control}
+                id="role_name"
+                errors={errors?.role_name}
+                type="text"
+                label="Role"
+                disabled
+              />
+              <InputField
                   namefileld="name"
                   control={control}
                   id="name"
@@ -188,15 +197,6 @@ const Profile = () => {
                   label="Name"
                   maxLength={100}
                   helperText="Max length 100 chars"
-              />
-              <InputField
-                namefileld="role"
-                control={control}
-                id="role"
-                errors={errors?.role}
-                type="text"
-                label="Role"
-                disabled
               />
             </>
           )
