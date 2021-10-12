@@ -2,11 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
-import Button from '@material-ui/core/Button';
 import remove from 'lodash/remove';
-import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import Chip from '@material-ui/core/Chip';
@@ -16,7 +12,6 @@ import ButtonGroup, {
   ResetButton,
 } from 'src/components/shared/Button/Button';
 import InputField from 'src/components/shared/InputField/InputField';
-import SelectField from 'src/components/shared/InputField/SelectField';
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
@@ -26,7 +21,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import api from 'src/utils/api';
 import Loading from '../shared/Loading/Loading';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
-import cloneDeep from 'lodash.clonedeep';
+// import cloneDeep from 'lodash.clonedeep';
 
 const useStyles = makeStyles(() => ({
   whitelistIPLine: {
@@ -94,6 +89,7 @@ const Profile = () => {
     const form = {
       // display_name: data?.username,
       // role: dataForm?.role ? dataForm?.role : '',
+      display_name: dataForm.name ? dataForm.name : '',
       support_email: dataForm.support_email ? dataForm.support_email : '',
       finance_emails: dataFinanceEmail,
       current_password: dataForm.current_password ? dataForm.current_password : '',

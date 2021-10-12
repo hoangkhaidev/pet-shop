@@ -134,7 +134,7 @@ const SubAccountEdit = () => {
     setCheckWhiteIP('');
   }, [whitelistIP]);
 
-  const onSubmit = async (dataform) => {
+  const onSubmit = async (dataForm) => {
 
     const formatWLIPs = whitelistIP.map((item) => {
       item = item.join('.');
@@ -144,13 +144,14 @@ const SubAccountEdit = () => {
 
     const form = {
       brand_ids: brandMultiple,
-      display_name: dataform.name,
-      password: dataform.password ? dataform.password : '',
-      password_confirmation: dataform.password_confirmation ? dataform.password_confirmation : '',
-      role_id: dataform.role,
+      display_name: dataForm.name,
+      password: dataForm.password ? dataForm.password : '',
+      password_confirmation: dataForm.password_confirmation ? dataForm.password_confirmation : '',
+      role_id: dataForm.role,
       whitelist_ips: formatWLIPs,
     };
 
+    console.log(form);
     try {
       let response = await api.post(
         `/api/subs/${router.query?.id}/update`,
