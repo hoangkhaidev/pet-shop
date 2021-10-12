@@ -68,7 +68,7 @@ const SubAccountEdit = () => {
   const [errorBrandMul, setErrorBrandMul] = useState('');
 
   const [checkWhiteIP, setCheckWhiteIP] = useState('');
-  const [isHasAccessPermission, setIsHasPermission] = useState(true);
+  // const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
   useEffect(() => {
     let mapData = [];
@@ -163,7 +163,8 @@ const SubAccountEdit = () => {
         });
       } else {
         if (response.err === "err:no_permission") {
-          setIsHasPermission(false);
+          // setIsHasPermission(false);
+          toast.warn('No Permission');
         }
         if (response?.err === 'err:suspended_account') {
           toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
@@ -215,9 +216,9 @@ const SubAccountEdit = () => {
     return <NoPermissionPage />;
   }
   
-  if (!isHasAccessPermission) {
-    return <NoPermissionPage />;
-  }
+  // if (!isHasAccessPermission) {
+  //   return <NoPermissionPage />;
+  // }
 
   return (
     <ContentCardPage>
