@@ -73,7 +73,6 @@ const CurrencyList = () => {
       align: 'center',
       formatter: (cell, row) => {
         const newlabel = row.status === true ? 'active' : 'inactive';
-        // console.log(row.status)
         return (
           <ChangeStatusCurrency
             types='statusView'

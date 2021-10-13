@@ -79,7 +79,6 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
           toast.success('Update Refund Success');
           setValueTab(3);
         } else {
-          // console.log(response)
           if (response?.err === 'err:player_not_found') {
             toast.warn('Player not found');
           }
@@ -121,7 +120,6 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
           if (response?.err === 'err:no_permission') {
             toast.warn('No Permission');
           }
-          // console.log(response);
         }
     } catch (e) {
         console.log('e', e);
@@ -131,7 +129,6 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
   //  retry
   const handleChangeCountRetry = (event) => {
     let value = event.target.value;
-    // console.log(value);
     let regex = /^\d+(\\d{0})?$/g;
     if (!regex.test(value)) {
       event.target.value = value.slice(0, -1)
@@ -157,11 +154,9 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
         ...formStateRetry,
         config_type: 'retry',
     }
-    // console.log(dataForm);
     try {
         const response = await api.post(`/api/global/brand_detail/${router.query?.id}/development_variable/update`, dataForm);
         if (get(response, 'success', false)) {
-            // toast.success('Update Retry Success');
           toast.success('Update Retry Success');
           setValueTab(3);
         } else {
@@ -194,7 +189,6 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
           setFormStateRetry(initFormState);
           setValueTab(3);
         } else {
-          // console.log(response);
           if (response?.err === 'err:suspended_account') {
             toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
           }
@@ -220,11 +214,9 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
         ...formStateMRefund,
         config_type: 'm_refund',
     }
-    // console.log(dataForm);
     try {
         const response = await api.post(`/api/global/brand_detail/${router.query?.id}/development_variable/update`, dataForm);
         if (get(response, 'success', false)) {
-          // toast.success('Update Manual Refund Success');
           toast.success('Update Manual Refund Success');
           setValueTab(3);
         } else {
@@ -257,7 +249,6 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
           setFormStateMRefund(initFormState);
           setValueTab(3);
         } else {
-          // console.log(response);
           if (response?.err === 'err:suspended_account') {
             toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
           }
@@ -282,10 +273,8 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
         ...formStateMRetry,
         config_type: 'm_retry',
     }
-    // console.log(dataForm);
     try {
         const response = await api.post(`/api/global/brand_detail/${router.query?.id}/development_variable/update`, dataForm);
-        // console.log(response)
         if (get(response, 'success', false)) {
           toast.success('Update Manual Retry Success');
           setValueTab(3);
@@ -320,7 +309,6 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
           setFormStateMRetry(initFormState);
           setValueTab(3);
         } else {
-          // console.log(response);
           if (response?.err === 'err:suspended_account') {
             toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
           }

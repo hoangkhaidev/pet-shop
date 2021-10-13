@@ -1,9 +1,7 @@
 /* eslint-disable arrow-body-style */
 import { Button } from "@material-ui/core";
 import { useCallback, useState } from "react";
-// import Link from '@material-ui/core/Link';
 import cloneDeep from "lodash.clonedeep";
-// import moment from 'moment';
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import ModalComponentRateHistory from "src/components/shared/ModalComponent/ModalComponentRateHistory";
@@ -11,7 +9,6 @@ import api from "src/utils/api";
 import get from 'lodash/get';
 
 const RateHistory = ({ titleCurrency, currencyCode }) => {
-  //   const classes = useStyles();
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -29,10 +26,6 @@ const RateHistory = ({ titleCurrency, currencyCode }) => {
   };
 
   const [data, setData] = useState([]);
-
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
 
   const columns = [
     {
@@ -64,14 +57,12 @@ const RateHistory = ({ titleCurrency, currencyCode }) => {
   const onSubmitData = async (currencyCodeData) => {
     const response = await api.post(`/api/currency/${currencyCodeData}/history`, null);
     if (get(response, "success", false)) {
-      // console.log(response)
       const mapData = cloneDeep(response?.data);
       setData(mapData);
     } else {
       console.log("response", response);
     }
     onOpenModal();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   return (

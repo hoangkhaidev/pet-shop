@@ -262,7 +262,6 @@ const OperatorList = () => {
       column_name: 'Status',
       align: 'center',
       formatter: (cell, row) => {
-        // console.log(row)
         const labels = row.statuses.map(item => item.status);
         return (
           <ChangeStatus
@@ -344,7 +343,6 @@ const OperatorList = () => {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    // console.log(event.target.value);
     setObjFilter((prevState) => ({
       ...prevState,
       page_size: parseInt(event.target.value, 10),

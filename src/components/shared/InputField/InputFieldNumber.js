@@ -87,10 +87,8 @@ const FormattedNumberInput = ({
       >
         <Controller
           render={({ field: { onChange, onBlur, value, name, ref } }) => {
-            // console.log(value);
             return (
               <NumberFormat
-                // getInputRef={ref}
                 namefileld={namefileld}
                 label={
                   <div>
@@ -114,14 +112,11 @@ const FormattedNumberInput = ({
                   maxLength: value >= 100 ? 3 : null,
                 }}
                 onValueChange={(values) => {
-                 
                   values?.floatValue > 100
                     ? onChange({ target: { name, value: 100 } })
                     : values?.floatValue < 0 
                       ? onChange({ target: { name, value: 0 } }) 
                       : onChange({ target: { name, value: values.floatValue } });
-
-                  // console.log(values.floatValue)
                 }}
                 maxLength={value >= 100 ? 3 : null}
                 helperText={helperText}
@@ -190,7 +185,6 @@ export const FormattedNumberInputNew = ({
     if (errors.message === 'err:invalid_manual_retry_refund_after_hours') {
       return errors.message = 'Manual retry/refund after: min is 3';
     }
-    // console.log(errors)
     return errors.message;
   };
 

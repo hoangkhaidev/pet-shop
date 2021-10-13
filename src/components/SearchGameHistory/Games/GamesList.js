@@ -1,36 +1,15 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import { useEffect, useState } from "react";
 import moment from "moment";
-
 import useRouter from "src/utils/hooks/useRouter";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import { formatNumberWithComma } from "src/utils/function";
-// import get from 'lodash/get';
 import GamesFilter from "./GamesFilter";
 import useFetchData from "src/utils/hooks/useFetchData";
 import Loading from "src/components/shared/Loading/Loading";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import Link from '@material-ui/core/Link';
-
-// const fakeData = [
-//   {
-//     id: 1,
-//     game: "COD",
-//     start_time: moment().format("DD/MM/YYYY"),
-//     sessions_count: 1,
-//     bet: 100000,
-//     win: 2000000
-//   },
-//   {
-//     id: 2,
-//     game: "PUBG",
-//     start_time: moment().format("DD/MM/YYYY"),
-//     sessions_count: 2,
-//     bet: 100000,
-//     win: 2000000
-//   },
-// ];
 
 const GamesList = () => {
   const router = useRouter();
@@ -70,12 +49,7 @@ const GamesList = () => {
     setData(dataResponse);
   }, [dataResponse]);
 
-  // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter]);
-
   const onSubmit = async (data) => {
-    // console.log(data)
     setObjFilter(prevState => ({
       ...prevState,
       ...data,
@@ -88,7 +62,6 @@ const GamesList = () => {
       column_name: "Game",
       align: "left",
       formatter: (cell, row) => {
-        // console.log(time_zoneReplace);
         return (
           <Link href={`/players/${router.query.id}/information?from_date=${moment().format("DD/MM/YYYY 00:00")}&game_name=${row.game_name}&game_type=&page=1&page_size=30&player_id=3546&round_id=&sort_field=start_at&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${moment().format("DD/MM/YYYY 23:59")}`}>{cell}</Link>
         )

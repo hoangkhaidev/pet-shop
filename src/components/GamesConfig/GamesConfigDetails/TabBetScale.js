@@ -141,7 +141,6 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
         }
         const response = await api.post('/api/game_config/bet_scale/update', newDataForm);
           if (get(response, "success", false)) {
-            // console.log(response);
             toast.success('Update Bet Scale Success', {
               onClose: setTimeout(() => {
                   window.location.reload()
@@ -190,14 +189,12 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
           }
           const response = await api.post('/api/game_config/bet_scale/update', newDataForm);
           if (get(response, "success", false)) {
-            // console.log(response);
             toast.success('Update Bet Scale Success', {
               onClose: setTimeout(() => {
                   window.location.reload()
               }, 0),   
             });
           } else {
-            // console.log(response.err)
             if (response?.err === 'err:suspended_account') {
               toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
             }
@@ -219,8 +216,6 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
                 });
               }
             }
-            // console.log(response);
-            // toast.warn('Update Bet Scale Fail');
           }
         }
       }

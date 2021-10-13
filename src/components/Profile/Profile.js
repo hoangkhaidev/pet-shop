@@ -77,14 +77,13 @@ const Profile = () => {
   }, [financeEmail]);
 
   const onSubmit = async (dataForm) => {
-    console.log(dataForm)
     let dataFinanceEmail = [];
       
-      if (finance_emails) {
-        dataFinanceEmail = [...financeEmail, finance_emails];
-      } else {
-        dataFinanceEmail = financeEmail;
-      }
+    if (finance_emails) {
+      dataFinanceEmail = [...financeEmail, finance_emails];
+    } else {
+      dataFinanceEmail = financeEmail;
+    }
 
     const form = {
       display_name: dataForm.name ? dataForm.name : '',
@@ -99,7 +98,6 @@ const Profile = () => {
       delete form.finance_email;
       delete form.support_email;
     }
-    console.log(form);
 
     try {
       let response = await api.post(
@@ -117,12 +115,12 @@ const Profile = () => {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
             if (response?.data['finance_emails'] === 'err:invalid_email') {
-                setErrorFinanceEmail('Invalid email');
+              setErrorFinanceEmail('Invalid email');
             } else {
-                setError(field, {
-                    type: 'validate',
-                    message: response?.data[field],
-                });
+              setError(field, {
+                  type: 'validate',
+                  message: response?.data[field],
+              });
             }
           }
         }

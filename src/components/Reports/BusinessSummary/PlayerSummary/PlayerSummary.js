@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, makeStyles, Typography } from "@material-ui/core";
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import { useNavigate } from "react-router";
@@ -10,8 +11,9 @@ import get from 'lodash/get';
 import moment from "moment";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import Loading from "src/components/shared/Loading/Loading";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ExportExcelPlayerSummary } from "./ExportExcelPlayerSummary";
+import { setParentParam } from "src/features/parentParam/parentParam";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
 const PlayerSummary = () => {
   const classes = useStyles();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const roleUser = useSelector((state) => state.roleUser);
   
   const router = useRouter();
@@ -113,6 +116,10 @@ const PlayerSummary = () => {
     let formatNum = cellFormat?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
     return formatNum;
   };
+
+  useEffect(() => {
+    dispatch(setParentParam('/reports/business_summary'));
+  }, []);
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useCallback, useState } from 'react';
 import get from 'lodash/get';
 import api from 'src/utils/api';
@@ -18,13 +19,11 @@ const Captcha = ({
   const generateCaptcha = useCallback(async () => {
     try {
       const response = await api.post('/captcha/generate', captchaConfig, false);
-      // console.log("response", response);
       setCaptcha(get(response, "data", {}));
       setCaptchaId(get(response, "data.captcha_id", ""));
     } catch (e) {
       console.log('e', e);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

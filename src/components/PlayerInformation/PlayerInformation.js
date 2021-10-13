@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import useRouter from "src/utils/hooks/useRouter";
 import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
 import Loading from "../shared/Loading/Loading";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles(() => ({
   playerInfoName: {
@@ -53,6 +54,7 @@ const useStyles = makeStyles(() => ({
 const PlayerInformation = () => {
   const classes = useStyles();
   const router = useRouter();
+  const parentParam = useSelector((state) => state.parentParam.parentParam);
 
   const { dataResponse, isLoading, isHasPermission } = useFetchData(
     `/api/members/${router.query?.id}`,
@@ -66,8 +68,9 @@ const PlayerInformation = () => {
   }, [dataResponse]);
 
   const navigate = useNavigate();
+
   const onCancel = () => {
-    navigate('/players/players');
+    navigate(parentParam);
   }
 
   if (!isHasPermission) {

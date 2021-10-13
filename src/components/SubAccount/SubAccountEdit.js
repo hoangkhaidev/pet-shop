@@ -151,7 +151,6 @@ const SubAccountEdit = () => {
       whitelist_ips: formatWLIPs,
     };
 
-    console.log(form);
     try {
       let response = await api.post(
         `/api/subs/${router.query?.id}/update`,
@@ -163,7 +162,6 @@ const SubAccountEdit = () => {
         });
       } else {
         if (response.err === "err:no_permission") {
-          // setIsHasPermission(false);
           toast.warn('No Permission');
         }
         if (response?.err === 'err:suspended_account') {

@@ -141,7 +141,6 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
         }
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
-            // console.log(field);
             if (response?.data['api_whitelist_ip'] === 'err:invalid_ip_address') {
               setErrorApiWLIP('Invalid IP address');
             } else if (response?.data['whitelist_ips'] === 'err:invalid_ip_address') {

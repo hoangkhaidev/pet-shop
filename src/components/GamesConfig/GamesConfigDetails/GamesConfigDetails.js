@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -40,7 +41,6 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     alignItems: "center",
     marginBottom: '2rem',
-    // justifyContent: "space-between"
   },
   labelLine: {
     fontWeight: "bold",
@@ -83,7 +83,6 @@ const GamesConfigDetails = () => {
     } else {
       console.log("response", response);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   useEffect(() => {
@@ -95,18 +94,11 @@ const GamesConfigDetails = () => {
       game_code: router.query.id,
       currency_code: mapData?.[0]?.code,
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataCurrency]);
 
   useEffect(() => {
     if (objFilter.currency_code) dataGamesDetail(objFilter);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [objFilter]);
-
-  // useEffect(() => {
-  //   console.log(dataDetail);
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [dataDetail]);
 
   const onResetItem = async () => {
     let dataForm = {
@@ -115,14 +107,12 @@ const GamesConfigDetails = () => {
     }
     const response = await api.post('/api/game_config/bet_scale/reset', dataForm);
     if (get(response, "success", false)) {
-      // console.log(response);
       toast.success('Reset Default Success', {
         onClose: setTimeout(() => {
             window.location.reload()
         }, 1000),   
       });
     } else {
-      // console.log("response", response);
       if (response?.err === 'err:suspended_account') {
         toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
       }
@@ -174,23 +164,7 @@ const GamesConfigDetails = () => {
           </span>
           <span className={classes.w80}> {dataDetail.brand_name}</span>
         </div>
-        {/* <div className={classes.playerInfoName}>
-          <span className={classes.w20}>
-            Participate in PJP:
-          </span>
-          <span className={classes.w80}> Disabled</span>
-        </div> */}
-        {/* <div className={classes.playerInfoName}>
-          <span className={classes.w20}>
-            Payout Configuration:
-          </span>
-          <span className={classes.w80}> </span>
-        </div> */}
       </div>
-      {/* <div className={classes.tableConfiguration}>
-        <span className={classes.w20}></span> 
-        <TablePayoutConfiguration />
-      </div>  */}
       <div className={classes.playerInfoName}>
         <span className={classes.w20}>
           Bet Scale Configuration:

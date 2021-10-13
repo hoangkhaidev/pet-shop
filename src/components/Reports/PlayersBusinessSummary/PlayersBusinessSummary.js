@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import Link from "@material-ui/core/Link";
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
@@ -9,11 +10,13 @@ import moment from "moment";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import Loading from "src/components/shared/Loading/Loading";
 import { ExportExcelPlayersBusinessSummary } from "./ExportExcelPlayersBusinessSummary";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PlayersBusinessSummaryFilter from "./PlayersBusinessSummaryFilter";
+import { setParentParam } from "src/features/parentParam/parentParam";
 
 const PlayersBusinessSummary = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const roleUser = useSelector((state) => state.roleUser);
   const [objFilter, setObjFilter] = useState({
     brand_ids: [],
@@ -54,8 +57,8 @@ const PlayersBusinessSummary = () => {
   }
 
   useEffect(() => {
-    console.log(objFilter);
-  }, [objFilter]);
+    dispatch(setParentParam('/reports/players_business_summary'));
+  }, []);
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);

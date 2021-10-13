@@ -10,9 +10,6 @@ const DateRangePickerComponent = ({
   timePicker, startDate, endDate,
   handleCallback, format, dateRangeRef, maxDate, minDate
 }) => {
-  // useEffect(() => {
-  //   console.log(startDate, endDate);
-  // }, [startDate, endDate]);
   return (
     <div style={{ position: 'relative' }}>
       <DateRangePicker

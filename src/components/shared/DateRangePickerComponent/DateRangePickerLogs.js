@@ -7,9 +7,6 @@ import 'bootstrap-daterangepicker/daterangepicker.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const DateRangePickerLogs = ({ handleCallback, format }) => {
-  // useEffect(() => {
-  //   console.log(startDate, endDate);
-  // }, [startDate, endDate]);
 
   const handleApply = (event, picker) => {
     picker.element.val(

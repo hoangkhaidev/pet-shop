@@ -149,7 +149,6 @@ const GamesFilterHistory = ({
     if (roleUser.account_type !== 'brand') {
       onDataBrand();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roleUser]);
 
   const onDataBrand = async () => {
@@ -159,7 +158,6 @@ const GamesFilterHistory = ({
     } else {
       console.log("response", response);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   const [dateRange, setDateRange] = useState({
@@ -175,7 +173,6 @@ const GamesFilterHistory = ({
   };
 
   const onSubmit = async (data) => {
-    // console.log(data);
     const form = {
       ...data,
       game_name: data.game_name === 'all' ? '' : data.game_name,

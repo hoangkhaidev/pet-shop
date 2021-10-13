@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import Link from "@material-ui/core/Link";
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
@@ -11,9 +12,13 @@ import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
 import moment from "moment";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHistory } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch } from "react-redux";
+import { setParentParam } from "src/features/parentParam/parentParam";
 
 const PlayersList = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const [objFilter, setObjFilter] = useState({
     player_id: 0,
     nick_name: "",
@@ -57,6 +62,10 @@ const PlayersList = () => {
     const mapData = get(dataResponse, 'list', []);
     setData(mapData);
   }, [dataResponse]);
+
+  useEffect(() => {
+    dispatch(setParentParam('/players/players'));
+  }, []);
 
   const columns = [
     {

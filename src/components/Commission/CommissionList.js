@@ -202,13 +202,11 @@ const CommissionList = () => {
   };
 
   const onSubmit = async (dataForm) => {
-    // console.log(dataForm)
     const form = {
       ...dataForm,
       name_search:
         dataForm?.name_search ? dataForm?.name_search : '',
     };
-    // console.log(form)
 
     setObjFilter({
       ...form,

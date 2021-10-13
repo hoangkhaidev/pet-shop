@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import axios from 'axios';
 import { store } from "src/stores";
 
@@ -36,7 +37,6 @@ const api = (method, url, variables, isAuth = true) => new Promise((resolve, rej
   );
 });
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   get: (...args) => api('get', ...args),
   post: (...args) => api('post', ...args),

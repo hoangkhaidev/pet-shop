@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Link from "@material-ui/core/Link";
-
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import useRouter from "src/utils/hooks/useRouter";
@@ -10,7 +9,6 @@ import Loading from "../shared/Loading/Loading";
 import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
 import GamesFilterConfig from "./GamesFilterConfig";
 import ChangeStatusGamesConfig from "src/components/Modal/ChangeStatusGamesConfig";
-// import { useForm } from "react-hook-form";
 
 const GamesListConfig = () => {
   const router = useRouter();
@@ -98,12 +96,7 @@ const GamesListConfig = () => {
     }));
   };
 
-  // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter])
-
   const onSubmit = async (data) => {
-    // console.log(data)
     
     setObjFilter(prevState => ({
       ...prevState,
