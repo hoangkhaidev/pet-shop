@@ -138,7 +138,7 @@ const GameTransactionHistory = () => {
           setTotal_size(total_sizeData)
           setData(mapData);
         } else {
-          if (response.err === "err:not_enough_arguments") toast.warn('Please select 1 of the 3 fields player ID, nickname round ID');
+          if (response.err === "err:not_enough_arguments") toast.warn('Please choose 1 brand, and player ID or Nickname or Round ID');
           if (response.err === "err:player_not_found") toast.warn('Player not found');
         }
     } catch (e) {

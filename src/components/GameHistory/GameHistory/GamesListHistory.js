@@ -71,7 +71,7 @@ const GamesListHistory = () => {
           if (response.err === "err:json_error") {
             if (response.data.player_id === "want int, got string") toast.warn('Player ID is a number');
           }
-          if (response.err === "err:not_enough_arguments") toast.warn('Please select 1 of the 3 fields player ID, nickname round ID');
+          if (response.err === "err:not_enough_arguments") toast.warn('Please choose 1 brand, and player ID or Nickname or Round ID');
           if (response.err === "err:player_not_found") toast.warn('Player not found');
         }
     } catch (e) {

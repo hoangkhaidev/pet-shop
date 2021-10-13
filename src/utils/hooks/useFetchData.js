@@ -125,6 +125,19 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
           });
         }
 
+        if (dataJSON?.err === 'err:player_business_summary_args_limit') {
+          toast.warn('Please enter Player ID or Nickname to search by date range');
+          return setData({
+            isLoading: false,
+            dataResponse: null,
+            total_size: 0,
+            isLoaded: false,
+            isHasPermission: true,
+            total: 0,
+            refetch: false,
+          });
+        }
+
         if (dataJSON?.err === 'err:invalid_token') {
           navigate("/login");
           toast.warn('Your account has been changed password. Please contact your upline to get new password ');

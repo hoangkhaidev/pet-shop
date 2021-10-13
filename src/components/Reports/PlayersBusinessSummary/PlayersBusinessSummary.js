@@ -54,6 +54,10 @@ const PlayersBusinessSummary = () => {
   }
 
   useEffect(() => {
+    console.log(objFilter);
+  }, [objFilter]);
+
+  useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
     const mapDataSum = dataResponse?.sum;
     let forExcel = [];
