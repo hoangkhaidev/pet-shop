@@ -87,8 +87,6 @@ const Profile = () => {
       }
 
     const form = {
-      // display_name: data?.username,
-      // role: dataForm?.role ? dataForm?.role : '',
       display_name: dataForm.name ? dataForm.name : '',
       support_email: dataForm.support_email ? dataForm.support_email : '',
       finance_emails: dataFinanceEmail,
