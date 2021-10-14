@@ -13,6 +13,7 @@ import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Bu
 import useFetchData from "src/utils/hooks/useFetchData";
 import { useSelector } from "react-redux";
 import api from "src/utils/api";
+import InputNumber from "src/components/shared/InputField/InputNumber";
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -248,13 +249,19 @@ const GamesFilterHistory = ({
               />
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
-              <InputField
+              {/* <InputField
                 control={control}
                 namefileld="player_id"
                 type="text"
                 label="Player ID"
                 id="player_id"
                 fullWidth={false}
+              /> */}
+              <InputNumber
+                namefileld="player_id"
+                label="Player ID"
+                id="player_id"
+                control={control}
               />
               <SelectField
                 control={control}
@@ -301,7 +308,6 @@ const GamesFilterHistory = ({
                 options={timezoneData}
               />
             </Grid>
-           
           </Grid>
           <ButtonGroup>
             <SubmitButton text='Search' />
