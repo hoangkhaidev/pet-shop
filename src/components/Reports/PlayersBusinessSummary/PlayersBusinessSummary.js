@@ -18,6 +18,14 @@ const PlayersBusinessSummary = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const roleUser = useSelector((state) => state.roleUser);
+  let brand_router = [];
+
+  if (router?.query?.brand_ids) {
+    brand_router = (router?.query?.brand_ids || []).map((item) => {
+      return Number(item);
+    });
+  };
+
   const [objFilter, setObjFilter] = useState({
     brand_ids: [],
     player_id: 0,
@@ -37,7 +45,7 @@ const PlayersBusinessSummary = () => {
     ...{
       ...router.query,
       player_id: router.query.player_id ? Number(router.query.player_id) : 0,
-      brand_ids: router.query.brand_ids ? [Number(router.query.brand_ids)] : [],
+      brand_ids: router.query.brand_ids ? brand_router : [],
     },
   });
 
@@ -57,8 +65,8 @@ const PlayersBusinessSummary = () => {
   }
 
   useEffect(() => {
-    dispatch(setParentParam('/reports/players_business_summary'));
-  }, []);
+    dispatch(setParentParam(`${router.location.pathname}${router.location.search}`));
+  }, [router]);
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);

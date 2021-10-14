@@ -64,8 +64,8 @@ const PlayersList = () => {
   }, [dataResponse]);
 
   useEffect(() => {
-    dispatch(setParentParam('/players/players'));
-  }, []);
+    dispatch(setParentParam(`${router.location.pathname}${router.location.search}`));
+  }, [router]);
 
   useEffect(() => {
     console.log(objFilter);

@@ -17,6 +17,7 @@ import InputField from "src/components/shared/InputField/InputField";
 import InputNumberValue from "./InputNumberValue";
 import SelectFieldMutiple from "src/components/shared/InputField/SelectFieldMutiple";
 import InputNumber from "src/components/shared/InputField/InputNumber";
+import useRouter from "src/utils/hooks/useRouter";
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -38,25 +39,51 @@ const PlayersBusinessSummaryFilter = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
   const roleUser = useSelector((state) => state.roleUser);
+  const router = useRouter();
+
+  let playerRouter = '';
+  if (router?.query.player_id && Number(router?.query.player_id) !== 0) {
+    playerRouter = router?.query.player_id;
+  }
+
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      option: "day",
-      player_id: "",
-      nick_name: "",
-      game_type: "all",
-      game_name: "all",
-      search_by: "",
-      search_by_option: "",
-      value: "0",
+      option: router?.query?.option ? router?.query?.option : 'day',
+      player_id: playerRouter,
+      nick_name: router?.query?.nick_name ? router?.query?.nick_name : '',
+      game_type: router?.query?.game_type ? router?.query?.game_type : 'all',
+      game_name: router?.query?.game_name ? router?.query?.game_name : 'all',
+      search_by: router?.query?.search_by ? router?.query?.search_by : '',
+      search_by_option: router?.query?.search_by_option ? router?.query?.search_by_option : '',
+      value: router?.query?.value ? router?.query?.value : '0',
     }
   });
 
-  const [brandMultiple, setBrandMultiple] = useState(['all']);
+  let brand_router = [];
 
+  if (router?.query.brand_ids) {
+    brand_router = (router?.query?.brand_ids || []).map((item) => {
+      return Number(item);
+    });
+  };
+
+  let brandStart = router?.query.brand_ids ? brand_router : ['all'];
+
+  const [brandMultiple, setBrandMultiple] = useState(brandStart);
+
+  let from_dateFilter = moment().format("DD/MM/YYYY");
+  if (router?.query?.from_date) {
+    from_dateFilter = router?.query?.from_date;
+  }
+  let to_dateFilter = moment().format("DD/MM/YYYY");
+  if (router?.query?.to_date) {
+    to_dateFilter = router?.query?.to_date;
+  }
   const [dateRange, setDateRange] = useState({
-    start: moment().format("DD/MM/YYYY"),
-    end: moment().format("DD/MM/YYYY")
+    start: from_dateFilter,
+    end: to_dateFilter
   });
+
   const dateRangeRef = useRef(null);
   const classes = useStyles();
 
@@ -66,8 +93,19 @@ const PlayersBusinessSummaryFilter = ({
   const [brandsData, setBrandsData] = useState([]);
   const [gameTypeData, setGameTypeData] = useState([]);
   const [gameNameData, setGameNameData] = useState([]);
-  const [radio, setRadio] = useState('day');
-  const [radioSearchBy, setRadioSearchBy] = useState('');
+  
+  let optionFilter = 'day';
+  if (router?.query?.option) {
+    optionFilter = router?.query?.option;
+  }
+
+  let searchByFilter = '';
+  if (router?.query?.search_by_option) {
+    searchByFilter = router?.query?.search_by_option;
+  }
+
+  const [radio, setRadio] = useState(optionFilter);
+  const [radioSearchBy, setRadioSearchBy] = useState(searchByFilter);
 
   const handleChange = (event) => {
     setRadio(event.target.value);
@@ -244,14 +282,6 @@ const PlayersBusinessSummaryFilter = ({
               </RadioGroup>
             </Grid>
             <Grid item xs={12} xl={3} md={3}>
-              {/* <InputField
-                control={control}
-                namefileld="player_id"
-                type="text"
-                label="Player ID"
-                id="player_id"
-                fullWidth={false}
-              /> */}
               <InputNumber
                 namefileld="player_id"
                 label="Player ID"
@@ -300,7 +330,6 @@ const PlayersBusinessSummaryFilter = ({
                 label="Game Name"
                 fullWidth={false}
                 options={gameNameData}
-                defaultValue="all"
               />
               <RadioGroup aria-label="gender" name="search_by_option" value={radioSearchBy} onChange={handleChangeSearchBy}>
                 <div style={{ display: 'grid', paddingLeft: '30px' }}>

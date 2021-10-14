@@ -118,8 +118,8 @@ const PlayerSummary = () => {
   };
 
   useEffect(() => {
-    dispatch(setParentParam('/reports/business_summary'));
-  }, []);
+    dispatch(setParentParam(`${router.location.pathname}${router.location.search}`));
+  }, [router]);
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);

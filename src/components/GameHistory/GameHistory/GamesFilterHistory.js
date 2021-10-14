@@ -249,14 +249,6 @@ const GamesFilterHistory = ({
               />
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
-              {/* <InputField
-                control={control}
-                namefileld="player_id"
-                type="text"
-                label="Player ID"
-                id="player_id"
-                fullWidth={false}
-              /> */}
               <InputNumber
                 namefileld="player_id"
                 label="Player ID"

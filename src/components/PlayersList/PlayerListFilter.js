@@ -34,15 +34,35 @@ const PLayerListFilter = ({
   const { t } = useTranslation();
   const roleUser = useSelector((state) => state.roleUser);
   const router = useRouter();
+
+  let playerRouter = '';
+  if (router?.query.player_id && Number(router?.query.player_id) !== 0) {
+    playerRouter = router?.query.player_id;
+  }
   
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      brand_id: router?.query?.brand_id ? router?.query?.brand_id : 0
+      brand_id: router?.query?.brand_id ? router?.query?.brand_id : 0,
+      player_id: playerRouter,
+      nick_name: router?.query?.nick_name ? router?.query?.nick_name : '',
+      ip_address: router?.query?.ip_address ? router?.query?.ip_address : '',
+      currency: router?.query?.currency ? router?.query?.currency : 'all',
+      language: router?.query?.language ? router?.query?.language : 'all',
     }
   });
+
+  let from_dateFilter = moment().format("DD/MM/YYYY");
+  if (router?.query?.from_date) {
+    from_dateFilter = router?.query?.from_date;
+  }
+  let to_dateFilter = moment().format("DD/MM/YYYY");
+  if (router?.query?.to_date) {
+    to_dateFilter = router?.query?.to_date;
+  }
+
   const [dateRange, setDateRange] = useState({
-    start: moment().format("DD/MM/YYYY"),
-    end: moment().format("DD/MM/YYYY")
+    start: from_dateFilter,
+    end: to_dateFilter
   });
   const dateRangeRef = useRef(null);
   const classes = useStyles();
@@ -195,10 +215,8 @@ const PLayerListFilter = ({
                 label="Nickname"
                 id="nick_name"
                 fullWidth={false}
-                defaultValue=""
               />
             </Grid>
-            
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
               <InputField
                 control={control}
@@ -207,7 +225,6 @@ const PLayerListFilter = ({
                 label="IP Address"
                 id="ip_address"
                 fullWidth={false}
-                defaultValue=""
               />
             </Grid>
             <Grid className={classes.dateRangeInput} item xs={12} xl={3} md={3}>
@@ -245,7 +262,6 @@ const PLayerListFilter = ({
                 label="Currency"
                 fullWidth={false}
                 options={currencyData}
-                defaultValue="all"
               />
             </Grid>
             <Grid item xs={12} xl={3} md={3}>
@@ -256,7 +272,6 @@ const PLayerListFilter = ({
                 label="Language"
                 options={languageData}
                 fullWidth={false}
-                defaultValue="all"
               />
             </Grid>
           </Grid>
