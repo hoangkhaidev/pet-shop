@@ -67,6 +67,10 @@ const PlayersList = () => {
     dispatch(setParentParam('/players/players'));
   }, []);
 
+  useEffect(() => {
+    console.log(objFilter);
+  }, [objFilter]);
+
   const columns = [
     {
       data_field: "id",

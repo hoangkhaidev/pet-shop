@@ -18,6 +18,7 @@ import api from "src/utils/api";
 import { SORT_ODER } from "src/constants";
 import SelectFieldMutiple from "src/components/shared/InputField/SelectFieldMutiple";
 import SelectFieldMutipleCustom from "src/components/shared/InputField/SelectFieldMutipleCustom";
+import InputNumber from "src/components/shared/InputField/InputNumber";
 
 const useStyles = makeStyles(() => ({
   inputDataPicked: {
@@ -267,13 +268,19 @@ const FailedTransactionFilter = ({
               />
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
-              <InputField
+              {/* <InputField
                 control={control}
                 namefileld="player_id"
                 type="text"
                 label="Player ID"
                 id="player_id"
                 fullWidth={false}
+              /> */}
+              <InputNumber
+                namefileld="player_id"
+                label="Player ID"
+                id="player_id"
+                control={control}
               />
               <div style={{ marginTop: '-16px' }}>
                 <SelectFieldMutipleCustom

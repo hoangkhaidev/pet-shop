@@ -16,6 +16,7 @@ import useRouter from "src/utils/hooks/useRouter";
 import { useSelector } from "react-redux";
 import api from "src/utils/api";
 import get from 'lodash/get';
+import InputNumber from "../shared/InputField/InputNumber";
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -179,13 +180,11 @@ const PLayerListFilter = ({
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} xl={3} md={3}>
-              <InputField
-                control={control}
+              <InputNumber
                 namefileld="player_id"
-                type="text"
                 label="Player ID"
                 id="player_id"
-                fullWidth={false}
+                control={control}
               />
             </Grid>
             <Grid item xs={12} xl={3} md={3}>

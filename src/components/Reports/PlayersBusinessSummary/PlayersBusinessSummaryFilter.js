@@ -16,6 +16,7 @@ import get from 'lodash/get';
 import InputField from "src/components/shared/InputField/InputField";
 import InputNumberValue from "./InputNumberValue";
 import SelectFieldMutiple from "src/components/shared/InputField/SelectFieldMutiple";
+import InputNumber from "src/components/shared/InputField/InputNumber";
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -243,13 +244,19 @@ const PlayersBusinessSummaryFilter = ({
               </RadioGroup>
             </Grid>
             <Grid item xs={12} xl={3} md={3}>
-              <InputField
+              {/* <InputField
                 control={control}
                 namefileld="player_id"
                 type="text"
                 label="Player ID"
                 id="player_id"
                 fullWidth={false}
+              /> */}
+              <InputNumber
+                namefileld="player_id"
+                label="Player ID"
+                id="player_id"
+                control={control}
               />
               <SelectField
                 control={control}

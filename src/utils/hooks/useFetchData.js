@@ -138,6 +138,19 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
           });
         }
 
+        if (dataJSON?.err === 'err:player_not_found') {
+          toast.warn('Player not found');
+          return setData({
+            isLoading: false,
+            dataResponse: null,
+            total_size: 0,
+            isLoaded: false,
+            isHasPermission: true,
+            total: 0,
+            refetch: false,
+          });
+        }
+
         if (dataJSON?.err === 'err:invalid_token') {
           navigate("/login");
           toast.warn('Your account has been changed password. Please contact your upline to get new password ');
