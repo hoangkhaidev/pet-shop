@@ -99,3 +99,12 @@ export const LIST_PERMISSIONS = [
     value: "edit"
   }
 ];
+
+export const SET_TOKEN = 'SET_TOKEN';
+export const DELETE_TOKEN = 'DELETE_TOKEN';
+
+export const UPDATE_RESULT_STATUS = "UPDATE_RESULT_STATUS";
+export const BACKEND_CLIENT_VERSION = "BACKEND_CLIENT_VERSION";
+
+export const IS_NEW_BACKEND_CLIENT_VERSION = "IS_NEW_BACKEND_CLIENT_VERSION";
+

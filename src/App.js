@@ -17,6 +17,7 @@ import { store, persistor } from "./stores";
 import 'react-toastify/dist/ReactToastify.css';
 import "./global.scss";
 import "./index.scss";
+import SocketComponent from "./SocketComponent";
 
 export const CurrentPageContext = createContext({
   currentMenu: null
@@ -48,6 +49,7 @@ const Routes = () => {
   return (
     <>
       <CurrentPageContext.Provider value={valueContext}>
+        <SocketComponent />
         <Helmet>
           <title>
             {curPage?.name}
