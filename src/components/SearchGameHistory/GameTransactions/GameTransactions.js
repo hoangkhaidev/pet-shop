@@ -28,8 +28,8 @@ const GameTransactions = () => {
   const [objFilter, setObjFilter] = useState({
     round_id: "",
     time_zone: tz,
-    sort_field: "start_at",
-    sort_order: "DESC",
+    sort_field: "end_at",
+    sort_order: "desc",
     player_id: Number(router.query.id),
     game_type: "",
     game_name: "",
@@ -54,6 +54,10 @@ const GameTransactions = () => {
     const mapData = get(dataResponse, 'list', []);
     setData(mapData);
   }, [dataResponse]);
+
+  useEffect(() => {
+    console.log(objFilter);
+  }, [objFilter]);
 
   const columns = [
     {

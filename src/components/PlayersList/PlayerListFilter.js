@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import api from "src/utils/api";
 import get from 'lodash/get';
 import InputNumber from "../shared/InputField/InputNumber";
+import { SORT_ODER } from "src/constants";
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -163,7 +164,7 @@ const PLayerListFilter = ({
       ip_address: "",
       language: "all",
       currency: "all",
-      sort_field: "id",
+      sort_field: "player_id",
       sort_order: "desc",
       page: 1,
       page_size: 30,
@@ -181,7 +182,7 @@ const PLayerListFilter = ({
       to_date: moment().format("DD/MM/YYYY"),
       language: "",
       currency: "",
-      sort_field: "id",
+      sort_field: "player_id",
       sort_order: "desc",
       page: 1,
       page_size: 30,
@@ -272,6 +273,53 @@ const PLayerListFilter = ({
                 label="Language"
                 options={languageData}
                 fullWidth={false}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} xl={3} md={3}>
+              <SelectField
+                control={control}
+                namefileld="sort_field"
+                id="sort_field"
+                label="Sort field"
+                fullWidth={false}
+                options={
+                  [
+                    {
+                      id: 1,
+                      value: "player_id",
+                      label: "Player ID"
+                    },
+                    {
+                      id: 2,
+                      value: "nick_name",
+                      label: "Nickname"
+                    },
+                    {
+                      id: 3,
+                      value: "sign_up",
+                      label: "Sign Up"
+                    },
+                    {
+                      id: 4,
+                      value: "last_login_time",
+                      label: "Last Login Time"
+                    }
+                  ]
+                }
+                defaultValue="player_id"
+              />
+            </Grid>
+            <Grid item xs={12} xl={3} md={3}>
+              <SelectField
+                control={control}
+                namefileld="sort_order"
+                id="sort_order"
+                label="Sort order"
+                options={SORT_ODER}
+                fullWidth={false}
+                defaultValue="asc"
               />
             </Grid>
           </Grid>

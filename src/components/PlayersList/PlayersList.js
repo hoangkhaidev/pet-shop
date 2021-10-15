@@ -28,7 +28,7 @@ const PlayersList = () => {
     to_date: moment().format("DD/MM/YYYY"),
     language: "",
     currency: "",
-    sort_field: "id",
+    sort_field: "player_id",
     sort_order: "desc",
     page: 1,
     page_size: 30,

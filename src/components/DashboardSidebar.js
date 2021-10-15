@@ -49,11 +49,11 @@ const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
         let messageToken = 'Your account has been changed password. Please contact your admin to get new password';
         localStorage.setItem('messageToken', JSON.stringify(messageToken));
       }
-      if (response?.err === 'err:inactive_account') {
-        onUserLogout();
-        let messageToken = 'Your account has been inactivated. Please contact your admin to activate';
-        localStorage.setItem('messageToken', JSON.stringify(messageToken));
-      }
+      // if (response?.err === 'err:inactive_account') {
+      //   onUserLogout();
+      //   let messageToken = 'Your account has been inactivated. Please contact your admin to activate';
+      //   localStorage.setItem('messageToken', JSON.stringify(messageToken));
+      // }
       console.log("response", response);
     }
   };

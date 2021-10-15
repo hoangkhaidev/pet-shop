@@ -25,6 +25,8 @@ const BusinessSummary = () => {
 
   const [objFilter, setObjFilter] = useState({
     option: "day",
+    sort_order: "desc",
+    sort_field: "period",
     ...{
       ...router.query,
       brand_ids: router.query.brand_ids ? brand_router : [],
@@ -49,6 +51,10 @@ const BusinessSummary = () => {
     let formatNum = cellFormat?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
     return formatNum;
   }
+
+  useEffect(() => {
+    console.log(objFilter);
+  }, [objFilter]);
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);

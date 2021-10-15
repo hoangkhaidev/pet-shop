@@ -132,6 +132,7 @@ const BusinessSummaryFilter = ({
       option: radio,
       from_date: dateRange.start,
       to_date: dateRange.end,
+      sort_field: radio === 'brand' ? radio : "period",
     };
     onSubmitProps(form);
   };
@@ -147,6 +148,8 @@ const BusinessSummaryFilter = ({
     setObjFilter({
       brand_ids: [],
       product_ids: [],
+      sort_order: "desc",
+      sort_field: "period",
       from_date: moment().startOf('month').format("DD/MM/YYYY"),
       to_date: moment().endOf('month').format("DD/MM/YYYY"),
       option: "day",

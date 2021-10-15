@@ -18,6 +18,7 @@ import InputNumberValue from "./InputNumberValue";
 import SelectFieldMutiple from "src/components/shared/InputField/SelectFieldMutiple";
 import InputNumber from "src/components/shared/InputField/InputNumber";
 import useRouter from "src/utils/hooks/useRouter";
+import { SORT_ODER } from "src/constants";
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -347,6 +348,93 @@ const PlayersBusinessSummaryFilter = ({
                 setBrandMultiple={setBrandMultiple}
                 brandMultiple={brandMultiple}
                 defaultValue={'all'}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} xl={3} md={3}>
+              <SelectField
+                control={control}
+                namefileld="sort_field"
+                id="sort_field"
+                label="Sort field"
+                fullWidth={false}
+                options={
+                  [
+                    {
+                      id: 1,
+                      value: "period",
+                      label: "Period"
+                    },
+                    {
+                      id: 2,
+                      value: "player_id",
+                      label: "Player ID"
+                    },
+                    {
+                      id: 3,
+                      value: "nick_name",
+                      label: "Nickname"
+                    },
+                    {
+                      id: 4,
+                      value: "sign_up_language",
+                      label: "Sign Up Language"
+                    },
+                    {
+                      id: 5,
+                      value: "brand",
+                      label: "Brand"
+                    },
+                    {
+                      id: 6,
+                      value: "bet_native",
+                      label: "Bets"
+                    },
+                    {
+                      id: 7,
+                      value: "win_native",
+                      label: "Wins"
+                    },
+                    {
+                      id: 7,
+                      value: "margin_native",
+                      label: "Margins"
+                    },
+                    {
+                      id: 7,
+                      value: "currency",
+                      label: "Currency"
+                    },
+                    {
+                      id: 8,
+                      value: "bet",
+                      label: "Bet ($)"
+                    },
+                    {
+                      id: 9,
+                      value: "win",
+                      label: "Win ($)"
+                    },
+                    {
+                      id: 10,
+                      value: "margin",
+                      label: "Margin ($)"
+                    },
+                  ]
+                }
+                defaultValue="period"
+              />
+            </Grid>
+            <Grid item xs={12} xl={3} md={3}>
+              <SelectField
+                control={control}
+                namefileld="sort_order"
+                id="sort_order"
+                label="Sort order"
+                options={SORT_ODER}
+                fullWidth={false}
+                defaultValue="desc"
               />
             </Grid>
           </Grid>

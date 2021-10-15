@@ -11,6 +11,7 @@ import SelectField from "src/components/shared/InputField/SelectField";
 import ButtonGroup, { SubmitButton, ResetButton } from "src/components/shared/Button/Button";
 import useFetchData from "src/utils/hooks/useFetchData";
 import useRouter from "src/utils/hooks/useRouter";
+import { SORT_ODER } from "src/constants";
 
 const useStyles = makeStyles(() => ({
   inputDataPicked: {
@@ -142,8 +143,8 @@ const GameTransactionFilter = ({
       page: 1,
       page_size: 30,
       time_zone: tz,
-      sort_field: "start_at",
-      sort_order: "DESC",
+      sort_field: "end_at",
+      sort_order: "desc",
       player_id: Number(router.query.id),
       round_id: "",
       game_type: "all",
@@ -157,8 +158,8 @@ const GameTransactionFilter = ({
       page: 1,
       page_size: 30,
       time_zone: tz,
-      sort_field: "start_at",
-      sort_order: "DESC",
+      sort_field: "end_at",
+      sort_order: "desc",
       player_id: Number(router.query.id),
       round_id: "",
       game_type: "",
@@ -229,6 +230,48 @@ const GameTransactionFilter = ({
                 fullWidth={false}
                 options={gameNameData}
                 defaultValue="all"
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} xl={3} md={3}>
+              <SelectField
+                control={control}
+                namefileld="sort_field"
+                id="sort_field"
+                label="Sort field"
+                fullWidth={false}
+                options={
+                  [
+                    {
+                      id: 1,
+                      value: "start_at",
+                      label: "Start Date"
+                    },
+                    {
+                      id: 2,
+                      value: "end_at",
+                      label: "End Date"
+                    },
+                    {
+                      id: 2,
+                      value: "game",
+                      label: "Game"
+                    }
+                  ]
+                }
+                defaultValue="end_at"
+              />
+            </Grid>
+            <Grid item xs={12} xl={3} md={3}>
+              <SelectField
+                control={control}
+                namefileld="sort_order"
+                id="sort_order"
+                label="Sort order"
+                options={SORT_ODER}
+                fullWidth={false}
+                defaultValue="desc"
               />
             </Grid>
           </Grid>
