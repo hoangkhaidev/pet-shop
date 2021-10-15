@@ -277,7 +277,7 @@ const BrandEdit = () => {
             toast.warn('Brand not found');
           }
           if (response?.err === 'err:suspended_account') {
-            toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
+            toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
           }
           if (response?.err === 'err:form_validation_failed') {
             for (const field in response?.data) {

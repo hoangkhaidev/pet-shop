@@ -136,14 +136,14 @@ const SubAccountCreate = () => {
           setIsHasPermission(false);
         }
         if (response?.err === 'err:suspended_account') {
-          toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
+          toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
         }
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
             if (response?.data[field] === 'err:invalid_ip_address') {
               setCheckWhiteIP('Invalid IP address');
             } else if (response?.data[field] === 'err:invalid_brand_ids') {
-              setErrorBrandMul('Field is required.');
+              setErrorBrandMul('Please select brand');
             } else {
               setError(field, {
                 type: 'validate',

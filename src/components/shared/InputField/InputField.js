@@ -90,7 +90,7 @@ const InputField = ({
       return errors.message = 'Account not found';
     }
     if (errors.message === 'err:locked_account') {
-      return errors.message = 'Oops! your account has been locked.';
+      return errors.message = 'Your account has been locked. Please contact your admin to unlock.';
     }
     if (errors.message === 'err:banned_account') {
       return errors.message = 'Oops! your account has been banned.';
@@ -99,7 +99,7 @@ const InputField = ({
       return errors.message = 'You are currently logged in from another device';
     }
     if (errors.message === 'err:inactive_account') {
-      return errors.message = 'Oops! your account has been inactive. Please contact your upline for more information.';
+      return errors.message = 'Your account has been inactivated. Please contact your admin to activate.';
     }
     if (errors.type === 'required') {
       return 'Field is required.';

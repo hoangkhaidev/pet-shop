@@ -33,7 +33,7 @@ const RunDevelopmentTest = () => {
             toast.warn('Brand not found');
           }
           if (response?.err === 'err:suspended_account') {
-            toast.warn('Cannot perform action, your account has been suspended, please contact your upline');
+            toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
           }
         }
     } catch (e) {
