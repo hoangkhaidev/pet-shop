@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Suspense, useEffect, useMemo, useState, createContext } from "react";
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import { useRoutes } from 'react-router-dom';
@@ -28,6 +29,8 @@ const Routes = () => {
   const [curPage, setCurPage] = useState({});
   const routing = useRoutes(routes(isLoggedIn));
   const router = useRouter();
+  const token = useSelector(state => state.authentication.token);
+  const [firstToken, setFirstToken] = useState(token);
 
   const routerHasUrl = useMemo(() => {
     let listUrl = [];
@@ -41,6 +44,19 @@ const Routes = () => {
     const currentPage = find(routerHasUrl, item => item.fullpath === router.pathname);
     setCurPage(currentPage);
   }, [router.pathname, routerHasUrl]);
+
+  useEffect(() => {
+    if (firstToken && firstToken !== token) {
+      // Reload when change token OR logout
+      window.location.reload();
+    }
+  }, [token, firstToken]);
+
+  useEffect(() => {
+    if (!firstToken) {
+      setFirstToken(token)
+    }
+  }, [token, setFirstToken]);
 
   const currentMenu = find(routes(), item => router.pathname.includes(`/${item.path}/`));
 

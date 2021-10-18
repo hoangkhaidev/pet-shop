@@ -34,7 +34,7 @@ class Socket {
           clearInterval(this.pingInterval)
           this.pingInterval = setInterval(this.ping.bind(this), 9000);
         } else {
-          console.log('autherror', error);
+          // console.log('autherror', error);
           setTimeout(function () {
             window.location.reload(true)
           }, 5000);
@@ -46,7 +46,7 @@ class Socket {
       // a message was received
       // const rawData = new Uint8Array(e.data);
       // const responseObject = msgpack.decode(rawData);
-      const responseObject = JSON.parse(e.data)
+      const responseObject = JSON.parse(e.data);
       const method = responseObject.method;
       const callId = responseObject.callId;
       if (has(responseObject, "data.backend_client_version")) {
@@ -67,6 +67,7 @@ class Socket {
       } else {
           // receive
         const data = responseObject.data;
+        console.log(data)
         if (method === 'logout') {
           APIUtils.logOut(data.reason)
           window.location.reload()

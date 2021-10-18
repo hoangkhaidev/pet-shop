@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useForm } from 'react-hook-form';
@@ -10,10 +11,10 @@ import {
   Card,
   Typography,
   makeStyles,
-  FormLabel
+  // FormLabel
 } from '@material-ui/core';
 import get from "lodash/get";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import InputField from 'src/components/shared/InputField/InputField';
 import  { FormattedNumberInputCaptcha } from 'src/components/shared/InputField/InputFieldNumber';
@@ -22,6 +23,8 @@ import Captcha from 'src/components/Captcha/Captcha';
 import api from "src/utils/api";
 import { getToken, checkIsAuthen } from "src/features/authentication/authentication";
 import { toast } from "react-toastify";
+import APIUtils from "src/api/APIUtils";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles(() => ({
   captchaInput: {
@@ -37,14 +40,33 @@ const useStyles = makeStyles(() => ({
 
 const Login = () => {
   const [captchaId, setCaptchaId] = useState("");
+  const { t } = useTranslation(['translation','err',]);
   const navigate = useNavigate();
   const classes = useStyles();
   const { control, handleSubmit, setError, formState: { errors } } = useForm();
   const dispatch = useDispatch();
-  let messageToken = JSON.parse(localStorage.getItem('messageToken'));
-  setTimeout(() => {
-    localStorage.removeItem('messageToken');
-  }, 10000);
+
+  // let messageToken = JSON.parse(localStorage.getItem('messageToken'));
+  // setTimeout(() => {
+  //   localStorage.removeItem('messageToken');
+  // }, 10000);
+
+  const [logOutReason, setLogOutReason] = useState(APIUtils.getLogOutReason());
+  const token = useSelector(state => state.authentication.token);
+
+  useEffect(() => {
+    if (!!token) {
+      // Reload when login
+      window.location.reload();
+    }
+  }, [token]);
+
+  useEffect(() => {
+    console.log(logOutReason)
+    if (logOutReason) {
+      setError('username', 'error', t(logOutReason))
+    }
+  }, [logOutReason]);
 
   const onSubmit = async (data) => {
     if (data.captcha === "") {
@@ -53,6 +75,7 @@ const Login = () => {
         message: "Please input captcha"
       });
     }
+    
     const form = {
       username: data.username,
       password: data.password,
@@ -61,6 +84,10 @@ const Login = () => {
         verify_value: data.captcha
       }
     };
+
+    APIUtils.deleteLogOutReason()
+    setLogOutReason('')
+
     const response = await api.post("/login", form, false);
     if (get(response, "success", false)) {
       const token = get(response, "data.token", "");
@@ -119,7 +146,7 @@ const Login = () => {
                   errors={errors.username}
                   control={control}
                 />
-                <FormLabel component="legend" className={classes.checkHelperText}>{messageToken ? messageToken : ''}</FormLabel>
+                {/* <FormLabel component="legend" className={classes.checkHelperText}>{messageToken ? messageToken : ''}</FormLabel> */}
                 <InputField
                   namefileld="password"
                   label="Password"

@@ -14,19 +14,20 @@ import { CurrentPageContext } from "src/App";
 import { useDispatch } from "react-redux";
 import { getUser } from "src/features/roleUser/roleUser";
 import NavItem from './NavItem';
-import { useNavigate } from 'react-router-dom';
-import { onLogout } from "src/features/authentication/authentication";
+// import { useNavigate } from 'react-router-dom';
+// import { onLogout } from "src/features/authentication/authentication";
+import APIUtils from 'src/api/APIUtils';
 
 const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
   const [listNav, setListNav] = useState({});
   const { currentMenu } = useContext(CurrentPageContext);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const onUserLogout = () => {
-    dispatch((onLogout()));
-    navigate("/");
-  };
+  // const onUserLogout = () => {
+  //   dispatch((onLogout()));
+  //   navigate("/");
+  // };
 
   const getListNav = useCallback(async () => {
     const response = await api.post('/api/navigation', null);
@@ -40,21 +41,21 @@ const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
   const getUserData = async() => {
     const response = await api.post('/api/auth', null);
     if (get(response, "success", false)) {
+      APIUtils.saveUserInfomation(JSON.stringify(response.data));
       let data = get(response, "data", "");
       dispatch(getUser(data));
     } else {
-      console.log(response);
       if (response?.err === 'err:invalid_token') {
-        onUserLogout();
-        let messageToken = 'Your account has been changed password. Please contact your admin to get new password';
-        localStorage.setItem('messageToken', JSON.stringify(messageToken));
+        // onUserLogout();
+        APIUtils.logOut();
+        // let messageToken = 'Your account has been changed password. Please contact your admin to get new password';
+        // localStorage.setItem('messageToken', JSON.stringify(messageToken));
       }
       // if (response?.err === 'err:inactive_account') {
       //   onUserLogout();
       //   let messageToken = 'Your account has been inactivated. Please contact your admin to activate';
       //   localStorage.setItem('messageToken', JSON.stringify(messageToken));
       // }
-      console.log("response", response);
     }
   };
 

@@ -4,10 +4,16 @@ import { useDispatch } from "react-redux";
 import Socket from './api/Socket';
 import APIUtils from './api/APIUtils';
 import { onReloadPage, updateResultStatus } from './actions';
+import { useNotification } from './context/NotificationContext';
 
 const SocketComponent = () => {
-  const [socket, setSocket] = useState(null)
+  const [socket, setSocket] = useState(null);
+  const [, dispatchNotification] = useNotification();
   const dispatch = useDispatch();
+
+  const onGetNotification = (data) => {
+    dispatchNotification(data)
+  }
 
   const onGetResultStatus = (data) => {
     if (data.success) {
@@ -23,7 +29,7 @@ const SocketComponent = () => {
 
   useEffect(() => {
     if (APIUtils.isAuthed())  {
-      setSocket(new Socket(onGetResultStatus, onGetBackendClientVersion))
+      setSocket(new Socket(onGetNotification, onGetResultStatus, onGetBackendClientVersion))
     }
   }, [onGetBackendClientVersion])
 

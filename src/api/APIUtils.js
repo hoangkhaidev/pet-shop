@@ -126,6 +126,7 @@ class APIUtils {
 	}
 
 	static logOut(reason) {
+		console.log(reason)
 		this.deleteToken()
 		this.deleteUserInformation()
 		if (reason) {
@@ -146,7 +147,7 @@ class APIUtils {
 	}
 
 	static getToken() {
-		return store.getState().auth.token;
+		return store.getState().authentication.token;
 	}
 
 	static deleteToken() {
