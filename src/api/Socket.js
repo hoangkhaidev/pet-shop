@@ -1,16 +1,18 @@
 import get from "lodash/get";
 import has from "lodash/get";
-import APIUtils from "./APIUtils";
+
+import APIUtils from './APIUtils'
 
 const SOCKET_API_URL = process.env.REACT_APP_SOCKET_API_URL
 
 class Socket {
-  constructor(setNotification, setResultStatus, setVersion) {
+  constructor(handleMessage, setNotification, setResultStatus, setVersion) {
     this.requestIdCounter = 0
     this.requestCallbackMap = {};
     this.pingInterval = null;
     this.authed = false
     this.ws = null
+    this.onHandleMesssage = handleMessage;
     this.setNotification = setNotification;
     this.setResultStatus = setResultStatus;
     this.setVersion = setVersion
@@ -26,15 +28,16 @@ class Socket {
           'token': APIUtils.getToken(),
         }, (response, error) => {
         if (!error) {
-          this.authed = true
-          this.setNotification({
-            type: 'reconnect_notification'
-          })
-          
+          if (this.authed) {//connect again
+            this.setNotification({
+              type: 'reconnect_notification'
+            })
+          }
+          this.authed = true;
           clearInterval(this.pingInterval)
           this.pingInterval = setInterval(this.ping.bind(this), 9000);
         } else {
-          // console.log('autherror', error);
+          console.log('autherror', error);
           setTimeout(function () {
             window.location.reload(true)
           }, 5000);
@@ -46,7 +49,8 @@ class Socket {
       // a message was received
       // const rawData = new Uint8Array(e.data);
       // const responseObject = msgpack.decode(rawData);
-      const responseObject = JSON.parse(e.data);
+      let message = e.data;
+      const responseObject = JSON.parse(message);
       const method = responseObject.method;
       const callId = responseObject.callId;
       if (has(responseObject, "data.backend_client_version")) {
@@ -66,24 +70,7 @@ class Socket {
         }
       } else {
           // receive
-        const data = responseObject.data;
-        console.log(data)
-        if (method === 'logout') {
-          APIUtils.logOut(data.reason)
-          window.location.reload()
-        }
-        if (method === 'top_bar_menu_dw_notify') {
-          this.setNotification({
-            type: 'update_notification',
-            ...data,
-          })
-        }
-        if (method === "period_result_cancelled" || method === "period_result_updated") {
-          this.setResultStatus({
-            type: method,
-            ...data,
-          })
-        }
+        this.onHandleMesssage(method, responseObject.data);
       }
     };
 

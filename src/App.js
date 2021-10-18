@@ -19,6 +19,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import "./global.scss";
 import "./index.scss";
 import SocketComponent from "./SocketComponent";
+import { NotificationProvider } from "./context/NotificationContext";
 
 export const CurrentPageContext = createContext({
   currentMenu: null
@@ -29,8 +30,32 @@ const Routes = () => {
   const [curPage, setCurPage] = useState({});
   const routing = useRoutes(routes(isLoggedIn));
   const router = useRouter();
-  const token = useSelector(state => state.authentication.token);
-  const [firstToken, setFirstToken] = useState(token);
+
+  const initialNotification = {
+    deposit: 0,
+    withdraw: 0,
+    needUpdate: false
+  };
+
+  const notificationReducer = (state, action) => {
+    switch (action.type) {
+      case 'update_notification':
+        return {
+          ...state,
+          has_new_request: action.has_new_request,
+          deposit: action.deposit,
+          withdraw: action.withdraw,
+        };
+      case 'reconnect_notification': {
+        return {
+          ...state,
+          needUpdate: !state.needUpdate
+        }
+      }
+      default:
+        return state;
+    }
+  };
 
   const routerHasUrl = useMemo(() => {
     let listUrl = [];
@@ -45,34 +70,23 @@ const Routes = () => {
     setCurPage(currentPage);
   }, [router.pathname, routerHasUrl]);
 
-  useEffect(() => {
-    if (firstToken && firstToken !== token) {
-      // Reload when change token OR logout
-      window.location.reload();
-    }
-  }, [token, firstToken]);
-
-  useEffect(() => {
-    if (!firstToken) {
-      setFirstToken(token)
-    }
-  }, [token, setFirstToken]);
-
   const currentMenu = find(routes(), item => router.pathname.includes(`/${item.path}/`));
 
   const valueContext = { currentMenu };
 
   return (
     <>
-      <CurrentPageContext.Provider value={valueContext}>
-        <SocketComponent />
-        <Helmet>
-          <title>
-            {curPage?.name}
-          </title>
-        </Helmet>
-        {routing}
-      </CurrentPageContext.Provider>
+      <NotificationProvider initialState={initialNotification} reducer={notificationReducer}>
+        <CurrentPageContext.Provider value={valueContext}>
+          <SocketComponent />
+          <Helmet>
+            <title>
+              {curPage?.name}
+            </title>
+          </Helmet>
+          {routing}
+        </CurrentPageContext.Provider>
+      </NotificationProvider>
     </>
   );
 };

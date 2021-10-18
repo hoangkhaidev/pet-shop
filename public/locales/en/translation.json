@@ -1,5 +1,6 @@
 {
   "NoPermissionHelpText": "The page you are looking for is temporarily unavailable.",
   "logout-inactive": "Your account has been inactivated. Please contact your admin to activate",
+  "Success": "Success",
   "logout-locked": "Your account has been locked. Please contact your admin to unlock"
 }

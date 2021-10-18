@@ -1,4 +1,4 @@
-import { deleteToken, setToken } from 'src/actions';
+import { onLogout, setToken } from 'src/features/authentication/authentication';
 import { store } from 'src/stores';
 
 const ROOT_API_URL = process.env.REACT_APP_ROOT_API_URL
@@ -151,7 +151,7 @@ class APIUtils {
 	}
 
 	static deleteToken() {
-		store.dispatch(deleteToken())
+		store.dispatch(onLogout())
 	}
 
 	static saveLogOutReason(reason) {
