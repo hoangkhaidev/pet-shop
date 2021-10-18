@@ -30,33 +30,7 @@ const Routes = () => {
   const [curPage, setCurPage] = useState({});
   const routing = useRoutes(routes(isLoggedIn));
   const router = useRouter();
-
-  const initialNotification = {
-    deposit: 0,
-    withdraw: 0,
-    needUpdate: false
-  };
-
-  const notificationReducer = (state, action) => {
-    switch (action.type) {
-      case 'update_notification':
-        return {
-          ...state,
-          has_new_request: action.has_new_request,
-          deposit: action.deposit,
-          withdraw: action.withdraw,
-        };
-      case 'reconnect_notification': {
-        return {
-          ...state,
-          needUpdate: !state.needUpdate
-        }
-      }
-      default:
-        return state;
-    }
-  };
-
+  
   const routerHasUrl = useMemo(() => {
     let listUrl = [];
     routes().forEach(item => {
@@ -76,20 +50,44 @@ const Routes = () => {
 
   return (
     <>
-      <NotificationProvider initialState={initialNotification} reducer={notificationReducer}>
-        <CurrentPageContext.Provider value={valueContext}>
-          <SocketComponent />
-          <Helmet>
-            <title>
-              {curPage?.name}
-            </title>
-          </Helmet>
-          {routing}
-        </CurrentPageContext.Provider>
-      </NotificationProvider>
+      <CurrentPageContext.Provider value={valueContext}>
+        <Helmet>
+          <title>
+            {curPage?.name}
+          </title>
+        </Helmet>
+        {routing}
+      </CurrentPageContext.Provider>
     </>
   );
 };
+
+const initialNotification = {
+  deposit: 0,
+  withdraw: 0,
+  needUpdate: false
+};
+
+const notificationReducer = (state, action) => {
+  switch (action.type) {
+    case 'update_notification':
+      return {
+        ...state,
+        has_new_request: action.has_new_request,
+        deposit: action.deposit,
+        withdraw: action.withdraw,
+      };
+    case 'reconnect_notification': {
+      return {
+        ...state,
+        needUpdate: !state.needUpdate
+      }
+    }
+    default:
+      return state;
+  }
+};
+
 
 const App = () => (
   <ThemeProvider theme={theme}>
@@ -98,6 +96,9 @@ const App = () => (
         <GlobalStyles />
         <Suspense fallback={CircularIndeterminate()}>
           <ToastContainer />
+          <NotificationProvider initialState={initialNotification} reducer={notificationReducer}>
+            <SocketComponent />
+          </NotificationProvider>
           <Routes />
         </Suspense>
       </PersistGate>

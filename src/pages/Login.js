@@ -46,12 +46,8 @@ const Login = () => {
   const { control, handleSubmit, setError, formState: { errors } } = useForm();
   const dispatch = useDispatch();
 
-  // let messageToken = JSON.parse(localStorage.getItem('messageToken'));
-  // setTimeout(() => {
-  //   localStorage.removeItem('messageToken');
-  // }, 10000);
-
   const [logOutReason, setLogOutReason] = useState(APIUtils.getLogOutReason());
+
   const token = useSelector(state => state.authentication.token);
 
   useEffect(() => {
@@ -62,9 +58,11 @@ const Login = () => {
   }, [token]);
 
   useEffect(() => {
-    console.log(logOutReason)
     if (logOutReason) {
-      setError('username', 'error', t(logOutReason))
+      setError('username', {
+        type: 'error', 
+        message: t(logOutReason)
+      })
     }
   }, [logOutReason]);
 
@@ -75,7 +73,7 @@ const Login = () => {
         message: "Please input captcha"
       });
     }
-    
+
     const form = {
       username: data.username,
       password: data.password,
@@ -141,12 +139,11 @@ const Login = () => {
                 <InputField
                   namefileld="username"
                   label="Username"
-                  id="email-field"
+                  id="username"
                   required
                   errors={errors.username}
                   control={control}
                 />
-                {/* <FormLabel component="legend" className={classes.checkHelperText}>{messageToken ? messageToken : ''}</FormLabel> */}
                 <InputField
                   namefileld="password"
                   label="Password"

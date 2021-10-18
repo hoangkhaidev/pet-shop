@@ -49,8 +49,8 @@ class Socket {
       // a message was received
       // const rawData = new Uint8Array(e.data);
       // const responseObject = msgpack.decode(rawData);
-      let message = e.data;
-      const responseObject = JSON.parse(message);
+      const responseObject = JSON.parse(e.data);
+      // console.log(responseObject)
       const method = responseObject.method;
       const callId = responseObject.callId;
       if (has(responseObject, "data.backend_client_version")) {
