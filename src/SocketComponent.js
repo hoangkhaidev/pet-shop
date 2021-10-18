@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import APIUtils from './api/APIUtils'
 import 'react-toastify/dist/ReactToastify.css';
-import Socket from './api/Socket'
+import Socket from './api/Socket';
 import { useTranslation } from 'react-i18next';
 // import { onReloadPage, updateResultStatus } from './actions';
 import { useNotification } from './context/NotificationContext';
