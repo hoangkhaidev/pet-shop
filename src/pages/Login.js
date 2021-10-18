@@ -14,7 +14,7 @@ import {
   // FormLabel
 } from '@material-ui/core';
 import get from "lodash/get";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import InputField from 'src/components/shared/InputField/InputField';
 import  { FormattedNumberInputCaptcha } from 'src/components/shared/InputField/InputFieldNumber';
@@ -48,15 +48,6 @@ const Login = () => {
 
   const [logOutReason, setLogOutReason] = useState(APIUtils.getLogOutReason());
 
-  const token = useSelector(state => state.authentication.token);
-
-  useEffect(() => {
-    if (!!token) {
-      // Reload when login
-      window.location.reload();
-    }
-  }, [token]);
-
   useEffect(() => {
     if (logOutReason) {
       setError('username', {
@@ -83,8 +74,8 @@ const Login = () => {
       }
     };
 
-    APIUtils.deleteLogOutReason()
-    setLogOutReason('')
+    APIUtils.deleteLogOutReason();
+    setLogOutReason('');
 
     const response = await api.post("/login", form, false);
     if (get(response, "success", false)) {

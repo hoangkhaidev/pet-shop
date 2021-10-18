@@ -55,10 +55,6 @@ const GameTransactions = () => {
     setData(mapData);
   }, [dataResponse]);
 
-  useEffect(() => {
-    console.log(objFilter);
-  }, [objFilter]);
-
   const columns = [
     {
       data_field: "round_id",

@@ -204,23 +204,23 @@ const GameTransactionFilter = ({
               />
               <SelectField
                 control={control}
-                namefileld="time_zone"
-                id="time_zone"
-                label="Time Zone"
-                fullWidth={false}
-                options={timezoneData}
-                defaultValue={tz}
-              />
-            </Grid>
-            <Grid item xs={12} xl={3} md={4}>
-              <SelectField
-                control={control}
                 namefileld="game_type"
                 id="game_type"
                 label="Game Type"
                 fullWidth={false}
                 options={gameTypeData}
                 defaultValue="all"
+              />
+            </Grid>
+            <Grid item xs={12} xl={3} md={4}>
+              <SelectField
+                control={control}
+                namefileld="time_zone"
+                id="time_zone"
+                label="Time Zone"
+                fullWidth={false}
+                options={timezoneData}
+                defaultValue={tz}
               />
               <SelectField
                 control={control}
