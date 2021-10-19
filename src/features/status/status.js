@@ -7,7 +7,7 @@ const initialState = {
   isReloadPage: false,
 };
 
-export const status = createSlice({
+export const statusSlice = createSlice({
   name: "status",
   initialState,
   reducers: {
@@ -20,6 +20,6 @@ export const status = createSlice({
   }
 });
 
-export const { updateResultStatus, onReloadPage } = status.actions;
+export const { updateResultStatus, onReloadPage } = statusSlice.actions;
 
-export default status.reducer;
+export default statusSlice.reducer;

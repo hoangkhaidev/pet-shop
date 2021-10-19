@@ -48,6 +48,10 @@ const TransactionDetailInfo = ({onClose, roundId}) => {
     setDataCurrency(mapDataCurrency);
   }, [dataResponse]);
 
+  // useEffect(() => {
+  //   console.log(dataResponse);
+  // }, [dataResponse]);
+
   const onCancel = () => {
     onClose();
   }
@@ -77,7 +81,7 @@ const TransactionDetailInfo = ({onClose, roundId}) => {
               Player:
             </div>
             <div>
-              <b>{data.member_id} - {data.username}</b> ({dataCurrency.code} - {dataCurrency.name} (1 = {dataCurrency.symbol}{dataCurrency.rate}))
+              <b>{data.member_id} - {data.username}</b> ({dataCurrency.code} - {dataCurrency.name} (1 = {dataCurrency.symbol}{dataCurrency.ratio_rate}))
             </div>
           </div>
           <div className={classes.infoLine}>

@@ -33,8 +33,8 @@ const SocketComponent = () => {
   }, [dispatch])
 
   const handleMessage = (method, data)=> {
-    // console.log(data);
-    // console.log(method);
+    console.log(data);
+    console.log(method);
       if (method === 'logout') {
         APIUtils.logOut(data.reason)
         window.location.reload()

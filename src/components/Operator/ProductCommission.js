@@ -106,7 +106,7 @@ const ProductCommission = ({ item, productCommission, setProductCommission, requ
             <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
               <TextField
                   name={nameCon}
-                  id="outlined-start-adornment"
+                  id={nameCon}
                   label={
                     <div>
                       Commission

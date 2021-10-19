@@ -7,8 +7,8 @@ import statusReducer from "src/features/status/status";
 const rootReducer = combineReducers({
   authentication: authenticationReducer,
   roleUser: roleUserReducer,
-  status: parentParamReducer,
-  parentParam: statusReducer,
+  status: statusReducer,
+  parentParam: parentParamReducer,
 });
 
 export default rootReducer;

@@ -234,7 +234,7 @@ const GameTransactionFilter = ({
             </Grid>
           </Grid>
           <Grid container spacing={2}>
-            <Grid item xs={12} xl={3} md={3}>
+            <Grid item xs={12} xl={3} md={4}>
               <SelectField
                 control={control}
                 namefileld="sort_field"
@@ -263,7 +263,7 @@ const GameTransactionFilter = ({
                 defaultValue="end_at"
               />
             </Grid>
-            <Grid item xs={12} xl={3} md={3}>
+            <Grid item xs={12} xl={3} md={4}>
               <SelectField
                 control={control}
                 namefileld="sort_order"

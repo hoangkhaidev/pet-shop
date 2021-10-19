@@ -25,6 +25,32 @@ export const CurrentPageContext = createContext({
   currentMenu: null
 });
 
+const initialNotification = {
+  deposit: 0,
+  withdraw: 0,
+  needUpdate: false
+};
+
+const notificationReducer = (state, action) => {
+  switch (action.type) {
+    case 'update_notification':
+      return {
+        ...state,
+        has_new_request: action.has_new_request,
+        deposit: action.deposit,
+        withdraw: action.withdraw,
+      };
+    case 'reconnect_notification': {
+      return {
+        ...state,
+        needUpdate: !state.needUpdate
+      }
+    }
+    default:
+      return state;
+  }
+};
+
 const Routes = () => {
   const { isLoggedIn } = useSelector((state) => state.authentication);
   const [curPage, setCurPage] = useState({});
@@ -61,33 +87,6 @@ const Routes = () => {
     </>
   );
 };
-
-const initialNotification = {
-  deposit: 0,
-  withdraw: 0,
-  needUpdate: false
-};
-
-const notificationReducer = (state, action) => {
-  switch (action.type) {
-    case 'update_notification':
-      return {
-        ...state,
-        has_new_request: action.has_new_request,
-        deposit: action.deposit,
-        withdraw: action.withdraw,
-      };
-    case 'reconnect_notification': {
-      return {
-        ...state,
-        needUpdate: !state.needUpdate
-      }
-    }
-    default:
-      return state;
-  }
-};
-
 
 const App = () => (
   <ThemeProvider theme={theme}>
