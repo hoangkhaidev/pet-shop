@@ -126,7 +126,6 @@ class APIUtils {
 	}
 
 	static logOut(reason) {
-		console.log(reason)
 		this.deleteToken()
 		this.deleteUserInformation()
 		if (reason) {

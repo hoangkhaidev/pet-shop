@@ -23,6 +23,7 @@ import { getToken, checkIsAuthen } from "src/features/authentication/authenticat
 import { toast } from "react-toastify";
 import APIUtils from "src/api/APIUtils";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles(() => ({
   captchaInput: {
@@ -45,7 +46,16 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const [logOutReason, setLogOutReason] = useState(APIUtils.getLogOutReason());
+  
+  const token = useSelector(state => state.authentication.token);
 
+  useEffect(() => {
+    if (!!token) {
+      // Reload when login
+      window.location.reload();
+    }
+  }, [token]);
+  
   useEffect(() => {
     if (logOutReason) {
       setError('username', {
@@ -78,8 +88,8 @@ const Login = () => {
     const response = await api.post("/login", form, false);
     if (get(response, "success", false)) {
       const token = get(response, "data.token", "");
-      dispatch(getToken(token));
       dispatch(checkIsAuthen(true));
+      dispatch(getToken(token));
       navigate("/home/dashboard");
     } else {
       if (response?.err === 'err:ip_not_allowed') {

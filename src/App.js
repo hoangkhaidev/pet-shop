@@ -53,10 +53,11 @@ const notificationReducer = (state, action) => {
 
 const Routes = () => {
   const { isLoggedIn } = useSelector((state) => state.authentication);
+
   const [curPage, setCurPage] = useState({});
   const routing = useRoutes(routes(isLoggedIn));
   const router = useRouter();
-  
+
   const routerHasUrl = useMemo(() => {
     let listUrl = [];
     routes().forEach(item => {
@@ -82,6 +83,7 @@ const Routes = () => {
             {curPage?.name}
           </title>
         </Helmet>
+        <SocketComponent />
         {routing}
       </CurrentPageContext.Provider>
     </>
@@ -96,9 +98,8 @@ const App = () => (
         <Suspense fallback={CircularIndeterminate()}>
           <ToastContainer />
           <NotificationProvider initialState={initialNotification} reducer={notificationReducer}>
-            <SocketComponent />
+            <Routes />
           </NotificationProvider>
-          <Routes />
         </Suspense>
       </PersistGate>
     </Provider>
