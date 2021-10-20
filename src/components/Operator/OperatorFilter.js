@@ -53,7 +53,7 @@ const OperatorListFilter = ({onResetFilter}) => {
                 },
                 {
                   id: 2,
-                  value: "name",
+                  value: "operator_name",
                   label: "Name"
                 }
               ]

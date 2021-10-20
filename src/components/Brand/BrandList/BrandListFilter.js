@@ -65,7 +65,7 @@ const BrandListFilter = ({onResetFilter, operatorData}) => {
                 },
                 {
                   id: 2,
-                  value: "name",
+                  value: "brand_name",
                   label: "Name"
                 }
               ]

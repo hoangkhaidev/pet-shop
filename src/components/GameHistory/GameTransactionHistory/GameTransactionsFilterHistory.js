@@ -186,7 +186,7 @@ const GameTransactionFilterHistory = ({
       page: 1,
       page_size: 30,
       time_zone: tz,
-      sort_field: "end_at",
+      sort_field: "end_date",
       sort_order: "desc",
       brand_id: "all",
       player_id: "",
@@ -204,7 +204,7 @@ const GameTransactionFilterHistory = ({
       page_size: 30,
       time_zone: tz,
       brand_id: 1,
-      sort_field: "end_at",
+      sort_field: "end_date",
       sort_order: "desc",
       player_id: "",
       nick_name: "",
@@ -322,22 +322,22 @@ const GameTransactionFilterHistory = ({
                   [
                     {
                       id: 1,
-                      value: "start_at",
+                      value: "start_date",
                       label: "Start Date"
                     },
                     {
                       id: 2,
-                      value: "end_at",
+                      value: "end_date",
                       label: "End Date"
                     },
                     {
                       id: 2,
-                      value: "game",
+                      value: "game_name",
                       label: "Game"
                     }
                   ]
                 }
-                defaultValue="end_at"
+                defaultValue="end_date"
               />
             </Grid>
             <Grid item xs={12} xl={3} md={3}>

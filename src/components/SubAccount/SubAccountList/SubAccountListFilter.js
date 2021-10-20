@@ -18,11 +18,6 @@ const SORT_FIELD = [
     value: "username",
     label: "Username"
   },
-  {
-    id: 2,
-    value: "name",
-    label: "Name"
-  }
 ];
 
 const SubAccountListFilter = ({

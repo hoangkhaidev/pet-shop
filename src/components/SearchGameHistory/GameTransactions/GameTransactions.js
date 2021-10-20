@@ -25,14 +25,15 @@ const GameTransactions = () => {
   let tz = new Date().getTimezoneOffset()
   tz = ((tz <0 ? '+' : '-') + pad(parseInt(Math.abs(tz / 60)), 2) + pad(Math.abs(tz % 60), 2));
 
+  // console.log(JSON.stringify(router));
+
   const [objFilter, setObjFilter] = useState({
     round_id: "",
     time_zone: tz,
-    sort_field: "end_at",
+    sort_field: "end_date",
     sort_order: "desc",
     player_id: Number(router.query.id),
     game_type: "",
-    game_name: "",
     from_date: moment().format("DD/MM/YYYY 00:00"),
     to_date: moment().format("DD/MM/YYYY 23:59"),
     page: 1,
@@ -40,6 +41,7 @@ const GameTransactions = () => {
     ...{
       ...router.query,
       player_id: router.query.id ? Number(router.query.id) : 0,
+      game_name: router.query.game_name ? router.query.game_name : "",
     },
   });
 
@@ -54,6 +56,10 @@ const GameTransactions = () => {
     const mapData = get(dataResponse, 'list', []);
     setData(mapData);
   }, [dataResponse]);
+
+  useEffect(() => {
+    console.log(objFilter);
+  }, [objFilter]);
 
   const columns = [
     {

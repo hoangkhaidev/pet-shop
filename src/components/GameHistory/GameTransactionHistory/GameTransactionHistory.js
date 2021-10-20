@@ -56,6 +56,7 @@ const GameTransactionHistory = () => {
     const stringified = queryString.stringify(objFilter);
     let url = `${router.location.pathname}?${stringified}`;
     router.navigate(url);
+    console.log(objFilter)
   }, [objFilter]);
 
   const [data, setData] = useState([]);
@@ -129,6 +130,7 @@ const GameTransactionHistory = () => {
       ...data
     };
 
+    console.log(dataForm)
     try {
         const response = await api.post('/api/transaction/game_history', dataForm);
         
