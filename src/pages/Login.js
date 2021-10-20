@@ -23,7 +23,7 @@ import { getToken, checkIsAuthen } from "src/features/authentication/authenticat
 import { toast } from "react-toastify";
 import APIUtils from "src/api/APIUtils";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 const useStyles = makeStyles(() => ({
   captchaInput: {
@@ -47,14 +47,15 @@ const Login = () => {
 
   const [logOutReason, setLogOutReason] = useState(APIUtils.getLogOutReason());
   
-  const token = useSelector(state => state.authentication.token);
+  // const token = useSelector(state => state.authentication.token);
 
-  useEffect(() => {
-    if (!!token) {
-      // Reload when login
-      window.location.reload();
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   console.log(token)
+  //   if (!!token) {
+  //     // Reload when login
+  //     window.location.reload();
+  //   }
+  // }, [token]);
   
   useEffect(() => {
     if (logOutReason) {

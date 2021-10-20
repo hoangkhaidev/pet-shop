@@ -7,12 +7,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import Socket from './api/Socket';
 import { useTranslation } from 'react-i18next';
 // import { onReloadPage, updateResultStatus } from './actions';
+import { useSelector } from 'react-redux';
 import { useNotification } from './context/NotificationContext';
 import { onReloadPage, updateResultStatus } from './features/status/status';
 
 const SocketComponent = () => {
   const [socket, setSocket] = useState(null)
   const [, dispatchNotification] = useNotification();
+  const token = useSelector((state) => state.authentication.token);
   const { t } = useTranslation(["translation", "err"]);
   const dispatch = useDispatch();
 
@@ -75,10 +77,10 @@ const SocketComponent = () => {
   }
 
   useEffect(() => {
-    if (APIUtils.isAuthed())  {
+    if (token)  {
       setSocket(new Socket(handleMessage, setNotification, setResultStatus, handleBackendClientVersion))
     }
-  }, [handleBackendClientVersion]);
+  }, [handleBackendClientVersion , token]);
 
   useEffect(() => {
     if (socket) {
