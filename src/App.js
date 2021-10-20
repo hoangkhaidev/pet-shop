@@ -57,7 +57,6 @@ const Routes = () => {
   const [curPage, setCurPage] = useState({});
   const routing = useRoutes(routes(isLoggedIn));
   const router = useRouter();
-  console.log(router)
 
   const routerHasUrl = useMemo(() => {
     let listUrl = [];
