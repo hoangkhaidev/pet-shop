@@ -30,7 +30,7 @@ const GameTransactionHistory = () => {
   const [objFilter, setObjFilter] = useState({
     page: 1,
     page_size: 30,
-    sort_field: "end_at",
+    sort_field: "end_date",
     sort_order: "desc",
     brand_id: 1,
     player_id: "",
