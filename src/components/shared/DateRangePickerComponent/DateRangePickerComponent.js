@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 const DateRangePickerComponent = ({
   timePicker, startDate, endDate,
-  handleCallback, format, dateRangeRef, maxDate, minDate
+  handleCallback, format, dateRangeRef, maxDate, minDate, showtime24
 }) => {
   return (
     <div style={{ position: 'relative' }}>
@@ -19,7 +19,7 @@ const DateRangePickerComponent = ({
           chosenLabel:'test',
           startDate,
           endDate,
-          timePicker: true,
+          timePicker: showtime24,
           timePicker24Hour: true,
           maxDate,
           minDate,

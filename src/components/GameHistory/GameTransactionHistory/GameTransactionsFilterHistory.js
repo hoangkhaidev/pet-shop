@@ -59,7 +59,7 @@ const GameTransactionFilterHistory = ({
   let tz = new Date().getTimezoneOffset()
   tz = ((tz <0 ? '+' : '-') + pad(parseInt(Math.abs(tz / 60)), 2) + pad(Math.abs(tz % 60), 2));
 
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, reset, formState: { errors } } = useForm({
     defaultValues: {
       brand_id: router.query.brand_id ? Number(router.query.brand_id) : "",
       player_id: router.query.player_id ? router.query.player_id : "",
@@ -171,12 +171,13 @@ const GameTransactionFilterHistory = ({
   };
 
   const onSubmit = async (data) => {
+    // console.log(data);
     const form = {
       ...data,
       game_type: data.game_type === 'all' ? '' : data.game_type,
       game_name: data.game_name === 'all' ? '' : data.game_name,
       nick_name: data.nick_name ? data.nick_name : '',
-      brand_id: Number(data.brand_id),
+      brand_id: data?.brand_id === '' ? data?.brand_id : Number(data.brand_id),
       player_id: Number(data.player_id),
       from_date: dateRange.start,
       to_date: dateRange.end,
@@ -191,7 +192,7 @@ const GameTransactionFilterHistory = ({
       time_zone: tz,
       sort_field: "end_date",
       sort_order: "desc",
-      brand_id: "all",
+      brand_id: "",
       player_id: "",
       nick_name: "",
       round_id: "",
@@ -206,10 +207,10 @@ const GameTransactionFilterHistory = ({
       page: 1,
       page_size: 30,
       time_zone: tz,
-      brand_id: 1,
       sort_field: "end_date",
       sort_order: "desc",
       player_id: "",
+      brand_id: "",
       nick_name: "",
       round_id: "",
       game_type: "",
@@ -232,6 +233,7 @@ const GameTransactionFilterHistory = ({
             <Grid className={classes.inputDataPicked} item xs={12} xl={3} md={3}>
                 <SelectField
                   control={control}
+                  errors={errors?.brand_id}
                   selectDisabled= {roleUser.account_type === 'brand' ? true : false}
                   namefileld="brand_id"
                   id="brand_id"
@@ -253,6 +255,7 @@ const GameTransactionFilterHistory = ({
                   handleCallback={onChangeDateRange}
                   dateRangeRef={dateRangeRef}
                   format="DD/MM/YYYY H:mm"
+                  showtime24={true}
                 />
                 
             </Grid>

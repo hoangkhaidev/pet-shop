@@ -11,7 +11,7 @@ import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import TransactionDetails from "src/components/TransactionDetails/TransactionDetails";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 
-const GameTransactions = () => {
+const GameTransactions = ({ gameName }) => {
   const router = useRouter();
 
   const pad = (number, length) => {
@@ -25,7 +25,15 @@ const GameTransactions = () => {
   let tz = new Date().getTimezoneOffset()
   tz = ((tz <0 ? '+' : '-') + pad(parseInt(Math.abs(tz / 60)), 2) + pad(Math.abs(tz % 60), 2));
 
-  // console.log(JSON.stringify(router));
+  console.log(gameName);
+  let gameRouter = '';
+  if (gameName) {
+    gameRouter = gameName;
+  } else {
+    if (router.query.game_name) {
+      gameRouter = router.query.game_name;
+    }
+  }
 
   const [objFilter, setObjFilter] = useState({
     page: 1,
@@ -35,7 +43,7 @@ const GameTransactions = () => {
     ...{
       ...router.query,
       player_id: router.query.id ? Number(router.query.id) : 0,
-      game_name: router.query.game_name ? router.query.game_name : "",
+      game_name: gameRouter,
       game_type: router.query.game_type ? router.query.game_type : "",
       time_zone: router.query.time_zone ? router.query.time_zone : tz,
       round_id: router.query.round_id ? router.query.round_id : "",
@@ -50,6 +58,10 @@ const GameTransactions = () => {
   );
 
   const [data, setData] = useState([]);
+
+  useEffect(() => {
+    console.log(objFilter)
+  }, [objFilter]);
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
@@ -146,7 +158,7 @@ const GameTransactions = () => {
       {isLoading && <Loading />}
       <div style={{ fontWeight: '600', fontSize: '22px'}}>Game Transaction</div>
       
-      <GameTransactionsFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
+      <GameTransactionsFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} gameName={gameName} />
       <TableComponent
         data={data}
         columns={columns}

@@ -62,10 +62,10 @@ const GamesFilterHistory = ({
   let tz = new Date().getTimezoneOffset()
   tz = ((tz <0 ? '+' : '-') + pad(parseInt(Math.abs(tz / 60)), 2) + pad(Math.abs(tz % 60), 2));
 
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, reset, formState: { errors } } = useForm({
     defaultValues: {
       player_id: router.query.player_id ? Number(router.query.player_id) : "",
-      brand_id: router.query.brand_id ? Number(router.query.brand_id) : "all",
+      brand_id: router.query.brand_id ? Number(router.query.brand_id) : "",
       game_name: router.query.game_name ? router.query.game_name : "all",
       game_type: router.query.game_type ? router.query.game_type : "all",
       time_zone: router.query.time_zone ? router.query.time_zone : tz,
@@ -75,7 +75,7 @@ const GamesFilterHistory = ({
   });
 
   useEffect(() => {
-    let mapData = [{id: 0, value: "all", label: "All"}];
+    let mapData = [];
     let newBrand;
     if(brandsData) {
       newBrand = [...brandsData];
@@ -183,7 +183,7 @@ const GamesFilterHistory = ({
       ...data,
       game_name: data.game_name === 'all' ? '' : data.game_name,
       game_type: data.game_type === 'all' ? '' : data.game_type,
-      brand_id: data.brand_id === 'all' ? 1 : Number(data.brand),
+      brand_id: data?.brand_id === '' ? data?.brand_id : Number(data.brand_id),
       player_id: Number(data.player_id),
       from_date: dateRange.start,
       to_date: dateRange.end,
@@ -198,7 +198,7 @@ const GamesFilterHistory = ({
       sort_order: "DESC",
       player_id: "",
       round_id: "",
-      brand_id: "all",
+      brand_id: "",
       nick_name: "",
       game_type: "all",
       game_name: "all",
@@ -213,7 +213,7 @@ const GamesFilterHistory = ({
       sort_order: "DESC",
       player_id: "",
       round_id: "",
-      brand_id: 1,
+      brand_id: "",
       game_type: "",
       game_name: "",
       from_date: moment().format("DD/MM/YYYY"),
@@ -236,6 +236,7 @@ const GamesFilterHistory = ({
                 selectDisabled= {roleUser.account_type === 'brand' ? true : false}
                 control={control}
                 namefileld="brand_id"
+                errors={errors?.brand_id}
                 id="brand_id"
                 label="Brand"
                 disabled

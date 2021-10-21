@@ -239,6 +239,7 @@ const PLayerListFilter = ({
                   startDate={dateRange.start}
                   endDate={dateRange.end}
                   dateRangeRef={dateRangeRef}
+                  showtime24={false}
                   format="DD/MM/YYYY"
                 />
               </FormControl>

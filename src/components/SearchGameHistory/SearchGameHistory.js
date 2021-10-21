@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense, createContext } from "react";
+import { useState, lazy, Suspense, createContext, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -45,6 +45,8 @@ const useStyles = makeStyles((theme) => ({
 const SearchGameHistory = () => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
+  const [gameName, setGameName] = useState('');
+
   const [dateRange, setDateRange] = useState({
     start: moment().format("DD/MM/YYYY"),
     end: moment().format("DD/MM/YYYY")
@@ -55,6 +57,15 @@ const SearchGameHistory = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const onChangeTransaction = (gameName) => {
+    setValue(0);
+    setGameName(gameName);
+  }
+
+  useEffect(() => {
+    console.log(gameName)
+  }, [gameName]);
 
   return (
     <div className={classes.root}>
@@ -74,10 +85,10 @@ const SearchGameHistory = () => {
       <DateRangeContext.Provider value={valueContext}>
         <Suspense fallback={<Loading />}>
           <TabPanel value={value} index={0}>
-            <GameTransactions />
+            <GameTransactions gameName={gameName}/>
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <GamesList />
+            <GamesList onChangeTransaction={onChangeTransaction}/>
           </TabPanel>
         </Suspense>
       </DateRangeContext.Provider>

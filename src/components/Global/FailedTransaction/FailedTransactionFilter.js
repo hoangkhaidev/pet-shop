@@ -236,6 +236,7 @@ const FailedTransactionFilter = ({
                   handleCallback={onChangeDateRange}
                   dateRangeRef={dateRangeRef}
                   format="DD/MM/YYYY H:mm"
+                  showtime24={true}
                 />
                 <InputField
                   control={control}

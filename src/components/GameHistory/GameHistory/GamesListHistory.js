@@ -34,7 +34,7 @@ const GamesListHistory = () => {
     ...{
       ...router.query,
       player_id: router.query.id ? Number(router.query.id) : "",
-      brand_id: router.query.id ? Number(router.query.id) : 1,
+      brand_id: router.query.brand_id ? Number(router.query.brand_id) : "",
       game_name: router.query.game_name ? router.query.game_name : "",
       game_type: router.query.game_type ? router.query.game_type : "",
       time_zone: router.query.time_zone ? router.query.time_zone : tz,
@@ -49,6 +49,7 @@ const GamesListHistory = () => {
     const stringified = queryString.stringify(objFilter);
     let url = `${router.location.pathname}?${stringified}`;
     router.navigate(url);
+    console.log(objFilter)
   }, [objFilter]);
 
   const [data, setData] = useState([]);
@@ -88,7 +89,7 @@ const GamesListHistory = () => {
       align: "left",
       formatter: (cell, row) => {
         return (
-          <Link href={`/players/game-history?brand_id=1&from_date=${moment().format("DD/MM/YYYY 00:00")}&game_name=${row.game_name}&game_type=&nick_name=&page=1&page_size=30&player_id=${router.query.player_id}&round_id=&sort_field=start_date&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${moment().format("DD/MM/YYYY 23:59")}`}>{cell}</Link>
+          <Link href={`/players/game-history?brand_id=${router?.query?.brand_id}&from_date=${moment().format("DD/MM/YYYY 00:00")}&game_name=${row.game_name}&game_type=&nick_name=&page=1&page_size=30&player_id=${router.query.player_id}&round_id=&sort_field=start_date&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${moment().format("DD/MM/YYYY 23:59")}`}>{cell}</Link>
         )
       }
     },

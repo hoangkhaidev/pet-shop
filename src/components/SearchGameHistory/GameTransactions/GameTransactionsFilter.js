@@ -26,7 +26,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const GameTransactionFilter = ({
-  onSubmitProps, setObjFilter
+  onSubmitProps, setObjFilter, gameName
 }) => {
   const classes = useStyles();
   const router = useRouter();
@@ -51,9 +51,18 @@ const GameTransactionFilter = ({
   let tz = new Date().getTimezoneOffset()
   tz = ((tz <0 ? '+' : '-') + pad(parseInt(Math.abs(tz / 60)), 2) + pad(Math.abs(tz % 60), 2));
 
+  let gameRouter = 'all';
+  if (gameName) {
+    gameRouter = gameName;
+  } else {
+    if (router.query.game_name) {
+      gameRouter = router.query.game_name;
+    }
+  }
+
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      game_name: router.query.game_name ? router.query.game_name : "all",
+      game_name: gameRouter,
       game_type: router.query.game_type ? router.query.game_type : "all",
       time_zone: router.query.time_zone ? router.query.time_zone : tz,
       round_id: router.query.round_id ? router.query.round_id : "",
@@ -194,6 +203,7 @@ const GameTransactionFilter = ({
                   handleCallback={onChangeDateRange}
                   dateRangeRef={dateRangeRef}
                   format="DD/MM/YYYY H:mm"
+                  showtime24={true}
                 />
             </Grid>
             <Grid item xs={12} xl={3} md={4}>
