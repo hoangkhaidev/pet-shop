@@ -14,6 +14,7 @@ import Loading from "src/components/shared/Loading/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { ExportExcelPlayerSummary } from "./ExportExcelPlayerSummary";
 import { setParentParam } from "src/features/parentParam/parentParam";
+import PlayerSummaryFilter from "./PlayerSummaryFilter";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,8 +79,8 @@ const PlayerSummary = () => {
   const [objFilter, setObjFilter] = useState({
     from_date: router.query.from_date,
     to_date: router.query.to_date,
-    sort_field: "brand_name",
-    sort_order: "asc",
+    sort_field: "margin_native",
+    sort_order: "desc",
     page: 1,
     page_size: 30,
     option: router.query.option,
@@ -172,11 +173,11 @@ const PlayerSummary = () => {
       column_name: "Player ID",
       align: "left",
       formatter: (cell, row) => {
-        let timeFrom_date = moment().format("DD/MM/YYYY 00:00");
-        let timeTo_date = moment().format("DD/MM/YYYY 23:59");
+        let timeFrom_date = moment().format("DD/MM/YYYY");
+        let timeTo_date = moment().format("DD/MM/YYYY");
         if (router.query.option === 'day') {
-          timeFrom_date = moment(router.query.id).format("DD/MM/YYYY 00:00");
-          timeTo_date = moment(router.query.id).format("DD/MM/YYYY 23:59");
+          timeFrom_date = router.query.id;
+          timeTo_date = router.query.id;
         } else {
           timeFrom_date = router.query.from_date;
           timeTo_date = router.query.to_date;
@@ -284,6 +285,14 @@ const PlayerSummary = () => {
     
   ];
 
+  const onSubmit = async (data) => {
+    
+    setObjFilter(prevState => ({
+      ...prevState,
+      ...data,
+    }));
+  };
+
   const handleChangePage = (page) => {
     let pageNew = page + 1;
     setObjFilter(prevState => ({
@@ -299,6 +308,10 @@ const PlayerSummary = () => {
       page_size: parseInt(event.target.value, 10)
     }));
   };
+
+  useEffect(() => {
+    console.log(objFilter)
+  }, [objFilter]);
 
   const onCancel = () => {
     navigate(`/reports/business_summary${router?.location?.search}`);
@@ -320,7 +333,7 @@ const PlayerSummary = () => {
           Player Summary
         </Typography>
         <span>
-          {router.query.option === 'day' ? `Total by day over: ${moment(router.query.id).format("DD/MM/YYYY")}` : '' }
+          {router.query.option === 'day' ? `Total by day over: ${router.query.id}` : '' }
           {router.query.option === 'week' ? `Total by week from: ${router.query.from_date} to: ${router.query.to_date}` : '' }
           {router.query.option === 'month' ? `Total by month from: ${router.query.from_date} to: ${router.query.to_date}` : '' }
           {router.query.option === 'year' ? `Total by year from: ${router.query.from_date} to: ${router.query.to_date}` : '' }
@@ -335,6 +348,7 @@ const PlayerSummary = () => {
         >
           Back
         </Button>
+        <PlayerSummaryFilter onSubmitProps={onSubmit} />
         <ExportExcelPlayerSummary
           excelData={excelData}
         />

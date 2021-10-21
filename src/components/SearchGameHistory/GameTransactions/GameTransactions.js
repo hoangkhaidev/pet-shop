@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import toString from "lodash/toString";
 import useRouter from "src/utils/hooks/useRouter";
-import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import { formatNumberWithComma } from "src/utils/function";
 import get from 'lodash/get';
 import GameTransactionsFilter from "./GameTransactionsFilter";
@@ -10,6 +9,7 @@ import useFetchData from "src/utils/hooks/useFetchData";
 import Loading from "src/components/shared/Loading/Loading";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import TransactionDetails from "src/components/TransactionDetails/TransactionDetails";
+import TableComponent from "src/components/shared/TableComponent/TableComponent";
 
 const GameTransactions = () => {
   const router = useRouter();

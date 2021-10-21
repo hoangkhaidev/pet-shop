@@ -383,7 +383,7 @@ const PlayersBusinessSummaryFilter = ({
                     },
                     {
                       id: 5,
-                      value: "brand",
+                      value: "brand_name",
                       label: "Brand"
                     },
                     {
@@ -403,7 +403,7 @@ const PlayersBusinessSummaryFilter = ({
                     },
                     {
                       id: 7,
-                      value: "currency",
+                      value: "currency_code",
                       label: "Currency"
                     },
                     {

@@ -32,7 +32,7 @@ const FailedTransaction = () => {
   const [objFilter, setObjFilter] = useState({
     page: 1,
     page_size: 30,
-    sort_field: "end_at",
+    sort_field: "end_date",
     sort_order: "desc",
     player_id: "",
     brand_ids: [],
