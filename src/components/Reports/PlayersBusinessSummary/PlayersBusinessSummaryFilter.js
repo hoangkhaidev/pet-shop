@@ -62,10 +62,18 @@ const PlayersBusinessSummaryFilter = ({
 
   let brand_router = [];
 
-  if (router?.query.brand_ids) {
-    brand_router = (router?.query?.brand_ids || []).map((item) => {
-      return Number(item);
-    });
+  if (router?.query?.brand_ids === 0) {
+    brand_router = [];
+  }
+
+  if (router?.query?.brand_ids) {
+    if (Array.isArray(router?.query?.brand_ids)) {
+      brand_router = (router.query.brand_ids || [router.query.brand_ids]).map((item) => {
+        return Number(item);
+      });
+    } else {
+      brand_router = [Number(router.query.brand_ids)];
+    }
   };
 
   let brandStart = router?.query.brand_ids ? brand_router : ['all'];
@@ -216,6 +224,8 @@ const PlayersBusinessSummaryFilter = ({
       search_by: "",
       search_by_option: "",
       value: "0",
+      sort_field: "period",
+      sort_order: "desc",
     });
     setDateRange({
       start: moment().format("DD/MM/YYYY"),

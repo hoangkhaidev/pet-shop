@@ -61,18 +61,18 @@ const GameTransactionFilterHistory = ({
 
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      brand_id: "all",
+      brand_id: router.query.brand_id ? Number(router.query.brand_id) : "",
       player_id: router.query.player_id ? router.query.player_id : "",
-      nick_name: "",
-      round_id: "",
-      time_zone: tz,
-      game_type: "all",
-      game_name: router.query.game_name ? router.query.game_name : "all"
+      game_name: router.query.game_name ? router.query.game_name : "all",
+      game_type: router.query.game_type ? router.query.game_type : "all",
+      time_zone: router.query.time_zone ? router.query.time_zone : tz,
+      round_id: router.query.round_id ? router.query.round_id : "",
+      nick_name: router.query.nick_name ? router.query.nick_name : "",
     }
   });
 
   useEffect(() => {
-    let mapData = [{id: 0, value: "all", label: "All"}];
+    let mapData = [];
     let newBrand = cloneDeep(brandsData);
     newBrand.forEach(data => {
       let optionData = {
@@ -155,9 +155,12 @@ const GameTransactionFilterHistory = ({
     }
   };
 
+  let from_date_router = router.query.from_date ? router.query.from_date : moment().format("DD/MM/YYYY 00:00");
+  let to_date_router = router.query.to_date ? router.query.to_date : moment().format("DD/MM/YYYY 23:59");
+
   const [dateRange, setDateRange] = useState({
-    start: moment().format("DD/MM/YYYY 00:00"),
-    end: moment().format("DD/MM/YYYY 23:59"),
+    start: from_date_router,
+    end: to_date_router,
   });
 
   const onChangeDateRange = (startDate, endDate) => {
@@ -173,7 +176,7 @@ const GameTransactionFilterHistory = ({
       game_type: data.game_type === 'all' ? '' : data.game_type,
       game_name: data.game_name === 'all' ? '' : data.game_name,
       nick_name: data.nick_name ? data.nick_name : '',
-      brand_id: data.brand_id === 'all' ? 1 : Number(data.brand_id),
+      brand_id: Number(data.brand_id),
       player_id: Number(data.player_id),
       from_date: dateRange.start,
       to_date: dateRange.end,

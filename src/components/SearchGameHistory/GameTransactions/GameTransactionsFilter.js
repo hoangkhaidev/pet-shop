@@ -53,10 +53,10 @@ const GameTransactionFilter = ({
 
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      round_id: "",
-      time_zone: tz,
-      game_type: "all",
-      game_name: router.query.game_name ? router.query.game_name : "all"
+      game_name: router.query.game_name ? router.query.game_name : "all",
+      game_type: router.query.game_type ? router.query.game_type : "all",
+      time_zone: router.query.time_zone ? router.query.time_zone : tz,
+      round_id: router.query.round_id ? router.query.round_id : "",
     }
   });
 
@@ -115,9 +115,12 @@ const GameTransactionFilter = ({
     setTimezoneData([...mapData]);
   }, [dataTimezone, setTimezoneData]);
 
+  let from_date_router = router.query.from_date ? router.query.from_date : moment().format("DD/MM/YYYY 00:00");
+  let to_date_router = router.query.to_date ? router.query.to_date : moment().format("DD/MM/YYYY 23:59");
+
   const [dateRange, setDateRange] = useState({
-    start: moment().format("DD/MM/YYYY 00:00"),
-    end: moment().format("DD/MM/YYYY 23:59"),
+    start: from_date_router,
+    end: to_date_router,
   });
 
   const onChangeDateRange = (startDate, endDate) => {

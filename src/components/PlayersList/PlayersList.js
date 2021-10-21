@@ -116,7 +116,7 @@ const PlayersList = () => {
       align: "left",
       formatter: (cell, row) => {
         return (
-          <Link href={`/players/game-history?brand_id=1&from_date=${moment().format("DD/MM/YYYY 00:00")}&game_name=&game_type=&nick_name=&page=1&page_size=30&player_id=${row.id}&round_id=&sort_field=start_at&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${moment().format("DD/MM/YYYY 23:59")}`}>
+          <Link href={`/players/game-history?brand_id=1&from_date=${moment().format("DD/MM/YYYY 00:00")}&game_name=&game_type=&nick_name=&page=1&page_size=30&player_id=${row.id}&round_id=&sort_field=start_date&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${moment().format("DD/MM/YYYY 23:59")}`}>
             <FontAwesomeIcon 
               icon={faHistory} 
               size={'2x'} 

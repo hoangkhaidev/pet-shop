@@ -20,10 +20,18 @@ const PlayersBusinessSummary = () => {
   const roleUser = useSelector((state) => state.roleUser);
   let brand_router = [];
 
+  if (router?.query?.brand_ids === 0) {
+    brand_router = [];
+  }
+  
   if (router?.query?.brand_ids) {
-    brand_router = (router?.query?.brand_ids || []).map((item) => {
-      return Number(item);
-    });
+    if (Array.isArray(router?.query?.brand_ids)) {
+      brand_router = (router.query.brand_ids || [router.query.brand_ids]).map((item) => {
+        return Number(item);
+      });
+    } else {
+      brand_router = [Number(router.query.brand_ids)];
+    }
   };
 
   const [objFilter, setObjFilter] = useState({
@@ -220,12 +228,16 @@ const PlayersBusinessSummary = () => {
   };
 
   const onSubmit = async (data) => {
-    
+    // console.log(data)
     setObjFilter(prevState => ({
       ...prevState,
       ...data,
     }));
   };
+
+  // useEffect(() => {
+  //   console.log(objFilter)
+  // }, [objFilter]);
 
   if (!isHasPermission) {
     return <NoPermissionPage />;

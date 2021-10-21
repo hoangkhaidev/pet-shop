@@ -164,7 +164,7 @@ const PLayerListFilter = ({
       ip_address: "",
       language: "all",
       currency: "all",
-      sort_field: "player_id",
+      sort_field: "id",
       sort_order: "desc",
       page: 1,
       page_size: 30,
@@ -182,7 +182,7 @@ const PLayerListFilter = ({
       to_date: moment().format("DD/MM/YYYY"),
       language: "",
       currency: "",
-      sort_field: "player_id",
+      sort_field: "id",
       sort_order: "desc",
       page: 1,
       page_size: 30,
@@ -288,27 +288,27 @@ const PLayerListFilter = ({
                   [
                     {
                       id: 1,
-                      value: "player_id",
+                      value: "id",
                       label: "Player ID"
                     },
                     {
                       id: 2,
-                      value: "nick_name",
+                      value: "username",
                       label: "Nickname"
                     },
                     {
                       id: 3,
-                      value: "sign_up",
+                      value: "created_at",
                       label: "Sign Up"
                     },
                     {
                       id: 4,
-                      value: "last_login_time",
+                      value: "last_login_in",
                       label: "Last Login Time"
                     }
                   ]
                 }
-                defaultValue="player_id"
+                defaultValue="id"
               />
             </Grid>
             <Grid item xs={12} xl={3} md={3}>

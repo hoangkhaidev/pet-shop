@@ -68,12 +68,21 @@ const PlayerSummary = () => {
   const roleUser = useSelector((state) => state.roleUser);
   
   const router = useRouter();
+
   let brand_router = [];
 
-  if (router.query.brand_ids) {
-    brand_router = (router?.query?.brand_ids || []).map((item) => {
-      return Number(item);
-    });
+  if (router?.query?.brand_ids === 0) {
+    brand_router = [];
+  }
+
+  if (router?.query?.brand_ids) {
+    if (Array.isArray(router?.query?.brand_ids)) {
+      brand_router = (router.query.brand_ids || [router.query.brand_ids]).map((item) => {
+        return Number(item);
+      });
+    } else {
+      brand_router = [Number(router.query.brand_ids)];
+    }
   };
 
   const [objFilter, setObjFilter] = useState({
@@ -183,7 +192,7 @@ const PlayerSummary = () => {
           timeTo_date = router.query.to_date;
         }
         return (
-          <Link href={`/players/${row.player_id}/information?from_date=${timeFrom_date}&game_name=&game_type=&id=${row.player_id}&page=1&page_size=30&player_id=${row.player_id}&round_id=&sort_field=start_at&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${timeTo_date}`}>{cell}</Link>
+          <Link href={`/players/${row.player_id}/information?from_date=${timeFrom_date}&game_name=&game_type=&id=${row.player_id}&page=1&page_size=30&player_id=${row.player_id}&round_id=&sort_field=start_date&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${timeTo_date}`}>{cell}</Link>
         )
       }
     },
@@ -309,9 +318,9 @@ const PlayerSummary = () => {
     }));
   };
 
-  useEffect(() => {
-    console.log(objFilter)
-  }, [objFilter]);
+  // useEffect(() => {
+  //   console.log(objFilter)
+  // }, [objFilter]);
 
   const onCancel = () => {
     navigate(`/reports/business_summary${router?.location?.search}`);

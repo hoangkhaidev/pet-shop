@@ -14,6 +14,7 @@ import useFetchData from "src/utils/hooks/useFetchData";
 import { useSelector } from "react-redux";
 import api from "src/utils/api";
 import InputNumber from "src/components/shared/InputField/InputNumber";
+import useRouter from "src/utils/hooks/useRouter";
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -35,6 +36,7 @@ const GamesFilterHistory = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
   const classes = useStyles();
+  const router = useRouter();
 
   const roleUser = useSelector((state) => state.roleUser);
 
@@ -62,13 +64,13 @@ const GamesFilterHistory = ({
 
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      brand_id: "all",
-      round_id: "",
-      nick_name: "",
-      player_id: "",
-      time_zone: tz,
-      game_type: "all",
-      game_name: "all"
+      player_id: router.query.player_id ? Number(router.query.player_id) : "",
+      brand_id: router.query.brand_id ? Number(router.query.brand_id) : "all",
+      game_name: router.query.game_name ? router.query.game_name : "all",
+      game_type: router.query.game_type ? router.query.game_type : "all",
+      time_zone: router.query.time_zone ? router.query.time_zone : tz,
+      round_id: router.query.round_id ? router.query.round_id : "",
+      nick_name: router.query.nick_name ? router.query.nick_name : "",
     }
   });
 
@@ -161,9 +163,12 @@ const GamesFilterHistory = ({
     }
   };
 
+  let from_date_router = router.query.from_date ? router.query.from_date : moment().format("DD/MM/YYYY");
+  let to_date_router = router.query.to_date ? router.query.to_date : moment().format("DD/MM/YYYY");
+
   const [dateRange, setDateRange] = useState({
-    start: moment().format("DD/MM/YYYY"),
-    end: moment().format("DD/MM/YYYY")
+    start: from_date_router,
+    end: to_date_router
   });
 
   const onChangeDateRange = (startDate, endDate) => {
@@ -189,7 +194,7 @@ const GamesFilterHistory = ({
   const onReset = () => {
     reset({
       time_zone: tz,
-      sort_field: "start_at",
+      sort_field: "start_date",
       sort_order: "DESC",
       player_id: "",
       round_id: "",
@@ -204,7 +209,7 @@ const GamesFilterHistory = ({
     });
     setObjFilter({
       time_zone: tz,
-      sort_field: "start_at",
+      sort_field: "start_date",
       sort_order: "DESC",
       player_id: "",
       round_id: "",

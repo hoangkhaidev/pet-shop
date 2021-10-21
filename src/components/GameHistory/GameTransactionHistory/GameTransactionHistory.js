@@ -32,16 +32,18 @@ const GameTransactionHistory = () => {
     page_size: 30,
     sort_field: "end_date",
     sort_order: "desc",
-    brand_id: 1,
-    player_id: "",
-    nick_name: "",
-    round_id: "",
-    game_name: "",
-    game_type: "",
-    time_zone: tz,
-    from_date: moment().format("DD/MM/YYYY 00:00"),
-    to_date: moment().format("DD/MM/YYYY 23:59"),
-    ...router.query
+    ...{
+      ...router.query,
+      player_id: router.query.id ? Number(router.query.id) : "",
+      game_name: router.query.game_name ? router.query.game_name : "",
+      game_type: router.query.game_type ? router.query.game_type : "",
+      time_zone: router.query.time_zone ? router.query.time_zone : tz,
+      brand_id: router.query.brand_id ? Number(router.query.brand_id) : '',
+      round_id: router.query.round_id ? router.query.round_id : "",
+      nick_name: router.query.nick_name ? router.query.nick_name : "",
+      from_date: router.query.from_date ? router.query.from_date : moment().format("DD/MM/YYYY 00:00"),
+      to_date: router.query.to_date ? router.query.to_date : moment().format("DD/MM/YYYY 23:59"),
+    },
   });
 
   const clickRef = useRef(0);
@@ -130,7 +132,7 @@ const GameTransactionHistory = () => {
       ...data
     };
 
-    console.log(dataForm)
+    // console.log(dataForm)
     try {
         const response = await api.post('/api/transaction/game_history', dataForm);
         
