@@ -23,7 +23,7 @@ class Socket {
     // ws.binaryType = 'arraybuffer';
     this.ws.onopen = () => {
       // send auth
-      console.log('socket open')
+      // console.log('socket open')
       this.sendRequest('auth', {
           'token': APIUtils.getToken(),
         }, (response, error) => {

@@ -25,7 +25,7 @@ const GameTransactions = ({ gameName }) => {
   let tz = new Date().getTimezoneOffset()
   tz = ((tz <0 ? '+' : '-') + pad(parseInt(Math.abs(tz / 60)), 2) + pad(Math.abs(tz % 60), 2));
 
-  console.log(gameName);
+  //format game router
   let gameRouter = '';
   if (gameName) {
     gameRouter = gameName;
@@ -33,6 +33,19 @@ const GameTransactions = ({ gameName }) => {
     if (router.query.game_name) {
       gameRouter = router.query.game_name;
     }
+  }
+
+  //format time router
+  let formDateRouter = moment().format("DD/MM/YYYY 00:00");
+  if (router.query.from_date) {
+    let new_from_date = moment(router.query.from_date, "DD/MM/YYYY");
+    formDateRouter = moment(new_from_date).format("DD/MM/YYYY 00:00");
+  }
+
+  let toDateRouter = moment().format("DD/MM/YYYY 23:59");
+  if (router.query.to_date) {
+    let new_from_date = moment(router.query.to_date, "DD/MM/YYYY");
+    toDateRouter = moment(new_from_date).format("DD/MM/YYYY 23:59");
   }
 
   const [objFilter, setObjFilter] = useState({
@@ -47,8 +60,8 @@ const GameTransactions = ({ gameName }) => {
       game_type: router.query.game_type ? router.query.game_type : "",
       time_zone: router.query.time_zone ? router.query.time_zone : tz,
       round_id: router.query.round_id ? router.query.round_id : "",
-      from_date: router.query.from_date ? router.query.from_date : moment().format("DD/MM/YYYY 00:00"),
-      to_date: router.query.to_date ? router.query.to_date : moment().format("DD/MM/YYYY 23:59"),
+      from_date: formDateRouter,
+      to_date: toDateRouter,
     },
   });
 
@@ -60,13 +73,13 @@ const GameTransactions = ({ gameName }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    console.log(objFilter)
-  }, [objFilter]);
-
-  useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
     setData(mapData);
   }, [dataResponse]);
+
+  // useEffect(() => {
+  //   console.log(objFilter);
+  // }, [objFilter]);
 
   const columns = [
     {

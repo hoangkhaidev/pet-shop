@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense, createContext, useEffect } from "react";
+import { useState, lazy, Suspense, createContext } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -62,10 +62,6 @@ const SearchGameHistory = () => {
     setValue(0);
     setGameName(gameName);
   }
-
-  useEffect(() => {
-    console.log(gameName)
-  }, [gameName]);
 
   return (
     <div className={classes.root}>

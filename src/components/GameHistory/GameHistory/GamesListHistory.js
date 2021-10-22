@@ -28,6 +28,19 @@ const GamesListHistory = () => {
   tz = ((tz <0 ? '+' : '-') + pad(parseInt(Math.abs(tz / 60)), 2) + pad(Math.abs(tz % 60), 2));
   const time_zoneReplace = tz.replace('+', '%2B');
 
+  //format time router
+  let formDateRouter = moment().format("DD/MM/YYYY");
+  if (router.query.from_date) {
+    let new_from_date = moment(router.query.from_date, "DD/MM/YYYY");
+    formDateRouter = moment(new_from_date).format("DD/MM/YYYY");
+  }
+
+  let toDateRouter = moment().format("DD/MM/YYYY");
+  if (router.query.to_date) {
+    let new_from_date = moment(router.query.to_date, "DD/MM/YYYY");
+    toDateRouter = moment(new_from_date).format("DD/MM/YYYY");
+  }
+
   const [objFilter, setObjFilter] = useState({
     sort_field: "round_date",
     sort_order: "desc",
@@ -40,8 +53,8 @@ const GamesListHistory = () => {
       time_zone: router.query.time_zone ? router.query.time_zone : tz,
       round_id: router.query.round_id ? router.query.round_id : "",
       nick_name: router.query.nick_name ? router.query.nick_name : "",
-      from_date: router.query.from_date ? router.query.from_date : moment().format("DD/MM/YYYY"),
-      to_date: router.query.to_date ? router.query.to_date : moment().format("DD/MM/YYYY"),
+      from_date: formDateRouter,
+      to_date: toDateRouter,
     },
   });
 
@@ -49,7 +62,6 @@ const GamesListHistory = () => {
     const stringified = queryString.stringify(objFilter);
     let url = `${router.location.pathname}?${stringified}`;
     router.navigate(url);
-    console.log(objFilter)
   }, [objFilter]);
 
   const [data, setData] = useState([]);

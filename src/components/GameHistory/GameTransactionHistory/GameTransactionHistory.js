@@ -26,6 +26,19 @@ const GameTransactionHistory = () => {
 
   let tz = new Date().getTimezoneOffset()
   tz = ((tz <0 ? '+' : '-') + pad(parseInt(Math.abs(tz / 60)), 2) + pad(Math.abs(tz % 60), 2));
+
+  //format time router
+  let formDateRouter = moment().format("DD/MM/YYYY 00:00");
+  if (router.query.from_date) {
+    let new_from_date = moment(router.query.from_date, "DD/MM/YYYY");
+    formDateRouter = moment(new_from_date).format("DD/MM/YYYY 00:00");
+  }
+
+  let toDateRouter = moment().format("DD/MM/YYYY 23:59");
+  if (router.query.to_date) {
+    let new_from_date = moment(router.query.to_date, "DD/MM/YYYY");
+    toDateRouter = moment(new_from_date).format("DD/MM/YYYY 23:59");
+  }
   
   const [objFilter, setObjFilter] = useState({
     page: 1,
@@ -41,8 +54,8 @@ const GameTransactionHistory = () => {
       brand_id: router.query.brand_id ? Number(router.query.brand_id) : '',
       round_id: router.query.round_id ? router.query.round_id : "",
       nick_name: router.query.nick_name ? router.query.nick_name : "",
-      from_date: router.query.from_date ? router.query.from_date : moment().format("DD/MM/YYYY 00:00"),
-      to_date: router.query.to_date ? router.query.to_date : moment().format("DD/MM/YYYY 23:59"),
+      from_date: formDateRouter,
+      to_date: toDateRouter,
     },
   });
 
@@ -132,7 +145,6 @@ const GameTransactionHistory = () => {
       ...data
     };
 
-    // console.log(dataForm)
     try {
         const response = await api.post('/api/transaction/game_history', dataForm);
         

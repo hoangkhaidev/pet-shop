@@ -48,10 +48,6 @@ const TransactionDetailInfo = ({onClose, roundId}) => {
     setDataCurrency(mapDataCurrency);
   }, [dataResponse]);
 
-  // useEffect(() => {
-  //   console.log(dataResponse);
-  // }, [dataResponse]);
-
   const onCancel = () => {
     onClose();
   }

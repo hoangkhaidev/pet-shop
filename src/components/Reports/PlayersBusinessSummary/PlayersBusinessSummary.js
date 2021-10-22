@@ -228,16 +228,11 @@ const PlayersBusinessSummary = () => {
   };
 
   const onSubmit = async (data) => {
-    // console.log(data)
     setObjFilter(prevState => ({
       ...prevState,
       ...data,
     }));
   };
-
-  // useEffect(() => {
-  //   console.log(objFilter)
-  // }, [objFilter]);
 
   if (!isHasPermission) {
     return <NoPermissionPage />;

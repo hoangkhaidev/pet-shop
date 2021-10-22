@@ -67,10 +67,6 @@ const PlayersList = () => {
     dispatch(setParentParam(`${router.location.pathname}${router.location.search}`));
   }, [router]);
 
-  // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter]);
-
   const columns = [
     {
       data_field: "id",

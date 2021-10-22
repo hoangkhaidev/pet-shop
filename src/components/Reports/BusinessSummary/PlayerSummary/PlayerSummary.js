@@ -318,10 +318,6 @@ const PlayerSummary = () => {
     }));
   };
 
-  // useEffect(() => {
-  //   console.log(objFilter)
-  // }, [objFilter]);
-
   const onCancel = () => {
     navigate(`/reports/business_summary${router?.location?.search}`);
   }

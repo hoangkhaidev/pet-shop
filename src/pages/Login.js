@@ -47,16 +47,6 @@ const Login = () => {
 
   const [logOutReason, setLogOutReason] = useState(APIUtils.getLogOutReason());
   
-  // const token = useSelector(state => state.authentication.token);
-
-  // useEffect(() => {
-  //   console.log(token)
-  //   if (!!token) {
-  //     // Reload when login
-  //     window.location.reload();
-  //   }
-  // }, [token]);
-  
   useEffect(() => {
     if (logOutReason) {
       setError('username', {

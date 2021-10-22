@@ -118,12 +118,22 @@ const GameFilter = ({
     setTimezoneData([...mapData]);
   }, [dataTimezone, setTimezoneData]);
 
-  let from_date_router = router.query.from_date ? router.query.from_date : moment().format("DD/MM/YYYY");
-  let to_date_router = router.query.to_date ? router.query.to_date : moment().format("DD/MM/YYYY");
+  //format time router
+  let formDateRouter = moment().format("DD/MM/YYYY");
+  if (router.query.from_date) {
+    let new_from_date = moment(router.query.from_date, "DD/MM/YYYY");
+    formDateRouter = moment(new_from_date).format("DD/MM/YYYY");
+  }
+
+  let toDateRouter = moment().format("DD/MM/YYYY");
+  if (router.query.to_date) {
+    let new_from_date = moment(router.query.to_date, "DD/MM/YYYY");
+    toDateRouter = moment(new_from_date).format("DD/MM/YYYY");
+  }
 
   const [dateRange, setDateRange] = useState({
-    start: from_date_router,
-    end: to_date_router
+    start: formDateRouter,
+    end: toDateRouter
   });
 
   const onChangeDateRange = (startDate, endDate) => {
