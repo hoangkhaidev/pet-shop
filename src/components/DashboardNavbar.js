@@ -8,7 +8,8 @@ import {
   Box,
   Button,
   IconButton,
-  Toolbar
+  Toolbar,
+  Typography
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
@@ -93,7 +94,9 @@ const DashboardNavbar = ({ setMobileNavOpen, setOpenMenu, openMenu, ...rest }) =
           sx={{
             display: {
               lg: "block",
-              md: "none"
+              md: "block",
+              sm: "block",
+              xs: "block"
             }
           }}
         >
@@ -111,7 +114,9 @@ const DashboardNavbar = ({ setMobileNavOpen, setOpenMenu, openMenu, ...rest }) =
           sx={{
             display: {
               lg: "flex",
-              md: "none"
+              md: "flex",
+              sm: "flex",
+              xs: "flex"
             }
           }}
           ref={anchorRef}
@@ -126,9 +131,23 @@ const DashboardNavbar = ({ setMobileNavOpen, setOpenMenu, openMenu, ...rest }) =
           >
             <AccountCircleIcon />
           </Badge>
-          <div style={{ display: 'flex', alignItems: 'center', fontSize: '14px', marginLeft: '5px' }}>
-            <span style={{ marginRight: '5px' }}>{roleUser?.username}</span>| Level<span style={{ marginLeft: '5px' }}> {roleUser?.account_type}</span>
-          </div>
+          
+          <Typography 
+            variant="h3" 
+            component="div" 
+            sx={{ 
+              flexGrow: 1, 
+              display: {
+                lg: "block",
+                md: "none",
+                sm: "none",
+                xs: "none"
+              } 
+            }}>
+            <div style={{ display: 'flex', alignItems: 'center', fontSize: '14px', marginLeft: '5px' }}>
+              <span style={{ marginRight: '5px' }}>{roleUser?.username}</span>| Level<span style={{ marginLeft: '5px' }}> {roleUser?.account_type}</span>
+            </div>
+          </Typography>
         </Button>
         <Popper style={{ width: '200px' }} open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
           {({ TransitionProps, placement }) => (
@@ -146,7 +165,9 @@ const DashboardNavbar = ({ setMobileNavOpen, setOpenMenu, openMenu, ...rest }) =
                           sx={{
                             display: {
                               lg: "block",
-                              md: "none"
+                              md: "block",
+                              sm: "block",
+                              xs: "block"
                             }
                           }}
                         >
@@ -162,7 +183,9 @@ const DashboardNavbar = ({ setMobileNavOpen, setOpenMenu, openMenu, ...rest }) =
                         sx={{
                           display: {
                             lg: "block",
-                            md: "none"
+                            md: "block",
+                            sm: "block",
+                            xs: "block"
                           }
                         }}
                       >

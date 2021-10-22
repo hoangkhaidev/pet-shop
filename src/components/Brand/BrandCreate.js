@@ -419,7 +419,7 @@ const BrandCreate = () => {
                         {checkboxListCheck[index] ?
                           <FormattedNumberInput
                             namefileld={`commission.${index}.value`}
-                            label="Comission"
+                            label="Commission"
                             id={`commission_${item.id}`}
                             control={control}
                             allowLeadingZeros

@@ -66,7 +66,7 @@ const TransactionDetails = ({roundId}) => {
       <ModalComponentRateHistory
         open={open}
         onClose={onClose}
-        width="800px"
+        width="80%"
       >
         <TransactionDetailsInfo onClose={onClose} roundId={roundId}/>
         <AppBar position="static">

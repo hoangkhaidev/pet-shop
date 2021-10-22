@@ -31,7 +31,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const GameTransactionFilterHistory = ({
-  onResetFilter, onSubmitProps, setObjFilter, clickRef
+  onSubmitProps, setObjFilter, clickRef
 }) => {
   const classes = useStyles();
   const router = useRouter();

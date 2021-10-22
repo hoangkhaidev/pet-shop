@@ -33,7 +33,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const GamesFilterHistory = ({
-  onResetFilter, onSubmitProps, setObjFilter
+  onSubmitProps, setObjFilter, clickRef
 }) => {
   const classes = useStyles();
   const router = useRouter();
@@ -318,8 +318,8 @@ const GamesFilterHistory = ({
             </Grid>
           </Grid>
           <ButtonGroup>
-            <SubmitButton text='Search' />
-            <ResetButton onAction={onReset} />
+            <SubmitButton text='Search' clickRef={clickRef} />
+            <ResetButton onAction={onReset}/>
           </ButtonGroup>
         </form>
       </ContentCardPage>

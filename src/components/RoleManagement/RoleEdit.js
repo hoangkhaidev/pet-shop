@@ -17,7 +17,7 @@ import forEach from "lodash/forEach";
 import findIndex from "lodash/findIndex";
 import get from "lodash/get";
 import map from "lodash/map";
-import every from "lodash/every";
+// import every from "lodash/every";
 import { toast } from "react-toastify";
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import InputField from 'src/components/shared/InputField/InputField';
@@ -58,6 +58,7 @@ const RoleEdit = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [headerPermission, setHeaderPermission] = useState([]);
   const [permissionGroup, setPermissionGroup] = useState([]);
   const [selectedColumn, setSelectedColumn] = useState(null);
   const router = useRouter();
@@ -81,12 +82,27 @@ const RoleEdit = () => {
   useEffect(() => {
     let name;
     if (permissionGroup) {
+
+      let testArr = [];
       LIST_PERMISSIONS.forEach(permission => {
         const arr = map(permissionGroup, item => item.permissions.every(itemPermission => itemPermission[permission.value]));
-        if (every(arr, item => item)) {
-          name = permission.value;
+        const ticked = arr.find((item) => item === false );
+        if (ticked === false) {
+          testArr.push({
+            ...permission,
+            checked: false
+          });
+        } else {
+          testArr.push({
+            ...permission,
+            checked: true
+          });
         }
+        // if (every(arr, item => item)) {
+        //   name = permission.value;
+        // }
       });
+      setHeaderPermission(testArr);
       setSelectedColumn(name);
     }
   }, [permissionGroup]);
@@ -107,6 +123,9 @@ const RoleEdit = () => {
         if (response?.err === 'err:suspended_account') {
           toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
         }
+        if (response?.err === 'err:no_permission') {
+          toast.warn('No Permission');
+        }
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
             setError(field, {
@@ -124,6 +143,10 @@ const RoleEdit = () => {
   const onCancel = () => {
     navigate("/role");
   };
+
+  // useEffect(() => {
+  //   console.log(permissionGroup);
+  // }, [permissionGroup]);
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
@@ -176,6 +199,8 @@ const RoleEdit = () => {
     setPermissionGroup(cloneArr);
   };
 
+  
+
   return (
     <ContentCardPage>
       {isLoading && <Loading />}
@@ -214,16 +239,18 @@ const RoleEdit = () => {
                   <TableCell>
                     Permission
                   </TableCell>
-                  {LIST_PERMISSIONS.map(permission => (
-                    <TableCell key={permission.value}>
-                      <Radio
-                        checked={selectedColumn === permission.value}
-                        name={permission.value}
-                        onChange={(e) => checkedColumn(e, permission.value)}
-                      />
-                      {permission.label}
-                    </TableCell>
-                  ))}
+                  {headerPermission.map(permission => {
+                    return (
+                      <TableCell key={permission.value}>
+                        <Radio
+                          checked={permission.checked}
+                          name={permission.value}
+                          onChange={(e) => checkedColumn(e, permission.value)}
+                        />
+                        {permission.label}
+                      </TableCell>
+                    )
+                  })}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -245,18 +272,20 @@ const RoleEdit = () => {
                     </TableCell>
                     <TableCell>
                       <div className={classes.listCheckboxes}>
-                        {(row?.permissions || []).map(item => (
-                          <div
-                            key={item?.name}
-                            className={classes.checkboxLine}
-                          >
-                            <Radio
-                              name="none"
-                              onChange={(e) => onChange(e, row.name, item.name)}
-                              checked={item.none}
-                            />
-                          </div>
-                        ))}
+                        {(row?.permissions || []).map(item => {
+                          return (
+                            <div
+                              key={item?.name}
+                              className={classes.checkboxLine}
+                            >
+                              <Radio
+                                name="none"
+                                onChange={(e) => onChange(e, row.name, item.name)}
+                                checked={item.none}
+                              />
+                            </div>
+                          )
+                        })}
                       </div>
                     </TableCell>
                     <TableCell>

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import queryString from 'query-string';
 import useRouter from "src/utils/hooks/useRouter";
@@ -57,6 +57,14 @@ const GamesListHistory = () => {
       to_date: toDateRouter,
     },
   });
+
+  const clickRef = useRef(0);
+
+  useEffect(() => {
+    if (router.query.player_id) {
+      clickRef.current.click();
+    }
+  }, []);
 
   useEffect(() => {
     const stringified = queryString.stringify(objFilter);
@@ -147,7 +155,7 @@ const GamesListHistory = () => {
   return (
     <>
       <TitlePage title="Games" />
-      <GamesFilterHistory onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
+      <GamesFilterHistory onSubmitProps={onSubmit} setObjFilter={setObjFilter} clickRef={clickRef}/>
       <TableComponent
         data={data}
         columns={columns}
