@@ -73,6 +73,7 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
           });
         }
 
+        console.log(dataJSON?.err?.count);
         if (dataJSON?.err === 'err:no_permission') {
           toast.warn('No Permission');
           return setData({

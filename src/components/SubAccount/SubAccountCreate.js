@@ -25,6 +25,7 @@ import api from 'src/utils/api';
 import cloneDeep from 'lodash.clonedeep';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
 import SelectFieldMutiple from '../shared/InputField/SelectFieldMutiple';
+import Loading from '../shared/Loading/Loading';
 
 const useStyles = makeStyles(() => ({
   whitelistIPLine: {
@@ -63,12 +64,12 @@ const SubAccountCreate = () => {
   } = useForm();
   const navigate = useNavigate();
 
-  const { dataResponse: dataRole } = useFetchData('/api/role');
+  const { dataResponse: dataRole, isLoading, isHasPermission } = useFetchData('/api/role');
 
   useEffect(() => {
-    if (dataRole.length <= 0) return;
+    let dataRoleClone = cloneDeep(dataRole);
     let mapData = [];
-    dataRole.forEach((data) => {
+    dataRoleClone?.forEach((data) => {
       let optionData = {
         id: data.id,
         value: data.id,
@@ -186,6 +187,10 @@ const SubAccountCreate = () => {
   };
 
   if (!isHasAccessPermission) {
+    return <NoPermissionPage />;
+  }
+  
+  if (!isHasPermission) {
     return <NoPermissionPage />;
   }
 
@@ -307,6 +312,7 @@ const SubAccountCreate = () => {
           <ResetButton text="Cancel" onAction={onCancel} />
         </ButtonGroup>
       </form>
+      {isLoading && <Loading />}
     </ContentCardPage>
   );
 };

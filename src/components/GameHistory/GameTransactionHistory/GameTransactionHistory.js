@@ -13,7 +13,7 @@ import api from "src/utils/api";
 import { toast } from "react-toastify";
 import TransactionDetails from "src/components/TransactionDetails/TransactionDetails";
 
-const GameTransactionHistory = () => {
+const GameTransactionHistory = ({ setIsHasPermission }) => {
   const router = useRouter();
 
   const pad = (number, length) => {
@@ -154,6 +154,9 @@ const GameTransactionHistory = () => {
           setTotal_size(total_sizeData)
           setData(mapData);
         } else {
+          if (response?.err === "err:no_permission") {
+            setIsHasPermission(false);
+          }
           if (response.err === "err:not_enough_arguments") toast.warn('Please choose 1 brand, and player ID or Nickname or Round ID');
           if (response.err === "err:player_not_found") toast.warn('Player not found');
         }

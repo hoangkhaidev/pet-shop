@@ -117,9 +117,9 @@ const SubAccountEdit = () => {
   }, [dataResponse, setValue]);
 
   useEffect(() => {
-    if (dataRole.length <= 0) return;
+    let dataRoleClone = cloneDeep(dataRole);
     let mapData = [];
-    dataRole.forEach((data) => {
+    dataRoleClone?.forEach((data) => {
       let optionData = {
         id: data.id,
         value: data.id,

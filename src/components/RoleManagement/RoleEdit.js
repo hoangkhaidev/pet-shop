@@ -76,6 +76,7 @@ const RoleEdit = () => {
   useEffect(() => {
     setValue("role_name", dataResponse?.role_name);
     setValue("description", dataResponse?.description);
+    console.log(dataResponse)
     setPermissionGroup(dataResponse?.permission_group);
   }, [dataResponse, setValue]);
 

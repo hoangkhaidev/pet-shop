@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense, createContext } from "react";
+import { useState, lazy, Suspense, createContext, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -8,6 +8,9 @@ import moment from 'moment';
 import TabPanel from "src/components/shared/TabPanel/TabPanel";
 import Loading from "src/components/shared/Loading/Loading";
 import PlayerInformation from "../PlayerInformation/PlayerInformation";
+import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
+import useRouter from "src/utils/hooks/useRouter";
+import useFetchData from "src/utils/hooks/useFetchData";
 const GameTransactions = lazy(() => import("./GameTransactions/GameTransactions"));
 const GamesList = lazy(() => import("./Games/GamesList"));
 
@@ -46,6 +49,18 @@ const SearchGameHistory = () => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [gameName, setGameName] = useState('');
+  const router = useRouter();
+
+  const { dataResponse, isLoading, isHasPermission } = useFetchData(
+    `/api/members/${router.query?.id}`,
+    null
+  );
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    setData(dataResponse);
+  }, [dataResponse]);
 
   const [dateRange, setDateRange] = useState({
     start: moment().format("DD/MM/YYYY"),
@@ -63,9 +78,14 @@ const SearchGameHistory = () => {
     setGameName(gameName);
   }
 
+  if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
+
   return (
     <div className={classes.root}>
-      <PlayerInformation />
+      {isLoading && <Loading />}
+      <PlayerInformation data={data} />
       <AppBar position="static">
         <Tabs
           value={value}

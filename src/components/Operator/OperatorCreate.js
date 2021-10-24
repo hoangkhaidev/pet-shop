@@ -31,6 +31,7 @@ import useFetchData from 'src/utils/hooks/useFetchData';
 import FormattedNumberInput from '../shared/InputField/InputFieldNumber';
 import clsx from 'clsx';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
+import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -81,6 +82,7 @@ const OperatorCreate = () => {
   const [errorApiWLIP, setErrorApiWLIP] = useState('');
   const [errorFinanceEmail, setErrorFinanceEmail] = useState('');
   const [errorProductCommission, setErrorProductCommission] = useState('');
+  const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
   const [checkboxListCheck, setCheckboxListCheck] = useState(productData.map((item) => false ));
   const { t } = useTranslation();
@@ -190,6 +192,9 @@ const OperatorCreate = () => {
         if (response?.err === 'err:suspended_account') {
           toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
         }
+        if (response?.err === "err:no_permission") {
+          setIsHasPermission(false);
+        }
       }
     } catch (e) {
       console.log('e', e);
@@ -239,6 +244,10 @@ const OperatorCreate = () => {
 
   const onCancel = () => {
     navigate('/operator/list');
+  }
+
+  if (!isHasAccessPermission) {
+    return <NoPermissionPage />;
   }
 
   return (

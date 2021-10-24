@@ -28,6 +28,7 @@ import useFetchData from 'src/utils/hooks/useFetchData';
 import api from 'src/utils/api';
 import { LIST_PERMISSIONS } from 'src/constants';
 import { toast } from 'react-toastify';
+import cloneDeep from 'lodash.clonedeep';
 
 const useStyles = makeStyles((theme) => ({
   formStyle: {},
@@ -68,7 +69,7 @@ const RoleAdd = () => {
   );
 
   useEffect(() => {
-    const cloneArr = dataResponse.slice();
+    let cloneArr = cloneDeep(dataResponse);
     forEach(cloneArr, (item, index) => {
       const permissionsList = item.permissions;
 

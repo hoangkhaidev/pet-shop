@@ -8,6 +8,7 @@ import moment from 'moment';
 
 import TabPanel from "src/components/shared/TabPanel/TabPanel";
 import Loading from "src/components/shared/Loading/Loading";
+import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
 // import { colors } from "src/utils/styles";
 
 const GameTransactionHistory = lazy(() => import("./GameTransactionHistory/GameTransactionHistory"));
@@ -51,12 +52,18 @@ const GameHistory = () => {
     start: moment().format("DD/MM/YYYY"),
     end: moment().format("DD/MM/YYYY")
   });
+  const [isHasAccessPermission, setIsHasPermission] = useState(true);
+
   const { t } = useTranslation();
   const valueContext = { dateRange, setDateRange };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  if (!isHasAccessPermission) {
+    return <NoPermissionPage />;
+  }
 
   return (
     <div className={classes.root}>
@@ -75,7 +82,7 @@ const GameHistory = () => {
       <DateRangeContext.Provider value={valueContext}>
         <Suspense fallback={<Loading />}>
           <TabPanel value={value} index={0}>
-            <GameTransactionHistory />
+            <GameTransactionHistory setIsHasPermission={setIsHasPermission} />
           </TabPanel>
           <TabPanel value={value} index={1}>
             <GamesListHistory />

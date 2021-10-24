@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import TransactionDetails from "src/components/TransactionDetails/TransactionDetails";
 import FailedTransactionFilter from "./FailedTransactionFilter";
 import ButtonResume from "./ButtonResume";
+import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 
 const FailedTransaction = () => {
   const router = useRouter();
@@ -61,6 +62,7 @@ const FailedTransaction = () => {
 
   const [data, setData] = useState([]);
   const [total_size, setTotal_size] = useState(0);
+  const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
   const columns = [
     {
@@ -141,6 +143,9 @@ const FailedTransaction = () => {
           setTotal_size(total_sizeData)
           setData(mapData);
         } else {
+          if (response?.err === "err:no_permission") {
+            setIsHasPermission(false);
+          }
           if (response.err === "err:not_enough_arguments") toast.warn('Please select 1 of the 3 fields player ID, nickname round ID');
           if (response.err === "err:player_not_found") toast.warn('Player not found');
         }
@@ -207,6 +212,10 @@ const FailedTransaction = () => {
       console.log('e', e);
     }
   };
+
+  if (!isHasAccessPermission) {
+    return <NoPermissionPage />;
+  }
 
   return (
     <>

@@ -16,6 +16,7 @@ import api from 'src/utils/api';
 import get from "lodash/get";
 import ResetConfirm from './ResetConfirm';
 import { toast } from 'react-toastify';
+import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
 
 const useStyles = makeStyles(() => ({
   playerInfoName: {
@@ -75,6 +76,7 @@ const GamesConfigDetails = () => {
 
   const [currentData, setCurrentData] = useState([]);
   const [dataDetail, setDataDetail] = useState({});
+  const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
   const dataGamesDetail = async (objFilter) => {
     const response = await api.post('/api/game_config/bet_scale', objFilter);
@@ -82,6 +84,9 @@ const GamesConfigDetails = () => {
       setDataDetail(response?.data);
     } else {
       console.log("response", response);
+      if (response?.err === "err:no_permission") {
+        setIsHasPermission(false);
+      }
     }
   };
 
@@ -126,6 +131,9 @@ const GamesConfigDetails = () => {
     navigate('/configuration/games');
   };
 
+  if (!isHasAccessPermission) {
+    return <NoPermissionPage />;
+  }
 
   return (
     <ContentCardPage>
