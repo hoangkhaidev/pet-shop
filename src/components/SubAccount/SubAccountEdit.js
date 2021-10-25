@@ -253,7 +253,7 @@ const SubAccountEdit = () => {
           type="text"
           label="Name"
           maxLength={100}
-          helperText="Max length 100 chars"
+          helperText={t('h_name_length')}
         />
         <InputField
           namefileld="password"

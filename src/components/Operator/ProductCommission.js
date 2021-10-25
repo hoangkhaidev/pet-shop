@@ -3,6 +3,7 @@ import FormControl from '@material-ui/core/FormControl';
 import clsx from 'clsx';
 import { FormHelperText, TextField } from '@material-ui/core';
 import { Checkbox, InputAdornment } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   checkboxStyle: {
@@ -16,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductCommission = ({ item, productCommission, setProductCommission, required, nameCon, hasError }) => {
   const classes = useStyles();
-
+  const { t } = useTranslation();
+  
   const handleChangeCheckbox = (event, item) => {
     event.persist();
 
@@ -126,7 +128,7 @@ const ProductCommission = ({ item, productCommission, setProductCommission, requ
                   variant="outlined"
                   onBlur={(event) => handleOnblur(event)}
               />
-              <FormHelperText id="outlined-weight-helper-text">From 0% to 100%</FormHelperText>
+              <FormHelperText id="outlined-weight-helper-text">{t('h_commission')}</FormHelperText>
               { hasError(nameCon) && 
                 <FormHelperText className={classes.labelStyle}>
                   {productCommission.errors[`${nameCon}`][0] ? 'Commission is required' : ''}

@@ -437,7 +437,7 @@ const BrandEdit = () => {
           inputProps={{
             maxLength: 100,
           }}
-          helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
+          helperText={t('h_name')}
         />
         <InputField
           namefileld="support_email"
@@ -499,7 +499,8 @@ const BrandEdit = () => {
           type="text"
           label="API Endpoint"
           pattern={/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/}
-          helperText="Accept URL only"
+          helperText={t('h_api_endpoint')}
+          
         />
         <FormLabel>Whitelist IP Address for API<span style={{color: 'red'}}>*</span></FormLabel>
         <IPAddressInput apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} />
@@ -522,7 +523,7 @@ const BrandEdit = () => {
           errors={errors?.username}
           type="text"
           label="Username"
-          helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
+          helperText={t('h_username')}
         />
         <InputField
           namefileld="password"
@@ -531,7 +532,7 @@ const BrandEdit = () => {
           errors={errors?.password}
           type="password"
           label="Password"
-          helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
+          helperText={t('h_password')}
         />
         <InputField
           namefileld="password_confirmation"

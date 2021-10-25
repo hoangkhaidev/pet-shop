@@ -200,7 +200,7 @@ const RoleAdd = () => {
           inputProps={{
             maxLength: 100,
           }}
-          helperText="Max length 100 chars"
+          helperText={t('h_name_length')}
         />
         <InputField
           multiline

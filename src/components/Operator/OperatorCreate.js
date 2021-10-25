@@ -265,7 +265,7 @@ const OperatorCreate = () => {
           type="text"
           label="Name"
           pattern={/^[a-z0-9_]{3,15}$/}
-          helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
+          helperText={t('h_name')}
         />
         <InputField
           namefileld="support_email"
@@ -355,7 +355,7 @@ const OperatorCreate = () => {
                         inputProps={{
                           maxLength: 3,
                         }}
-                        helperText="From 0% to 100%"
+                        helperText={t('h_commission')}
                         required
                       />
                     : ''}
@@ -373,7 +373,7 @@ const OperatorCreate = () => {
           type="text"
           label="API Endpoint"
           pattern={/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/}
-          helperText="Accept URL only"
+          helperText={t('h_api_endpoint')}
         />
         <FormLabel>Whitelist IP Address for API<span style={{color: 'red'}}>*</span></FormLabel>
         <IPAddressInput 
@@ -398,7 +398,7 @@ const OperatorCreate = () => {
           type="text"
           label="Username"
           pattern={/^[a-z0-9_]{3,15}$/}
-          helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
+          helperText={t('h_username')}
         />
         <InputField
           required
@@ -409,7 +409,7 @@ const OperatorCreate = () => {
           type="password"
           label="Password"
           pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
-          helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number"
+          helperText={t('h_password')}
         />
         <InputField
           required

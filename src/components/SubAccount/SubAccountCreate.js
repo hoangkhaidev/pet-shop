@@ -231,7 +231,7 @@ const SubAccountCreate = () => {
           type="text"
           label="Username"
           pattern={/^[a-z0-9_]{3,15}$/}
-          helperText="Length from 3 to 15 chars, allow letter, digit and underscore(_)"
+          helperText={t('h_username')}
         />
         <InputField
           namefileld="name"
@@ -241,7 +241,7 @@ const SubAccountCreate = () => {
           type="text"
           label="Name"
           maxLength={100}
-          helperText="Max length 100 chars"
+          helperText={t('h_name_length')}
         />
         <InputField
           required
@@ -252,7 +252,7 @@ const SubAccountCreate = () => {
           type="password"
           label="Password"
           pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
-          helperText="From 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
+          helperText={t('password')}
         />
         <InputField
           required

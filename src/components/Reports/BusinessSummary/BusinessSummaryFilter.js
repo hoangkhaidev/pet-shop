@@ -44,21 +44,21 @@ const BusinessSummaryFilter = ({
 
   let brand_router = [];
 
-  if (router?.query?.brand_ids === 0) {
+  if (router?.query?.brand_id_router === 0) {
     brand_router = [];
   }
 
-  if (router?.query?.brand_ids) {
-    if (Array.isArray(router?.query?.brand_ids)) {
-      brand_router = (router.query.brand_ids || [router.query.brand_ids]).map((item) => {
+  if (router?.query?.brand_id_router) {
+    if (Array.isArray(router?.query?.brand_id_router)) {
+      brand_router = (router.query.brand_id_router || [router.query.brand_id_router]).map((item) => {
         return Number(item);
       });
     } else {
-      brand_router = [Number(router.query.brand_ids)];
+      brand_router = [Number(router.query.brand_id_router)];
     }
   };
 
-  let brandStart = router?.query.brand_ids ? brand_router : ['all'];
+  let brandStart = router?.query.brand_id_router ? brand_router : ['all'];
   let productStart = router?.query.product_ids ? [Number(router?.query.product_ids)] : ['all'];
   const [brandMultiple, setBrandMultiple] = useState(brandStart);
   const [productMultiple, setProductMultiple] = useState(productStart);

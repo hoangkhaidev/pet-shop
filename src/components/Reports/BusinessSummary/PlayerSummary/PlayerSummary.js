@@ -69,8 +69,6 @@ const PlayerSummary = () => {
   
   const router = useRouter();
 
-  console.log(router)
-
   let brand_router = [];
 
   if (router?.query?.brand_ids === 0) {
@@ -295,6 +293,10 @@ const PlayerSummary = () => {
     } : {}
     
   ];
+
+  useEffect(() => {
+    console.log(objFilter);
+  }, [objFilter]);
 
   const onSubmit = async (data) => {
     

@@ -190,7 +190,7 @@ const Profile = () => {
                   type="text"
                   label="Name"
                   maxLength={100}
-                  helperText="Max length 100 chars"
+                  helperText={t('h_name_length')}
               />
             </>
           )
@@ -238,7 +238,7 @@ const Profile = () => {
           type="Password"
           label="Current Password"
           pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
-          helperText="From 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
+          helperText={t('h_password')}
         />
         <InputField
           namefileld="password"
@@ -248,7 +248,7 @@ const Profile = () => {
           type="password"
           label="New Password"
           pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
-          helperText="From 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
+          helperText={t('h_password')}
         />
         <InputField
           namefileld="password_confirmation"
@@ -258,7 +258,7 @@ const Profile = () => {
           type="password"
           label="Confirm Password"
           pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
-          helperText="From 6 characters and least 1 uppercase, 1 lowercase letter and 1 number"
+          helperText={t('h_password')}
         />
         <ButtonGroup>
           <SubmitButton />

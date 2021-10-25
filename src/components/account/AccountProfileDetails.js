@@ -68,7 +68,7 @@ const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                helperText={t('firstName')}
+                helperText={t('h_firstName')}
                 label="First name"
                 name="firstName"
                 onChange={handleChange}

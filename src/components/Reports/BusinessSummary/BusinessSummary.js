@@ -18,17 +18,17 @@ const BusinessSummary = () => {
   
   let brand_router = [];
 
-  if (router?.query?.brand_ids === 0) {
+  if (router?.query?.brand_id_router === 0) {
     brand_router = [];
   }
 
-  if (router?.query?.brand_ids) {
-    if (Array.isArray(router?.query?.brand_ids)) {
-      brand_router = (router.query.brand_ids || [router.query.brand_ids]).map((item) => {
+  if (router?.query?.brand_id_router) {
+    if (Array.isArray(router?.query?.brand_id_router)) {
+      brand_router = (router.query.brand_id_router || [router.query.brand_id_router]).map((item) => {
         return Number(item);
       });
     } else {
-      brand_router = [Number(router.query.brand_ids)];
+      brand_router = [Number(router.query.brand_id_router)];
     }
   };
 
@@ -38,7 +38,7 @@ const BusinessSummary = () => {
     sort_field: "period",
     ...{
       ...router.query,
-      brand_ids: router.query.brand_ids ? brand_router : [],
+      brand_ids: router.query.brand_id_router ? brand_router : [],
       product_ids: router.query.product_ids ? [Number(router.query.product_ids)] : [],
       from_date: router.query.from_date ? router.query.from_date : moment().startOf('month').format("DD/MM/YYYY"),
       to_date: router.query.to_date ? router.query.to_date : moment().endOf('month').format("DD/MM/YYYY"),
@@ -117,15 +117,15 @@ const BusinessSummary = () => {
       column_name: objFilter.option === 'brand' ? "Brand" : "Period",
       align: "right",
       formatter: (cell, row) => {
-        let brandTest = '';
-        if (row?.brand_ids?.length > 0) {
-          row.brand_ids.map((item) => {
-            brandTest += `&brand_ids=${item}`;
+        let brandRouter = '';
+        if (router?.query?.brand_ids?.length > 0) {
+          (router?.query?.brand_ids || []).map((item) => {
+            brandRouter += `&brand_id_router=${item}`;
             return item;
           });
         }
         return (
-          <Link href={`/reports/${row.identifier}/player_summary?option=${row.option}${brandTest}&product_ids=${row.product_ids}&from_date=${router?.query?.from_date}&to_date=${router?.query?.to_date}&from_date_row=${row.from_date}&to_date_row=${row.to_date}`}>{cell}</Link>
+          <Link href={`/reports/${row.identifier}/player_summary?option=${row.option}${brandRouter}&product_ids=${row.product_ids}&from_date=${router?.query?.from_date}&to_date=${router?.query?.to_date}&from_date_row=${row.from_date}&to_date_row=${row.to_date}&brand_ids=${row.brand_ids}`}>{cell}</Link>
         );
       }
     },

@@ -90,7 +90,7 @@ const ChangePasswordForm = ({ linkApi, username }) => {
               type="password"
               label="Password"
               pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
-              helperText="From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 digit."
+              helperText={t('h_password')}
             />
             <InputField
               required
