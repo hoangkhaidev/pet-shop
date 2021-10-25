@@ -51,7 +51,7 @@ const SearchGameHistory = () => {
   const [gameName, setGameName] = useState('');
   const router = useRouter();
 
-  const { dataResponse, isLoading, isHasPermission } = useFetchData(
+  const { dataResponse, isLoading, isHasPermission, total } = useFetchData(
     `/api/members/${router.query?.id}`,
     null
   );
@@ -82,9 +82,12 @@ const SearchGameHistory = () => {
     return <NoPermissionPage />;
   }
 
+  if (total === null) {
+    return <Loading />;
+  }
+
   return (
     <div className={classes.root}>
-      {isLoading && <Loading />}
       <PlayerInformation data={data} />
       <AppBar position="static">
         <Tabs
@@ -101,13 +104,14 @@ const SearchGameHistory = () => {
       <DateRangeContext.Provider value={valueContext}>
         <Suspense fallback={<Loading />}>
           <TabPanel value={value} index={0}>
-            <GameTransactions gameName={gameName} dataInfo={data}/>
+            <GameTransactions gameName={gameName} />
           </TabPanel>
           <TabPanel value={value} index={1}>
             <GamesList onChangeTransaction={onChangeTransaction}/>
           </TabPanel>
         </Suspense>
       </DateRangeContext.Provider>
+      {isLoading && <Loading />}
     </div>
   );
 };

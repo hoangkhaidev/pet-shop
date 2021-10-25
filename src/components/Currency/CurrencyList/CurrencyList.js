@@ -19,7 +19,7 @@ const CurrencyList = () => {
   const [data, setData] = useState([]);
   const [refreshData, setRefreshData] = useState(null);
 
-  const { dataResponse, isLoading, isHasPermission } = useFetchData(
+  const { dataResponse, isLoading, isHasPermission, total } = useFetchData(
     '/api/currency',
     null,
     [refreshData]
@@ -35,10 +35,6 @@ const CurrencyList = () => {
     let mapData = cloneDeep(dataResponse)
     setData(mapData)
   }, [dataResponse]);
-
-  if (!isHasPermission) {
-    return <NoPermissionPage />;
-  }
 
   const columns = [ 
     {
@@ -101,9 +97,16 @@ const CurrencyList = () => {
     }
   ];
 
+  if (!isHasPermission) {
+    return <NoPermissionPage />;
+  }
+
+  if (total === null) {
+    return <Loading />;
+  }
+
   return (
     <>
-      {isLoading && <Loading />}
       <FormProvider>
         <CurrencyListFilter />
       </FormProvider>
@@ -114,6 +117,7 @@ const CurrencyList = () => {
           types="RoleList"
         />
       </ContentCardPage>
+      {isLoading && <Loading />}
     </>
   );
 };

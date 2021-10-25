@@ -18,7 +18,8 @@ const NoPermissionPage = () => {
   const navigate = useNavigate();
 
   const onGoback = () => {
-    navigate("/");
+    // navigate("/");
+    navigate(-5);
   };
 
   return (

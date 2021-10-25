@@ -11,7 +11,7 @@ import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import TransactionDetails from "src/components/TransactionDetails/TransactionDetails";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 
-const GameTransactions = ({ gameName, dataInfo }) => {
+const GameTransactions = ({ gameName }) => {
   const router = useRouter();
 
   const pad = (number, length) => {
@@ -76,10 +76,6 @@ const GameTransactions = ({ gameName, dataInfo }) => {
     const mapData = get(dataResponse, 'list', []);
     setData(mapData);
   }, [dataResponse]);
-
-  // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter]);
 
   const columns = [
     {
@@ -170,7 +166,6 @@ const GameTransactions = ({ gameName, dataInfo }) => {
     <>
       {isLoading && <Loading />}
       <div style={{ fontWeight: '600', fontSize: '22px'}}>Game Transaction</div>
-      
       <GameTransactionsFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} gameName={gameName} />
       <TableComponent
         data={data}
