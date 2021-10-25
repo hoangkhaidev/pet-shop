@@ -9,6 +9,7 @@ import { Button, makeStyles } from "@material-ui/core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBan, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import StatusBadge from "../shared/StatusBadge/StatusBadge";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,6 +30,7 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
   const classes = useStyles();
   const [label, setLabel] = useState(newlabel);
   const [open, setOpen] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setLabel(newlabel);
@@ -59,12 +61,12 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
         });
       } else {
         if (response?.err === 'err:no_permission') {
-          toast.warn("No Permission", {
+          toast.warn(t('no_permission'), {
             onClose: onClose()
           });
         }
         if (response?.err === 'err:suspended_account') {
-          toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+          toast.warn(t('suspended_account'));
         }
       }
     } catch (e) {

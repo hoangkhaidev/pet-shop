@@ -1,6 +1,7 @@
 import { Button, makeStyles } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import api from 'src/utils/api';
 import ModalComponent from '../shared/ModalComponent/ModalComponent';
@@ -26,6 +27,7 @@ const ChangeStatusGamesConfig = ({status, game_code, brand_id, brand_name, game_
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(status);
   const [valCheck, setValCheck] = useState(null);
+  const { t } = useTranslation();
 
   const onOpenModal = useCallback(() => {
     setOpen(true);
@@ -52,11 +54,11 @@ const ChangeStatusGamesConfig = ({status, game_code, brand_id, brand_name, game_
         let data = await api.post(`/api/game_config/brand_game/enable`, dataForm);
         if(!data?.success) {
           if (data?.err === 'err:no_permission') {
-            toast.warn("No Permission", {
+            toast.warn(t('no_permission'), {
               onClose: onClose()
             });
           } else if (data?.err === 'err:suspended_account') {
-            toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+            toast.warn(t('suspended_account'));
           } else {
             toast.warn(`Failed to Change`);
           }

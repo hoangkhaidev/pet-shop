@@ -131,20 +131,20 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
         });
       } else {
         if (response?.err === 'err:brand_not_found') {
-          toast.warn('Brand not found');
+          toast.warn(t('brand_not_found'));
         }
         if (response?.err === 'err:account_not_found') {
-          toast.warn('Brand not found');
+          toast.warn(t('brand_not_found'));
         }
         if (response?.err === 'err:suspended_account') {
-          toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+          toast.warn(t('suspended_account'));
         }
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
             if (response?.data['api_whitelist_ip'] === 'err:invalid_ip_address') {
-              setErrorApiWLIP('Invalid IP address');
+              setErrorApiWLIP(t('invalid_ip_address'));
             } else if (response?.data['whitelist_ips'] === 'err:invalid_ip_address') {
-              setErrorWhiteIP('Invalid IP address');
+              setErrorWhiteIP(t('invalid_ip_address'));
             } else {
               setError(field, {
                 type: 'validate',

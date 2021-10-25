@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import isEmpty from 'lodash/isEmpty';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(() => ({
   selectField: {
@@ -32,16 +33,17 @@ const SelectField = ({
   selectDisabled
 }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const renderErrors = () => {
     if (isEmpty(errors)) {
       return '';
     }
     if (errors.type === 'required') {
-      return 'Field is required';
+      return t('required');
     }
     if (errors.message === 'err:invalid_brand_ids') {
-      return errors.message = 'Please select brand';
+      return errors.message = t('invalid_brand_ids');
     }
     return errors.message;
   };

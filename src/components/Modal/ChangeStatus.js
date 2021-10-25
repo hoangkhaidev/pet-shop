@@ -19,6 +19,7 @@ import SelectCustomer from "../shared/InputField/SelectCustomer";
 import Textarea from "../shared/InputField/Textarea";
 import { validate } from "validate.js";
 import { makeStyles } from '@material-ui/core/styles';
+import { useTranslation } from "react-i18next";
 
 const STATUS_ALL = [
   {
@@ -73,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, statuses, types, setRefreshData = () => {} }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   
   const initFormState = {
     isValid: false,
@@ -174,12 +176,12 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
           });
         } else {
           if (response?.err === 'err:no_permission') {
-            toast.warn("No Permission", {
+            toast.warn(t('no_permission'), {
               onClose: onClose()
             });
           }
           if (response?.err === 'err:suspended_account') {
-            toast.warn('Cannot perform status, your account has been suspended, please contact your upline');
+            toast.warn(t('suspended_account'));
           }
         }
       } catch (e) {

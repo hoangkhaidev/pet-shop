@@ -6,6 +6,7 @@ import { Controller } from 'react-hook-form';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { makeStyles } from '@material-ui/core/styles';
 import isEmpty from 'lodash/isEmpty';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(() => ({
   inputField: {
@@ -171,19 +172,20 @@ export const FormattedNumberInputNew = ({
   ...rest
 }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const renderErrors = () => {
     if (isEmpty(errors)) {
       return '';
     }
     if (errors.type === 'required') {
-      return 'Field is required';
+      return t('required');
     }
     if (errors.message === 'err:invalid_player_inactivity_logout_after_mins') {
-      return errors.message = 'Player Inactivity Logout Time: min is 15';
+      return errors.message = t('invalid_player_inactivity_logout_after_mins');
     }
     if (errors.message === 'err:invalid_manual_retry_refund_after_hours') {
-      return errors.message = 'Manual retry/refund after: min is 3';
+      return errors.message = t('invalid_manual_retry_refund_after_hours');
     }
     return errors.message;
   };

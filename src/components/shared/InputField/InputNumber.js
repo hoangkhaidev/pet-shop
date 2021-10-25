@@ -6,6 +6,7 @@ import { Controller } from 'react-hook-form';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { makeStyles } from '@material-ui/core/styles';
 import isEmpty from 'lodash/isEmpty';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(() => ({
   inputField: {
@@ -65,13 +66,14 @@ const InputNumber = ({
   ...rest
 }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const renderErrors = () => {
     if (isEmpty(errors)) {
       return '';
     }
     if (errors.type === 'required') {
-      return 'Field is required';
+      return t('required');
     }
     if (errors.type === 'pattern') {
     }

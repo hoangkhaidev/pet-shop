@@ -13,6 +13,7 @@ import validate from 'validate.js';
 import api from 'src/utils/api';
 import { toast } from 'react-toastify';
 import get from "lodash/get";
+import { useTranslation } from 'react-i18next';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -109,6 +110,7 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
 
   const classes = useStyles();
   const [value, setValue] = useState(0);
+  const { t } = useTranslation();
 
   const initFormState = {
     isValid: false,
@@ -148,20 +150,20 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
             });
           } else {
             if (response?.err === 'err:suspended_account') {
-              toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+              toast.warn(t('suspended_account'));
             }
             if (response?.err === 'err:no_permission') {
-              toast.warn('No Permission');
+              toast.warn(t('no_permission'));
             }
             if (response?.err === "err:form_validation_failed") {
               if (response?.data?.default_bet === "err:bet_not_found") {
-                toast.warn(`${dataDetail.currency_code} default bet not found`, {
+                toast.warn(`${dataDetail.currency_code} ${t('bet_not_found')}`, {
                   onClose: setTimeout(() => {
                       window.location.reload()
                   }, 0),
                 }); 
               } else {
-                toast.warn(`${dataDetail.currency_code} bet scale must be in range of Total MIN and Total MAX`, {
+                toast.warn(`${dataDetail.currency_code} ${t('bet_than')}`, {
                   onClose: setTimeout(() => {
                       window.location.reload()
                   }, 0),
@@ -196,20 +198,20 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
             });
           } else {
             if (response?.err === 'err:suspended_account') {
-              toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+              toast.warn(t('suspended_account'));
             }
             if (response?.err === 'err:no_permission') {
-              toast.warn('No Permission');
+              toast.warn(t('no_permission'));
             }
             if (response?.err === "err:form_validation_failed") {
               if (response?.data?.default_bet === "err:bet_not_found") {
-                toast.warn(`${dataDetail.currency_code} default bet not found`, {
+                toast.warn(`${dataDetail.currency_code} ${t('bet_not_found')}`, {
                   onClose: setTimeout(() => {
                       window.location.reload()
                   }, 0),
                 }); 
               } else {
-                toast.warn(`${dataDetail.currency_code} bet scale must be in range of Total MIN and Total MAX`, {
+                toast.warn(`${dataDetail.currency_code} ${t('bet_than')}`, {
                   onClose: setTimeout(() => {
                       window.location.reload()
                   }, 0),

@@ -12,9 +12,11 @@ import GameTransactionsFilterHistory from "./GameTransactionsFilterHistory";
 import api from "src/utils/api";
 import { toast } from "react-toastify";
 import TransactionDetails from "src/components/TransactionDetails/TransactionDetails";
+import { useTranslation } from "react-i18next";
 
 const GameTransactionHistory = ({ setIsHasPermission }) => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const pad = (number, length) => {
     let str = "" + number
@@ -157,8 +159,8 @@ const GameTransactionHistory = ({ setIsHasPermission }) => {
           if (response?.err === "err:no_permission") {
             setIsHasPermission(false);
           }
-          if (response.err === "err:not_enough_arguments") toast.warn('Please choose 1 brand, and player ID or Nickname or Round ID');
-          if (response.err === "err:player_not_found") toast.warn('Player not found');
+          if (response.err === "err:not_enough_arguments") toast.warn(t('not_enough_arguments'));
+          if (response.err === "err:player_not_found") toast.warn(t('player_not_found'));
         }
     } catch (e) {
       console.log('e', e);
@@ -187,8 +189,8 @@ const GameTransactionHistory = ({ setIsHasPermission }) => {
         setTotal_size(total_sizeData)
         setData(mapData);
       } else {
-        if (response.err === "err:not_enough_arguments") toast.warn('Please select 1 of the 3 fields player ID, nickname round ID');
-        if (response.err === "err:player_not_found") toast.warn('Player not found');
+        if (response.err === "err:not_enough_arguments") toast.warn(t('not_enough_arguments_1'));
+        if (response.err === "err:player_not_found") toast.warn(t('player_not_found'));
       }
     } catch (e) {
       console.log('e', e);
@@ -217,8 +219,8 @@ const GameTransactionHistory = ({ setIsHasPermission }) => {
         setTotal_size(total_sizeData)
         setData(mapData);
       } else {
-        if (response.err === "err:not_enough_arguments") toast.warn('Please select 1 of the 3 fields player ID, nickname round ID');
-        if (response.err === "err:member_not_found") toast.warn('Player not found');
+        if (response.err === "err:not_enough_arguments") toast.warn(t('not_enough_arguments_1'));
+        if (response.err === "err:member_not_found") toast.warn(t('player_not_found'));
       }
     } catch (e) {
       console.log('e', e);

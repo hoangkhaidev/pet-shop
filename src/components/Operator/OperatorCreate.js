@@ -174,13 +174,13 @@ const OperatorCreate = () => {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
             if (response?.data['product_commission'] === 'err:invalid_product') {
-              setErrorProductCommission('Invalid product');
+              setErrorProductCommission(t('invalid_product'));
             } else if (response?.data['finance_emails'] === 'err:invalid_email') {
-              setErrorFinanceEmail('Invalid email');
+              setErrorFinanceEmail(t('invalid_email'));
             } else if (response?.data['api_whitelist_ip'] === 'err:invalid_ip_address') {
-              setErrorApiWLIP('Invalid IP address');
+              setErrorApiWLIP(t('invalid_ip_address'));
             } else if (response?.data['whitelist_ips'] === 'err:invalid_ip_address') {
-              setErrorWhiteIP('Invalid IP address');
+              setErrorWhiteIP(t('invalid_ip_address'));
             } else {
               setError(field, {
                 type: 'validate',
@@ -190,9 +190,10 @@ const OperatorCreate = () => {
           }
         }
         if (response?.err === 'err:suspended_account') {
-          toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+          toast.warn(t('suspended_account'));
         }
         if (response?.err === "err:no_permission") {
+          toast.warn(t('no_permission'));
           setIsHasPermission(false);
         }
       }

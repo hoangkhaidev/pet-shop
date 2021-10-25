@@ -17,6 +17,7 @@ import get from "lodash/get";
 import ResetConfirm from './ResetConfirm';
 import { toast } from 'react-toastify';
 import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(() => ({
   playerInfoName: {
@@ -65,6 +66,7 @@ const GamesConfigDetails = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const router = useRouter();
+  const { t } = useTranslation();
 
   const [objFilter, setObjFilter] = useState({
     brand_id: Number(router.query.brand_id),
@@ -119,10 +121,10 @@ const GamesConfigDetails = () => {
       });
     } else {
       if (response?.err === 'err:suspended_account') {
-        toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+        toast.warn(t('suspended_account'));
       }
       if (response?.err === 'err:no_permission') {
-        toast.warn('No Permission');
+        toast.warn(t('no_permission'));
       }
     }
   }

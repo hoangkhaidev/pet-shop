@@ -84,7 +84,7 @@ const Login = () => {
       navigate("/home/dashboard");
     } else {
       if (response?.err === 'err:ip_not_allowed') {
-        toast.warn('Access Denied: Login attempt from unknown IP.');
+        toast.warn(t('ip_not_allowed'));
       }
       const errorsResponse = get(response, "data", {});
       for (const err in errorsResponse) {

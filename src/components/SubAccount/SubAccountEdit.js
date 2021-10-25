@@ -27,6 +27,7 @@ import Loading from '../shared/Loading/Loading';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
 import cloneDeep from 'lodash.clonedeep';
 import SelectFieldMutiple from '../shared/InputField/SelectFieldMutiple';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(() => ({
   whitelistIPLine: {
@@ -55,6 +56,7 @@ const SubAccountEdit = () => {
   const router = useRouter();
   const classes = useStyles();
   const roleUser = useSelector((state) => state.roleUser);
+  const { t } = useTranslation();
 
   const { dataResponse, isLoading, isHasPermission  } = useFetchData(`/api/subs/${router.query?.id}`);
   const { dataResponse: dataRole } = useFetchData('/api/role');
@@ -162,17 +164,17 @@ const SubAccountEdit = () => {
         });
       } else {
         if (response.err === "err:no_permission") {
-          toast.warn('No Permission');
+          toast.warn(t('no_permission'));
         }
         if (response?.err === 'err:suspended_account') {
-          toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+          toast.warn(t('suspended_account'));
         }
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
             if (response?.data[field] === 'err:invalid_ip_address') {
-              setCheckWhiteIP('Invalid IP address');
+              setCheckWhiteIP(t('invalid_ip_address'));
             } else if (response?.data[field] === 'err:invalid_brand_ids') {
-              setErrorBrandMul('Please select brand');
+              setErrorBrandMul(t('invalid_brand_ids'));
             }else {
               setError(field, {
                 type: 'validate',

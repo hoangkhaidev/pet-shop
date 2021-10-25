@@ -15,6 +15,7 @@ import useRouter from 'src/utils/hooks/useRouter';
 import CurrencyComfirm from './CurrencyComfirm';
 import { validate } from 'validate.js';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const schema = {
   copy_brand_id: {
@@ -64,6 +65,7 @@ const GameParamCloning = ({ setValue }) => {
   const router = useRouter();
   const classes = useStyles();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { dataResponse: dataBrand } = useFetchData(`/api/brand/public_list`, null);
   const [dataBrands, setDataBrands] = useState([]);
@@ -147,13 +149,13 @@ const GameParamCloning = ({ setValue }) => {
           });
         } else {
           if (response?.err === 'err:brand_not_found') {
-            toast.warn('Brand not found');
+            toast.warn(t('brand_not_found'));
           }
           if (response?.err === 'err:account_not_found') {
-            toast.warn('Brand not found');
+            toast.warn(t('brand_not_found'));
           }
           if (response?.err === 'err:suspended_account') {
-            toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+            toast.warn(t('suspended_account'));
           }
         }
       } catch (e) {

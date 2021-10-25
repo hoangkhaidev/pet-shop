@@ -10,9 +10,11 @@ import ModalComponent from 'src/components/shared/ModalComponent/ModalComponent'
 import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import { SubmitButton } from 'src/components/shared/Button/Button';
 import Button from '@material-ui/core/Button';
+import { useTranslation } from 'react-i18next';
 
 const ChangePasswordForm = ({ linkApi, username }) => {
   const [open, setOpen] = useState(false);
+  const { t } = useTranslation();
   const {
     handleSubmit,
     formState: { errors },
@@ -51,12 +53,12 @@ const ChangePasswordForm = ({ linkApi, username }) => {
           }
         }
         if (response?.err === 'err:no_permission') {
-          toast.warn("No Permission", {
+          toast.warn(t('no_permission'), {
             onClose: onClose()
           });
         }
         if (response?.err === 'err:suspended_account') {
-          toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+          toast.warn(t('suspended_account'));
         }
       }
     } catch (e) {

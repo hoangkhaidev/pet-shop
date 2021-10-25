@@ -9,6 +9,7 @@ import {
   Grid,
   TextField
 } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 const states = [
   {
@@ -26,6 +27,7 @@ const states = [
 ];
 
 const AccountProfileDetails = (props) => {
+  const { t } = useTranslation();
   const [values, setValues] = useState({
     firstName: 'Katarina',
     lastName: 'Smith',
@@ -66,7 +68,7 @@ const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                helperText="Please specify the first name"
+                helperText={t('firstName')}
                 label="First name"
                 name="firstName"
                 onChange={handleChange}

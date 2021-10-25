@@ -1,9 +1,11 @@
 import Button from '@material-ui/core/Button';
 import get from 'lodash/get';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import api from 'src/utils/api';
 
 const ButtonResume = ({cell, row }) => {
+  const { t } = useTranslation();
     
   const onResume = async (row) => {
     const response = await api.post(`/api/global/brand_detail/${row.brand_id}/${row.round_id}/resume`, null);
@@ -12,10 +14,10 @@ const ButtonResume = ({cell, row }) => {
         window.location.reload();
     } else {
         if (response?.err === 'err:suspended_account') {
-            toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+            toast.warn(t('suspended_account'));
         }
         if (response?.err === 'err:no_permission') {
-            toast.warn('No Permission');
+            toast.warn(t('no_permission'));
         }
     }
   }

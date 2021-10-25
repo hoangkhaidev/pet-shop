@@ -125,7 +125,7 @@ const BusinessSummary = () => {
           });
         }
         return (
-          <Link href={`/reports/${row.identifier}/player_summary?option=${row.option}${brandTest}&product_ids=${row.product_ids}&from_date=${row.from_date}&to_date=${row.to_date}`}>{cell}</Link>
+          <Link href={`/reports/${row.identifier}/player_summary?option=${row.option}${brandTest}&product_ids=${row.product_ids}&from_date=${router?.query?.from_date}&to_date=${router?.query?.to_date}&from_date_row=${row.from_date}&to_date_row=${row.to_date}`}>{cell}</Link>
         );
       }
     },

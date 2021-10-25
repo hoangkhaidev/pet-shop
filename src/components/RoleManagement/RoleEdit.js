@@ -122,10 +122,10 @@ const RoleEdit = () => {
         });
       } else {
         if (response?.err === 'err:suspended_account') {
-          toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+          toast.warn(t('suspended_account'));
         }
         if (response?.err === 'err:no_permission') {
-          toast.warn('No Permission');
+          toast.warn(t('no_permission'));
         }
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {

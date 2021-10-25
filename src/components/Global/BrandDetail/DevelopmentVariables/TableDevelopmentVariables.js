@@ -9,6 +9,7 @@ import useRouter from "src/utils/hooks/useRouter";
 import get from 'lodash/get';
 import { toast } from "react-toastify";
 import cloneDeep from "lodash.clonedeep";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles(() => ({
     tableDevelopment: {
@@ -29,6 +30,7 @@ const useStyles = makeStyles(() => ({
 const TableDevelopmentVariables = ({ setValueTab }) => {
   const classes = useStyles();
   const router = useRouter();
+  const { t } = useTranslation();
 
   const initFormState = {
     config_type: "",
@@ -80,19 +82,19 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
           setValueTab(3);
         } else {
           if (response?.err === 'err:player_not_found') {
-            toast.warn('Player not found');
+            toast.warn(t('player_not_found'));
           }
           if (response?.err === 'err:brand_not_found') {
-            toast.warn('Brand not found');
+            toast.warn(t('brand_not_found'));
           }
           if (response?.err === 'err:account_not_found') {
-            toast.warn('Brand not found');
+            toast.warn(t('brand_not_found'));
           }
           if (response?.err === 'err:suspended_account') {
-            toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+            toast.warn(t('suspended_account'));
           }
           if (response?.err === 'err:no_permission') {
-            toast.warn('No Permission');
+            toast.warn(t('no_permission'));
           }
         }
     } catch (e) {
@@ -115,10 +117,10 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
           setValueTab(3);
         } else {
           if (response?.err === 'err:suspended_account') {
-            toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+            toast.warn(t('suspended_account'));
           }
           if (response?.err === 'err:no_permission') {
-            toast.warn('No Permission');
+            toast.warn(t('no_permission'));
           }
         }
     } catch (e) {
@@ -161,13 +163,13 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
           setValueTab(3);
         } else {
           if (response?.err === 'err:player_not_found') {
-              toast.warn('Player not found');
+              toast.warn(t('player_not_found'));
           }
           if (response?.err === 'err:suspended_account') {
-            toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+            toast.warn(t('suspended_account'));
           }
           if (response?.err === 'err:no_permission') {
-            toast.warn('No Permission');
+            toast.warn(t('no_permission'));
           }
         }
     } catch (e) {
@@ -190,10 +192,10 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
           setValueTab(3);
         } else {
           if (response?.err === 'err:suspended_account') {
-            toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+            toast.warn(t('suspended_account'));
           }
           if (response?.err === 'err:no_permission') {
-            toast.warn('No Permission');
+            toast.warn(t('no_permission'));
           }
         }
     } catch (e) {
@@ -221,13 +223,13 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
           setValueTab(3);
         } else {
           if (response?.err === 'err:player_not_found') {
-            toast.warn('Player not found');
+            toast.warn(t('player_not_found'));
           }
           if (response?.err === 'err:suspended_account') {
-            toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+            toast.warn(t('suspended_account'));
           }
           if (response?.err === 'err:no_permission') {
-            toast.warn('No Permission');
+            toast.warn(t('no_permission'));
           }
         }
     } catch (e) {
@@ -250,10 +252,10 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
           setValueTab(3);
         } else {
           if (response?.err === 'err:suspended_account') {
-            toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+            toast.warn(t('suspended_account'));
           }
           if (response?.err === 'err:no_permission') {
-            toast.warn('No Permission');
+            toast.warn(t('no_permission'));
           }
         }
     } catch (e) {
@@ -280,13 +282,13 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
           setValueTab(3);
         } else {
           if (response?.err === 'err:player_not_found') {
-            toast.warn('Player not found');
+            toast.warn(t('player_not_found'));
           }
           if (response?.err === 'err:suspended_account') {
-            toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+            toast.warn(t('suspended_account'));
           }
           if (response?.err === 'err:no_permission') {
-            toast.warn('No Permission');
+            toast.warn(t('no_permission'));
           }
         }
     } catch (e) {
@@ -310,10 +312,10 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
           setValueTab(3);
         } else {
           if (response?.err === 'err:suspended_account') {
-            toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+            toast.warn(t('suspended_account'));
           }
           if (response?.err === 'err:no_permission') {
-            toast.warn('No Permission');
+            toast.warn(t('no_permission'));
           }
         }
     } catch (e) {

@@ -146,9 +146,9 @@ const CommissionList = () => {
           onClose: navigate("/configuration/commission")
         });
       } else if (response?.err === 'err:suspended_account') {
-        toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+        toast.warn(t('suspended_account'));
       } else if (response?.err === 'err:no_permission') {
-        toast.warn('No Permission');
+        toast.warn(t('no_permission'));
       } else {
         toast.warn('Product not enable', {
           onClose: navigate("/configuration/commission")

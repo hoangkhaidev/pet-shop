@@ -6,12 +6,14 @@ import { toast } from 'react-toastify';
 import get from 'lodash/get';
 import { useNavigate } from 'react-router-dom';
 import useRouter from './useRouter';
+import { useTranslation } from 'react-i18next';
 
 const ROOT_API_URL = process.env.REACT_APP_ROOT_API_URL;
 
 export default function useFetchData(endpoint, objFilter, dependency = []) {
   const router = useRouter();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const token = useSelector((state) => state.authentication.token);
 
   const [data, setData] = useState({
@@ -61,7 +63,7 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
       } else {
 
         if (dataJSON?.err === 'err:internal_error') {
-          toast.warn('Internal Server Error. Please try again!');
+          toast.warn(t('internal_error'));
           return setData({
             isLoading: false,
             dataResponse: null,
@@ -74,7 +76,7 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
         }
 
         if (dataJSON?.err === 'err:no_permission') {
-          toast.warn('No Permission');
+          toast.warn(t('no_permission'));
           return setData({
             isLoading: false,
             dataResponse: null,
@@ -87,7 +89,7 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
         }
 
         if (dataJSON?.err === 'err:brand_not_found') {
-          toast.warn('Brand not found');
+          toast.warn(t('brand_not_found'));
           return setData({
             isLoading: false,
             dataResponse: null,
@@ -100,7 +102,7 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
         }
 
         if (dataJSON?.err === 'err:operator_not_found') {
-          toast.warn('Operator not found');
+          toast.warn(t('operator_not_found'));
           return setData({
             isLoading: false,
             dataResponse: null,
@@ -113,7 +115,7 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
         }
 
         if (dataJSON?.err === 'err:account_not_found') {
-          toast.warn('Account not found');
+          toast.warn(t('account_not_found'));
           return setData({
             isLoading: false,
             dataResponse: null,
@@ -126,7 +128,7 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
         }
 
         if (dataJSON?.err === 'err:player_business_summary_args_limit') {
-          toast.warn('Please enter Player ID or Nickname to search by date range');
+          toast.warn(t('player_business_summary_args_limit'));
           return setData({
             isLoading: false,
             dataResponse: null,
@@ -139,7 +141,7 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
         }
 
         if (dataJSON?.err === 'err:player_not_found') {
-          toast.warn('Player not found');
+          toast.warn(t('player_not_found'));
           return setData({
             isLoading: false,
             dataResponse: null,

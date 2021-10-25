@@ -7,6 +7,7 @@ import ModalComponent from "src/components/shared/ModalComponent/ModalComponent"
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 const DeleteItem = ({title, linkApi, types, username }) => {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const onOpenModal = useCallback(() => {
     setOpen(true);
@@ -44,9 +46,9 @@ const DeleteItem = ({title, linkApi, types, username }) => {
         if (data?.err === 'err:role_in_use') {
           toast.warn(<div>{mess}<br /> <div style={{fontSize: '14px'}}>Role in use</div></div>, { position: toast.POSITION.UPPER_RIGHT });
         } else if (data?.err === 'err:suspended_account') {
-          toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+          toast.warn(t('suspended_account'));
         } else if (data?.err === 'err:no_permission') {
-          toast.warn("No Permission");
+          toast.warn(t('no_permission'));
         } else {
           toast.warn(`Failed to Delete`);
         }

@@ -12,9 +12,11 @@ import GamesFilterHistory from "./GamesFilterHistory";
 import api from "src/utils/api";
 import Link from '@material-ui/core/Link';
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const GamesListHistory = () => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const pad = (number, length) => {
     let str = "" + number
@@ -92,10 +94,10 @@ const GamesListHistory = () => {
           setData(mapData);
         } else {
           if (response.err === "err:json_error") {
-            if (response.data.player_id === "want int, got string") toast.warn('Player ID is a number');
+            if (response.data.player_id === "want int, got string") toast.warn(t('want_int_got_string'));
           }
-          if (response.err === "err:not_enough_arguments") toast.warn('Please choose 1 brand, and player ID or Nickname or Round ID');
-          if (response.err === "err:player_not_found") toast.warn('Player not found');
+          if (response.err === "err:not_enough_arguments") toast.warn(t('not_enough_arguments'));
+          if (response.err === "err:player_not_found") toast.warn(t('player_not_found'));
         }
     } catch (e) {
       console.log('e', e);

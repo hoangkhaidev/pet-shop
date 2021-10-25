@@ -15,9 +15,11 @@ import TransactionDetails from "src/components/TransactionDetails/TransactionDet
 import FailedTransactionFilter from "./FailedTransactionFilter";
 import ButtonResume from "./ButtonResume";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
+import { useTranslation } from "react-i18next";
 
 const FailedTransaction = () => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const pad = (number, length) => {
     let str = "" + number
@@ -146,8 +148,8 @@ const FailedTransaction = () => {
           if (response?.err === "err:no_permission") {
             setIsHasPermission(false);
           }
-          if (response.err === "err:not_enough_arguments") toast.warn('Please select 1 of the 3 fields player ID, nickname round ID');
-          if (response.err === "err:player_not_found") toast.warn('Player not found');
+          if (response.err === "err:not_enough_arguments") toast.warn(t('not_enough_arguments_1'));
+          if (response.err === "err:player_not_found") toast.warn(t('player_not_found'));
         }
     } catch (e) {
       console.log('e', e);
@@ -175,8 +177,8 @@ const FailedTransaction = () => {
         setTotal_size(total_sizeData)
         setData(mapData);
       } else {
-        if (response.err === "err:not_enough_arguments") toast.warn('Please select 1 of the 3 fields player ID, nickname round ID');
-        if (response.err === "err:player_not_found") toast.warn('Player not found');
+        if (response.err === "err:not_enough_arguments") toast.warn(t('not_enough_arguments_1'));
+        if (response.err === "err:player_not_found") toast.warn(t('player_not_found'));
       }
     } catch (e) {
       console.log('e', e);
@@ -205,8 +207,8 @@ const FailedTransaction = () => {
         setTotal_size(total_sizeData)
         setData(mapData);
       } else {
-        if (response.err === "err:not_enough_arguments") toast.warn('Please select 1 of the 3 fields player ID, nickname round ID');
-        if (response.err === "err:member_not_found") toast.warn('Player not found');
+        if (response.err === "err:not_enough_arguments") toast.warn(t('not_enough_arguments'));
+        if (response.err === "err:member_not_found") toast.warn(t('player_not_found'));
       }
     } catch (e) {
       console.log('e', e);

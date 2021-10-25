@@ -96,8 +96,9 @@ const RoleAdd = () => {
         });
       } else {
         if (response?.err === 'err:suspended_account') {
-          toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+          toast.warn(t('suspended_account'));
         }
+        console.log(response)
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
             setError(field, {

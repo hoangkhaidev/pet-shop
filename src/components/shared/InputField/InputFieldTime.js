@@ -51,43 +51,58 @@ const InputFieldTime = ({
       return '';
     }
     if (errors.message === 'err:duplicate_role_name') {
-      return errors.message = 'Duplicate role name';
+      return errors.message = t('duplicate_role_name');
     }
     if (errors.message === 'err:invalid_role_name') {
-      return errors.message = 'Invalid role name (Max 100 characters)';
+      return errors.message = t('invalid_role_name');
     }
     if (errors.message === 'err:invalid_password') {
-      return errors.message = 'Invalid password';
+      return errors.message = t('invalid_password');
+    }
+    if (errors.message === 'err:invalid_old_password') {
+      return errors.message = t('invalid_old_password');
     }
     if (errors.message === 'err:confirm_password_mismatch') {
-      return errors.message = 'Confirm Password mismatch';
+      return errors.message = t('confirm_password_mismatch');
     }
     if (errors.message === 'err:invalid_brand_ids') {
-      return errors.message = 'Please select brand';
+      return errors.message = t('invalid_brand_ids');
     }
     if (errors.message === 'err:duplicate_username') {
-      return errors.message = 'Duplicate username';
+      return errors.message = t('duplicate_username');
     }
     if (errors.message === 'err:duplicate_operator_name') {
-      return errors.message = 'Duplicate name';
+      return errors.message = t('duplicate_operator_name');
     }
     if (errors.message === 'err:invalid_email') {
-      return errors.message = 'Invalid email';
+      return errors.message = t('invalid_email');
     }
     if (errors.message === 'err:invalid_product_ids') {
-      return errors.message = 'Invalid product';
+      return errors.message = t('invalid_product_ids');
     }
     if (errors.message === 'err:invalid_ip_address') {
-      return errors.message = 'Invalid IP address';
+      return errors.message = t('invalid_ip_address');
     }
     if (errors.message === 'err:incorrect_password') {
-      return errors.message = 'Incorrect password';
+      return errors.message = t('incorrect_password');
     }
     if (errors.message === 'err:username_not_found') {
-      return errors.message = 'Account not found';
+      return errors.message = t('username_not_found');
+    }
+    if (errors.message === 'err:locked_account') {
+      return errors.message = t('locked_account');
+    }
+    if (errors.message === 'err:banned_account') {
+      return errors.message = t('banned_account');
+    }
+    if (errors.message === 'err:login_different_device') {
+      return errors.message = t('login_different_device');
+    }
+    if (errors.message === 'err:inactive_account') {
+      return errors.message = t('inactive_account');
     }
     if (errors.type === 'required') {
-      return 'Field is required.';
+      return t('required');
     }
     if (errors.type === 'minLength') {
       return `min is ${minLength}.`;

@@ -8,9 +8,11 @@ import RunDevelopmentTestFilter from './RunDevelopmentTestFilter';
 import useRouter from 'src/utils/hooks/useRouter';
 import api from 'src/utils/api';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const RunDevelopmentTest = () => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const methods = useForm({
     defaultValues: router.query,
@@ -27,13 +29,13 @@ const RunDevelopmentTest = () => {
           setData(mapData);
         } else {
           if (response?.err === 'err:brand_not_found') {
-            toast.warn('Brand not found');
+            toast.warn(t('brand_not_found'));
           }
           if (response?.err === 'err:account_not_found') {
-            toast.warn('Brand not found');
+            toast.warn(t('brand_not_found'));
           }
           if (response?.err === 'err:suspended_account') {
-            toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+            toast.warn(t('suspended_account'));
           }
         }
     } catch (e) {

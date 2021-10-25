@@ -21,6 +21,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import api from 'src/utils/api';
 import Loading from '../shared/Loading/Loading';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
+import { useTranslation } from 'react-i18next';
 // import cloneDeep from 'lodash.clonedeep';
 
 const useStyles = makeStyles(() => ({
@@ -51,6 +52,7 @@ const Profile = () => {
   const router = useRouter();
   const classes = useStyles();
   const roleUser = useSelector((state) => state.roleUser);
+  const { t } = useTranslation();
 
   const { dataResponse, isLoading, isHasPermission  } = useFetchData(`/api/profile`);
   const [data, setData] = useState({});
@@ -110,12 +112,12 @@ const Profile = () => {
         });
       } else {
         if (response?.err === 'err:suspended_account') {
-          toast.warn('Cannot perform action, your account has been suspended, please contact your admin');
+          toast.warn(t('suspended_account'));
         }
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
             if (response?.data['finance_emails'] === 'err:invalid_email') {
-              setErrorFinanceEmail('Invalid email');
+              setErrorFinanceEmail(t('invalid_email'));
             } else {
               setError(field, {
                   type: 'validate',

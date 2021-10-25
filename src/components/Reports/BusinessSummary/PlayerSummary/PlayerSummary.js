@@ -69,6 +69,8 @@ const PlayerSummary = () => {
   
   const router = useRouter();
 
+  console.log(router)
+
   let brand_router = [];
 
   if (router?.query?.brand_ids === 0) {
@@ -339,9 +341,9 @@ const PlayerSummary = () => {
         </Typography>
         <span>
           {router.query.option === 'day' ? `Total by day over: ${router.query.id}` : '' }
-          {router.query.option === 'week' ? `Total by week from: ${router.query.from_date} to: ${router.query.to_date}` : '' }
-          {router.query.option === 'month' ? `Total by month from: ${router.query.from_date} to: ${router.query.to_date}` : '' }
-          {router.query.option === 'year' ? `Total by year from: ${router.query.from_date} to: ${router.query.to_date}` : '' }
+          {router.query.option === 'week' ? `Total by week from: ${router.query.from_date_row} to: ${router.query.to_date_row}` : '' }
+          {router.query.option === 'month' ? `Total by month from: ${router.query.from_date_row} to: ${router.query.to_date_row}` : '' }
+          {router.query.option === 'year' ? `Total by year from: ${router.query.from_date_row} to: ${router.query.to_date_row}` : '' }
         </span>
         <Button
           startIcon={<ClearAllIcon fontSize="small" />}
