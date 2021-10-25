@@ -11,7 +11,7 @@ import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import TransactionDetails from "src/components/TransactionDetails/TransactionDetails";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 
-const GameTransactions = ({ gameName }) => {
+const GameTransactions = ({ gameName, dataInfo }) => {
   const router = useRouter();
 
   const pad = (number, length) => {

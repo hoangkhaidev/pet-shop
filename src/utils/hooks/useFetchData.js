@@ -47,6 +47,8 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
 
       const dataJSON = await response.json();
 
+      console.log(dataJSON)
+
       if (get(dataJSON, 'success', false)) {
         return setData({
           isLoading: false,
@@ -73,7 +75,7 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
           });
         }
 
-        console.log(dataJSON?.err?.count);
+        console.log(dataJSON?.err);
         if (dataJSON?.err === 'err:no_permission') {
           toast.warn('No Permission');
           return setData({
@@ -191,7 +193,9 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
   }, [objFilter, token, router.navigate, endpoint, ...dependency]);
 
   useEffect(() => {
-    fetchData();
+    // if (data?.dataResponse.length > 0) {
+      fetchData();
+    // }
   }, [fetchData]);
 
   return data;

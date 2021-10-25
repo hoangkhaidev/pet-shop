@@ -101,7 +101,7 @@ const SearchGameHistory = () => {
       <DateRangeContext.Provider value={valueContext}>
         <Suspense fallback={<Loading />}>
           <TabPanel value={value} index={0}>
-            <GameTransactions gameName={gameName}/>
+            <GameTransactions gameName={gameName} dataInfo={data}/>
           </TabPanel>
           <TabPanel value={value} index={1}>
             <GamesList onChangeTransaction={onChangeTransaction}/>
