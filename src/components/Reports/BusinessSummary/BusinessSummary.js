@@ -40,8 +40,8 @@ const BusinessSummary = () => {
       ...router.query,
       brand_ids: router.query.brand_id_router ? brand_router : [],
       product_ids: router.query.product_ids ? [Number(router.query.product_ids)] : [],
-      from_date: router.query.from_date ? router.query.from_date : moment().startOf('month').format("DD/MM/YYYY"),
-      to_date: router.query.to_date ? router.query.to_date : moment().endOf('month').format("DD/MM/YYYY"),
+      from_date: router.query.from_date_router ? router.query.from_date_router : moment().startOf('month').format("DD/MM/YYYY"),
+      to_date: router.query.to_date_router ? router.query.to_date_router : moment().endOf('month').format("DD/MM/YYYY"),
     },
   });
 
@@ -125,7 +125,7 @@ const BusinessSummary = () => {
           });
         }
         return (
-          <Link href={`/reports/${row.identifier}/player_summary?option=${row.option}${brandRouter}&product_ids=${row.product_ids}&from_date=${router?.query?.from_date}&to_date=${router?.query?.to_date}&from_date_row=${row.from_date}&to_date_row=${row.to_date}&brand_ids=${row.brand_ids}`}>{cell}</Link>
+          <Link href={`/reports/${row.identifier}/player_summary?option=${row.option}${brandRouter}&product_ids=${row.product_ids}&from_date_router=${router?.query?.from_date}&to_date_router=${router?.query?.to_date}&from_date=${row.from_date}&to_date=${row.to_date}&brand_ids=${row.brand_ids}`}>{cell}</Link>
         );
       }
     },

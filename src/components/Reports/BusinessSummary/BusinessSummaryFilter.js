@@ -38,8 +38,8 @@ const BusinessSummaryFilter = ({
   });
 
   const [dateRange, setDateRange] = useState({
-    start: router.query.from_date ? router.query.from_date : moment().startOf('month').format("DD/MM/YYYY"),
-    end: router.query.to_date ? router.query.to_date : moment().endOf('month').format("DD/MM/YYYY")
+    start: router.query.from_date_router ? router.query.from_date_router : moment().startOf('month').format("DD/MM/YYYY"),
+    end: router.query.to_date_router ? router.query.to_date_router : moment().endOf('month').format("DD/MM/YYYY")
   });
 
   let brand_router = [];
