@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
     width: '50ch',
     '& .MuiAutocomplete-endAdornment': {
       top: '8px !important',
+    },
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      width: '100%',
     }
   },
   

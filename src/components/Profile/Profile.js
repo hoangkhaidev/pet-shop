@@ -35,7 +35,13 @@ const useStyles = makeStyles(() => ({
     fontSize: '12px !important',
     marginLeft: '15px',
     marginTop: '5px',
-  }
+  },
+  formStyle: {
+    width: '50%',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      width: '100%',
+    }
+  },
 }));
 
 const Profile = () => {
@@ -160,7 +166,7 @@ const Profile = () => {
       <span style={{ marginBottom: '2rem', display: 'flex', fontWeight: '600' }}>
           {data?.username} (Joined {data?.created_at})
       </span>
-      <form onSubmit={handleSubmit(onSubmit)} style={{ width: '50%' }}>
+      <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle}>
         <InputField
           namefileld="username"
           control={control}

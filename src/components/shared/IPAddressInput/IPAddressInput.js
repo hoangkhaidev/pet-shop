@@ -18,6 +18,12 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     fontSize: '1rem',
     border: '1px solid #172b4d',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      height: 45,
+      width: 45,
+      marginLeft: 5,
+      marginRight: 5,
+    }
   },
 }));
 

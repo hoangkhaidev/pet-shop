@@ -9,6 +9,10 @@ const useStyles = makeStyles((theme) => ({
   checkboxStyle: {
     padding: '2rem 4rem',
     paddingLeft: '0',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      padding: '2rem 2rem',
+      paddingLeft: '0',
+    }
   },
   labelStyle: {
     color: 'red !important',

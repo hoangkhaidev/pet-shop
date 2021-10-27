@@ -49,6 +49,9 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     width: '100%',
     paddingBottom: '20px !important',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      width: '100%',
+    }
   },
   labelStyle: {
     color: 'red',
@@ -58,6 +61,25 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '12px !important',
     marginLeft: '15px',
     paddingTop: '5px !important'
+  },
+  titlePad: {
+    paddingLeft: '2rem', 
+    paddingTop: '10px',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      paddingLeft: '0',
+    }
+  },
+  titleChild: {
+    paddingLeft: '6rem',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      paddingLeft: '1rem !important',
+    }
+  },
+  w500: {
+    width: '500px',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      width: '100%',
+    }
   }
 }));
 
@@ -206,9 +228,9 @@ const GameParamCloning = ({ setValue }) => {
         <FormLabel component="legend" className={classes.checkTitleText}>
           Use this to make a copy from another Brand. The current brand will be able to modify the copied params.
         </FormLabel>
-        <div style={{ paddingLeft: '2rem', paddingTop: '10px' }}>
+        <div className={classes.titlePad}>
           <TitlePage title="Warning" />
-          <div style={{ paddingLeft: '6rem' }}>
+          <div className={classes.titleChild} style={{ paddingLeft: '6rem' }}>
             <div>
               <Checkbox
                 type="checkbox"
@@ -233,7 +255,7 @@ const GameParamCloning = ({ setValue }) => {
             </div>
           </div>
           <TitlePage title="Copy from this brand" />
-          <div style={{ width: '500px' }}>
+          <div className={classes.w500} >
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel htmlFor="outlined-age-native-simple">
                 Brand

@@ -54,22 +54,43 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
     marginLeft: '10px',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      width: '100%',
+      overflow: 'hidden'
+    }
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
     textAlign: 'left',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      width: '25%',
+    }
+  },
+  tabPanelW: {
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      width: '75%',
+    }
   },
   w20: {
     width: '20%',
     textAlign: 'right',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      whiteSpace: 'nowrap',
+    }
   },
   w40: {
     width: '40%',
     textAlign: 'right',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      width: '50%',
+    }
   },
   w60: {
     width: '60%',
     marginLeft: '10px',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      width: '50%',
+    }
   },
   w80: {
     width: '80%',
@@ -88,6 +109,11 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '12px !important',
     marginLeft: '15px',
     paddingTop: '5px !important'
+  },
+  formStyles: {
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      margin: '-24px',
+    }
   }
 }));
 
@@ -285,8 +311,8 @@ export default function TabBetScale({currentData, setObjFilter, objFilter, dataD
         ))}
       </Tabs>
       {currentData.map((item, index) => (
-        <TabPanel key={index} value={value} index={index}>
-          <form onSubmit={handleSubmit}>
+        <TabPanel className={classes.tabPanelW} key={index} value={value} index={index}>
+          <form onSubmit={handleSubmit} className={classes.formStyles}>
             <TableBetScale 
                 dataDetail={dataDetail}
                 default_bet_scale={formState?.values?.default_bet_scale}

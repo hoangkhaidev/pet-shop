@@ -65,13 +65,15 @@ const RateHistory = ({ titleCurrency, currencyCode }) => {
     onOpenModal();
   };
 
+  let screenWidth = window.innerWidth;
+
   return (
     <>
       <Button onClick={() => onSubmitData(currencyCode)}>{titleCurrency}</Button>
       <ModalComponentRateHistory
         open={open}
         onClose={onClose}
-        width="800px"
+        width={ screenWidth > 991 ? '800px' : '100%'}
       >
         <TitlePage title={`${currencyCode} Rate History`} />
         <TableComponent

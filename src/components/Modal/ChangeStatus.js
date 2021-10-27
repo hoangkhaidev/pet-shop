@@ -69,6 +69,12 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '12px !important',
     marginLeft: '15px',
     marginTop: '-5px !important',
+  },
+  modalClass: {
+    width: '800px',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      width: '100%',
+    }
   }
 }));
 
@@ -257,7 +263,7 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
       <ModalComponent
         open={open}
         onClose={onClose}
-        width="800px"
+        className={classes.modalClass}
       >
         <div>
           <TitlePage title="Change Status" />

@@ -103,6 +103,7 @@ const PlayerSummary = () => {
   const [data, setData] = useState([]);
   const [dataSum, setDataSum] = useState({});
   const [excelData, setExcelData] = useState([]);
+  const [des, setDes] = useState('');
 
   const pad = (number, length) => {
     let str = "" + number
@@ -134,6 +135,7 @@ const PlayerSummary = () => {
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
     const mapDataSum = dataResponse?.sum;
+    setDes(dataResponse?.sum?.description);
     let forExcel = [];
     let sum = {
       player_id: "",
@@ -342,10 +344,11 @@ const PlayerSummary = () => {
           Player Summary
         </Typography>
         <span>
-          {router.query.option === 'day' ? `Total by day over: ${router.query.id}` : '' }
+          {des}
+          {/* {router.query.option === 'day' ? `Total by day over: ${router.query.id}` : '' }
           {router.query.option === 'week' ? `Total by week from: ${router.query.from_date_row} to: ${router.query.to_date_row}` : '' }
           {router.query.option === 'month' ? `Total by month from: ${router.query.from_date_row} to: ${router.query.to_date_row}` : '' }
-          {router.query.option === 'year' ? `Total by year from: ${router.query.from_date_row} to: ${router.query.to_date_row}` : '' }
+          {router.query.option === 'year' ? `Total by year from: ${router.query.from_date_row} to: ${router.query.to_date_row}` : '' } */}
         </span>
         <Button
           startIcon={<ClearAllIcon fontSize="small" />}

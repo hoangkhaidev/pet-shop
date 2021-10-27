@@ -51,10 +51,16 @@ const useStyles = makeStyles(() => ({
   w20: {
     width: '20%',
     textAlign: 'right',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      width: '40%',
+    }
   },
   w80: {
     width: '80%',
     marginLeft: '10px',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      width: '60%',
+    }
   },
   tableConfiguration: {
     display: 'flex',
@@ -184,7 +190,11 @@ const GamesConfigDetails = () => {
         </span>
       </div>
       <div className={classes.tableConfiguration}>
-        <span className={classes.w20}></span> 
+        {
+          window.innerWidth > 991 && (
+            <span className={classes.w20}></span> 
+          )
+        }
         <TabBetScale 
           dataDetail={dataDetail}
           currentData={currentData} 

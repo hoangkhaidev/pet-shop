@@ -38,7 +38,13 @@ const useStyles = makeStyles(() => ({
     fontSize: '12px !important',
     marginLeft: '15px',
     marginTop: '5px',
-  }
+  },
+  formStyle: {
+    width: '50%',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      width: '100%'
+    }
+  },
 }));
 
 const SubAccountCreate = () => {
@@ -198,7 +204,7 @@ const SubAccountCreate = () => {
   return (
     <ContentCardPage>
       <TitlePage title="Create Sub Account" />
-      <form onSubmit={handleSubmit(onSubmit)} style={{ width: '50%' }}>
+      <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle}>
         {!(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub' || roleUser.account_type === 'brand') && (
           <SelectFieldMutiple 
             options={brandData} 
@@ -252,7 +258,7 @@ const SubAccountCreate = () => {
           type="password"
           label="Password"
           pattern={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/}
-          helperText={t('password')}
+          helperText={t('h_password')}
         />
         <InputField
           required

@@ -93,7 +93,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '12px !important',
     marginLeft: '15px',
     paddingTop: '5px !important'
-  }
+  },
+  formStyle: {
+    width: '50%',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      width: '100%',
+    }
+  },
   
 }));
 
@@ -414,7 +420,7 @@ const BrandEdit = () => {
   return (
     <ContentCardPage>
       <TitlePage title="Edit Brand" />
-      <form onSubmit={handleSubmit(onSubmit)} style={{ width: '50%' }}>
+      <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle} >
         <InputField
           readOnly
           namefileld="operator"

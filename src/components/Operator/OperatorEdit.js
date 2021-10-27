@@ -73,7 +73,16 @@ const useStyles = makeStyles((theme) => ({
   },
   checkboxStyle: {
     padding: '2rem 4rem',
-  }
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      padding: '2rem 4rem',
+    }
+  },
+  formStyle: {
+    width: '50%',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      width: '100%',
+    }
+  },
 }));
 
 let schema = {};
@@ -383,7 +392,7 @@ const OperatorEdit = () => {
   return (
     <ContentCardPage>
       <TitlePage title="Edit Operator" />
-      <form onSubmit={handleSubmit(onSubmit)} style={{ width: '50%' }}>
+      <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle} >
         <InputField
           autoFocus
           required

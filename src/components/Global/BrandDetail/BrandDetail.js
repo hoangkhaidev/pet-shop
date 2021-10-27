@@ -84,6 +84,8 @@ const BrandDetail = () => {
           onChange={handleChange}
           aria-label="Search game history"
           indicatorColor="secondary"
+          variant="scrollable"
+          scrollButtons="auto"
           className={classes.aaaaaaaaa}
         >
           <Tab className={classes.labelTab} label="Endpoint & Settings" {...a11yProps(0)} />
@@ -96,18 +98,18 @@ const BrandDetail = () => {
       </AppBar>
       <DateRangeContext.Provider value={valueContext}>
         <Suspense fallback={<Loading />}>
-          <TabPanel value={value} index={0}>
+          <TabPanel value={value} index={0} className={classes.stylePanel}>
             <Endpoint_Settings dataResponse={dataResponse} />
           </TabPanel>
           {roleUser.account_type !== 'brand' && (
-            <TabPanel value={value} index={1}>
+            <TabPanel value={value} index={1} className={classes.stylePanel}>
               <GameParamCloning />
             </TabPanel>
           )}
-          <TabPanel value={value} index={2}>
+          <TabPanel value={value} index={2} className={classes.stylePanel}>
             <RunDevelopmentTest />
           </TabPanel>
-          <TabPanel value={value} index={3}>
+          <TabPanel value={value} index={3} className={classes.stylePanel}>
             <DevelopmentVariables setValueTab={setValue} />
           </TabPanel>
         </Suspense>

@@ -23,6 +23,12 @@ const useStyles = makeStyles(() => ({
   },
   dateRangeInput: {
     paddingTop: "0px !important"
+  },
+  textNowrap: {
+    whiteSpace: 'nowrap',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      whiteSpace: 'unset',
+    }
   }
 }));
 
@@ -222,7 +228,7 @@ const BusinessSummaryFilter = ({
                   <FormControlLabel value="week" control={<Radio />} label="Total by Week" />
                   <FormControlLabel value="year" control={<Radio />} label="Total by Year" />
                 </div>
-                <div style={{ whiteSpace: 'nowrap' }}>
+                <div className={classes.textNowrap} >
                   <FormControlLabel value="brand" control={<Radio />} label="Total by Brand" />
                 </div>
               </div>

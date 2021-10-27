@@ -19,6 +19,13 @@ const useStyles = makeStyles((theme) => ({
   title__groupButton: {
       display: "flex",
       justifyContent: "space-evenly",
+  },
+  btnResetDefault: {
+    background: '#d37b17 !important', 
+    marginLeft: '185px !important',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      marginLeft: '0 !important',
+    }
   }
 }));
 
@@ -43,7 +50,7 @@ const ResetConfirm = ({onResetItem, currency_code }) => {
       <Button
         variant="contained"
         onClick={onOpenModal}
-        style={{ background: '#d37b17', marginLeft: '185px' }}
+        className={classes.btnResetDefault}
       >
         Reset to Default
       </Button>

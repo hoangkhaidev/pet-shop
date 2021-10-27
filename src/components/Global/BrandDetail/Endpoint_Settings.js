@@ -44,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
   },
   formStyle: {
     width: '50%',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      width: '100%',
+    }
   },
   checkHelperText: {
     color: 'red !important',

@@ -24,6 +24,20 @@ const useStyles = makeStyles(() => ({
     },
     inputTotal: {
         width: '100%'
+    },
+    btnControl: {
+      ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+        padding: '3px 8px !important',
+        fontSize: '12px !important'
+      }
+    },
+    tdTitle: {
+      textAlign: 'right', 
+      fontWeight: '600', 
+      paddingRight: '5px',
+      ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+        fontSize: '14px '
+      }
     }
 }));
 
@@ -366,7 +380,7 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
                     <th></th>
                 </tr>
                 <tr>
-                    <td style={{ textAlign: 'right', fontWeight: '600', paddingRight: '5px' }} >Always Refund (for bet request)</td>
+                    <td className={classes.tdTitle} >Always Refund (for bet request)</td>
                     <td className={classes.tdDevelopment} style={{ textAlign: 'left', width: '15%' }} >
                         <Input 
                             id="standard-basic" 
@@ -392,6 +406,7 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
                             variant="contained" 
                             color="primary"
                             onClick={() => onUpdateRefund()}
+                            className={classes.btnControl}
                         >
                             Submit
                         </Button>
@@ -401,13 +416,14 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
                             variant="contained" 
                             color="secondary"
                             onClick={() => onResetRefund()}
+                            className={classes.btnControl}
                         >
                             Reset
                         </Button>
                     </td>
                 </tr>
                 <tr>
-                    <td style={{ textAlign: 'right', fontWeight: '600', paddingRight: '5px' }} >Always Retry (for result request)</td>
+                    <td className={classes.tdTitle} >Always Retry (for result request)</td>
                     <td className={classes.tdDevelopment} style={{ textAlign: 'left', width: '15%' }} >
                         <Input 
                             id="standard-basic" 
@@ -433,6 +449,7 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
                             variant="contained" 
                             color="primary" 
                             onClick={() => onUpdateRetry()}
+                            className={classes.btnControl}
                         >
                             Submit
                         </Button>
@@ -442,6 +459,7 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
                             variant="contained" 
                             color="secondary"
                             onClick={() => onResetRetry()}
+                            className={classes.btnControl}
                         >
                             Reset
                         </Button>
@@ -459,7 +477,7 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
                     <th></th>
                 </tr>
                 <tr>
-                    <td style={{ textAlign: 'right', fontWeight: '600', paddingRight: '5px' }} >Always manual refund (for bet request)</td>
+                    <td className={classes.tdTitle} >Always manual refund (for bet request)</td>
                     <td colSpan="2" className={classes.tdDevelopment} style={{ textAlign: 'left', width: '30%' }} >
                         <Input 
                             id="standard-basic" 
@@ -475,6 +493,7 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
                             variant="contained" 
                             color="primary"
                             onClick={() => onUpdateMRefund()}
+                            className={classes.btnControl}
                         >
                             Submit
                         </Button>
@@ -484,13 +503,14 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
                             variant="contained" 
                             color="secondary"
                             onClick={() => onResetMRefund()}
+                            className={classes.btnControl}
                         >
                             Reset
                         </Button>
                     </td>
                 </tr>
                 <tr>
-                    <td style={{ textAlign: 'right', fontWeight: '600', paddingRight: '5px' }} >Always manual retry (for result request)</td>
+                    <td className={classes.tdTitle} >Always manual retry (for result request)</td>
                     <td colSpan="2" className={classes.tdDevelopment} style={{ textAlign: 'left', width: '30%' }} >
                         <Input 
                             id="standard-basic" 
@@ -506,6 +526,7 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
                             variant="contained" 
                             color="primary"
                             onClick={() => onUpdateMRetry()}
+                            className={classes.btnControl}
                         >
                             Submit
                         </Button>
@@ -515,6 +536,7 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
                             variant="contained" 
                             color="secondary"
                             onClick={() => onResetMRetry()}
+                            className={classes.btnControl}
                         >
                             Reset
                         </Button>

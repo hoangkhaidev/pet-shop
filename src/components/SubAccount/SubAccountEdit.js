@@ -40,7 +40,13 @@ const useStyles = makeStyles(() => ({
     fontSize: '12px !important',
     marginLeft: '15px',
     marginTop: '5px',
-  }
+  },
+  formStyle: {
+    width: '50%',
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      width: '100%'
+    }
+  },
 }));
 
 const SubAccountEdit = () => {
@@ -223,7 +229,7 @@ const SubAccountEdit = () => {
   return (
     <ContentCardPage>
       <TitlePage title="Edit Sub Account" />
-      <form onSubmit={handleSubmit(onSubmit)} style={{ width: '50%' }}>
+      <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle}>
         {!(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') && (
           <SelectFieldMutiple 
             selectDisabled= {roleUser.account_type === 'brand' ? true : false}

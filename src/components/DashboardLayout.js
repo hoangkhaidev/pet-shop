@@ -26,7 +26,6 @@ const DashboardLayoutWrapper = experimentalStyled('div')(
     }
   })
 );
-
 const DashboardLayoutContainer = experimentalStyled('div')({
   display: 'flex',
   flex: '1 1 auto',

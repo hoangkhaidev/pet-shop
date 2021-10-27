@@ -60,13 +60,15 @@ const TransactionDetails = ({roundId}) => {
     setOpen(false);
   };
 
+  let screenWidth = window.innerWidth;
+
   return (
     <>
       <Button style={{ textTransform: 'none' }} onClick={(onOpenModal)}>{roundId}</Button>
       <ModalComponentRateHistory
         open={open}
         onClose={onClose}
-        width="80%"
+        width={ screenWidth > 991 ? '80%' : '100%'}
       >
         <TransactionDetailsInfo onClose={onClose} roundId={roundId}/>
         <AppBar position="static">
