@@ -53,6 +53,11 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '12px !important',
     marginLeft: '15px',
     paddingTop: '5px !important'
+  },
+  btn_whitelist: {
+    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+      minWidth: '50px !important',
+    }
   }
 }));
 
@@ -280,6 +285,7 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
                 color="primary"
                 variant="contained"
                 onClick={onAddingWLIPAddress}
+                className={classes.btn_whitelist}
               >
                 <AddIcon />
               </Button>
@@ -288,6 +294,7 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
                 color="secondary"
                 variant="contained"
                 onClick={() => onRemoveWLIPAddress(index)}
+                className={classes.btn_whitelist}
               >
                 <RemoveIcon />
               </Button>

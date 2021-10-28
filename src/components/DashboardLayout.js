@@ -31,7 +31,10 @@ const DashboardLayoutContainer = experimentalStyled('div')({
   flex: '1 1 auto',
   overflow: 'hidden',
   padding: 16,
-  fontFamily: 'Helvetica'
+  fontFamily: 'Helvetica',
+  ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+    padding: 0,
+  }
 });
 
 const DashboardLayoutContent = experimentalStyled('div')({

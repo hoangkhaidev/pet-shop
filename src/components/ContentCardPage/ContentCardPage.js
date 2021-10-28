@@ -15,7 +15,7 @@ const ContentCardPage = ({ children }) => {
 
   return (
     <Card className={classes.cardStyle} sx={{ p: 1, mt: 2, mb: 2 }} >
-      <CardContent>
+      <CardContent >
         {children}
       </CardContent>
     </Card>

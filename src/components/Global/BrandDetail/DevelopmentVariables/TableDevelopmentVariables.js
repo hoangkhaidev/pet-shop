@@ -21,6 +21,9 @@ const useStyles = makeStyles(() => ({
         border: '1px solid #dddddd',
         textAlign: 'left',
         padding: '8px',
+        ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
+          padding: '5px',
+        }
     },
     inputTotal: {
         width: '100%'
