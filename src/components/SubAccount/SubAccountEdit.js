@@ -115,9 +115,12 @@ const SubAccountEdit = () => {
     setValue('role', get(dataResponse, 'role_id', ''));
     setData(dataResponse);
     let data = get(dataResponse, 'whitelist_ips', ['...']);
-    data.push('...');
-    if (!data.length) {
-      data = ['...'];
+    if (data.length < 20) {
+
+      data.push('...');
+      if (!data.length) {
+        data = ['...'];
+      }
     }
     const formatWhitelistIP = data.map((ip) => ip.split('.'));
     
@@ -307,28 +310,38 @@ const SubAccountEdit = () => {
         {(whitelistIP || []).map((item, index) => (
           <div className={classes.whitelistIPLine} key={index}>
             <IPAddressInput
-              key={index}
               apiWLIP={item}
               onChange={onChangeWhitelistIp}
               rowIndex={index}
             />
-            {whitelistIP.length - 1 === index ? (
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={onAddingWLIPAddress}
-              >
-                <AddIcon />
-              </Button>
-            ) : (
-              <Button
-                color="secondary"
-                variant="contained"
-                onClick={() => onRemoveWLIPAddress(index)}
-              >
-                <RemoveIcon />
-              </Button>
-            )}
+            {
+              whitelistIP.length === 20 ? (
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  onClick={() => onRemoveWLIPAddress(index)}
+                >
+                  <RemoveIcon />
+                </Button>
+              ) : 
+                whitelistIP.length - 1 === index ? (
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={onAddingWLIPAddress}
+                  >
+                    <AddIcon />
+                  </Button>
+                ) : (
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => onRemoveWLIPAddress(index)}
+                  >
+                    <RemoveIcon />
+                  </Button>
+                )
+            }
           </div>
         ))}
         <FormLabel component="legend" className={classes.checkHelperText}>{checkWhiteIP}</FormLabel>

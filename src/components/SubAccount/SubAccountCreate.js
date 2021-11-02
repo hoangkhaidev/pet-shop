@@ -296,23 +296,34 @@ const SubAccountCreate = () => {
               onChange={onChangeWhitelistIp}
               rowIndex={index}
             />
-            {whitelistIP.length - 1 === index ? (
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={onAddingWLIPAddress}
-              >
-                <AddIcon />
-              </Button>
-            ) : (
-              <Button
-                color="secondary"
-                variant="contained"
-                onClick={() => onRemoveWLIPAddress(index)}
-              >
-                <RemoveIcon />
-              </Button>
-            )}
+            {
+              whitelistIP.length === 20 ? (
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  onClick={() => onRemoveWLIPAddress(index)}
+                >
+                  <RemoveIcon />
+                </Button>
+              ) : 
+                whitelistIP.length - 1 === index ? (
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={onAddingWLIPAddress}
+                  >
+                    <AddIcon />
+                  </Button>
+                ) : (
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => onRemoveWLIPAddress(index)}
+                  >
+                    <RemoveIcon />
+                  </Button>
+                )
+            }
           </div>
         ))}
         <FormLabel 

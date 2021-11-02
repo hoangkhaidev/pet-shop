@@ -74,7 +74,7 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
 
   const [data, setData] = useState({});
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
-  const [apiWLIP, setAPIWLIP] = useState(['', '', '', '']);
+  const [apiWLIP, setAPIWLIP] = useState([['', '', '', '']]);
   const [errorWhiteIP, setErrorWhiteIP] = useState('');
   const [errorApiWLIP, setErrorApiWLIP] = useState('');
 
@@ -83,13 +83,27 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
 
   useEffect(() => {
     let dataWhitelist_ips = get(dataResponse, 'whitelist_ips', ['...']);
-    dataWhitelist_ips.push('...');
+    let dataWhitelist_apis = get(dataResponse, 'api_whitelist_ip', ['...']);
 
-    if (!dataWhitelist_ips.length) {
-      dataWhitelist_ips = ['...'];
+    if (dataWhitelist_ips < 20) {
+
+      dataWhitelist_ips.push('...');
+  
+      if (!dataWhitelist_ips.length) {
+        dataWhitelist_ips = ['...'];
+      }
+    }
+
+    if (dataWhitelist_apis < 20) {
+
+      dataWhitelist_apis.push('...');
+  
+      if (!dataWhitelist_apis.length) {
+        dataWhitelist_apis = ['...'];
+      }
     }
     const formatWhitelistIP = dataWhitelist_ips.map((ip) => ip.split('.'));
-    const formatApiWLIP = dataResponse?.api_whitelist_ip?.split('.');
+    const formatApiWLIP = dataWhitelist_apis.map((ip) => ip.split('.'));
 
     setAPIWLIP(formatApiWLIP?.length > 0 ? formatApiWLIP : apiWLIP);
     setData(dataResponse);
@@ -115,7 +129,13 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
   }, [apiWLIP]);
 
   const onSubmit = async (data) => {
-    const formatWLIPEndpoint = apiWLIP.join('.');
+    // const formatWLIPEndpoint = apiWLIP.join('.');
+
+    const formatWLIPEndpoint = apiWLIP.map((item) => {
+      item = item.join('.');
+      if (item === '...') return null;
+      return item;
+    }).filter((item) => item);
 
     const formatWLIPs = whitelistIP.map((item) => {
       item = item.join('.');
@@ -174,12 +194,12 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
     setWhitelistIP(cloneArr);
   };
 
-  const onChangeAPIEndpointIP = (e, index) => {
-    const { formattedValue } = e;
-    const cloneArr = apiWLIP.slice();
-    cloneArr[index] = formattedValue;
-    setAPIWLIP(cloneArr);
-  };
+  // const onChangeAPIEndpointIP = (e, index) => {
+  //   const { formattedValue } = e;
+  //   const cloneArr = apiWLIP.slice();
+  //   cloneArr[index] = formattedValue;
+  //   setAPIWLIP(cloneArr);
+  // };
 
   const onAddingWLIPAddress = () => {
     const cloneArr = whitelistIP.slice();
@@ -191,6 +211,26 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
     const cloneArr = whitelistIP.slice();
     remove(cloneArr, (item, index) => rowIndex === index);
     setWhitelistIP(cloneArr);
+  };
+
+  //api whitelist
+  const onChangeAPIEndpointIP = (e, index, rowIndex) => {
+    const { formattedValue } = e;
+    const cloneArr = apiWLIP.slice();
+    cloneArr[rowIndex][index] = formattedValue;
+    setAPIWLIP(cloneArr);
+  };
+
+  const onAddingWLIPAPI = () => {
+    const cloneArr = apiWLIP.slice();
+    const newArray = [...cloneArr, ['', '', '', '']];
+    if (newArray.length <= 20 ) setAPIWLIP(newArray);
+  };
+
+  const onRemoveWLIPAPI = (rowIndex) => {
+    const cloneArr = apiWLIP.slice();
+    remove(cloneArr, (item, index) => rowIndex === index);
+    setAPIWLIP(cloneArr);
   };
 
   const onCancel = () => {
@@ -229,10 +269,49 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
           onClick={() => {navigator.clipboard.writeText(data?.api_key)}}
         />
         <FormLabel>Whitelist IP Address for API<span style={{color: 'red'}}>*</span></FormLabel>
-        <IPAddressInput 
+        {/* <IPAddressInput 
           apiWLIP={apiWLIP} 
           onChange={onChangeAPIEndpointIP} 
-        />
+        /> */}
+
+        {(apiWLIP || []).map((item, index) => (
+          <div className={classes.whitelistIPLine} key={index}>
+            <IPAddressInput
+              apiWLIP={item}
+              onChange={onChangeAPIEndpointIP}
+              rowIndex={index}
+            />
+            {
+              apiWLIP.length === 20 ? (
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  onClick={() => onRemoveWLIPAPI(index)}
+                >
+                  <RemoveIcon />
+                </Button>
+              ) : 
+                apiWLIP.length - 1 === index ? (
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={onAddingWLIPAPI}
+                  >
+                    <AddIcon />
+                  </Button>
+                ) : (
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => onRemoveWLIPAPI(index)}
+                  >
+                    <RemoveIcon />
+                  </Button>
+                )
+            }
+          </div>
+        ))}
+
         <FormLabel component="legend" className={classes.checkHelperText}>{errorApiWLIP}</FormLabel>
         <InputField
           required
@@ -272,33 +351,41 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
           }}
         />
         <FormLabel>{t('Whitelist IP Address for BO')}</FormLabel>
-        {whitelistIP.map((item, index) => (
+        {(whitelistIP || []).map((item, index) => (
           <div className={classes.whitelistIPLine} key={index}>
             <IPAddressInput
-              key={index}
               apiWLIP={item}
               onChange={onChangeWhitelistIp}
               rowIndex={index}
             />
-            {whitelistIP.length - 1 === index ? (
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={onAddingWLIPAddress}
-                className={classes.btn_whitelist}
-              >
-                <AddIcon />
-              </Button>
-            ) : (
-              <Button
-                color="secondary"
-                variant="contained"
-                onClick={() => onRemoveWLIPAddress(index)}
-                className={classes.btn_whitelist}
-              >
-                <RemoveIcon />
-              </Button>
-            )}
+            {
+              whitelistIP.length === 20 ? (
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  onClick={() => onRemoveWLIPAddress(index)}
+                >
+                  <RemoveIcon />
+                </Button>
+              ) : 
+                whitelistIP.length - 1 === index ? (
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={onAddingWLIPAddress}
+                  >
+                    <AddIcon />
+                  </Button>
+                ) : (
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => onRemoveWLIPAddress(index)}
+                  >
+                    <RemoveIcon />
+                  </Button>
+                )
+            }
           </div>
         ))}
         <FormLabel 
