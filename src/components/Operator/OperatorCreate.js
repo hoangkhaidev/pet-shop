@@ -79,7 +79,7 @@ const OperatorCreate = () => {
   const [financeEmail, setFinanceEmail] = useState([]);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [isLoading, setIsLoading] = useState(false);
-  const [apiWLIP, setAPIWLIP] = useState(['', '', '', '']);
+  const [apiWLIP, setAPIWLIP] = useState([['', '', '', '']]);
   const [productData, setProductData] = useState([]);
   const [errorWhiteIP, setErrorWhiteIP] = useState('');
   const [errorApiWLIP, setErrorApiWLIP] = useState('');
@@ -146,7 +146,13 @@ const OperatorCreate = () => {
         commission: String(item.value)
       };
     });
-    const formatWLIPEndpoint = apiWLIP.join('.');
+    // const formatWLIPEndpoint = apiWLIP.join('.');
+
+    const formatWLIPEndpoint = apiWLIP.map((item) => {
+      item = item.join('.');
+      if (item === '...') return null;
+      return item;
+    }).filter((item) => item);
 
     const formatWLIPs = whitelistIP.map((item) => {
       item = item.join('.');
@@ -227,13 +233,6 @@ const OperatorCreate = () => {
     setWhitelistIP(cloneArr);
   };
 
-  const onChangeAPIEndpointIP = (e, index) => {
-    const { formattedValue } = e;
-    const cloneArr = apiWLIP.slice();
-    cloneArr[index] = formattedValue;
-    setAPIWLIP(cloneArr);
-  };
-
   const onAddingWLIPAddress = () => {
     const cloneArr = whitelistIP.slice();
     const newArray = [...cloneArr, ['', '', '', '']];
@@ -244,6 +243,25 @@ const OperatorCreate = () => {
     const cloneArr = whitelistIP.slice();
     remove(cloneArr, (item, index) => rowIndex === index);
     setWhitelistIP(cloneArr);
+  };
+  //api whitelist
+  const onChangeAPIEndpointIP = (e, index, rowIndex) => {
+    const { formattedValue } = e;
+    const cloneArr = apiWLIP.slice();
+    cloneArr[rowIndex][index] = formattedValue;
+    setAPIWLIP(cloneArr);
+  };
+
+  const onAddingWLIPAPI = () => {
+    const cloneArr = apiWLIP.slice();
+    const newArray = [...cloneArr, ['', '', '', '']];
+    if (newArray.length <= 20 ) setAPIWLIP(newArray);
+  };
+
+  const onRemoveWLIPAPI = (rowIndex) => {
+    const cloneArr = apiWLIP.slice();
+    remove(cloneArr, (item, index) => rowIndex === index);
+    setAPIWLIP(cloneArr);
   };
 
   const onCancel = () => {
@@ -379,10 +397,38 @@ const OperatorCreate = () => {
           helperText={t('h_api_endpoint')}
         />
         <FormLabel>Whitelist IP Address for API<span style={{color: 'red'}}>*</span></FormLabel>
-        <IPAddressInput 
+        {apiWLIP.map((item, index) => (
+          <div className={classes.whitelistIPLine} key={index}>
+            <IPAddressInput
+              key={index}
+              apiWLIP={item}
+              onChange={onChangeAPIEndpointIP}
+              rowIndex={index}
+            />
+            {apiWLIP.length - 1 === index ? (
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={onAddingWLIPAPI}
+              >
+                <AddIcon />
+              </Button>
+            ) : (
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={() => onRemoveWLIPAPI(index)}
+              >
+                <RemoveIcon />
+              </Button>
+            )}
+          </div>
+        ))}
+        {/* <IPAddressInput 
           apiWLIP={apiWLIP} 
           onChange={onChangeAPIEndpointIP} 
-        />
+        /> */}
+
         <FormLabel component="legend" className={classes.checkHelperText}>{errorApiWLIP}</FormLabel>
         <Typography
           className={classes.operatorAdminLabel}

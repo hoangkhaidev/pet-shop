@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Suspense, useEffect, useMemo, useState, createContext } from "react";
 import 'react-perfect-scrollbar/dist/css/styles.css';
-import { useRoutes } from 'react-router-dom';
+import { useNavigate, useRoutes } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core';
 import { Provider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -52,11 +52,15 @@ const notificationReducer = (state, action) => {
 };
 
 const Routes = () => {
+  const navigate = useNavigate();
   const { isLoggedIn } = useSelector((state) => state.authentication);
 
   const [curPage, setCurPage] = useState({});
   const routing = useRoutes(routes(isLoggedIn));
   const router = useRouter();
+
+  const token = useSelector(state => state.authentication.token);
+  const [firstToken, setFirstToken] = useState(token);
 
   const routerHasUrl = useMemo(() => {
     let listUrl = [];
@@ -70,6 +74,26 @@ const Routes = () => {
     const currentPage = find(routerHasUrl, item => item.fullpath === router.pathname);
     setCurPage(currentPage);
   }, [router.pathname, routerHasUrl]);
+
+  useEffect(() => {
+
+    
+    if (firstToken && firstToken !== token) {
+      console.log(token)
+      console.log(firstToken)
+      if (token === "") {
+        navigate("/login");
+      } else {
+        window.location.reload();
+      }
+    }
+  }, [token, firstToken])
+
+  useEffect(() => {
+    if (!firstToken) {
+      setFirstToken(token)
+    }
+  }, [token, setFirstToken])
 
   const currentMenu = find(routes(), item => router.pathname.includes(`/${item.path}/`));
 

@@ -1,4 +1,4 @@
-import { onLogout, setToken } from 'src/features/authentication/authentication';
+import { getToken, onLogout } from 'src/features/authentication/authentication';
 import { store } from 'src/stores';
 
 const ROOT_API_URL = process.env.REACT_APP_ROOT_API_URL
@@ -134,7 +134,7 @@ class APIUtils {
 	}
 
 	static saveToken(token) {
-		store.dispatch(setToken(token))
+		store.dispatch(getToken(token))
 	}
 
 	static saveUserInfomation(user) {

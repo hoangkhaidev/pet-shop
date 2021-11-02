@@ -118,7 +118,7 @@ const BrandEdit = () => {
   );
   const { dataResponse: dataProduct } = useFetchData('/api/product');
 
-  const [apiWLIP, setApiWLIP] = useState(['', '', '', '']);
+  const [apiWLIP, setApiWLIP] = useState([['', '', '', '']]);
   const [data, setData] = useState([]);
   const [financeEmail, setFinanceEmail] = useState([]);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
@@ -153,12 +153,18 @@ const BrandEdit = () => {
 
   useEffect(() => {
     let dataWhitelist_ips = get(dataResponse, 'whitelist_ips', ['...']);
+    let dataWhitelist_apis = get(dataResponse, 'api_whitelist_ip', ['...']);
     dataWhitelist_ips.push('...');
     if (!dataWhitelist_ips.length) {
       dataWhitelist_ips = ['...'];
     }
+
+    dataWhitelist_apis.push('...');
+    if (!dataWhitelist_apis.length) {
+      dataWhitelist_apis = ['...'];
+    }
     const formatWhitelistIP = dataWhitelist_ips.map((ip) => ip.split('.'));
-    const formatApiWLIP = dataResponse?.api_whitelist_ip?.split('.');
+    const formatApiWLIP = dataWhitelist_apis.map((ip) => ip.split('.'));
 
     setApiWLIP(formatApiWLIP?.length > 0 ? formatApiWLIP : apiWLIP);
     setData(dataResponse);
@@ -177,7 +183,7 @@ const BrandEdit = () => {
   useEffect(() => {
     setErrorFinanceEmail('');
   }, [financeEmail]);
-  
+
   useEffect(() => {
     if (data) {
         setValue('operator', data?.operator_name);
@@ -241,7 +247,12 @@ const BrandEdit = () => {
         return item;
       });
 
-      const formatWLIPEndpoint = apiWLIP.join('.');
+      // const formatWLIPEndpoint = apiWLIP.join('.');
+      const formatWLIPEndpoint = apiWLIP.map((item) => {
+        item = item.join('.');
+        if (item === '...') return null;
+        return item;
+      }).filter((item) => item);
 
       const formatWLIPs = whitelistIP.map((item) => {
         item = item.join('.');
@@ -266,6 +277,7 @@ const BrandEdit = () => {
       delete form.name;
       delete form.username;
 
+      // console.log(form)
       try {
         let response = await api.post(`/api/brand/${router.query?.id}/update`, form);
         if (get(response, 'success', false)) {
@@ -358,17 +370,37 @@ const BrandEdit = () => {
     }
   };
 
-  const onChangeAPIEndpointIP = (e, index) => {
-    const { formattedValue } = e;
-    const cloneArr = apiWLIP.slice();
-    cloneArr[index] = formattedValue;
-    setApiWLIP(cloneArr);
-  };
+  // const onChangeAPIEndpointIP = (e, index) => {
+  //   const { formattedValue } = e;
+  //   const cloneArr = apiWLIP.slice();
+  //   cloneArr[index] = formattedValue;
+  //   setApiWLIP(cloneArr);
+  // };
 
   const onRemoveWLIPAddress = (rowIndex) => {
     const cloneArr = whitelistIP.slice();
     remove(cloneArr, (item, index) => rowIndex === index);
     setWhitelistIP(cloneArr);
+  };
+
+  //api whitelist
+  const onChangeAPIEndpointIP = (e, index, rowIndex) => {
+    const { formattedValue } = e;
+    const cloneArr = apiWLIP.slice();
+    cloneArr[rowIndex][index] = formattedValue;
+    setApiWLIP(cloneArr);
+  };
+
+  const onAddingWLIPAPI = () => {
+    const cloneArr = apiWLIP.slice();
+    const newArray = [...cloneArr, ['', '', '', '']];
+    if (newArray.length <= 20 ) setApiWLIP(newArray);
+  };
+
+  const onRemoveWLIPAPI = (rowIndex) => {
+    const cloneArr = apiWLIP.slice();
+    remove(cloneArr, (item, index) => rowIndex === index);
+    setApiWLIP(cloneArr);
   };
 
   const onCancel = () => {
@@ -509,7 +541,33 @@ const BrandEdit = () => {
           
         />
         <FormLabel>Whitelist IP Address for API<span style={{color: 'red'}}>*</span></FormLabel>
-        <IPAddressInput apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} />
+        {/* <IPAddressInput apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} /> */}
+        {(apiWLIP || []).map((item, index) => (
+          <div className={classes.whitelistIPLine} key={index}>
+            <IPAddressInput
+              apiWLIP={item}
+              onChange={onChangeAPIEndpointIP}
+              rowIndex={index}
+            />
+            {apiWLIP.length - 1 === index ? (
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={onAddingWLIPAPI}
+              >
+                <AddIcon />
+              </Button>
+            ) : (
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={() => onRemoveWLIPAPI(index)}
+              >
+                <RemoveIcon />
+              </Button>
+            )}
+          </div>
+        ))}
         <FormLabel component="legend" className={classes.checkHelperText}>{errorApiWLIP}</FormLabel>
         <Typography
           className={classes.operatorAdminLabel}

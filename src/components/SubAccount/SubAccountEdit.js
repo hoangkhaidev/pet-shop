@@ -109,6 +109,7 @@ const SubAccountEdit = () => {
 
   useEffect(() => {
     setValue('brand', get(dataResponse, 'brand_ids', ''));
+    setValue('brand_names', get(dataResponse, 'brand_names', ''));
     setValue('username', get(dataResponse, 'username', ''));
     setValue('name', get(dataResponse, 'name', ''));
     setValue('role', get(dataResponse, 'role_id', ''));
@@ -230,16 +231,28 @@ const SubAccountEdit = () => {
     <ContentCardPage>
       <TitlePage title="Edit Sub Account" />
       <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle}>
-        {!(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') && (
+        {!(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub' || roleUser.account_type === 'brand') && (
           <SelectFieldMutiple 
             selectDisabled= {roleUser.account_type === 'brand' ? true : false}
             options={brandData} 
-            label={'Brand'} 
+            label={'Brand'}
             required 
             id={'brand_id'}
             setBrandMultiple={setBrandMultiple}
             brandMultiple={brandMultiple}
             errorBrandMul={errorBrandMul}
+          />
+        )}
+        {(roleUser.account_type === 'brand') && (
+          <InputField
+            readOnly
+            namefileld="brand_names"
+            control={control}
+            id="brand_names"
+            errors={errors?.brand_names}
+            type="text"
+            label="Current Brand"
+            defaultValue={roleUser.username}
           />
         )}
         <InputField

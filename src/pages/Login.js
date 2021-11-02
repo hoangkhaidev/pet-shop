@@ -13,7 +13,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import get from "lodash/get";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import InputField from 'src/components/shared/InputField/InputField';
 import  { FormattedNumberInputCaptcha } from 'src/components/shared/InputField/InputFieldNumber';
 import { SubmitButton } from 'src/components/shared/Button/Button';
@@ -44,9 +44,17 @@ const Login = () => {
   const classes = useStyles();
   const { control, handleSubmit, setError, formState: { errors } } = useForm();
   const dispatch = useDispatch();
+  const token = useSelector(state => state.authentication.token);
 
   const [logOutReason, setLogOutReason] = useState(APIUtils.getLogOutReason());
   
+  useEffect(() => {
+    if (!!token) {
+      // Reload when login
+      window.location.reload();
+    }
+  }, [token])
+
   useEffect(() => {
     if (logOutReason) {
       setError('username', {

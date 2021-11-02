@@ -62,15 +62,21 @@ const SubAccountCreate = () => {
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
   const roleUser = useSelector((state) => state.roleUser);
 
+
   const {
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
     setError,
   } = useForm();
   const navigate = useNavigate();
 
   const { dataResponse: dataRole, isLoading, isHasPermission } = useFetchData('/api/role');
+
+  useEffect(() => {
+    setValue('brand', roleUser?.username);
+  }, [roleUser, setValue]);
 
   useEffect(() => {
     let dataRoleClone = cloneDeep(dataRole);
@@ -224,7 +230,7 @@ const SubAccountCreate = () => {
             id="brand"
             errors={errors?.brand}
             type="text"
-            label="Brand"
+            label="Current Brand"
             defaultValue={roleUser.username}
           />
         )}

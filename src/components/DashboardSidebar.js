@@ -17,17 +17,19 @@ import NavItem from './NavItem';
 // import { useNavigate } from 'react-router-dom';
 // import { onLogout } from "src/features/authentication/authentication";
 import APIUtils from 'src/api/APIUtils';
+import { onLogout } from 'src/features/authentication/authentication';
+import { useNavigate } from 'react-router';
 
 const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
   const [listNav, setListNav] = useState({});
   const { currentMenu } = useContext(CurrentPageContext);
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  // const onUserLogout = () => {
-  //   dispatch((onLogout()));
-  //   navigate("/");
-  // };
+  const onUserLogout = () => {
+    dispatch((onLogout()));
+    navigate("/");
+  };
 
   const getListNav = useCallback(async () => {
     const response = await api.post('/api/navigation', null);
@@ -46,8 +48,8 @@ const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
       dispatch(getUser(data));
     } else {
       if (response?.err === 'err:invalid_token') {
-        // onUserLogout();
-        APIUtils.logOut();
+        onUserLogout();
+        // APIUtils.logOut();
       }
     }
   };

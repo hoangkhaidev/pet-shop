@@ -20,12 +20,6 @@ export const authenticationSlice = createSlice({
     checkIsAuthen: (state, action) => {
       state.isLoggedIn = action.payload;
     },
-    setToken: (state, action) => {
-      state.token = action.payload;
-    },
-    deleteToken: () => ({
-      ...initialState
-    }),
     onLogout: () => ({
       ...initialState
     })
