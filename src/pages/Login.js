@@ -13,7 +13,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import get from "lodash/get";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import InputField from 'src/components/shared/InputField/InputField';
 import  { FormattedNumberInputCaptcha } from 'src/components/shared/InputField/InputFieldNumber';
 import { SubmitButton } from 'src/components/shared/Button/Button';
@@ -23,7 +23,7 @@ import { getToken, checkIsAuthen } from "src/features/authentication/authenticat
 import { toast } from "react-toastify";
 import APIUtils from "src/api/APIUtils";
 import { useTranslation } from "react-i18next";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles(() => ({
   captchaInput: {

@@ -495,23 +495,34 @@ const BrandCreate = () => {
               onChange={onChangeAPIEndpointIP}
               rowIndex={index}
             />
-            {apiWLIP.length - 1 === index ? (
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={onAddingWLIPAPI}
-              >
-                <AddIcon />
-              </Button>
-            ) : (
-              <Button
-                color="secondary"
-                variant="contained"
-                onClick={() => onRemoveWLIPAPI(index)}
-              >
-                <RemoveIcon />
-              </Button>
-            )}
+            {
+              apiWLIP.length === 20 ? (
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  onClick={() => onRemoveWLIPAPI(index)}
+                >
+                  <RemoveIcon />
+                </Button>
+              ) : 
+                apiWLIP.length - 1 === index ? (
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={onAddingWLIPAPI}
+                  >
+                    <AddIcon />
+                  </Button>
+                ) : (
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => onRemoveWLIPAPI(index)}
+                  >
+                    <RemoveIcon />
+                  </Button>
+                )
+            }
           </div>
         ))}
         {/* <IPAddressInput apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} /> */}
@@ -566,23 +577,34 @@ const BrandCreate = () => {
               onChange={onChangeWhitelistIp}
               rowIndex={index}
             />
-            {whitelistIP.length - 1 === index ? (
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={onAddingWLIPAddress}
-              >
-                <AddIcon />
-              </Button>
-            ) : (
-              <Button
-                color="secondary"
-                variant="contained"
-                onClick={() => onRemoveWLIPAddress(index)}
-              >
-                <RemoveIcon />
-              </Button>
-            )}
+            {
+              whitelistIP.length === 20 ? (
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  onClick={() => onRemoveWLIPAddress(index)}
+                >
+                  <RemoveIcon />
+                </Button>
+              ) : 
+                whitelistIP.length - 1 === index ? (
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={onAddingWLIPAddress}
+                  >
+                    <AddIcon />
+                  </Button>
+                ) : (
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => onRemoveWLIPAddress(index)}
+                  >
+                    <RemoveIcon />
+                  </Button>
+                )
+            }
           </div>
         ))}
         <FormLabel 

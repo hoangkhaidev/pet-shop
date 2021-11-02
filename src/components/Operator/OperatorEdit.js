@@ -146,14 +146,19 @@ const OperatorEdit = () => {
   useEffect(() => {
     let dataWhitelist_ips = get(dataResponse, 'whitelist_ips', ['...']);
     let dataWhitelist_apis = get(dataResponse, 'api_white_list_ip', ['...']);
-    dataWhitelist_ips.push('...');
-    if (!dataWhitelist_ips.length) {
-      dataWhitelist_ips = ['...'];
+    
+    if (dataWhitelist_ips.length < 20) {
+      dataWhitelist_ips.push('...');
+      if (!dataWhitelist_ips.length) {
+        dataWhitelist_ips = ['...'];
+      }
     }
-
-    dataWhitelist_apis.push('...');
-    if (!dataWhitelist_apis.length) {
-      dataWhitelist_apis = ['...'];
+    
+    if (dataWhitelist_ips.length < 20) {
+      dataWhitelist_apis.push('...');
+      if (!dataWhitelist_apis.length) {
+        dataWhitelist_apis = ['...'];
+      }
     }
     const formatWhitelistIP = dataWhitelist_ips.map((ip) => ip.split('.'));
     const formatApiWLIP = dataWhitelist_apis.map((ip) => ip.split('.'));
@@ -375,6 +380,10 @@ const OperatorEdit = () => {
     }
   };
 
+  useState(() => {
+    console.log(whitelistIP);
+  }, [whitelistIP])
+
   // const onChangeAPIEndpointIP = (e, index) => {
   //   const { formattedValue } = e;
   //   const cloneArr = apiWLIP.slice();
@@ -505,25 +514,37 @@ const OperatorEdit = () => {
               onChange={onChangeAPIEndpointIP}
               rowIndex={index}
             />
-            {apiWLIP.length - 1 === index ? (
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={onAddingWLIPAPI}
-              >
-                <AddIcon />
-              </Button>
-            ) : (
-              <Button
-                color="secondary"
-                variant="contained"
-                onClick={() => onRemoveWLIPAPI(index)}
-              >
-                <RemoveIcon />
-              </Button>
-            )}
+            {
+              apiWLIP.length === 20 ? (
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  onClick={() => onRemoveWLIPAPI(index)}
+                >
+                  <RemoveIcon />
+                </Button>
+              ) : 
+                apiWLIP.length - 1 === index ? (
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={onAddingWLIPAPI}
+                  >
+                    <AddIcon />
+                  </Button>
+                ) : (
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => onRemoveWLIPAPI(index)}
+                  >
+                    <RemoveIcon />
+                  </Button>
+                )
+            }
           </div>
         ))}
+        
 
         <FormLabel component="legend" className={classes.checkHelperText}>{errorApiWLIP}</FormLabel>
         <Typography
@@ -573,23 +594,35 @@ const OperatorEdit = () => {
               onChange={onChangeWhitelistIp}
               rowIndex={index}
             />
-            {whitelistIP.length - 1 === index ? (
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={onAddingWLIPAddress}
-              >
-                <AddIcon />
-              </Button>
-            ) : (
-              <Button
-                color="secondary"
-                variant="contained"
-                onClick={() => onRemoveWLIPAddress(index)}
-              >
-                <RemoveIcon />
-              </Button>
-            )}
+            {
+              whitelistIP.length === 20 ? (
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  onClick={() => onRemoveWLIPAddress(index)}
+                >
+                  <RemoveIcon />
+                </Button>
+              ) : 
+                whitelistIP.length - 1 === index ? (
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={onAddingWLIPAddress}
+                  >
+                    <AddIcon />
+                  </Button>
+                ) : (
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => onRemoveWLIPAddress(index)}
+                  >
+                    <RemoveIcon />
+                  </Button>
+                )
+            }
+            
           </div>
         ))}
         <FormLabel 
