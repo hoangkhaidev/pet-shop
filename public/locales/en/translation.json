@@ -9,6 +9,7 @@
   "h_password": "From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number",
   "logout-inactive": "Your account has been inactivated. Please contact your admin to activate",
   "logout-locked": "Your account has been locked. Please contact your admin to unlock",
+  "logout-ip": "Access Denied: Login attempt from unknown IP.",
   "Success": "Success",
   "Unsuccess": "Unsuccess",
   "required": "Field is required",

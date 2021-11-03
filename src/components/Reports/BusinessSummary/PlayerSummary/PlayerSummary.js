@@ -8,12 +8,12 @@ import useRouter from "src/utils/hooks/useRouter";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import Link from "@material-ui/core/Link";
 import get from 'lodash/get';
-import moment from "moment";
+// import moment from "moment";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import Loading from "src/components/shared/Loading/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { ExportExcelPlayerSummary } from "./ExportExcelPlayerSummary";
-import { setParentParam } from "src/features/parentParam/parentParam";
+import { clearPage, setPage, setParentParam } from "src/features/parentParam/parentParam";
 import PlayerSummaryFilter from "./PlayerSummaryFilter";
 
 const useStyles = makeStyles((theme) => ({
@@ -133,6 +133,13 @@ const PlayerSummary = () => {
   }, [router]);
 
   useEffect(() => {
+    dispatch(setPage("infoPlayer"));
+    return () => {
+      dispatch(clearPage('infoPlayer'));
+    }
+  }, []);
+
+  useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
     const mapDataSum = dataResponse?.sum;
     setDes(dataResponse?.sum?.description);
@@ -184,17 +191,19 @@ const PlayerSummary = () => {
       column_name: "Player ID",
       align: "left",
       formatter: (cell, row) => {
-        let timeFrom_date = moment().format("DD/MM/YYYY");
-        let timeTo_date = moment().format("DD/MM/YYYY");
-        if (router.query.option === 'day') {
-          timeFrom_date = router.query.id;
-          timeTo_date = router.query.id;
-        } else {
-          timeFrom_date = router.query.from_date;
-          timeTo_date = router.query.to_date;
-        }
+        // let timeFrom_date = moment().format("DD/MM/YYYY");
+        // let timeTo_date = moment().format("DD/MM/YYYY");
+        // if (router.query.option === 'day') {
+        //   timeFrom_date = router.query.id;
+        //   timeTo_date = router.query.id;
+        // } else {
+        //   timeFrom_date = router.query.from_date;
+        //   timeTo_date = router.query.to_date;
+        // }
+        // console.log(router);
+
         return (
-          <Link href={`/players/${row.player_id}/information?from_date=${timeFrom_date}&game_name=&game_type=&id=${row.player_id}&page=1&page_size=30&player_id=${row.player_id}&round_id=&sort_field=start_date&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${timeTo_date}`}>{cell}</Link>
+          <Link href={`/players/${row.player_id}/information?from_date=${router.query.from_date}&game_name=&game_type=&id=${row.player_id}&page=1&page_size=30&player_id=${row.player_id}&round_id=&sort_field=start_date&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${router.query.to_date}`}>{cell}</Link>
         )
       }
     },

@@ -15,6 +15,7 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const token = useSelector((state) => state.authentication.token);
+  const pageName = useSelector((state) => state.parentParam.page);
 
   const [data, setData] = useState({
     dataResponse: [],
@@ -32,7 +33,14 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
 
     const stringified = queryString.stringify(objFilter);
 
-    let url = `${router.location.pathname}?${stringified}`;
+    // console.log(router);
+    // console.log(stringified);
+    let url = '';
+    if (pageName === 'infoPlayer') {
+      url = `${router.location.pathname}${router.location.search}`;
+    } else {
+      url = `${router.location.pathname}?${stringified}`;
+    }
 
     router.navigate(url);
 

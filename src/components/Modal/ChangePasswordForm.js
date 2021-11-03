@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import get from 'lodash/get';
 import { toast } from 'react-toastify';
@@ -20,6 +21,7 @@ const ChangePasswordForm = ({ linkApi, username }) => {
     formState: { errors },
     control,
     setError,
+    reset,
   } = useForm();
 
   const onOpenModal = useCallback(() => {
@@ -28,6 +30,7 @@ const ChangePasswordForm = ({ linkApi, username }) => {
 
   const onClose = () => {
     setOpen(false);
+    
   };
 
   const onSubmit = async (data) => {
@@ -65,6 +68,13 @@ const ChangePasswordForm = ({ linkApi, username }) => {
       console.log('e', e);
     }
   };
+
+  useEffect(() => {
+    reset({
+      password_confirmation: "",
+      password: "",
+    });
+  }, [open]);
 
   return (
     <div>

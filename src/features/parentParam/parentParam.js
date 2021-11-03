@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   parentParam: '',
+  page: '',
 };
 
 export const parentParamSlice = createSlice({
@@ -15,9 +16,15 @@ export const parentParamSlice = createSlice({
     clearParentParam: (state, action) => {
       state.parentParam = '';
     },
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
+    clearPage: (state, action) => {
+      state.page = '';
+    }
   }
 });
 
-export const { setParentParam, clearParentParam } = parentParamSlice.actions;
+export const { setParentParam, clearParentParam, setPage, clearPage } = parentParamSlice.actions;
 
 export default parentParamSlice.reducer;
