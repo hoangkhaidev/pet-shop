@@ -12,11 +12,24 @@ import Loading from "src/components/shared/Loading/Loading";
 import { ExportExcelPlayersBusinessSummary } from "./ExportExcelPlayersBusinessSummary";
 import { useDispatch, useSelector } from "react-redux";
 import PlayersBusinessSummaryFilter from "./PlayersBusinessSummaryFilter";
-import { setParentParam } from "src/features/parentParam/parentParam";
+import { clearPage, setPage, setParentParam } from "src/features/parentParam/parentParam";
 
 const PlayersBusinessSummary = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+
+  const pad = (number, length) => {
+    let str = "" + number
+    while (str.length < length) {
+        str = '0' + str
+    }
+    return str;
+  }
+
+  let tz = new Date().getTimezoneOffset()
+  tz = ((tz <0 ? '+' : '-') + pad(parseInt(Math.abs(tz / 60)), 2) + pad(Math.abs(tz % 60), 2));
+  const time_zoneReplace = tz.replace('+', '%2B');
+
   const roleUser = useSelector((state) => state.roleUser);
   let brand_router = [];
 
@@ -77,6 +90,13 @@ const PlayersBusinessSummary = () => {
   }, [router]);
 
   useEffect(() => {
+    dispatch(setPage("infoPlayer"));
+    return () => {
+      dispatch(clearPage('infoPlayer'));
+    }
+  }, []);
+
+  useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
     const mapDataSum = dataResponse?.sum;
     let forExcel = [];
@@ -131,7 +151,7 @@ const PlayersBusinessSummary = () => {
       align: "left",
       formatter: (cell, row) => {
         return (
-          <Link href={`/players/${row.player_id}/information`}>{cell}</Link>
+          <Link href={`/players/${row.player_id}/information?from_date=${row.from_date}&game_name=&game_type=&id=${row.player_id}&page=1&page_size=30&player_id=${row.player_id}&round_id=&sort_field=start_date&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${row.to_date}`}>{cell}</Link>
         );
       }
     },
