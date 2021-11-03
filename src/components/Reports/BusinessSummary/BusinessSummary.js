@@ -124,8 +124,11 @@ const BusinessSummary = () => {
             return item;
           });
         }
+        let form_date_router = router.query.from_date ? router.query.from_date : moment().startOf('month').format("DD/MM/YYYY");
+        let to_date_router = router.query.to_date ? router.query.to_date : moment().endOf('month').format("DD/MM/YYYY");
+
         return (
-          <Link href={`/reports/${row.identifier}/player_summary?option=${row.option}${brandRouter}&product_ids=${row.product_ids}&from_date_router=${router?.query?.from_date}&to_date_router=${router?.query?.to_date}&from_date=${row.from_date}&to_date=${row.to_date}&brand_ids=${row.brand_ids}`}>{cell}</Link>
+          <Link href={`/reports/${row.identifier}/player_summary?option=${row.option}${brandRouter}&product_ids=${row.product_ids}&from_date_router=${form_date_router}&to_date_router=${to_date_router}&from_date=${row.from_date}&to_date=${row.to_date}&brand_ids=${row.brand_ids}`}>{cell}</Link>
         );
       }
     },
