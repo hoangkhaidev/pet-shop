@@ -153,22 +153,20 @@ const BrandEdit = () => {
 
   useEffect(() => {
     let dataWhitelist_ips = get(dataResponse, 'whitelist_ips', ['...']);
-    let dataWhitelist_apis = get(dataResponse, 'api_whitelist_ip', ['...']);
-    if (dataWhitelist_ips.length < 20) {
-
+    if (dataResponse?.whitelist_ips?.length > 20) {
       dataWhitelist_ips.push('...');
       if (!dataWhitelist_ips.length) {
         dataWhitelist_ips = ['...'];
       }
     }
-
-    if (dataWhitelist_apis.length < 20) {
-
-      dataWhitelist_apis.push('...');
-      if (!dataWhitelist_apis.length) {
-        dataWhitelist_apis = ['...'];
-      }
+    let dataWhitelist_apis = get(dataResponse, 'api_whitelist_ip', ['...']);
+    if (dataResponse?.api_white_list_ip?.length > 20) {
+        dataWhitelist_apis.push('...');
+        if (!dataWhitelist_apis.length) {
+          dataWhitelist_apis = ['...'];
+        }
     }
+
     const formatWhitelistIP = dataWhitelist_ips.map((ip) => ip.split('.'));
     const formatApiWLIP = dataWhitelist_apis.map((ip) => ip.split('.'));
 
