@@ -50,8 +50,6 @@ const PlayersBusinessSummary = () => {
   const [objFilter, setObjFilter] = useState({
     brand_ids: [],
     player_id: 0,
-    from_date: moment().format("DD/MM/YYYY"),
-    to_date: moment().format("DD/MM/YYYY"),
     option: "day",
     sort_field: "period",
     sort_order: "desc",
@@ -67,6 +65,8 @@ const PlayersBusinessSummary = () => {
       ...router.query,
       player_id: router.query.player_id ? Number(router.query.player_id) : 0,
       brand_ids: router.query.brand_ids ? brand_router : [],
+      from_date: router.query.from_date ? router.query.from_date  : moment().format("DD/MM/YYYY"),
+      to_date: router.query.to_date ? router.query.to_date  : moment().format("DD/MM/YYYY"),
     },
   });
 
@@ -90,9 +90,9 @@ const PlayersBusinessSummary = () => {
   }, [router]);
 
   useEffect(() => {
-    dispatch(setPage("infoPlayer"));
+    dispatch(setPage("test"));
     return () => {
-      dispatch(clearPage('infoPlayer'));
+      dispatch(clearPage());
     }
   }, []);
 
@@ -248,6 +248,7 @@ const PlayersBusinessSummary = () => {
   };
 
   const onSubmit = async (data) => {
+    console.log(data)
     setObjFilter(prevState => ({
       ...prevState,
       ...data,

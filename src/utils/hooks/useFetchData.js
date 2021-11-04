@@ -36,10 +36,17 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
     // console.log(router);
     // console.log(stringified);
     let url = '';
+
+    
     if (pageName === 'infoPlayer') {
       url = `${router.location.pathname}${router.location.search}`;
     } else {
-      url = `${router.location.pathname}?${stringified}`;
+      console.log(router)
+      if (pageName === 'test' && router.pathname !== '/reports/players_business_summary'){
+        url = `${router.location.pathname}${router.location.search}`;
+      } else {
+        url = `${router.location.pathname}?${stringified}`;
+      }
     }
 
     router.navigate(url);

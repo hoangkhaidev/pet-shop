@@ -72,7 +72,15 @@ const ChangeStatusGamesConfig = ({status, game_code, brand_id, brand_name, game_
       try {
         let data = await api.post(`/api/game_config/brand_game/disable`, dataForm);
         if(!data?.success) {
-          toast.warn(`Failed to Change`);
+          if (data?.err === 'err:no_permission') {
+            toast.warn(t('no_permission'), {
+              onClose: onClose()
+            });
+          } else if (data?.err === 'err:suspended_account') {
+            toast.warn(t('suspended_account'));
+          } else {
+            toast.warn(`Failed to Change`);
+          }
         } else {
           toast.success(`Change Status Success`);
         }
