@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import moment from 'moment';
@@ -15,6 +16,7 @@ import { useSelector } from "react-redux";
 import api from "src/utils/api";
 import InputNumber from "src/components/shared/InputField/InputNumber";
 import useRouter from "src/utils/hooks/useRouter";
+import cloneDeep from "lodash.clonedeep";
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -76,12 +78,10 @@ const GamesFilterHistory = ({
 
   useEffect(() => {
     let mapData = [];
-    let newBrand;
-    if(brandsData) {
-      newBrand = [...brandsData];
+    if (roleUser.account_type === 'brand') {
+      mapData = [{id: 0, value: 0, label: ""}];
     }
-    if (!newBrand) return;
-    if (newBrand.length <= 0) return;
+    let newBrand = cloneDeep(brandsData);
     newBrand.forEach(data => {
       let optionData = {
         id: data.brand_id,
@@ -249,8 +249,7 @@ const GamesFilterHistory = ({
                 errors={errors?.brand_id}
                 id="brand_id"
                 label="Brand"
-                disabled
-                required
+                required={roleUser.account_type === 'brand' ? false : true}
                 options={brandData}
                 fullWidth={false}
               />

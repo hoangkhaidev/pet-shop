@@ -13,10 +13,12 @@ import api from "src/utils/api";
 import Link from '@material-ui/core/Link';
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 const GamesListHistory = () => {
   const router = useRouter();
   const { t } = useTranslation();
+  const roleUser = useSelector((state) => state.roleUser);
 
   const pad = (number, length) => {
     let str = "" + number
@@ -86,6 +88,10 @@ const GamesListHistory = () => {
       ...objFilter,
       ...data
     };
+
+    if (roleUser.account_type === 'brand') {
+      delete dataForm.brand_id;
+    }
 
     try {
         const response = await api.post('/api/transaction/game_history_group', dataForm);

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
@@ -73,6 +74,9 @@ const GameTransactionFilterHistory = ({
 
   useEffect(() => {
     let mapData = [];
+    if (roleUser.account_type === 'brand') {
+      mapData = [{id: 0, value: 0, label: ""}];
+    }
     let newBrand = cloneDeep(brandsData);
     newBrand.forEach(data => {
       let optionData = {
@@ -192,6 +196,7 @@ const GameTransactionFilterHistory = ({
       from_date: dateRange.start,
       to_date: dateRange.end,
     };
+    
     onSubmitProps(form);
   };
 
@@ -248,11 +253,9 @@ const GameTransactionFilterHistory = ({
                   namefileld="brand_id"
                   id="brand_id"
                   label="Brand"
-                  disabled
-                  required
+                  required={roleUser.account_type === 'brand' ? false : true}
                   options={brandData}
                   fullWidth={false}
-                  defaultValue='all'
                 />
                 <DateRangePickerComponent
                   className={classes.inputDataPicked}
