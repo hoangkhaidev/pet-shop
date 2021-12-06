@@ -111,6 +111,11 @@ const SubAccountCreate = () => {
     }
   }, [roleUser]);
 
+  useEffect(() => {
+    console.log(brandData);
+
+  }, [brandData])
+
   const onDataBrand = async () => {
     const response = await api.post('/api/brand/public_list', null);
     if (get(response, "success", false)) {

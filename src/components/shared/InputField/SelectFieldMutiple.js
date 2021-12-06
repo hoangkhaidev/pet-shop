@@ -52,22 +52,22 @@ export default function SelectFieldMutiple({ options, label, required, id, setBr
 
   const handleChange = (event) => {
     let index = event.target.value.findIndex((item) => item === 'all');
+    let arrOptions = options.map((item) => {
+      return item.value;
+    });
+
     if (index !== -1) {
       if (index === 0) { 
         event.target.value.splice(index, 1);
       } else {
         event.target.value = ['all'];
       }
+      if (arrOptions?.length === event.target.value?.length)  {
+        event.target.value = ['all'];
+      }
     }
-
-    let arrOptions = options.map((item) => {
-      return item.value;
-    });
+    
     arrOptions.splice(0, 1);
-   
-    if (arrOptions?.length === event.target.value?.length)  {
-      event.target.value = ['all'];
-    }
 
     setBrandMultiple(event.target.value);
   };
