@@ -62,7 +62,6 @@ const SubAccountCreate = () => {
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
   const roleUser = useSelector((state) => state.roleUser);
 
-
   const {
     control,
     handleSubmit,
@@ -243,6 +242,7 @@ const SubAccountCreate = () => {
           type="text"
           label="Username"
           pattern={/^[a-z0-9_]{3,15}$/}
+          onChange={e => e.target.value = e.target.value.trim()}
           helperText={t('h_username')}
         />
         <InputField

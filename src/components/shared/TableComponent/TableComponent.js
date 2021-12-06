@@ -204,7 +204,7 @@ const TableComponent = ({
                   className={classes.tableCellBody}>
                   {formatNumber(dataSum?.operator_total)}
                 </TableCell>
-                {roleUser === 'admin' ?
+                {roleUser === 'admin' || roleUser === 'adminsub' ?
                     <TableCell 
                       sx={{
                         padding: 1
@@ -308,7 +308,7 @@ const TableComponent = ({
                 >
                   {formatNumber(dataAverage?.operator_total)}
                 </TableCell>
-                {roleUser === 'admin' ?
+                {roleUser === 'admin' || roleUser === 'adminsub' ?
                     <TableCell 
                       sx={{
                         padding: 1
@@ -422,7 +422,7 @@ const TableComponent = ({
                   className={classes.tableCellBody}>
                   {formatNumber(dataSum?.operator_total)}
                 </TableCell>
-                {roleUser === 'admin' ?
+                {roleUser === 'admin' || roleUser === 'adminsub' ?
                   <TableCell 
                     sx={{
                       padding: 1

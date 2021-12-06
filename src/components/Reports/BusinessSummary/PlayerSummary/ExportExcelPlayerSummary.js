@@ -4,8 +4,10 @@ import XlsxPopulate from "xlsx-populate";
 import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from "react-redux";
 
 export const ExportExcelPlayerSummary = ({ excelData }) => {
+  const roleUser = useSelector((state) => state.roleUser);
   const getSheetData = (data, header) => {
     var fields = Object.keys(data[0]);
     var sheetData = data.map(function (row) {
@@ -18,8 +20,10 @@ export const ExportExcelPlayerSummary = ({ excelData }) => {
   }
 
   const exportToExcel = async () => {
-    let header = ["Player ID", "Nickname", "Sign Up Language", "Brand", "Bet", "Win", "Margin", "Currency", "Bet ($)", "Win ($)", "Margin ($)", "Operator Total ($)", "Company Total ($)"];
-
+    let header = ["Player ID", "Nickname", "Sign Up Language", "Brand", "Bet", "Win", "Margin", "Currency", "Bet ($)", "Win ($)", "Margin ($)", "Operator Total ($)"];
+    if (roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') {
+      header = ["Player ID", "Nickname", "Sign Up Language", "Brand", "Bet", "Win", "Margin", "Currency", "Bet ($)", "Win ($)", "Margin ($)", "Operator Total ($)", "Company Total ($)"];
+    }
     XlsxPopulate.fromBlankAsync().then(async (workbook) => {
       const sheet1 = workbook.sheet(0);
       const sheetData = getSheetData(excelData, header);

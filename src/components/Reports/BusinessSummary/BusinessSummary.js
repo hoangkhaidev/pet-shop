@@ -75,7 +75,7 @@ const BusinessSummary = () => {
       players_played: mapDataSum?.players_played,
       play_sessions: mapDataSum?.play_sessions,
       operator_total: formatNumber(mapDataSum?.operator_total),
-      company_total: formatNumber(mapDataSum?.company_total),
+      company_total: roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub' ? formatNumber(mapDataSum?.company_total) : null,
     };
     let average = {
       identifier: "Average:",
@@ -86,7 +86,7 @@ const BusinessSummary = () => {
       players_played: mapDataAverage?.players_played,
       play_sessions: mapDataAverage?.play_sessions,
       operator_total: formatNumber(mapDataAverage?.operator_total),
-      company_total: formatNumber(mapDataAverage?.company_total),
+      company_total: roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub' ? formatNumber(mapDataAverage?.company_total) : null ,
     };
 
     mapData?.forEach((item) => {
@@ -99,7 +99,7 @@ const BusinessSummary = () => {
         players_played: item.players_played,
         play_sessions: item.play_sessions,
         operator_total: formatNumber(item.operator_total),
-        company_total: formatNumber(item.company_total),
+        company_total: roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub' ? formatNumber(item.company_total) : null,
       });
     });
 
@@ -109,7 +109,7 @@ const BusinessSummary = () => {
     setData(mapData);
     setDataSum(mapDataSum)
     setDataAverage(mapDataAverage)
-  }, [dataResponse]);
+  }, [dataResponse, roleUser]);
 
   const columns = [
     {
@@ -118,12 +118,18 @@ const BusinessSummary = () => {
       align: "right",
       formatter: (cell, row) => {
         let brandRouter = '';
-        if (router?.query?.brand_ids?.length > 0) {
-          (router?.query?.brand_ids || []).map((item) => {
-            brandRouter += `&brand_id_router=${item}`;
-            return item;
-          });
+        
+        if (router?.query?.brand_ids) {
+          if (Array.isArray(router?.query?.brand_ids)) {
+            brand_router = (router.query.brand_ids || [router.query.brand_ids]).map((item) => {
+              brandRouter += `&brand_id_router=${item}`;
+              return item;
+            });
+          } else {
+            brandRouter = `&brand_id_router=${router.query.brand_ids}`;
+          }
         }
+        
         let form_date_router = router.query.from_date ? router.query.from_date : moment().startOf('month').format("DD/MM/YYYY");
         let to_date_router = router.query.to_date ? router.query.to_date : moment().endOf('month').format("DD/MM/YYYY");
 
@@ -183,7 +189,7 @@ const BusinessSummary = () => {
         return cellFormat;
       }
     },
-    roleUser.account_type === 'admin' ? {
+    roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub' ? {
       data_field: "company_total",
       column_name: "Company Total ($)",
       align: "right",

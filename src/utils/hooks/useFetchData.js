@@ -41,7 +41,7 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
     if (pageName === 'infoPlayer') {
       url = `${router.location.pathname}${router.location.search}`;
     } else {
-      console.log(router)
+      // console.log(router)
       if (pageName === 'test' && router.pathname !== '/reports/players_business_summary'){
         url = `${router.location.pathname}${router.location.search}`;
       } else {

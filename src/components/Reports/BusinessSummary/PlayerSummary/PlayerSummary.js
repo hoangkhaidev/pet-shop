@@ -293,7 +293,7 @@ const PlayerSummary = () => {
         return cellFormat;
       }
     },
-    roleUser.account_type === 'admin' ? {
+    roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub' ? {
       data_field: "company_total",
       column_name: "Company Total ($)",
       align: "right",

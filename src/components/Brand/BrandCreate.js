@@ -546,6 +546,7 @@ const BrandCreate = () => {
           label="Username"
           pattern={/^[a-z0-9_]{3,15}$/}
           helperText={t('h_username')}
+          onChange={e => e.target.value = e.target.value.trim()}
         />
         <InputField
           required
