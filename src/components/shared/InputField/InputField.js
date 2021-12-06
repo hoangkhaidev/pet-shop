@@ -106,7 +106,6 @@ const InputField = ({
     }
     if (errors.type === 'maxLength') {
     }
-    console.log(errors);
 
     if (errors.type === 'pattern') {
     }

@@ -264,6 +264,7 @@ const BrandList = () => {
       data_field: 'finance_emails',
       column_name: 'Finance Email',
       align: 'left',
+      formatter: (cell) => cell.join(', '),
     },
     {
       data_field: 'created_at',

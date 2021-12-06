@@ -145,6 +145,11 @@ const SubAccountList = () => {
     setData(get(dataResponse, 'list', []));
   }, [dataResponse]);
 
+  useEffect(() => {
+
+    console.log(data);
+  }, [data]);
+
   const columns = [
     {
       data_field: 'indexRow',
@@ -173,6 +178,7 @@ const SubAccountList = () => {
       data_field: 'brand_names',
       column_name: 'Brand',
       align: 'left',
+      formatter: (cell) => cell.join(', '),
     },
     {
       data_field: 'statuses',

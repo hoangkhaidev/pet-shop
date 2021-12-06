@@ -141,7 +141,6 @@ const SubAccountCreate = () => {
       role_id: dataForm.role,
       whitelist_ips: formatWLIPs,
     };
-    
     try {
       const response = await api.post('/api/subs/create', form);
       if (get(response, 'success', false)) {

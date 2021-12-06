@@ -134,11 +134,12 @@ const OperatorCreate = () => {
     let dataFinanceEmail = [];
       
     if (finance_email) {
-      dataFinanceEmail = [...financeEmail, finance_email];
+      dataFinanceEmail = [...financeEmail, finance_email.trim()];
     } else {
       dataFinanceEmail = financeEmail;
     }
 
+    console.log(dataFinanceEmail);
     const product_form = data.commission.filter((item) => item.checked === true );
     const product_commission = product_form.map((item) => {
       return {
@@ -164,6 +165,7 @@ const OperatorCreate = () => {
     
     const form = {
       ...data,
+      support_email: data.support_email.trim(),
       api_whitelist_ip: formatWLIPEndpoint,
       whitelist_ips: formatWLIPs,
       product_ids: [data.product_ids],
