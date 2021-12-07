@@ -101,6 +101,9 @@ const InputField = ({
     if (errors.message === 'err:inactive_account') {
       return errors.message = t('inactive_account');
     }
+    if (errors.message === 'err:ip_not_allowed') {
+      return errors.message = t('ip_not_allowed');
+    }
     if (errors.type === 'required') {
       return t('required');
     }

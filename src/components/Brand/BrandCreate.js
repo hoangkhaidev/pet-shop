@@ -126,9 +126,9 @@ const BrandCreate = () => {
   }, [roleUser]);
 
   useEffect(() => {
-    if (dataProduct.length <= 0) return;
     let mapData = [];
-    dataProduct.forEach((data) => {
+    let newProducts = cloneDeep(dataProduct);
+    (newProducts || []).forEach((data) => {
       let optionData = {
         id: data.id,
         value: data.id,
