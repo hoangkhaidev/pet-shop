@@ -10,6 +10,7 @@
   "logout-inactive": "Your account has been inactivated. Please contact your admin to activate",
   "logout-locked": "Your account has been locked. Please contact your admin to unlock",
   "logout-ip": "Access Denied: Login attempt from unknown IP.",
+  "logout-change-pwd": "Access Denied: Login attempt from unknown IP.",
   "Success": "Success",
   "Unsuccess": "Unsuccess",
   "required": "Field is required",

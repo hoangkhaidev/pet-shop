@@ -129,6 +129,19 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
           });
         }
 
+        if (dataJSON?.err === 'err:ip_not_allowed') {
+          toast.warn(t('ip_not_allowed'));
+          return setData({
+            isLoading: false,
+            dataResponse: null,
+            total_size: 0,
+            isLoaded: false,
+            isHasPermission: false,
+            total: 0,
+            refetch: false,
+          });
+        }
+
         if (dataJSON?.err === 'err:account_not_found') {
           toast.warn(t('account_not_found'));
           return setData({
