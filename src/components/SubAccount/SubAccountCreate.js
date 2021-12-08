@@ -161,6 +161,8 @@ const SubAccountCreate = () => {
               setCheckWhiteIP(t('invalid_ip_address'));
             } else if (response?.data[field] === 'err:invalid_brand_ids') {
               setErrorBrandMul(t('invalid_brand_ids'));
+            } else if (response?.data[field] === 'err:duplicate_ip_address') {
+              setCheckWhiteIP(t('duplicate_ip_address'));
             } else {
               setError(field, {
                 type: 'validate',

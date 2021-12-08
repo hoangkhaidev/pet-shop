@@ -171,8 +171,12 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
           for (const field in response?.data) {
             if (response?.data['api_whitelist_ip'] === 'err:invalid_ip_address') {
               setErrorApiWLIP(t('invalid_ip_address'));
+            } else if (response?.data['api_whitelist_ip'] === 'err:duplicate_ip_address') {
+              setErrorWhiteIP(t('duplicate_ip_address'));
             } else if (response?.data['whitelist_ips'] === 'err:invalid_ip_address') {
               setErrorWhiteIP(t('invalid_ip_address'));
+            } else if (response?.data['whitelist_ips'] === 'err:duplicate_ip_address') {
+              setErrorWhiteIP(t('duplicate_ip_address'));
             } else {
               setError(field, {
                 type: 'validate',

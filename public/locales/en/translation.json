@@ -31,6 +31,8 @@
   "invalid_player_inactivity_logout_after_mins": "Player Inactivity Logout Time: min is 15",
   "invalid_manual_retry_refund_after_hours": "Manual retry/refund after: min is 3",
   "duplicate_role_name": "Duplicate role name",
+  "duplicate_finance_emails": "Duplicate Finance Email",
+  "duplicate_ip_address": "Duplicate Whitelist IP Address",
   "invalid_role_name": "Invalid role name (Max 100 characters)",
   "invalid_password": "Invalid password",
   "invalid_old_password": "Current password is not correct",

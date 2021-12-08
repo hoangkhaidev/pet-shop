@@ -165,7 +165,7 @@ const OperatorCreate = () => {
     
     const form = {
       ...data,
-      support_email: data.support_email.trim(),
+      support_email: data.support_email ? data.support_email.trim() : '' ,
       api_whitelist_ip: formatWLIPEndpoint,
       whitelist_ips: formatWLIPs,
       product_ids: [data.product_ids],
@@ -188,10 +188,16 @@ const OperatorCreate = () => {
               setErrorProductCommission(t('invalid_product'));
             } else if (response?.data['finance_emails'] === 'err:invalid_email') {
               setErrorFinanceEmail(t('invalid_email'));
+            } else if (response?.data['finance_emails'] === 'err:duplicate_finance_emails') {
+              setErrorFinanceEmail(t('duplicate_finance_emails')); 
             } else if (response?.data['api_whitelist_ip'] === 'err:invalid_ip_address') {
               setErrorApiWLIP(t('invalid_ip_address'));
+            } else if (response?.data['api_whitelist_ip'] === 'err:duplicate_ip_address') {
+              setErrorApiWLIP(t('duplicate_ip_address'));
             } else if (response?.data['whitelist_ips'] === 'err:invalid_ip_address') {
               setErrorWhiteIP(t('invalid_ip_address'));
+            } else if (response?.data['whitelist_ips'] === 'err:duplicate_ip_address') {
+              setErrorWhiteIP(t('duplicate_ip_address'));
             } else {
               setError(field, {
                 type: 'validate',
@@ -223,6 +229,7 @@ const OperatorCreate = () => {
   };
 
   const onRemoveFinanceEmail = (email) => {
+    console.log(email);
     const cloneArr = financeEmail.slice();
     remove(cloneArr, (item) => item === email);
     setFinanceEmail(cloneArr);
@@ -310,10 +317,10 @@ const OperatorCreate = () => {
         />
         <FormLabel style={{marginTop: '-15px'}} component="legend" className={classes.checkHelperText}>{errorFinanceEmail}</FormLabel>
         <div className={classes.rootChip}>
-          {financeEmail.map((email) => (
+          {financeEmail.map((email, index) => (
             <Chip
               className={classes.financeEmailItem}
-              key={email}
+              key={index}
               label={email}
               onDelete={() => onRemoveFinanceEmail(email)}
             />

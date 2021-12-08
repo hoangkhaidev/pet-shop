@@ -124,6 +124,8 @@ const Profile = () => {
           for (const field in response?.data) {
             if (response?.data['finance_emails'] === 'err:invalid_email') {
               setErrorFinanceEmail(t('invalid_email'));
+            } else if (response?.data['finance_emails'] === 'err:duplicate_finance_emails') {
+              setErrorFinanceEmail(t('duplicate_finance_emails')); 
             } else {
               setError(field, {
                   type: 'validate',
@@ -223,10 +225,10 @@ const Profile = () => {
                 isHasInputProps
                 />
                 <div className={classes.rootChip} style={{ paddingBottom: '15px' }}>
-                {financeEmail?.map((email) => (
+                {financeEmail?.map((email, index) => (
                     <Chip
                     className={classes.financeEmailItem}
-                    key={email}
+                    key={index}
                     label={email}
                     onDelete={() => onRemoveFinanceEmail(email)}
                     />
