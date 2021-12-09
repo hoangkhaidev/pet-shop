@@ -32,6 +32,7 @@ import FormattedNumberInput from '../shared/InputField/InputFieldNumber';
 import clsx from 'clsx';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
+import cloneDeep from 'lodash.clonedeep';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -101,9 +102,9 @@ const OperatorCreate = () => {
   const { dataResponse: dataProduct } = useFetchData('/api/product');
 
   useEffect(() => {
-    if (dataProduct.length <= 0) return;
+    const data = cloneDeep(dataProduct);
     let mapData = [];
-    dataProduct.forEach((data) => {
+    data?.forEach((data) => {
       let optionData = {
         id: data.id,
         value: data.id,
@@ -196,7 +197,13 @@ const OperatorCreate = () => {
             } 
             if (response?.data['whitelist_ips'] === 'err:duplicate_ip_address') {
               setErrorWhiteIP(t('duplicate_ip_address'));
-            } 
+            }
+            if (response?.data['finance_emails'] === 'err:invalid_email') {
+              setErrorFinanceEmail(t('invalid_email'));
+            }
+            if (response?.data['finance_emails'] === 'err:duplicate_finance_emails') {
+              setErrorFinanceEmail(t('duplicate_finance_emails')); 
+            }
               setError(field, {
                 type: 'validate',
                 message: response?.data[field],
@@ -250,7 +257,7 @@ const OperatorCreate = () => {
     remove(cloneArr, (item, index) => rowIndex === index);
     setWhitelistIP(cloneArr);
   };
-  //api whitelist
+
   const onChangeAPIEndpointIP = (e, index, rowIndex) => {
     const { formattedValue } = e;
     const cloneArr = apiWLIP.slice();
@@ -306,7 +313,6 @@ const OperatorCreate = () => {
           namefileld="finance_email"
           control={control}
           id="finance_email"
-          errors={errors?.finance_email}
           type="text"
           label="Finance Email"
           callbackInputProps={addingFinanceEmail}
@@ -441,10 +447,6 @@ const OperatorCreate = () => {
             }
           </div>
         ))}
-        {/* <IPAddressInput 
-          apiWLIP={apiWLIP} 
-          onChange={onChangeAPIEndpointIP} 
-        /> */}
 
         <FormLabel component="legend" className={classes.checkHelperText}>{errorApiWLIP}</FormLabel>
         <Typography

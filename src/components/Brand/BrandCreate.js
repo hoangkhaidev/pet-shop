@@ -289,6 +289,12 @@ const BrandCreate = () => {
               if (response?.data['whitelist_ips'] === 'err:duplicate_ip_address') {
                 setErrorWhiteIP(t('duplicate_ip_address'));
               }
+              if (response?.data['finance_emails'] === 'err:invalid_email') {
+                setErrorFinanceEmail(t('invalid_email'));
+              }
+              if (response?.data['finance_emails'] === 'err:duplicate_finance_emails') {
+                setErrorFinanceEmail(t('duplicate_finance_emails')); 
+              }
                 setError(field, {
                   type: 'validate',
                   message: response?.data[field],
@@ -386,7 +392,6 @@ const BrandCreate = () => {
           namefileld="finance_emails"
           control={control}
           id="finance_emails"
-          errors={errors?.finance_emails}
           type="text"
           label="Finance Email"
           callbackInputProps={addingFinanceEmail}

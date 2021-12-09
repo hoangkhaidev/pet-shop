@@ -121,6 +121,12 @@ const Profile = () => {
         }
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
+            if (response?.data['finance_emails'] === 'err:invalid_email') {
+              setErrorFinanceEmail(t('invalid_email'));
+            }
+            if (response?.data['finance_emails'] === 'err:duplicate_finance_emails') {
+              setErrorFinanceEmail(t('duplicate_finance_emails')); 
+            }
               setError(field, {
                   type: 'validate',
                   message: response?.data[field],
@@ -211,7 +217,6 @@ const Profile = () => {
                 namefileld="finance_emails"
                 control={control}
                 id="finance_emails"
-                errors={errors?.finance_emails}
                 type="text"
                 label="Finance Email"
                 callbackInputProps={addingFinanceEmail}
