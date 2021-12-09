@@ -139,7 +139,6 @@ const OperatorCreate = () => {
       dataFinanceEmail = financeEmail;
     }
 
-    console.log(dataFinanceEmail);
     const product_form = data.commission.filter((item) => item.checked === true );
     const product_commission = product_form.map((item) => {
       return {
@@ -147,7 +146,6 @@ const OperatorCreate = () => {
         commission: String(item.value)
       };
     });
-    // const formatWLIPEndpoint = apiWLIP.join('.');
 
     const formatWLIPEndpoint = apiWLIP.map((item) => {
       item = item.join('.');
@@ -186,24 +184,29 @@ const OperatorCreate = () => {
           for (const field in response?.data) {
             if (response?.data['product_commission'] === 'err:invalid_product') {
               setErrorProductCommission(t('invalid_product'));
-            } else if (response?.data['finance_emails'] === 'err:invalid_email') {
+            } 
+            if (response?.data['finance_emails'] === 'err:invalid_email') {
               setErrorFinanceEmail(t('invalid_email'));
-            } else if (response?.data['finance_emails'] === 'err:duplicate_finance_emails') {
+            } 
+            if (response?.data['finance_emails'] === 'err:duplicate_finance_emails') {
               setErrorFinanceEmail(t('duplicate_finance_emails')); 
-            } else if (response?.data['api_whitelist_ip'] === 'err:invalid_ip_address') {
+            } 
+            if (response?.data['api_whitelist_ip'] === 'err:invalid_ip_address') {
               setErrorApiWLIP(t('invalid_ip_address'));
-            } else if (response?.data['api_whitelist_ip'] === 'err:duplicate_ip_address') {
+            } 
+            if (response?.data['api_whitelist_ip'] === 'err:duplicate_ip_address') {
               setErrorApiWLIP(t('duplicate_ip_address'));
-            } else if (response?.data['whitelist_ips'] === 'err:invalid_ip_address') {
+            } 
+            if (response?.data['whitelist_ips'] === 'err:invalid_ip_address') {
               setErrorWhiteIP(t('invalid_ip_address'));
-            } else if (response?.data['whitelist_ips'] === 'err:duplicate_ip_address') {
+            } 
+            if (response?.data['whitelist_ips'] === 'err:duplicate_ip_address') {
               setErrorWhiteIP(t('duplicate_ip_address'));
-            } else {
+            } 
               setError(field, {
                 type: 'validate',
                 message: response?.data[field],
               });
-            }
           }
         }
         if (response?.err === 'err:suspended_account') {

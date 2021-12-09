@@ -22,7 +22,6 @@ import api from 'src/utils/api';
 import Loading from '../shared/Loading/Loading';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
 import { useTranslation } from 'react-i18next';
-// import cloneDeep from 'lodash.clonedeep';
 
 const useStyles = makeStyles(() => ({
   whitelistIPLine: {
@@ -124,14 +123,14 @@ const Profile = () => {
           for (const field in response?.data) {
             if (response?.data['finance_emails'] === 'err:invalid_email') {
               setErrorFinanceEmail(t('invalid_email'));
-            } else if (response?.data['finance_emails'] === 'err:duplicate_finance_emails') {
+            }
+            if (response?.data['finance_emails'] === 'err:duplicate_finance_emails') {
               setErrorFinanceEmail(t('duplicate_finance_emails')); 
-            } else {
+            }
               setError(field, {
                   type: 'validate',
                   message: response?.data[field],
               });
-            }
           }
         }
       }
