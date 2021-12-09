@@ -76,7 +76,6 @@ const SubAccountEdit = () => {
   const [errorBrandMul, setErrorBrandMul] = useState('');
 
   const [checkWhiteIP, setCheckWhiteIP] = useState('');
-  // const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
   useEffect(() => {
     let mapData = [];
@@ -103,7 +102,7 @@ const SubAccountEdit = () => {
     if (get(response, "success", false)) {
       setBrandsData(response?.data);
     } else {
-      // console.log("response", response);
+      console.log("response", response?.errors);
     }
   };
 
@@ -114,9 +113,9 @@ const SubAccountEdit = () => {
     setValue('name', get(dataResponse, 'name', ''));
     setValue('role', get(dataResponse, 'role_id', ''));
     setData(dataResponse);
+
     let data = get(dataResponse, 'whitelist_ips', ['...']);
     if (data.length < 20) {
-
       data.push('...');
       if (!data.length) {
         data = ['...'];
@@ -147,7 +146,6 @@ const SubAccountEdit = () => {
   }, [whitelistIP]);
 
   const onSubmit = async (dataForm) => {
-
     const formatWLIPs = whitelistIP.map((item) => {
       item = item.join('.');
       if (item === '...') return null;
@@ -228,10 +226,6 @@ const SubAccountEdit = () => {
   if (!isHasPermission) {
     return <NoPermissionPage />;
   }
-  
-  // if (!isHasAccessPermission) {
-  //   return <NoPermissionPage />;
-  // }
 
   return (
     <ContentCardPage>

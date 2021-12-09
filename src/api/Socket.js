@@ -20,7 +20,6 @@ class Socket {
 
   connect() {
     this.ws = new WebSocket(SOCKET_API_URL);
-    // ws.binaryType = 'arraybuffer';
     this.ws.onopen = () => {
       // send auth
       console.log('socket open')
@@ -47,10 +46,8 @@ class Socket {
 
     this.ws.onmessage = (e) => {
       // a message was received
-      // const rawData = new Uint8Array(e.data);
-      // const responseObject = msgpack.decode(rawData);
       const responseObject = JSON.parse(e.data);
-      console.log(responseObject)
+      // console.log(responseObject)
       const method = responseObject.method;
       const callId = responseObject.callId;
       if (has(responseObject, "data.backend_client_version")) {
@@ -121,7 +118,6 @@ class Socket {
             callId: 'callId_' + this.requestIdCounter,
             data: data,
         };
-        // const rawData = msgpack.encode(fullData);
         const rawData = JSON.stringify(fullData);
         const strData = rawData;
         this.ws.send(strData);

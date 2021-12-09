@@ -111,11 +111,6 @@ const SubAccountCreate = () => {
     }
   }, [roleUser]);
 
-  useEffect(() => {
-    console.log(brandData);
-
-  }, [brandData])
-
   const onDataBrand = async () => {
     const response = await api.post('/api/brand/public_list', null);
     if (get(response, "success", false)) {
@@ -141,6 +136,7 @@ const SubAccountCreate = () => {
       role_id: dataForm.role,
       whitelist_ips: formatWLIPs,
     };
+    
     try {
       const response = await api.post('/api/subs/create', form);
       if (get(response, 'success', false)) {

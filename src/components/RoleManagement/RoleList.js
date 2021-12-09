@@ -27,19 +27,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const fakeData = [
-  {
-    id: 1,
-    role_name: "Sub Account",
-    description: "Access Sub Account Page",
-  },
-  {
-    id: 2,
-    role_name: "Operator",
-    description: "Access Operator Page"
-  }
-];
-
 const RoleList = () => {
   const classes = useStyles();
   const router = useRouter();
@@ -145,11 +132,6 @@ const RoleList = () => {
           types="RoleList"
           page = { Number(objFilter.page) }
           page_size = { Number(objFilter.page_size) }
-          pagination={{
-            total_size: fakeData.length,
-            page: +objFilter.page,
-            page_size: +objFilter.page_size
-          }}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
         />

@@ -17,7 +17,6 @@ import forEach from "lodash/forEach";
 import findIndex from "lodash/findIndex";
 import get from "lodash/get";
 import map from "lodash/map";
-// import every from "lodash/every";
 import { toast } from "react-toastify";
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import InputField from 'src/components/shared/InputField/InputField';
@@ -76,7 +75,6 @@ const RoleEdit = () => {
   useEffect(() => {
     setValue("role_name", dataResponse?.role_name);
     setValue("description", dataResponse?.description);
-    console.log(dataResponse)
     setPermissionGroup(dataResponse?.permission_group);
   }, [dataResponse, setValue]);
 
@@ -99,9 +97,6 @@ const RoleEdit = () => {
             checked: true
           });
         }
-        // if (every(arr, item => item)) {
-        //   name = permission.value;
-        // }
       });
       setHeaderPermission(testArr);
       setSelectedColumn(name);
@@ -144,10 +139,6 @@ const RoleEdit = () => {
   const onCancel = () => {
     navigate("/role");
   };
-
-  // useEffect(() => {
-  //   console.log(permissionGroup);
-  // }, [permissionGroup]);
 
   if (!isHasPermission) {
     return <NoPermissionPage />;

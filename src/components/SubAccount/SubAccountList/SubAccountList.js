@@ -145,11 +145,6 @@ const SubAccountList = () => {
     setData(get(dataResponse, 'list', []));
   }, [dataResponse]);
 
-  useEffect(() => {
-
-    console.log(data);
-  }, [data]);
-
   const columns = [
     {
       data_field: 'indexRow',
@@ -287,6 +282,7 @@ const SubAccountList = () => {
         brand_ids: dataSubmit?.brand_ids ? [Number(dataSubmit?.brand_ids)] : [],
       };
     }
+    
     setObjFilter((prevState) => ({
       ...prevState,
       ...dataForm,
