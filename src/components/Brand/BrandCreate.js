@@ -277,12 +277,6 @@ const BrandCreate = () => {
               if (response?.data['product_commission'] === 'err:invalid_product') {
                 setErrorProductCommission(t('invalid_product'));
               }
-              if (response?.data['finance_emails'] === 'err:invalid_email') {
-                setErrorFinanceEmail(t('invalid_email'));
-              }
-              if (response?.data['finance_emails'] === 'err:duplicate_finance_emails') {
-                setErrorFinanceEmail(t('duplicate_finance_emails')); 
-              }
               if (response?.data['api_whitelist_ip'] === 'err:invalid_ip_address') {
                 setErrorApiWLIP(t('invalid_ip_address'));
               }
@@ -400,10 +394,10 @@ const BrandCreate = () => {
         />
         <FormLabel style={{marginTop: '-15px'}} component="legend" className={classes.checkHelperText}>{errorFinanceEmail}</FormLabel>
         <div className={classes.rootChip}>
-          {financeEmail.map((email) => (
+          {financeEmail.map((email, index) => (
             <Chip
               className={classes.financeEmailItem}
-              key={email}
+              key={index}
               label={email}
               onDelete={() => onRemoveFinanceEmail(email)}
             />
@@ -483,8 +477,6 @@ const BrandCreate = () => {
             </FormControl>
           </>
         )}
-
-
         <InputField
           required
           namefileld="api_endpoint"
@@ -557,7 +549,6 @@ const BrandCreate = () => {
           label="Username"
           pattern={/^[a-z0-9_]{3,15}$/}
           helperText={t('h_username')}
-          onChange={e => e.target.value = e.target.value.trim()}
         />
         <InputField
           required

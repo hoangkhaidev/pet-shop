@@ -185,12 +185,6 @@ const OperatorCreate = () => {
             if (response?.data['product_commission'] === 'err:invalid_product') {
               setErrorProductCommission(t('invalid_product'));
             } 
-            if (response?.data['finance_emails'] === 'err:invalid_email') {
-              setErrorFinanceEmail(t('invalid_email'));
-            } 
-            if (response?.data['finance_emails'] === 'err:duplicate_finance_emails') {
-              setErrorFinanceEmail(t('duplicate_finance_emails')); 
-            } 
             if (response?.data['api_whitelist_ip'] === 'err:invalid_ip_address') {
               setErrorApiWLIP(t('invalid_ip_address'));
             } 

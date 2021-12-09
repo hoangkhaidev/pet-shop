@@ -83,6 +83,9 @@ const InputField = ({
     if (errors.message === 'err:invalid_ip_address') {
       return errors.message = t('invalid_ip_address');
     }
+    if (errors.message === 'err:duplicate_brand_name') {
+      return errors.message = t('duplicate_brand_name');
+    }
     if (errors.message === 'err:incorrect_password') {
       return errors.message = t('incorrect_password');
     }
@@ -100,6 +103,9 @@ const InputField = ({
     }
     if (errors.message === 'err:inactive_account') {
       return errors.message = t('inactive_account');
+    }
+    if (errors.message === 'err:duplicate_finance_emails') {
+      return errors.message = t('duplicate_finance_emails'); 
     }
     if (errors.message === 'err:ip_not_allowed') {
       return errors.message = t('ip_not_allowed');
