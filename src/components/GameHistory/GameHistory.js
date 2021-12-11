@@ -5,11 +5,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { useTranslation } from "react-i18next";
 import moment from 'moment';
-
 import TabPanel from "src/components/shared/TabPanel/TabPanel";
 import Loading from "src/components/shared/Loading/Loading";
 import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
-// import { colors } from "src/utils/styles";
 
 const GameTransactionHistory = lazy(() => import("./GameTransactionHistory/GameTransactionHistory"));
 const GamesListHistory = lazy(() => import("./GameHistory/GamesListHistory"));
@@ -42,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
       color: '#fff !important',
     },
   }
-
 }));
 
 const GameHistory = () => {

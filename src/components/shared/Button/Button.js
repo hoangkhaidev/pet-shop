@@ -13,19 +13,25 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const SubmitButton = ({text = "Submit", onClick, clickRef, disabled}) => (
-  <Button
-    startIcon={<AdjustIcon fontSize="small" />}
-    variant="contained"
-    type="submit"
-    color="primary"
-    ref={clickRef}
-    disabled={disabled}
-    onClick={onClick ? () => onClick() : null}
-  >
-    {text}
-  </Button>
-);
+export const SubmitButton = ({text = "Submit", onClick, clickRef, disabled}) => {
+  return (
+    <Button
+      startIcon={<AdjustIcon fontSize="small" />}
+      variant="contained"
+      type="submit"
+      color="primary"
+      ref={clickRef}
+      disabled={disabled}
+      onClick={
+        onClick ? () => onClick() : null
+      }
+    >
+      {text}
+    </Button>
+  );
+}
+
+
 
 export const ResetButton = ({
   onAction, text

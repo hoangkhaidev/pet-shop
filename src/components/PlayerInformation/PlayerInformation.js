@@ -3,11 +3,6 @@ import Grid from "@material-ui/core/Grid";
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import { useNavigate } from "react-router";
-// import useFetchData from "src/utils/hooks/useFetchData";
-// import { useEffect, useState } from "react";
-// import useRouter from "src/utils/hooks/useRouter";
-// import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
-// import Loading from "../shared/Loading/Loading";
 import { useSelector } from "react-redux";
 
 const useStyles = makeStyles(() => ({
@@ -53,29 +48,13 @@ const useStyles = makeStyles(() => ({
 
 const PlayerInformation = ({ data }) => {
   const classes = useStyles();
-  // const router = useRouter();
   const parentParam = useSelector((state) => state.parentParam.parentParam);
-
-  // const { dataResponse, isLoading, isHasPermission } = useFetchData(
-  //   `/api/members/${router.query?.id}`,
-  //   null
-  // );
-
-  // const [data, setData] = useState([]);
-
-  // useEffect(() => {
-  //   setData(dataResponse);
-  // }, [dataResponse]);
 
   const navigate = useNavigate();
 
   const onCancel = () => {
     navigate(parentParam);
   }
-
-  // if (!isHasPermission) {
-  //   return <NoPermissionPage />;
-  // }
 
   return (
     <>
@@ -202,7 +181,6 @@ const PlayerInformation = ({ data }) => {
                 </div>
             </Grid>
           </Grid>
-          {/* {isLoading && <Loading />} */}
         </ContentCardPage>
       </div>
     </>

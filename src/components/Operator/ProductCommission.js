@@ -107,7 +107,6 @@ const ProductCommission = ({ item, productCommission, setProductCommission, requ
             inputProps={{ 'aria-label': 'secondary checkbox' }}
         />
         <span className={classes.checkboxStyle}>{item?.label}</span>
-        
         {item.checked === true ? 
             <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
               <TextField

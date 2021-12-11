@@ -334,7 +334,6 @@ const OperatorList = () => {
   ];
 
   const handleChangePage = (page) => {
-    // console.log(page)
     let pageNew = page + 1;
     setObjFilter((prevState) => ({
       ...prevState,

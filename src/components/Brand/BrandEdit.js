@@ -385,20 +385,12 @@ const BrandEdit = () => {
     }
   };
 
-  // const onChangeAPIEndpointIP = (e, index) => {
-  //   const { formattedValue } = e;
-  //   const cloneArr = apiWLIP.slice();
-  //   cloneArr[index] = formattedValue;
-  //   setApiWLIP(cloneArr);
-  // };
-
   const onRemoveWLIPAddress = (rowIndex) => {
     const cloneArr = whitelistIP.slice();
     remove(cloneArr, (item, index) => rowIndex === index);
     setWhitelistIP(cloneArr);
   };
 
-  //api whitelist
   const onChangeAPIEndpointIP = (e, index, rowIndex) => {
     const { formattedValue } = e;
     const cloneArr = apiWLIP.slice();
@@ -555,7 +547,6 @@ const BrandEdit = () => {
           
         />
         <FormLabel>Whitelist IP Address for API<span style={{color: 'red'}}>*</span></FormLabel>
-        {/* <IPAddressInput apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} /> */}
         {(apiWLIP || []).map((item, index) => (
           <div className={classes.whitelistIPLine} key={index}>
             <IPAddressInput

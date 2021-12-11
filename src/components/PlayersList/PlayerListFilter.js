@@ -187,7 +187,6 @@ const PLayerListFilter = ({
       page: 1,
       page_size: 30,
     });
-   
   }
 
   useEffect(() => {

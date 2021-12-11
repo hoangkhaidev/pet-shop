@@ -157,9 +157,8 @@ const BrandCreate = () => {
 
   useEffect(() => {
     const data = cloneDeep(operatorData);
-    if (!data) return;
     let mapData = [];
-    data.forEach((data) => {
+    data?.forEach((data) => {
       let optionData = {
         id: data.operator_id,
         value: data.operator_id,
@@ -184,13 +183,6 @@ const BrandCreate = () => {
     remove(cloneArr, (item) => item === email);
     setFinanceEmail(cloneArr);
   };
-
-  // const onChangeAPIEndpointIP = (e, index) => {
-  //   const { formattedValue } = e;
-  //   const cloneArr = apiWLIP.slice();
-  //   cloneArr[index] = formattedValue;
-  //   setAPIWLIP(cloneArr);
-  // };
 
   const onChangeWhitelistIp = (e, index, rowIndex) => {
     const { formattedValue } = e;
@@ -219,7 +211,12 @@ const BrandCreate = () => {
     setWhitelistIP(cloneArr);
   };
 
+  // useEffect(() => {
+  //   console.log(apiWLIP);
+  // }, [apiWLIP])
+
   const onSubmit = async (dataForm) => {
+    console.log(dataForm);
       let dataFinanceEmail = [];
         
       if (finance_email) {
@@ -236,8 +233,8 @@ const BrandCreate = () => {
         }
         return arr;
       });
-      // const formatWLIPEndpoint = apiWLIP.join('.');
-      const formatWLIPEndpoint = apiWLIP.map((item) => {
+
+      const formatWLIPEndpoint = cloneDeep(apiWLIP).map((item) => {
         item = item.join('.');
         if (item === '...') return null;
         return item;
@@ -267,6 +264,7 @@ const BrandCreate = () => {
         } else {
           if (response?.err === "err:no_permission") {
             setIsHasPermission(false);
+
             toast.warn(t('no_permission'));
           }
           if (response?.err === 'err:suspended_account') {
@@ -274,6 +272,7 @@ const BrandCreate = () => {
           }
           if (response?.err === 'err:form_validation_failed') {
             for (const field in response?.data) {
+
               if (response?.data['product_commission'] === 'err:invalid_product') {
                 setErrorProductCommission(t('invalid_product'));
               }
@@ -295,10 +294,10 @@ const BrandCreate = () => {
               if (response?.data['finance_emails'] === 'err:duplicate_finance_emails') {
                 setErrorFinanceEmail(t('duplicate_finance_emails')); 
               }
-                setError(field, {
-                  type: 'validate',
-                  message: response?.data[field],
-                });
+              setError(field, {
+                type: 'validate',
+                message: response?.data[field],
+              });
             }
           }
         }
@@ -307,25 +306,29 @@ const BrandCreate = () => {
       }
   };
 
-  //api whitelist
   const onChangeAPIEndpointIP = (e, index, rowIndex) => {
     const { formattedValue } = e;
-    const cloneArr = apiWLIP.slice();
+    // const cloneArr = apiWLIP.slice();
+    const cloneArr = cloneDeep(apiWLIP);
     cloneArr[rowIndex][index] = formattedValue;
     setAPIWLIP(cloneArr);
   };
 
   const onAddingWLIPAPI = () => {
-    const cloneArr = apiWLIP.slice();
+    const cloneArr = cloneDeep(apiWLIP);
     const newArray = [...cloneArr, ['', '', '', '']];
     if (newArray.length <= 20 ) setAPIWLIP(newArray);
   };
 
   const onRemoveWLIPAPI = (rowIndex) => {
-    const cloneArr = apiWLIP.slice();
-    remove(cloneArr, (item, index) => rowIndex === index);
+    const cloneArr = cloneDeep(apiWLIP);
+    cloneArr.splice(rowIndex, 1);
     setAPIWLIP(cloneArr);
   };
+
+  useEffect(() => {
+    console.log(apiWLIP);
+  }, [apiWLIP]);
 
   const onCancel = () => {
     navigate('/brand/list');
@@ -421,13 +424,10 @@ const BrandCreate = () => {
                         key={item.id}
                         style={{padding: '30px'}}
                         label={item?.label}
-                        // name={`commission.${index}.checked`}
-                        // value={item?.id}
                         control={
                           <Controller
                               name={`commission.${index}.checked`}
                               control={control}
-                              // inputRef={register}
                               render={(props) => {
                                 return (
                                   <Checkbox
@@ -471,8 +471,6 @@ const BrandCreate = () => {
                             }}
                             pattern={/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/}
                             helperText={t('h_commission')}
-                            // register={register}
-                            // {...register(`commission.${index}.value`)}
                           />
                         : ''}
                       </FormGroup>
@@ -493,9 +491,8 @@ const BrandCreate = () => {
           pattern={/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/}
           helperText={t('h_api_endpoint')}
         />
-        {/* <FormLabel>{t('Whitelist IP Address for API')}</FormLabel> */}
         <FormLabel>Whitelist IP Address for API<span style={{color: 'red'}}>*</span></FormLabel>
-        {apiWLIP.map((item, index) => (
+        {apiWLIP?.map((item, index) => (
           <div className={classes.whitelistIPLine} key={index}>
             <IPAddressInput
               key={index}
@@ -533,7 +530,6 @@ const BrandCreate = () => {
             }
           </div>
         ))}
-        {/* <IPAddressInput apiWLIP={apiWLIP} onChange={onChangeAPIEndpointIP} /> */}
         <FormLabel component="legend" className={classes.checkHelperText}>{errorApiWLIP}</FormLabel>
         <Typography
           className={classes.operatorAdminLabel}

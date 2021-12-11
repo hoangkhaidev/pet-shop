@@ -260,8 +260,6 @@ const OperatorEdit = () => {
         return item;
       });
 
-      // const formatWLIPEndpoint = apiWLIP.join('.');
-
       const formatWLIPEndpoint = apiWLIP.map((item) => {
         item = item.join('.');
         if (item === '...') return null;
@@ -285,7 +283,7 @@ const OperatorEdit = () => {
       };
       delete form.commission;
       delete form.username;
-      console.log(form)
+
       try {
         let response = await api.post(
           `/api/operators/${router.query?.id}/update`,
@@ -389,13 +387,6 @@ const OperatorEdit = () => {
       setWhitelistIP(newArray);
     }
   };
-
-  // const onChangeAPIEndpointIP = (e, index) => {
-  //   const { formattedValue } = e;
-  //   const cloneArr = apiWLIP.slice();
-  //   cloneArr[index] = formattedValue;
-  //   setApiWLIP(cloneArr);
-  // };
 
   const onRemoveWLIPAddress = (rowIndex) => {
     const cloneArr = whitelistIP.slice();

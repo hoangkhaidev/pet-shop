@@ -36,7 +36,7 @@ class Socket {
           clearInterval(this.pingInterval)
           this.pingInterval = setInterval(this.ping.bind(this), 9000);
         } else {
-          console.log('autherror', error);
+          // console.log('autherror', error);
           setTimeout(function () {
             window.location.reload(true)
           }, 5000);

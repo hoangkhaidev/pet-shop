@@ -78,7 +78,7 @@ const GameTransactionFilterHistory = ({
       mapData = [{id: 0, value: 0, label: ""}];
     }
     let newBrand = cloneDeep(brandsData);
-    newBrand.forEach(data => {
+    newBrand?.forEach(data => {
       let optionData = {
         id: data.brand_id,
         value: data.brand_id,
@@ -109,11 +109,8 @@ const GameTransactionFilterHistory = ({
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
-    let newGameName;
-    newGameName = dataGame?.games;
-    if (!newGameName) return;
-    if (newGameName.length <= 0) return;
-    newGameName.map((data) => {
+    let newGameName = cloneDeep(dataGame?.games);
+    newGameName?.map((data) => {
       let optionData = {
         id: data.game_name,
         value: data.game_name,
@@ -127,13 +124,8 @@ const GameTransactionFilterHistory = ({
 
   useEffect(() => {
     let mapData = [];
-    let newTimezone;
-    if(dataTimezone) {
-      newTimezone = [...dataTimezone];
-    }
-    if (!newTimezone) return;
-    if (newTimezone.length <= 0) return;
-    newTimezone.forEach(data => {
+    let newTimezone = cloneDeep(dataTimezone);
+    newTimezone?.forEach(data => {
       let optionData = {
         id: data.offset,
         value: data.offset,
