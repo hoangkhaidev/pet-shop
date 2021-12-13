@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -56,6 +57,7 @@ const SubAccountEdit = () => {
     formState: { errors },
     setValue,
     setError,
+    clearErrors,
   } = useForm();
 
   const navigate = useNavigate();
@@ -74,8 +76,6 @@ const SubAccountEdit = () => {
 
   const [brandMultiple, setBrandMultiple] = useState([]);
   const [errorBrandMul, setErrorBrandMul] = useState('');
-
-  const [checkWhiteIP, setCheckWhiteIP] = useState('');
 
   useEffect(() => {
     let mapData = [];
@@ -142,7 +142,7 @@ const SubAccountEdit = () => {
   }, [dataRole, setRoleData]);
 
   useEffect(() => {
-    setCheckWhiteIP('');
+    clearErrors('whitelist_ips');
   }, [whitelistIP]);
 
   const onSubmit = async (dataForm) => {
@@ -179,18 +179,12 @@ const SubAccountEdit = () => {
         }
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
-            if (response?.data[field] === 'err:invalid_ip_address') {
-              setCheckWhiteIP(t('invalid_ip_address'));
-            } 
             if (response?.data[field] === 'err:invalid_brand_ids') {
               setErrorBrandMul(t('invalid_brand_ids'));
             } 
-            if (response?.data[field] === 'err:duplicate_ip_address') {
-              setCheckWhiteIP(t('duplicate_ip_address'));
-            } 
               setError(field, {
                 type: 'validate',
-                message: response?.data[field],
+                message: t(response?.data[field]),
               });
           }
         }
@@ -341,7 +335,19 @@ const SubAccountEdit = () => {
             }
           </div>
         ))}
-        <FormLabel component="legend" className={classes.checkHelperText}>{checkWhiteIP}</FormLabel>
+        {
+          errors?.whitelist_ips && (
+            <FormLabel 
+              component="legend" 
+              className={classes.checkHelperText} 
+              style={{paddingTop: '5px'}}
+            >
+              {
+                t(errors?.whitelist_ips?.message)
+              }
+            </FormLabel>
+          )
+        }
         <ButtonGroup>
           <SubmitButton />
           <ResetButton text="Cancel" onAction={onCancel} />

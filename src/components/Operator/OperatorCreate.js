@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-useless-escape */
 import { useState, useEffect } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
@@ -74,6 +75,7 @@ const OperatorCreate = () => {
     watch,
     setValue,
     setError,
+    clearErrors,
     register,
   } = useForm();
 
@@ -82,10 +84,7 @@ const OperatorCreate = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [apiWLIP, setAPIWLIP] = useState([['', '', '', '']]);
   const [productData, setProductData] = useState([]);
-  const [errorWhiteIP, setErrorWhiteIP] = useState('');
-  const [errorApiWLIP, setErrorApiWLIP] = useState('');
-  const [errorFinanceEmail, setErrorFinanceEmail] = useState('');
-  const [errorProductCommission, setErrorProductCommission] = useState('');
+  
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
   const [checkboxListCheck, setCheckboxListCheck] = useState(productData.map((item) => false ));
@@ -116,19 +115,19 @@ const OperatorCreate = () => {
   }, [dataProduct]);
 
   useEffect(() => {
-    setErrorWhiteIP('');
+    clearErrors('whitelist_ips');
   }, [whitelistIP]);
 
   useEffect(() => {
-    setErrorApiWLIP('');
+    clearErrors('api_whitelist_ip');
   }, [apiWLIP]);
 
   useEffect(() => {
-    setErrorFinanceEmail('');
+    clearErrors('finance_emails');
   }, [financeEmail]);
   
   useEffect(() => {
-    setErrorProductCommission('');
+    clearErrors('product_commission');
   }, [checkboxListCheck]);
 
   const onSubmit = async (data) => {
@@ -183,30 +182,9 @@ const OperatorCreate = () => {
       } else {
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
-            if (response?.data['product_commission'] === 'err:invalid_product') {
-              setErrorProductCommission(t('invalid_product'));
-            } 
-            if (response?.data['api_whitelist_ip'] === 'err:invalid_ip_address') {
-              setErrorApiWLIP(t('invalid_ip_address'));
-            } 
-            if (response?.data['api_whitelist_ip'] === 'err:duplicate_ip_address') {
-              setErrorApiWLIP(t('duplicate_ip_address'));
-            } 
-            if (response?.data['whitelist_ips'] === 'err:invalid_ip_address') {
-              setErrorWhiteIP(t('invalid_ip_address'));
-            } 
-            if (response?.data['whitelist_ips'] === 'err:duplicate_ip_address') {
-              setErrorWhiteIP(t('duplicate_ip_address'));
-            }
-            if (response?.data['finance_emails'] === 'err:invalid_email') {
-              setErrorFinanceEmail(t('invalid_email'));
-            }
-            if (response?.data['finance_emails'] === 'err:duplicate_finance_emails') {
-              setErrorFinanceEmail(t('duplicate_finance_emails')); 
-            }
               setError(field, {
                 type: 'validate',
-                message: response?.data[field],
+                message: t(response?.data[field]),
               });
           }
         }
@@ -313,12 +291,12 @@ const OperatorCreate = () => {
           namefileld="finance_email"
           control={control}
           id="finance_email"
+          errors={errors?.finance_emails}
           type="text"
           label="Finance Email"
           callbackInputProps={addingFinanceEmail}
           isHasInputProps
         />
-        <FormLabel style={{marginTop: '-15px'}} component="legend" className={classes.checkHelperText}>{errorFinanceEmail}</FormLabel>
         <div className={classes.rootChip}>
           {financeEmail.map((email, index) => (
             <Chip
@@ -331,7 +309,16 @@ const OperatorCreate = () => {
         </div>
         <FormLabel style={{paddingTop: '10px'}} component="legend">Product<span style={{color: 'red'}}>*</span></FormLabel>
         <FormControl className={classes.w100}>
-          <FormLabel component="legend" className={classes.checkHelperText}>{errorProductCommission}</FormLabel>
+              {
+                errors?.product_commission && (
+                  <FormLabel 
+                    component="legend" 
+                    className={classes.checkHelperText} 
+                  >
+                    {t(errors?.product_commission?.message)}
+                  </FormLabel>
+                )
+              }
             {productData.map((item, index) => {
               return (
                 <div key={item.id} style={{display: 'flex', width: '100%'}}>
@@ -447,8 +434,16 @@ const OperatorCreate = () => {
             }
           </div>
         ))}
-
-        <FormLabel component="legend" className={classes.checkHelperText}>{errorApiWLIP}</FormLabel>
+        {
+          errors?.api_whitelist_ip && (
+            <FormLabel 
+              component="legend" 
+              className={classes.checkHelperText} 
+            >
+              {t(errors?.api_whitelist_ip?.message)}
+            </FormLabel>
+          )
+        }
         <Typography
           className={classes.operatorAdminLabel}
           variant="h6"
@@ -528,11 +523,19 @@ const OperatorCreate = () => {
             }
           </div>
         ))}
-        <FormLabel 
-          component="legend" 
-          className={classes.checkHelperText} 
-          style={{paddingTop: '5px'}}
-        >{errorWhiteIP}</FormLabel>
+        {
+          errors?.whitelist_ips && (
+            <FormLabel 
+              component="legend" 
+              className={classes.checkHelperText} 
+              style={{paddingTop: '5px'}}
+            >
+              {
+                t(errors?.whitelist_ips?.message)
+              }
+            </FormLabel>
+          )
+        }
         <ButtonGroup>
           <SubmitButton />
           <Button

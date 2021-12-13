@@ -181,10 +181,10 @@ export const FormattedNumberInputNew = ({
     if (errors.type === 'required') {
       return t('required');
     }
-    if (errors.message === 'err:invalid_player_inactivity_logout_after_mins') {
+    if (errors.message === 'invalid_player_inactivity_logout_after_mins') {
       return errors.message = t('invalid_player_inactivity_logout_after_mins');
     }
-    if (errors.message === 'err:invalid_manual_retry_refund_after_hours') {
+    if (errors.message === 'invalid_manual_retry_refund_after_hours') {
       return errors.message = t('invalid_manual_retry_refund_after_hours');
     }
     return errors.message;

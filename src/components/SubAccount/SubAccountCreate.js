@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -58,7 +59,6 @@ const SubAccountCreate = () => {
   const [brandMultiple, setBrandMultiple] = useState([]);
   const [errorBrandMul, setErrorBrandMul] = useState('');
 
-  const [checkWhiteIP, setCheckWhiteIP] = useState('');
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
   const roleUser = useSelector((state) => state.roleUser);
 
@@ -68,6 +68,7 @@ const SubAccountCreate = () => {
     formState: { errors },
     setValue,
     setError,
+    clearErrors,
   } = useForm();
   const navigate = useNavigate();
 
@@ -153,18 +154,12 @@ const SubAccountCreate = () => {
         }
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
-            if (response?.data[field] === 'err:invalid_ip_address') {
-              setCheckWhiteIP(t('invalid_ip_address'));
-            }
             if (response?.data[field] === 'err:invalid_brand_ids') {
               setErrorBrandMul(t('invalid_brand_ids'));
             }
-            if (response?.data[field] === 'err:duplicate_ip_address') {
-              setCheckWhiteIP(t('duplicate_ip_address'));
-            }
               setError(field, {
                 type: 'validate',
-                message: response?.data[field],
+                message: t(response?.data[field]),
               });
           }
         }
@@ -179,7 +174,7 @@ const SubAccountCreate = () => {
   };
 
   useEffect(() => {
-    setCheckWhiteIP('');
+    clearErrors('whitelist_ips');
   }, [whitelistIP]);
 
   const onChangeWhitelistIp = (e, index, rowIndex) => {
@@ -329,11 +324,19 @@ const SubAccountCreate = () => {
             }
           </div>
         ))}
-        <FormLabel 
-          component="legend" 
-          className={classes.checkHelperText} 
-          style={{paddingTop: '5px'}}
-        >{checkWhiteIP}</FormLabel>
+        {
+          errors?.whitelist_ips && (
+            <FormLabel 
+              component="legend" 
+              className={classes.checkHelperText} 
+              style={{paddingTop: '5px'}}
+            >
+              {
+                t(errors?.whitelist_ips?.message)
+              }
+            </FormLabel>
+          )
+        }
         <ButtonGroup>
           <SubmitButton />
           <ResetButton text="Cancel" onAction={onCancel} />

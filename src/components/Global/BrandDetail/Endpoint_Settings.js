@@ -70,13 +70,14 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
     formState: { errors },
     setError,
     setValue,
+    clearErrors,
   } = useForm();
 
   const [data, setData] = useState({});
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [apiWLIP, setAPIWLIP] = useState([['', '', '', '']]);
-  const [errorWhiteIP, setErrorWhiteIP] = useState('');
-  const [errorApiWLIP, setErrorApiWLIP] = useState('');
+  // const [errorWhiteIP, setErrorWhiteIP] = useState('');
+  // const [errorApiWLIP, setErrorApiWLIP] = useState('');
 
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -119,17 +120,16 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
         setValue('player_inactivity_logout_after_mins', data?.player_inactivity_logout_after_mins);
     }
   }, [data, setValue]);
-  
+
   useEffect(() => {
-    setErrorWhiteIP('');
+    clearErrors('whitelist_ips');
   }, [whitelistIP]);
 
   useEffect(() => {
-    setErrorApiWLIP('');
+    clearErrors('api_whitelist_ip');
   }, [apiWLIP]);
 
   const onSubmit = async (data) => {
-    // const formatWLIPEndpoint = apiWLIP.join('.');
 
     const formatWLIPEndpoint = apiWLIP.map((item) => {
       item = item.join('.');
@@ -169,20 +169,10 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
         }
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
-            if (response?.data['api_whitelist_ip'] === 'err:invalid_ip_address') {
-              setErrorApiWLIP(t('invalid_ip_address'));
-            } else if (response?.data['api_whitelist_ip'] === 'err:duplicate_ip_address') {
-              setErrorWhiteIP(t('duplicate_ip_address'));
-            } else if (response?.data['whitelist_ips'] === 'err:invalid_ip_address') {
-              setErrorWhiteIP(t('invalid_ip_address'));
-            } else if (response?.data['whitelist_ips'] === 'err:duplicate_ip_address') {
-              setErrorWhiteIP(t('duplicate_ip_address'));
-            } else {
-              setError(field, {
-                type: 'validate',
-                message: response?.data[field],
-              });
-            }
+            setError(field, {
+              type: 'validate',
+              message: t(response?.data[field]),
+            });
           }
         }
       }
@@ -197,13 +187,6 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
     cloneArr[rowIndex][index] = formattedValue;
     setWhitelistIP(cloneArr);
   };
-
-  // const onChangeAPIEndpointIP = (e, index) => {
-  //   const { formattedValue } = e;
-  //   const cloneArr = apiWLIP.slice();
-  //   cloneArr[index] = formattedValue;
-  //   setAPIWLIP(cloneArr);
-  // };
 
   const onAddingWLIPAddress = () => {
     const cloneArr = whitelistIP.slice();
@@ -241,10 +224,6 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
     navigate('/global/group_brand');
   }
 
-  // if (!isHasPermission) {
-  //   return <NoPermissionPage />;
-  // }
-
   return (
     <ContentCardPage>
 
@@ -273,10 +252,6 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
           onClick={() => {navigator.clipboard.writeText(data?.api_key)}}
         />
         <FormLabel>Whitelist IP Address for API<span style={{color: 'red'}}>*</span></FormLabel>
-        {/* <IPAddressInput 
-          apiWLIP={apiWLIP} 
-          onChange={onChangeAPIEndpointIP} 
-        /> */}
 
         {(apiWLIP || []).map((item, index) => (
           <div className={classes.whitelistIPLine} key={index}>
@@ -315,8 +290,16 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
             }
           </div>
         ))}
-
-        <FormLabel component="legend" className={classes.checkHelperText}>{errorApiWLIP}</FormLabel>
+        {
+          errors?.api_whitelist_ip && (
+            <FormLabel 
+              component="legend" 
+              className={classes.checkHelperText} 
+            >
+              {t(errors?.api_whitelist_ip?.message)}
+            </FormLabel>
+          )
+        }
         <InputField
           required
           namefileld="api_endpoint"
@@ -392,11 +375,19 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
             }
           </div>
         ))}
-        <FormLabel 
-          component="legend" 
-          className={classes.checkHelperText} 
-          style={{paddingTop: '5px'}}
-        >{errorWhiteIP}</FormLabel>
+        {
+          errors?.whitelist_ips && (
+            <FormLabel 
+              component="legend" 
+              className={classes.checkHelperText} 
+              style={{paddingTop: '5px'}}
+            >
+              {
+                t(errors?.whitelist_ips?.message)
+              }
+            </FormLabel>
+          )
+        }
         <ButtonGroup>
           <SubmitButton />
           <Button

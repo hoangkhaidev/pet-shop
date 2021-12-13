@@ -51,7 +51,7 @@ const ChangePasswordForm = ({ linkApi, username }) => {
           for (const field in response?.data) {
             setError(field, {
               type: 'validate',
-              message: response?.data[field],
+              message: t(response?.data[field]),
             });
           }
         }

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -50,6 +51,7 @@ const Profile = () => {
     formState: { errors },
     setValue,
     setError,
+    clearErrors,
     watch,
   } = useForm();
 
@@ -62,8 +64,6 @@ const Profile = () => {
   const { dataResponse, isLoading, isHasPermission  } = useFetchData(`/api/profile`);
   const [data, setData] = useState({});
   const [financeEmail, setFinanceEmail] = useState([]);
-
-  const [errorFinanceEmail, setErrorFinanceEmail] = useState('');
 
   const finance_emails = watch('finance_emails', '');
 
@@ -80,7 +80,7 @@ const Profile = () => {
   }, [dataResponse]);
 
   useEffect(() => {
-    setErrorFinanceEmail('');
+    clearErrors('finance_emails');
   }, [financeEmail]);
 
   const onSubmit = async (dataForm) => {
@@ -121,15 +121,9 @@ const Profile = () => {
         }
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
-            if (response?.data['finance_emails'] === 'err:invalid_email') {
-              setErrorFinanceEmail(t('invalid_email'));
-            }
-            if (response?.data['finance_emails'] === 'err:duplicate_finance_emails') {
-              setErrorFinanceEmail(t('duplicate_finance_emails')); 
-            }
               setError(field, {
                   type: 'validate',
-                  message: response?.data[field],
+                  message: t(response?.data[field]),
               });
           }
         }
@@ -217,6 +211,7 @@ const Profile = () => {
                 namefileld="finance_emails"
                 control={control}
                 id="finance_emails"
+                errors={errors?.finance_emails}
                 type="text"
                 label="Finance Email"
                 callbackInputProps={addingFinanceEmail}
@@ -232,7 +227,6 @@ const Profile = () => {
                     />
                 ))}
                 </div>
-                <FormLabel style={{marginTop: '-15px'}} component="legend" className={classes.checkHelperText}>{errorFinanceEmail}</FormLabel>
             </>
           )
         } 

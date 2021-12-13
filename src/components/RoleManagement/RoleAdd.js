@@ -98,12 +98,11 @@ const RoleAdd = () => {
         if (response?.err === 'err:suspended_account') {
           toast.warn(t('suspended_account'));
         }
-        console.log(response)
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
             setError(field, {
               type: 'validate',
-              message: response?.data[field],
+              message: t(response?.data[field]),
             });
           }
         }

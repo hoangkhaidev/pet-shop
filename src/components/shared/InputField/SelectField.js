@@ -42,7 +42,7 @@ const SelectField = ({
     if (errors.type === 'required') {
       return t('required');
     }
-    if (errors.message === 'err:invalid_brand_ids') {
+    if (errors.message === 'invalid_brand_ids') {
       return errors.message = t('invalid_brand_ids');
     }
     return errors.message;

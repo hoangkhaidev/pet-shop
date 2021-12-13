@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-useless-escape */
 /* eslint-disable react/jsx-no-duplicate-props */
 import { useEffect, useState } from 'react';
@@ -95,6 +96,7 @@ const BrandCreate = () => {
     setValue,
     register,
     setError,
+    clearErrors
   } = useForm();
 
   const finance_email = watch('finance_emails');
@@ -110,11 +112,7 @@ const BrandCreate = () => {
   const [operatorData, setOperatorData] = useState([]);
   const [operatorDatas, setOperatorDatas] = useState([]);
   const [productData, setProductData] = useState([]);
-
-  const [errorWhiteIP, setErrorWhiteIP] = useState('');
-  const [errorApiWLIP, setErrorApiWLIP] = useState('');
-  const [errorFinanceEmail, setErrorFinanceEmail] = useState('');
-  const [errorProductCommission, setErrorProductCommission] = useState('');
+  
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
   const [checkboxListCheck, setCheckboxListCheck] = useState(productData.map((item) => false ));
@@ -140,19 +138,19 @@ const BrandCreate = () => {
   }, [dataProduct]);
 
   useEffect(() => {
-    setErrorWhiteIP('');
+    clearErrors('whitelist_ips');
   }, [whitelistIP]);
 
   useEffect(() => {
-    setErrorApiWLIP('');
+    clearErrors('api_whitelist_ip');
   }, [apiWLIP]);
 
   useEffect(() => {
-    setErrorFinanceEmail('');
+    clearErrors('finance_emails');
   }, [financeEmail]);
   
   useEffect(() => {
-    setErrorProductCommission('');
+    clearErrors('product_commission');
   }, [checkboxListCheck]);
 
   useEffect(() => {
@@ -211,12 +209,7 @@ const BrandCreate = () => {
     setWhitelistIP(cloneArr);
   };
 
-  // useEffect(() => {
-  //   console.log(apiWLIP);
-  // }, [apiWLIP])
-
   const onSubmit = async (dataForm) => {
-    console.log(dataForm);
       let dataFinanceEmail = [];
         
       if (finance_email) {
@@ -272,31 +265,9 @@ const BrandCreate = () => {
           }
           if (response?.err === 'err:form_validation_failed') {
             for (const field in response?.data) {
-
-              if (response?.data['product_commission'] === 'err:invalid_product') {
-                setErrorProductCommission(t('invalid_product'));
-              }
-              if (response?.data['api_whitelist_ip'] === 'err:invalid_ip_address') {
-                setErrorApiWLIP(t('invalid_ip_address'));
-              }
-              if (response?.data['api_whitelist_ip'] === 'err:duplicate_ip_address') {
-                setErrorApiWLIP(t('duplicate_ip_address'));
-              }
-              if (response?.data['whitelist_ips'] === 'err:invalid_ip_address') {
-                setErrorWhiteIP(t('invalid_ip_address'));
-              }
-              if (response?.data['whitelist_ips'] === 'err:duplicate_ip_address') {
-                setErrorWhiteIP(t('duplicate_ip_address'));
-              }
-              if (response?.data['finance_emails'] === 'err:invalid_email') {
-                setErrorFinanceEmail(t('invalid_email'));
-              }
-              if (response?.data['finance_emails'] === 'err:duplicate_finance_emails') {
-                setErrorFinanceEmail(t('duplicate_finance_emails')); 
-              }
               setError(field, {
                 type: 'validate',
-                message: response?.data[field],
+                message: t(response?.data[field]),
               });
             }
           }
@@ -337,6 +308,8 @@ const BrandCreate = () => {
   if (!isHasAccessPermission) {
     return <NoPermissionPage />;
   }
+
+  console.log(errors?.api_whitelist_ip?.message)
 
   return (
     <ContentCardPage>
@@ -395,12 +368,12 @@ const BrandCreate = () => {
           namefileld="finance_emails"
           control={control}
           id="finance_emails"
+          errors={errors?.finance_emails}
           type="text"
           label="Finance Email"
           callbackInputProps={addingFinanceEmail}
           isHasInputProps
         />
-        <FormLabel style={{marginTop: '-15px'}} component="legend" className={classes.checkHelperText}>{errorFinanceEmail}</FormLabel>
         <div className={classes.rootChip}>
           {financeEmail.map((email, index) => (
             <Chip
@@ -415,7 +388,16 @@ const BrandCreate = () => {
           <>
             <FormLabel style={{paddingTop: '10px'}} component="legend">Product<span style={{color: 'red'}}>*</span></FormLabel>
             <FormControl className={classes.w100}>
-              <FormLabel component="legend" className={classes.checkHelperText}>{errorProductCommission}</FormLabel>
+              {
+                errors?.product_commission && (
+                  <FormLabel 
+                    component="legend" 
+                    className={classes.checkHelperText} 
+                  >
+                    {t(errors?.product_commission?.message)}
+                  </FormLabel>
+                )
+              }
                 {productData.map((item, index) => {
                   return (
                     <div key={item.id} style={{display: 'flex', width: '100%'}}>
@@ -530,7 +512,16 @@ const BrandCreate = () => {
             }
           </div>
         ))}
-        <FormLabel component="legend" className={classes.checkHelperText}>{errorApiWLIP}</FormLabel>
+        {
+          errors?.api_whitelist_ip && (
+            <FormLabel 
+              component="legend" 
+              className={classes.checkHelperText} 
+            >
+              {t(errors?.api_whitelist_ip?.message)}
+            </FormLabel>
+          )
+        }
         <Typography
           className={classes.operatorAdminLabel}
           variant="h6"
@@ -611,13 +602,19 @@ const BrandCreate = () => {
             }
           </div>
         ))}
-        <FormLabel 
-          component="legend" 
-          className={classes.checkHelperText} 
-          style={{paddingTop: '5px'}}
-        >
-          {errorWhiteIP}
-        </FormLabel>
+        {
+          errors?.whitelist_ips && (
+            <FormLabel 
+              component="legend" 
+              className={classes.checkHelperText} 
+              style={{paddingTop: '5px'}}
+            >
+              {
+                t(errors?.whitelist_ips?.message)
+              }
+            </FormLabel>
+          )
+        }
         <ButtonGroup>
           <SubmitButton />
           <Button

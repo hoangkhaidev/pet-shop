@@ -124,11 +124,6 @@ const BrandEdit = () => {
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
-  const [errorWhiteIP, setErrorWhiteIP] = useState('');
-  const [errorApiWLIP, setErrorApiWLIP] = useState('');
-  const [errorFinanceEmail, setErrorFinanceEmail] = useState('');
-  const [errorProductCommission, setErrorProductCommission] = useState('');
-
   const initFormState = {
     isValid: false,
     values: [],
@@ -147,6 +142,7 @@ const BrandEdit = () => {
     getValues,
     register,
     setError,
+    clearErrors
   } = useForm();
 
   const finance_emails = watch('finance_emails', '');
@@ -177,16 +173,20 @@ const BrandEdit = () => {
   }, [dataResponse]);
 
   useEffect(() => {
-    setErrorWhiteIP('');
+    clearErrors('whitelist_ips');
   }, [whitelistIP]);
 
   useEffect(() => {
-    setErrorApiWLIP('');
+    clearErrors('api_whitelist_ip');
   }, [apiWLIP]);
 
   useEffect(() => {
-    setErrorFinanceEmail('');
+    clearErrors('finance_emails');
   }, [financeEmail]);
+  
+  useEffect(() => {
+    clearErrors('product_commission');
+  }, [productCommission]);
 
   useEffect(() => {
     if (data) {
@@ -251,7 +251,6 @@ const BrandEdit = () => {
         return item;
       });
 
-      // const formatWLIPEndpoint = apiWLIP.join('.');
       const formatWLIPEndpoint = apiWLIP.map((item) => {
         item = item.join('.');
         if (item === '...') return null;
@@ -281,7 +280,6 @@ const BrandEdit = () => {
       delete form.name;
       delete form.username;
 
-      // console.log(form)
       try {
         let response = await api.post(`/api/brand/${router.query?.id}/update`, form);
         if (get(response, 'success', false)) {
@@ -303,30 +301,9 @@ const BrandEdit = () => {
           }
           if (response?.err === 'err:form_validation_failed') {
             for (const field in response?.data) {
-              if (response?.data['product_commission'] === 'err:invalid_product') {
-                setErrorProductCommission(t('invalid_product'));
-              }
-              if (response?.data['api_whitelist_ip'] === 'err:invalid_ip_address') {
-                setErrorApiWLIP(t('invalid_ip_address'));
-              }
-              if (response?.data['api_whitelist_ip'] === 'err:duplicate_ip_address') {
-                setErrorApiWLIP(t('duplicate_ip_address'));
-              }
-              if (response?.data['whitelist_ips'] === 'err:invalid_ip_address') {
-                setErrorWhiteIP(t('invalid_ip_address'));
-              }
-              if (response?.data['whitelist_ips'] === 'err:duplicate_ip_address') {
-                setErrorWhiteIP(t('duplicate_ip_address'));
-              }
-              if (response?.data['finance_emails'] === 'err:invalid_email') {
-                setErrorFinanceEmail(t('invalid_email'));
-              }
-              if (response?.data['finance_emails'] === 'err:duplicate_finance_emails') {
-                setErrorFinanceEmail(t('duplicate_finance_emails')); 
-              }
                 setError(field, {
                   type: 'validate',
-                  message: response?.data[field],
+                  message: t(response?.data[field]),
                 });
             }
           }
@@ -415,10 +392,6 @@ const BrandEdit = () => {
   }
 
   useEffect(() => {
-    setErrorProductCommission('');
-  }, [productCommission]);
-
-  useEffect(() => {
     let validateValues = {};
     schema = {};
     cloneDeep(productCommission.values).map((item) => {
@@ -498,10 +471,10 @@ const BrandEdit = () => {
           id="finance_emails"
           type="text"
           label="Finance Email"
+          errors={errors?.finance_emails}
           callbackInputProps={addingFinanceEmail}
           isHasInputProps
         />
-        <FormLabel style={{marginTop: '-15px'}} component="legend" className={classes.checkHelperText}>{errorFinanceEmail}</FormLabel>
         <div className={classes.rootChip}>
           {financeEmail.map((email, index) => (
             <Chip
@@ -516,7 +489,16 @@ const BrandEdit = () => {
           <>
             <FormLabel style={{paddingTop: '10px'}} component="legend">Product<span style={{color: 'red'}}>*</span></FormLabel>
             <FormControl className={classes.w100}>
-              <FormLabel component="legend" className={classes.checkHelperText}>{errorProductCommission}</FormLabel>
+              {
+                errors?.product_commission && (
+                  <FormLabel 
+                    component="legend" 
+                    className={classes.checkHelperText} 
+                  >
+                    {t(errors?.product_commission?.message)}
+                  </FormLabel>
+                )
+              }
               {productCommission.values?.map((item, index) => {
                 return (
                   <ProductCommission 
@@ -584,7 +566,16 @@ const BrandEdit = () => {
             }
           </div>
         ))}
-        <FormLabel component="legend" className={classes.checkHelperText}>{errorApiWLIP}</FormLabel>
+        {
+          errors?.api_whitelist_ip && (
+            <FormLabel 
+              component="legend" 
+              className={classes.checkHelperText} 
+            >
+              {t(errors?.api_whitelist_ip?.message)}
+            </FormLabel>
+          )
+        }
         <Typography
           className={classes.operatorAdminLabel}
           variant="h6"
@@ -660,13 +651,19 @@ const BrandEdit = () => {
             }
           </div>
         ))}
-        <FormLabel 
-          component="legend" 
-          className={classes.checkHelperText} 
-          style={{paddingTop: '5px'}}
-        >
-          {errorWhiteIP}
-        </FormLabel>
+        {
+          errors?.whitelist_ips && (
+            <FormLabel 
+              component="legend" 
+              className={classes.checkHelperText} 
+              style={{paddingTop: '5px'}}
+            >
+              {
+                t(errors?.whitelist_ips?.message)
+              }
+            </FormLabel>
+          )
+        }
         <ButtonGroup>
           <SubmitButton />
           <Button

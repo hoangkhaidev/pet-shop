@@ -98,7 +98,7 @@ const Login = () => {
       for (const err in errorsResponse) {
         setError(err, {
           type: "manual",
-          message: errorsResponse[err]
+          message: t(errorsResponse[err])
         });
       }
     }

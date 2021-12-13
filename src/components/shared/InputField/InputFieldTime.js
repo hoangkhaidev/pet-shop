@@ -50,55 +50,55 @@ const InputFieldTime = ({
     if (isEmpty(errors)) {
       return '';
     }
-    if (errors.message === 'err:duplicate_role_name') {
+    if (errors.message === 'duplicate_role_name') {
       return errors.message = t('duplicate_role_name');
     }
-    if (errors.message === 'err:invalid_role_name') {
+    if (errors.message === 'invalid_role_name') {
       return errors.message = t('invalid_role_name');
     }
-    if (errors.message === 'err:invalid_password') {
+    if (errors.message === 'invalid_password') {
       return errors.message = t('invalid_password');
     }
-    if (errors.message === 'err:invalid_old_password') {
+    if (errors.message === 'invalid_old_password') {
       return errors.message = t('invalid_old_password');
     }
-    if (errors.message === 'err:confirm_password_mismatch') {
+    if (errors.message === 'confirm_password_mismatch') {
       return errors.message = t('confirm_password_mismatch');
     }
-    if (errors.message === 'err:invalid_brand_ids') {
+    if (errors.message === 'invalid_brand_ids') {
       return errors.message = t('invalid_brand_ids');
     }
-    if (errors.message === 'err:duplicate_username') {
+    if (errors.message === 'duplicate_username') {
       return errors.message = t('duplicate_username');
     }
-    if (errors.message === 'err:duplicate_operator_name') {
+    if (errors.message === 'duplicate_operator_name') {
       return errors.message = t('duplicate_operator_name');
     }
-    if (errors.message === 'err:invalid_email') {
+    if (errors.message === 'invalid_email') {
       return errors.message = t('invalid_email');
     }
-    if (errors.message === 'err:invalid_product_ids') {
+    if (errors.message === 'invalid_product_ids') {
       return errors.message = t('invalid_product_ids');
     }
-    if (errors.message === 'err:invalid_ip_address') {
+    if (errors.message === 'invalid_ip_address') {
       return errors.message = t('invalid_ip_address');
     }
-    if (errors.message === 'err:incorrect_password') {
+    if (errors.message === 'incorrect_password') {
       return errors.message = t('incorrect_password');
     }
-    if (errors.message === 'err:username_not_found') {
+    if (errors.message === 'username_not_found') {
       return errors.message = t('username_not_found');
     }
-    if (errors.message === 'err:locked_account') {
+    if (errors.message === 'locked_account') {
       return errors.message = t('locked_account');
     }
-    if (errors.message === 'err:banned_account') {
+    if (errors.message === 'banned_account') {
       return errors.message = t('banned_account');
     }
-    if (errors.message === 'err:login_different_device') {
+    if (errors.message === 'login_different_device') {
       return errors.message = t('login_different_device');
     }
-    if (errors.message === 'err:inactive_account') {
+    if (errors.message === 'inactive_account') {
       return errors.message = t('inactive_account');
     }
     if (errors.type === 'required') {
