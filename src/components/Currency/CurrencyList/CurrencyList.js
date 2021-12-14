@@ -1,21 +1,16 @@
 import { useState, useEffect } from 'react';
-// import { useTranslation } from 'react-i18next';
 import { FormProvider } from 'react-hook-form';
 import cloneDeep from 'lodash/cloneDeep';
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import TableComponent from 'src/components/shared/TableComponent/TableComponent';
 import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
-// import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import Loading from 'src/components/shared/Loading/Loading';
 import useFetchData from 'src/utils/hooks/useFetchData';
-
 import CurrencyListFilter from './CurrencyListFilter';
 import ChangeStatusCurrency from 'src/components/Modal/ChangeStatusCurrency';
 import RateHistory from './RateHistory';
 
 const CurrencyList = () => {
-  // const router = useRouter();
-  // const classes = useStyles();
   const [data, setData] = useState([]);
   const [refreshData, setRefreshData] = useState(null);
 

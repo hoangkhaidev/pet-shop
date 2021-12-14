@@ -59,11 +59,8 @@ const GamesFilterConfig = ({
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
-    let newGameType;
-    newGameType = dataGame.game_type_list;
-    if (!newGameType) return;
-    if (newGameType.length <= 0) return;
-    newGameType.map((data) => {
+    let newGameType = cloneDeep(dataGame?.game_type_list);
+    newGameType?.map((data) => {
       let optionData = {
         id: data,
         value: data,
@@ -77,11 +74,8 @@ const GamesFilterConfig = ({
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
-    let newGameName;
-    newGameName = dataGame?.games;
-    if (!newGameName) return;
-    if (newGameName.length <= 0) return;
-    newGameName.map((data) => {
+    let newGameName = cloneDeep(dataGame?.games);
+    newGameName?.map((data) => {
       let optionData = {
         id: data.game_name,
         value: data.game_name,
@@ -96,7 +90,7 @@ const GamesFilterConfig = ({
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
     let newBrand = cloneDeep(brandsData);
-    newBrand.forEach(data => {
+    newBrand?.forEach(data => {
       let optionData = {
         id: data.brand_id,
         value: data.brand_id,

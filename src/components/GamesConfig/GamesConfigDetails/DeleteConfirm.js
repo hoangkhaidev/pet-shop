@@ -1,6 +1,5 @@
 import { useState, useCallback } from "react";
 import DeleteIcon from '@material-ui/icons/Delete';
-
 import TooltipIcon from "src/components/shared/TooltipIcon/TooltipIcon";
 import ModalComponent from "src/components/shared/ModalComponent/ModalComponent";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";

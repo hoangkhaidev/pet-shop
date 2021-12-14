@@ -248,7 +248,6 @@ const PlayersBusinessSummary = () => {
   };
 
   const onSubmit = async (data) => {
-    console.log(data)
     setObjFilter(prevState => ({
       ...prevState,
       ...data,

@@ -26,7 +26,6 @@ const RoundDetail = ({roundId}) => {
     window.open(roundIdURL, 'roundDetail', params);
   }
 
-
   return (
     <div style={{ paddingTop: '10px' }}>
       <Link  

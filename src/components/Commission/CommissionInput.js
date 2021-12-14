@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 const CommissionInput = props => {
   const { name, defaultValue, id, placeholder, onChange = null, disabled = false, ref } = props;
   const classes = useStyles();
+  
   const handlerCommissionChange = (event) => {
     let value = event.target.value;
     let regex = /^\d+(\.\d{0,2})?$/g;

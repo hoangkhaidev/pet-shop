@@ -200,7 +200,6 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
     setWhitelistIP(cloneArr);
   };
 
-  //api whitelist
   const onChangeAPIEndpointIP = (e, index, rowIndex) => {
     const { formattedValue } = e;
     const cloneArr = apiWLIP.slice();

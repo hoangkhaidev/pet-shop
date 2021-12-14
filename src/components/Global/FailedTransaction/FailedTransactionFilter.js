@@ -120,13 +120,8 @@ const FailedTransactionFilter = ({
 
   useEffect(() => {
     let mapData = [];
-    let newTimezone;
-    if(dataTimezone) {
-      newTimezone = [...dataTimezone];
-    }
-    if (!newTimezone) return;
-    if (newTimezone.length <= 0) return;
-    newTimezone.forEach(data => {
+    let newTimezone = cloneDeep(dataTimezone);
+    newTimezone?.forEach(data => {
       let optionData = {
         id: data.offset,
         value: data.offset,
@@ -246,7 +241,6 @@ const FailedTransactionFilter = ({
                   id="round_id"
                   fullWidth={false}
                 />
-                
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
               <SelectFieldMutiple
