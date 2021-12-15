@@ -109,19 +109,6 @@ export const IpMaskInput = forwardRef(
                 ''
               )
             }}
-            // endAdornment={(
-            //   !isOnlyOneIP ? (
-            //     <InputAdornment position="end">
-            //       <IconButton
-            //         aria-label="adding ip field"
-            //         edge="end"
-            //         onClick={() => onAddingWhitelistIPField(index)}
-            //       >
-            //         {lastRow ? <AddIcon /> : <RemoveIcon />}
-            //       </IconButton>
-            //     </InputAdornment>
-            //   ) : ""
-            // )}
           />
         </InputMask>
         {!isEmpty(errors) && (

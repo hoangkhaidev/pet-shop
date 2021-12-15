@@ -33,15 +33,12 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
 
     const stringified = queryString.stringify(objFilter);
 
-    // console.log(router);
-    // console.log(stringified);
     let url = '';
 
     
     if (pageName === 'infoPlayer') {
       url = `${router.location.pathname}${router.location.search}`;
     } else {
-      // console.log(router)
       if (pageName === 'test' && router.pathname !== '/reports/players_business_summary'){
         url = `${router.location.pathname}${router.location.search}`;
       } else {

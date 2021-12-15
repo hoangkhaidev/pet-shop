@@ -85,7 +85,6 @@ const Routes = () => {
         window.location.reload();
       }
     }
-    // window.location.reload();
   }, [token, firstToken])
 
   useEffect(() => {

@@ -6,7 +6,6 @@ import APIUtils from './api/APIUtils'
 import 'react-toastify/dist/ReactToastify.css';
 import Socket from './api/Socket';
 import { useTranslation } from 'react-i18next';
-// import { onReloadPage, updateResultStatus } from './actions';
 import { useSelector } from 'react-redux';
 import { useNotification } from './context/NotificationContext';
 import { onReloadPage, updateResultStatus } from './features/status/status';
