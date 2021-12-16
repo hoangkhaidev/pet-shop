@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
@@ -19,6 +20,7 @@ import SelectFieldMutiple from "src/components/shared/InputField/SelectFieldMuti
 import InputNumber from "src/components/shared/InputField/InputNumber";
 import useRouter from "src/utils/hooks/useRouter";
 import { SORT_ODER } from "src/constants";
+import SelectSearchBy from "./selectSearchBy";
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -56,9 +58,11 @@ const PlayersBusinessSummaryFilter = ({
       game_name: router?.query?.game_name ? router?.query?.game_name : 'all',
       search_by: router?.query?.search_by ? router?.query?.search_by : '',
       search_by_option: router?.query?.search_by_option ? router?.query?.search_by_option : '',
-      value: router?.query?.value ? router?.query?.value : '0',
+      value: router?.query?.value ? router?.query?.value : '',
     }
   });
+
+  const [searchBy, setSearchBy] = useState('');
 
   let brand_router = [];
 
@@ -120,9 +124,13 @@ const PlayersBusinessSummaryFilter = ({
     setRadio(event.target.value);
   };
 
-  const handleChangeSearchBy = (event) => {
-    setRadioSearchBy(event.target.value);
-  };
+  // const handleChangeSearchBy = (event) => {
+  //   setRadioSearchBy(event.target.value);
+  // };
+
+  useEffect(() => {
+    console.log(searchBy);
+  }, [searchBy]);
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
@@ -302,24 +310,28 @@ const PlayersBusinessSummaryFilter = ({
                 options={gameTypeData}
                 defaultValue="all"
               />
-              <SelectField
+              {/* <SelectField
                 control={control}
                 namefileld="search_by"
+                setOption={setSearchBy}
                 id="search_by"
-                label="Search by"
+                label=""
                 fullWidth={false}
                 options={searchByOption}
                 defaultValue=""
-              />
-              <InputNumberValue
+              /> */}
+              <SelectSearchBy
+                options={searchByOption} 
+                setSearchBy={setSearchBy} 
                 control={control}
-                namefileld="value"
-                label="Value"
-                id="value"
-                fullWidth={false}
+                searchBy={searchBy}
+                name={'search_by'}
+                label={'Search by'} 
+                id={'search_by'}
               />
+             
             </Grid>
-            <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
+            <Grid item xs={12} xl={3} md={3}>
               <InputField
                 control={control}
                 namefileld="nick_name"
@@ -336,12 +348,21 @@ const PlayersBusinessSummaryFilter = ({
                 fullWidth={false}
                 options={gameNameData}
               />
-              <RadioGroup aria-label="gender" name="search_by_option" value={radioSearchBy} onChange={handleChangeSearchBy}>
+              {/* <RadioGroup aria-label="gender" name="search_by_option" value={radioSearchBy} onChange={handleChangeSearchBy}>
                 <div style={{ display: 'grid', paddingLeft: '30px' }}>
                   <FormControlLabel value="<" control={<Radio />} label="Less than" />
                   <FormControlLabel value=">" control={<Radio />} label="More or equal" />
                 </div>
-              </RadioGroup>
+              </RadioGroup> */}
+              <InputNumberValue
+                control={control}
+                namefileld="value"
+                label="Form"
+                id="form"
+                disabled={searchBy !== '' ? false : true}
+                fullWidth={false}
+              />
+              
             </Grid>
             <Grid item xs={12} xl={3} md={3}>
               <SelectFieldMutiple
@@ -352,6 +373,15 @@ const PlayersBusinessSummaryFilter = ({
                 setBrandMultiple={setBrandMultiple}
                 brandMultiple={brandMultiple}
                 defaultValue={'all'}
+              />
+              <FormControl style={{width: '100%', margin: '36px 0',}} ></FormControl>
+              <InputNumberValue
+                control={control}
+                namefileld="value"
+                label="To"
+                id="to"
+                disabled={searchBy !== '' ? false : true}
+                fullWidth={false}
               />
             </Grid>
           </Grid>

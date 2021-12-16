@@ -23,12 +23,14 @@ const useStyles = makeStyles(() => ({
 }));
 
 const NumberFormatCustom = (props) => {
-  const { inputRef, onChange, ...other } = props;
+  const { inputRef, defaultValue, disabled, onChange, ...other } = props;
 
   return (
     <NumberFormat
       {...other}
       getInputRef={inputRef}
+      disabled={disabled}
+      defaultValue={defaultValue}
       onValueChange={(values) => {
         onChange({
           target: {
@@ -62,6 +64,7 @@ const InputNumberValue = ({
   InputProps,
   helperText,
   defaultValue,
+  disabled,
   ...rest
 }) => {
   const classes = useStyles();
@@ -101,6 +104,7 @@ const InputNumberValue = ({
                 id={id}
                 control={control}
                 error={!isEmpty(errors)}
+                disabled={disabled}
                 style={styles}
                 decimalScale={2}
                 decimalSeparator="."

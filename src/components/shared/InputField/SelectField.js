@@ -30,7 +30,7 @@ const SelectField = ({
   namefileld,
   options,
   label,
-  selectDisabled
+  selectDisabled,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
