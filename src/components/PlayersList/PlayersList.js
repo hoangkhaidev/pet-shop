@@ -12,12 +12,13 @@ import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
 import moment from "moment";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHistory } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch } from "react-redux";
-import { setParentParam } from "src/features/parentParam/parentParam";
+import { useDispatch, useSelector } from "react-redux";
+import { clearPage, setParentParam } from "src/features/parentParam/parentParam";
 
 const PlayersList = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const pageName = useSelector((state) => state.parentParam.page);
 
   const [objFilter, setObjFilter] = useState({
     player_id: 0,
@@ -64,8 +65,16 @@ const PlayersList = () => {
   }, [dataResponse]);
 
   useEffect(() => {
-    dispatch(setParentParam(`${router.location.pathname}${router.location.search}`));
+    if (pageName !== 'test') {
+      dispatch(setParentParam(`${router.location.pathname}${router.location.search}`));
+    }
   }, [router]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearPage());
+    }
+  }, []);
 
   const columns = [
     {

@@ -57,12 +57,17 @@ const PlayersBusinessSummaryFilter = ({
       game_type: router?.query?.game_type ? router?.query?.game_type : 'all',
       game_name: router?.query?.game_name ? router?.query?.game_name : 'all',
       search_by: router?.query?.search_by ? router?.query?.search_by : '',
-      search_by_option: router?.query?.search_by_option ? router?.query?.search_by_option : '',
-      value: router?.query?.value ? router?.query?.value : '',
+      from_value: router?.query?.from_value ? router?.query?.from_value : '',
+      to_value: router?.query?.to_value ? router?.query?.to_value : '',
     }
   });
 
-  const [searchBy, setSearchBy] = useState('');
+  let searchByRouter = '';
+  if (router?.query?.search_by) {
+    searchByRouter = router?.query?.search_by;
+  }
+
+  const [searchBy, setSearchBy] = useState(searchByRouter);
 
   let brand_router = [];
 
@@ -112,25 +117,10 @@ const PlayersBusinessSummaryFilter = ({
     optionFilter = router?.query?.option;
   }
 
-  let searchByFilter = '';
-  if (router?.query?.search_by_option) {
-    searchByFilter = router?.query?.search_by_option;
-  }
-
   const [radio, setRadio] = useState(optionFilter);
-  const [radioSearchBy, setRadioSearchBy] = useState(searchByFilter);
-
   const handleChange = (event) => {
     setRadio(event.target.value);
   };
-
-  // const handleChangeSearchBy = (event) => {
-  //   setRadioSearchBy(event.target.value);
-  // };
-
-  useEffect(() => {
-    console.log(searchBy);
-  }, [searchBy]);
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
@@ -207,11 +197,12 @@ const PlayersBusinessSummaryFilter = ({
       game_type: data.game_type === 'all' ? '' : data.game_type,
       game_name: data.game_name === 'all' ? '' : data.game_name,
       player_id: data.player_id ? Number(data.player_id) : 0,
-      value: String(data.value),
       option: radio,
-      search_by_option: radioSearchBy ? radioSearchBy : '',
+      search_by: searchBy ? searchBy : '',
       from_date: dateRange.start,
       to_date: dateRange.end,
+      from_value: data.from_value === undefined ? '' : String(data.from_value),
+      to_value: data.to_value === undefined ? '' : String(data.to_value),
     };
     onSubmitProps(form);
   };
@@ -224,10 +215,10 @@ const PlayersBusinessSummaryFilter = ({
       game_type: "all",
       game_name: "all",
       search_by: "",
-      search_by_option: "",
-      value: "0",
       sort_field: "period",
       sort_order: "desc",
+      from_value: '',
+      to_value: ''
     });
     setDateRange({
       start: moment().format("DD/MM/YYYY"),
@@ -244,14 +235,14 @@ const PlayersBusinessSummaryFilter = ({
       nick_name: "",
       game_type: "",
       game_name: "",
+      from_value: "",
+      to_value: "",
       search_by: "",
-      search_by_option: "",
-      value: "0",
       page: 1,
       page_size: 30,
     });
     setRadio('day');
-    setRadioSearchBy('');
+    setSearchBy('');
     setBrandMultiple(['all']);
    
   }
@@ -310,16 +301,6 @@ const PlayersBusinessSummaryFilter = ({
                 options={gameTypeData}
                 defaultValue="all"
               />
-              {/* <SelectField
-                control={control}
-                namefileld="search_by"
-                setOption={setSearchBy}
-                id="search_by"
-                label=""
-                fullWidth={false}
-                options={searchByOption}
-                defaultValue=""
-              /> */}
               <SelectSearchBy
                 options={searchByOption} 
                 setSearchBy={setSearchBy} 
@@ -356,9 +337,9 @@ const PlayersBusinessSummaryFilter = ({
               </RadioGroup> */}
               <InputNumberValue
                 control={control}
-                namefileld="value"
+                namefileld="from_value"
                 label="Form"
-                id="form"
+                id="from_value"
                 disabled={searchBy !== '' ? false : true}
                 fullWidth={false}
               />
@@ -377,9 +358,9 @@ const PlayersBusinessSummaryFilter = ({
               <FormControl style={{width: '100%', margin: '36px 0',}} ></FormControl>
               <InputNumberValue
                 control={control}
-                namefileld="value"
+                namefileld="to_value"
                 label="To"
-                id="to"
+                id="to_value"
                 disabled={searchBy !== '' ? false : true}
                 fullWidth={false}
               />

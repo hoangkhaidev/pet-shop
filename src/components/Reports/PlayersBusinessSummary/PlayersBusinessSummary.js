@@ -57,8 +57,8 @@ const PlayersBusinessSummary = () => {
     game_type: "",
     game_name: "",
     search_by: "",
-    search_by_option: "",
-    value: "0",
+    from_value: "",
+    to_value: "",
     page: 1,
     page_size: 30,
     ...{
@@ -248,6 +248,7 @@ const PlayersBusinessSummary = () => {
   };
 
   const onSubmit = async (data) => {
+    console.log(data)
     setObjFilter(prevState => ({
       ...prevState,
       ...data,
