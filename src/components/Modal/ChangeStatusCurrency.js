@@ -79,7 +79,7 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
   if (label === 'inactive') labelShow = 'Inactive';
 
   return (
-    <div style={{ marginRight: '25px' }}>
+    <div style={{ marginRight: '0px' }}>
       { types === 'statusView' ? <StatusBadge label={labelShow} /> : '' }
 
       {
@@ -114,7 +114,7 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
             <div className={classes.title__text}>{`Are you sure you want to change status this: ${current_code} ?`}</div>
             <div className={classes.title__groupButton} style={{ justifyContent: 'flex-end' }}>
                 <Button 
-                  style={{ marginRight: '10px' }} 
+                  style={{ marginRight: '0px' }} 
                   variant="contained" 
                   color="primary" 
                   onClick={() => onChangeStatus(current_code, label, currentStatus)}

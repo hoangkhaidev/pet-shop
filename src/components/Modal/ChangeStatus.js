@@ -232,7 +232,7 @@ const ChangeStatus = ({ STATUS, labels, newlabel, row, linkApi, username, status
   if (label === 'unlocked') labelView = 'Unlock';
 
   return (
-    <div style={{ marginRight: '25px' }}>
+    <div style={{ margin: '10px' }}>
       { statusLabels && (statusLabels.length > 0 ? statusLabels : ['active']).map((statusLabel, index) => {
         const labelShow = 
           statusLabel === 'suspended'

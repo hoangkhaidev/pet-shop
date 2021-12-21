@@ -97,6 +97,13 @@ const SubAccountEdit = () => {
     }
   }, [roleUser]);
 
+  useEffect(() => {
+    document.title = 'Edit Sub Account';
+    return () => {
+      document.title = '';
+    }
+  }, [router]);
+
   const onDataBrand = async () => {
     const response = await api.post('/api/brand/public_list', null);
     if (get(response, "success", false)) {

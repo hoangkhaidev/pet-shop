@@ -1,5 +1,4 @@
 /* eslint-disable arrow-body-style */
-import { Button } from "@material-ui/core";
 import { useCallback, useState } from "react";
 import cloneDeep from "lodash.clonedeep";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
@@ -69,7 +68,7 @@ const RateHistory = ({ titleCurrency, currencyCode }) => {
 
   return (
     <>
-      <Button onClick={() => onSubmitData(currencyCode)}>{titleCurrency}</Button>
+      <button style={{ cursor: 'pointer', border: 'none', background: 'none', color: 'blue'}} onClick={() => onSubmitData(currencyCode)}>{titleCurrency}</button>
       <ModalComponentRateHistory
         open={open}
         onClose={onClose}

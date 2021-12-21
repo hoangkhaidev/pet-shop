@@ -6,7 +6,6 @@ export default function useRouter() {
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-
   // Return our custom router object
   // Memoize so that a new object is only returned if something changes
   return useMemo(() => ({

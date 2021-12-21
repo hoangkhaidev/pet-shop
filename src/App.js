@@ -67,6 +67,7 @@ const Routes = () => {
     routes().forEach(item => {
       listUrl = [...listUrl, ...item.children];
     });
+
     return listUrl;
   }, []);
 

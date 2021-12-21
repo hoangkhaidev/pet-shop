@@ -199,11 +199,11 @@ const routes = (isLoggedIn) => [
     name: 'Role',
     element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
     children: [
-      { path: '/', fullpath: '/role', name: 'Add Role', element: <RoleList /> },
+      { path: '/', fullpath: '/role', name: 'Role Management', element: <RoleList /> },
       {
         path: '/add',
-        fullpath: '/role/list',
-        name: 'Role List',
+        fullpath: '/role/add',
+        name: 'Add Role',
         element: <RoleAdd />,
       },
       {
@@ -233,7 +233,7 @@ const routes = (isLoggedIn) => [
       {
         path: '/game-history',
         fullpath: '/players/game-history',
-        name: 'Game history',
+        name: 'Game History',
         element: <GameHistory />,
       },
       {
@@ -281,24 +281,24 @@ const routes = (isLoggedIn) => [
       {
         path: '/games',
         fullpath: '/configuration/games',
-        name: 'Games List',
+        name: 'Games',
         element: <GamesConfig />,
       },
       {
         path: '/games/:id/brand_id/:brand_id/edit',
-        fullpath: 'configuration/games/:id/brand_id/:brand_id/edit',
+        fullpath: '/configuration/games/:id/brand_id/:brand_id/edit',
         name: 'Games Details',
         element: <GamesConfigDetails />,
       },
       {
         path: '/currency',
-        fullpath: 'configuration/currency',
+        fullpath: '/configuration/currency',
         name: 'Currency List',
         element: <CurrencyList />,
       },
       {
         path: '/commission',
-        fullpath: 'configuration/commission',
+        fullpath: '/configuration/commission',
         name: 'Commission List',
         element: <CommissionList />,
       }

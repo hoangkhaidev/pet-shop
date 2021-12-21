@@ -77,7 +77,7 @@ const ChangePasswordForm = ({ linkApi, username }) => {
   }, [open]);
 
   return (
-    <div>
+    <div style={{ margin: 0 }}>
       <TooltipIcon
         title="Change password"
         arialLabel="change-password"

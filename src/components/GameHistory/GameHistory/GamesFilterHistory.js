@@ -82,7 +82,7 @@ const GamesFilterHistory = ({
       mapData = [{id: 0, value: 0, label: ""}];
     }
     let newBrand = cloneDeep(brandsData);
-    newBrand.forEach(data => {
+    newBrand?.forEach(data => {
       let optionData = {
         id: data.brand_id,
         value: data.brand_id,
@@ -96,7 +96,7 @@ const GamesFilterHistory = ({
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
     let newGameType = cloneDeep(dataGame?.game_type_list);
-    newGameType.map((data) => {
+    newGameType?.map((data) => {
       let optionData = {
         id: data,
         value: data,

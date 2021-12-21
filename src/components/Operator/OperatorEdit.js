@@ -239,6 +239,13 @@ const OperatorEdit = () => {
     }));
   }, [productCommission.values]);
 
+  useEffect(() => {
+    document.title = 'Edit Operator';
+    return () => {
+      document.title = '';
+    }
+  }, [router]);
+
   const onSubmit = async (dataForm) => {
     if (productCommission.isValid === true) {
       let dataFinanceEmail = [];

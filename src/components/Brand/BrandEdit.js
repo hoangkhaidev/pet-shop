@@ -189,6 +189,13 @@ const BrandEdit = () => {
   }, [productCommission]);
 
   useEffect(() => {
+    document.title = 'Edit Brand';
+    return () => {
+      document.title = '';
+    }
+  }, [router]);
+
+  useEffect(() => {
     if (data) {
         setValue('operator', data?.operator_name);
         setValue('name', data?.brand_name);

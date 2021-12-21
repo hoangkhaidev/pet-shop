@@ -51,11 +51,6 @@ const RoleList = () => {
 
   const columns = [
     {
-      data_field: "indexRow",
-      column_name: "#",
-      align: "center"
-    },
-    {
       data_field: "role_name",
       column_name: "Role Name",
       align: "left"

@@ -4,6 +4,7 @@ import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const useStyles = makeStyles(() => ({
   playerInfoName: {
@@ -55,6 +56,13 @@ const PlayerInformation = ({ data }) => {
   const onCancel = () => {
     navigate(parentParam);
   }
+
+  useEffect(() => {
+    document.title = 'Player Information';
+    return () => {
+      document.title = '';
+    }
+  }, []);
 
   return (
     <>

@@ -32,6 +32,13 @@ const BrandListBelow = () => {
     setData(mapData);
   }, [dataResponse]);
 
+  useEffect(() => {
+    document.title = 'Brand List';
+    return () => {
+      document.title = '';
+    }
+  }, []);
+
   const columns = [
     {
       data_field: "brand_name",

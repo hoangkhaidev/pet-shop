@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-pascal-case */
-import { useState, lazy, Suspense, createContext } from "react";
+import { useState, lazy, Suspense, createContext, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -71,6 +71,13 @@ const BrandDetail = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    document.title = 'Brand Detail';
+    return () => {
+      document.title = '';
+    }
+  }, []);
 
   if (!isHasPermission) {
     return <NoPermissionPage />;

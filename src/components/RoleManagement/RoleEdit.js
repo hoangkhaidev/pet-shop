@@ -61,7 +61,6 @@ const RoleEdit = () => {
   const [permissionGroup, setPermissionGroup] = useState([]);
   const [selectedColumn, setSelectedColumn] = useState(null);
   const router = useRouter();
-
   const {
     control,
     handleSubmit,
@@ -102,6 +101,13 @@ const RoleEdit = () => {
       setSelectedColumn(name);
     }
   }, [permissionGroup]);
+
+  useEffect(() => {
+    document.title = 'Role Edit';
+    return () => {
+      document.title = '';
+    }
+  }, [router]);
 
   const onSubmit = async (dataForm) => {
     const form = {

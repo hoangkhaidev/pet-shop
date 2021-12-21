@@ -10,7 +10,7 @@ const TooltipIcon = memo(({
   return (
     <div>
       <Tooltip title={title}>
-        <IconButton onClick={onClick} color={color} aria-label={arialLabel}>
+        <IconButton style={{ marginRight: 0 }} onClick={onClick} color={color} aria-label={arialLabel}>
           {IconComponent}
         </IconButton>
       </Tooltip>

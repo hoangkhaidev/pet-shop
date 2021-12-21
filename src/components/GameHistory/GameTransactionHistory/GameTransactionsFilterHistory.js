@@ -91,11 +91,8 @@ const GameTransactionFilterHistory = ({
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
-    let newGameType;
-    newGameType = dataGame.game_type_list;
-    if (!newGameType) return;
-    if (newGameType.length <= 0) return;
-    newGameType.map((data) => {
+    let newGameType = cloneDeep(dataGame.game_type_list);
+    newGameType?.map((data) => {
       let optionData = {
         id: data,
         value: data,

@@ -99,6 +99,13 @@ const GamesConfigDetails = () => {
   };
 
   useEffect(() => {
+    document.title = 'Game Details';
+    return () => {
+      document.title = '';
+    }
+  }, []);
+
+  useEffect(() => {
     let mapData = cloneDeep(dataCurrency);
     if (!mapData[0]) return;
     setCurrentData(mapData);

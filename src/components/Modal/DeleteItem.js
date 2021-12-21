@@ -65,7 +65,7 @@ const DeleteItem = ({title, linkApi, types, username }) => {
   }
 
   return (
-    <div>
+    <div style={{ margin: 0 }}>
       <TooltipIcon
         IconComponent={<DeleteIcon />}
         title="Delete"
