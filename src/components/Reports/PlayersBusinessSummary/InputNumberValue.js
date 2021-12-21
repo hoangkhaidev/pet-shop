@@ -113,7 +113,10 @@ const InputNumberValue = ({
                 value={value}
                 allowNegative={true}
                 onValueChange={(values) => {
-                    onChange({ target: { name, value: values.floatValue } });
+                    // onChange({ target: { name, value: values.floatValue } });
+                    values?.floatValue < 0 
+                      ? onChange({ target: { name, value: 0 } }) 
+                      : onChange({ target: { name, value: values.floatValue } });
                 }}
                 maxLength={3}
                 helperText={helperText}
