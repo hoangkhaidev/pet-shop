@@ -143,7 +143,7 @@ const PlayersBusinessSummary = () => {
     {
       data_field: "period",
       column_name: "Period",
-      align: "right",
+      align: "left",
     },
     {
       data_field: "player_id",

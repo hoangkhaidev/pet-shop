@@ -115,7 +115,7 @@ const BusinessSummary = () => {
     {
       data_field: "identifier",
       column_name: objFilter.option === 'brand' ? "Brand" : "Period",
-      align: "right",
+      align: "left",
       formatter: (cell, row) => {
         let brandRouter = '';
         

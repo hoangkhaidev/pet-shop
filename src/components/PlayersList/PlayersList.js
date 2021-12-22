@@ -93,7 +93,7 @@ const PlayersList = () => {
     {
       data_field: "created_at",
       column_name: "Signup",
-      align: "right",
+      align: "left",
     },
     {
       data_field: "currency_code",
@@ -108,7 +108,7 @@ const PlayersList = () => {
     {
       data_field: "last_logged_in",
       column_name: "Last Login Time",
-      align: "right"
+      align: "left"
     },
     {
       data_field: "last_logged_ip",

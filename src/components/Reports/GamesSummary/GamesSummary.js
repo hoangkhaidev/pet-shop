@@ -108,7 +108,7 @@ const GamesSummary = () => {
     {
       data_field: "period",
       column_name: "Period",
-      align: "right",
+      align: "left",
     },
     {
       data_field: "bet",
