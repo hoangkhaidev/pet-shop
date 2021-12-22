@@ -374,7 +374,7 @@ const BrandCreate = () => {
           callbackInputProps={addingFinanceEmail}
           isHasInputProps
         />
-        <div className={classes.rootChip}>
+        <div className={classes.rootChip} >
           {financeEmail.map((email, index) => (
             <Chip
               className={classes.financeEmailItem}

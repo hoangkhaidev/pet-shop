@@ -6,6 +6,7 @@ const initialState = {
     display_name: null,
     id: null,
     username: null,
+    permission_groups: [],
 };
 
 export const authenticationSlice = createSlice({
@@ -17,6 +18,7 @@ export const authenticationSlice = createSlice({
       state.display_name = action.payload.display_name;
       state.id = action.payload.id;
       state.username = action.payload.username;
+      state.permission_groups = action.payload.permission_groups;
     },
   }
 });

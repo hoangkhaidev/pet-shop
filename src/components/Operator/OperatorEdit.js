@@ -444,7 +444,7 @@ const OperatorEdit = () => {
           callbackInputProps={addingFinanceEmail}
           isHasInputProps
         />
-        <div className={classes.rootChip}>
+        <div className={classes.rootChip} >
           {financeEmails.map((email, index) => (
             <Chip
               className={classes.financeEmailItem}
@@ -455,6 +455,7 @@ const OperatorEdit = () => {
           ))}
         </div>
         <FormControl className={classes.w100}>
+        <FormLabel style={{paddingTop: '10px'}} component="legend">Product<span style={{color: 'red'}}>*</span></FormLabel>
           {
             errors?.product_commission && (
               <FormLabel 

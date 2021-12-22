@@ -13,6 +13,7 @@ import useRouter from 'src/utils/hooks/useRouter';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 
 const ChangePasswordForm = lazy(() =>
   import('src/components/Modal/ChangePasswordForm')
@@ -148,6 +149,16 @@ const OperatorList = () => {
   const router = useRouter();
   const classes = useStyles();
   const [data, setData] = useState([]);
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionOperator = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Operator') {
+      arrPermissionOperator = item.permissions;
+    }
+    return item.name === 'Operator'
+  });
+
   const [objFilter, setObjFilter] = useState({
     name_search: '',
     status_search: 'all',
@@ -190,17 +201,18 @@ const OperatorList = () => {
 
   const columns = [
     {
-      data_field: 'indexRow',
-      column_name: '#',
-      align: 'center',
-    },
-    {
       data_field: 'username',
       column_name: 'Username',
       align: 'left',
-      formatter: (cell, row) => (
-        <Link href={`/operator/list/${row.id}/edit`}>{cell}</Link>
-      ),
+      formatter: (cell, row) => 
+        arrPermissionOperator[0]?.full ? (
+          <Link href={`/operator/list/${row.id}/edit`}>{cell}</Link>
+        ) : 
+        arrPermissionOperator[0]?.view || arrPermissionOperator[0]?.create ? (
+          <Link href={`/operator/list/${row.id}/view`}>{cell}</Link>
+        ) : (
+          <Link href={`/operator/list/${row.id}/edit`}>{cell}</Link>
+        )
     },
     {
       data_field: 'operator_name',
@@ -278,59 +290,127 @@ const OperatorList = () => {
         );
       },
     },
-    {
-      data_field: 'action',
-      column_name: 'Action',
-      align: 'center',
-      formatter: (cell, row) => {
-        const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
-        let STATUS = [];
-        switch(row.statuses.length > 0) {
-          case row.statuses.length === 1:
-            if (newlabel === 'inactive') STATUS = STATUS_INACTIVE;
-            if (newlabel === 'active') STATUS = STATUS_ACTIVE;
-            if (newlabel === 'locked') STATUS = STATUS_LOCKED;
-            if (newlabel === 'suspended') STATUS = STATUS_SUSPENDED;
-            break;
-          case row.statuses.length === 2:
-            if (row.statuses[0].status === 'inactive' || row.statuses[1].status === 'inactive') {
+    arrPermissionOperator[0]?.full ? (
+      {
+        data_field: 'action',
+        column_name: 'Action',
+        align: 'center',
+        formatter: (cell, row) => {
+          const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
+          let STATUS = [];
+          switch(row.statuses.length > 0) {
+            case row.statuses.length === 1:
+              if (newlabel === 'inactive') STATUS = STATUS_INACTIVE;
+              if (newlabel === 'active') STATUS = STATUS_ACTIVE;
+              if (newlabel === 'locked') STATUS = STATUS_LOCKED;
+              if (newlabel === 'suspended') STATUS = STATUS_SUSPENDED;
+              break;
+            case row.statuses.length === 2:
+              if (row.statuses[0].status === 'inactive' || row.statuses[1].status === 'inactive') {
+                STATUS = STATUS_INACTIVE;
+              } else {
+                STATUS = STATUS_LOCKED_SUSPENDED;
+              }
+              break;
+            case row.statuses.length === 3:
               STATUS = STATUS_INACTIVE;
-            } else {
-              STATUS = STATUS_LOCKED_SUSPENDED;
-            }
-            break;
-          case row.statuses.length === 3:
-            STATUS = STATUS_INACTIVE;
-            break;
-          default:
-            STATUS = STATUS_ACTIVE;
-        };
-        return (
-          <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
-            <ChangeStatus
-              setRefreshData={setRefreshData}
-              newlabel={newlabel}
-              types={'editStatus'}
-              STATUS={STATUS}
-              linkApi={`/api/operators/${row.id}/update_status`}
-              username={row.username}
-              statuses={row.statuses}
-            />
-            <ChangePasswordForm
-              linkApi={`/api/operators/${row.id}/update_password`}
-              username={row.username}
-              title="Change password"
-            />
-            <DeleteItem
-              linkApi={`/api/operators/${row.id}/delete`}
-              username={row.username}
-              title={`Confirmation`}
-              types='operator'
-            />
-          </ButtonGroup>
-        )
+              break;
+            default:
+              STATUS = STATUS_ACTIVE;
+          };
+          return (
+            <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
+              <ChangeStatus
+                setRefreshData={setRefreshData}
+                newlabel={newlabel}
+                types={'editStatus'}
+                STATUS={STATUS}
+                linkApi={`/api/operators/${row.id}/update_status`}
+                username={row.username}
+                statuses={row.statuses}
+              />
+              <ChangePasswordForm
+                linkApi={`/api/operators/${row.id}/update_password`}
+                username={row.username}
+                title="Change password"
+              />
+              <DeleteItem
+                linkApi={`/api/operators/${row.id}/delete`}
+                username={row.username}
+                title={`Confirmation`}
+                types='operator'
+              />
+            </ButtonGroup>
+          )
+        }
       }
-    }
+    ) :
+    arrPermissionOperator[0]?.edit || arrPermissionOperator[0]?.create ? (
+      {
+        data_field: 'action',
+        column_name: 'Action',
+        align: 'center',
+        formatter: (cell, row) => {
+          const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
+          let STATUS = [];
+          switch(row.statuses.length > 0) {
+            case row.statuses.length === 1:
+              if (newlabel === 'inactive') STATUS = STATUS_INACTIVE;
+              if (newlabel === 'active') STATUS = STATUS_ACTIVE;
+              if (newlabel === 'locked') STATUS = STATUS_LOCKED;
+              if (newlabel === 'suspended') STATUS = STATUS_SUSPENDED;
+              break;
+            case row.statuses.length === 2:
+              if (row.statuses[0].status === 'inactive' || row.statuses[1].status === 'inactive') {
+                STATUS = STATUS_INACTIVE;
+              } else {
+                STATUS = STATUS_LOCKED_SUSPENDED;
+              }
+              break;
+            case row.statuses.length === 3:
+              STATUS = STATUS_INACTIVE;
+              break;
+            default:
+              STATUS = STATUS_ACTIVE;
+          };
+          return (
+            <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
+              {
+                arrPermissionOperator[0]?.create ? '' : (
+                  <>
+                    <ChangeStatus
+                      setRefreshData={setRefreshData}
+                      newlabel={newlabel}
+                      types={'editStatus'}
+                      STATUS={STATUS}
+                      linkApi={`/api/operators/${row.id}/update_status`}
+                      username={row.username}
+                      statuses={row.statuses}
+                    />
+                    <ChangePasswordForm
+                      linkApi={`/api/operators/${row.id}/update_password`}
+                      username={row.username}
+                      title="Change password"
+                    />
+                  </>
+                )
+              }
+              {
+                arrPermissionOperator[0]?.edit ? '' : (
+                  <DeleteItem
+                    linkApi={`/api/operators/${row.id}/delete`}
+                    username={row.username}
+                    title={`Confirmation`}
+                    types='operator'
+                  />
+                )
+              }
+            </ButtonGroup>
+          )
+        }
+      }
+    ) : {}
+    
   ];
 
   const handleChangePage = (page) => {

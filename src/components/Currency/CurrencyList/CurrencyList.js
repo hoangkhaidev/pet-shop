@@ -9,10 +9,20 @@ import useFetchData from 'src/utils/hooks/useFetchData';
 import CurrencyListFilter from './CurrencyListFilter';
 import ChangeStatusCurrency from 'src/components/Modal/ChangeStatusCurrency';
 import RateHistory from './RateHistory';
+import { useSelector } from 'react-redux';
 
 const CurrencyList = () => {
   const [data, setData] = useState([]);
   const [refreshData, setRefreshData] = useState(null);
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionCurrency = {};
+  permission_groups?.map((item) => {
+    if (item.name === 'Configuration') {
+      arrPermissionCurrency = (item.permissions[0]);
+    }
+    return item.name === 'Configuration'
+  });
 
   const { dataResponse, isLoading, isHasPermission, total } = useFetchData(
     '/api/currency',
@@ -73,23 +83,45 @@ const CurrencyList = () => {
         );
       },
     },
-    {
-      data_field: 'action',
-      column_name: 'Action',
-      align: 'center',
-      formatter: (cell, row) => {
-        const newlabel = row.status === false ? 'active' : 'inactive';
-        const currentStatus = row.status === true ? 'active' : 'inactive';
-        return (
-          <ChangeStatusCurrency
-            newlabel={newlabel}
-            current_code={row.code}
-            currentStatus={currentStatus}
-            setRefreshData={setRefreshData}
-          />
-        );
-      },
-    }
+    arrPermissionCurrency?.full ? (
+      {
+        data_field: 'action',
+        column_name: 'Action',
+        align: 'center',
+        formatter: (cell, row) => {
+          const newlabel = row.status === false ? 'active' : 'inactive';
+          const currentStatus = row.status === true ? 'active' : 'inactive';
+          return (
+            <ChangeStatusCurrency
+              newlabel={newlabel}
+              current_code={row.code}
+              currentStatus={currentStatus}
+              setRefreshData={setRefreshData}
+            />
+          );
+        },
+      }
+    ) :
+    arrPermissionCurrency?.edit ? (
+      {
+        data_field: 'action',
+        column_name: 'Action',
+        align: 'center',
+        formatter: (cell, row) => {
+          const newlabel = row.status === false ? 'active' : 'inactive';
+          const currentStatus = row.status === true ? 'active' : 'inactive';
+          return (
+            <ChangeStatusCurrency
+              newlabel={newlabel}
+              current_code={row.code}
+              currentStatus={currentStatus}
+              setRefreshData={setRefreshData}
+            />
+          );
+        },
+      }
+    ) : {}
+    
   ];
 
   if (!isHasPermission) {
@@ -103,7 +135,7 @@ const CurrencyList = () => {
   return (
     <>
       <FormProvider>
-        <CurrencyListFilter />
+        <CurrencyListFilter arrPermissionCurrency={arrPermissionCurrency} />
       </FormProvider>
       <ContentCardPage>
         <TableComponent

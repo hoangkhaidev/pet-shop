@@ -8,7 +8,6 @@ import TableComponent from 'src/components/shared/TableComponent/TableComponent'
 import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
 import Loading from 'src/components/shared/Loading/Loading';
 import useFetchData from 'src/utils/hooks/useFetchData';
-// import { makeStyles } from '@material-ui/core';
 import map from "lodash/map";
 import CommissionListFilter from './CommissionListFilter';
 import useRouter from 'src/utils/hooks/useRouter';
@@ -18,6 +17,7 @@ import UpdateCommission from './UpdateCommission';
 import api from 'src/utils/api';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const getCommissionByProduct = (list, product_id) => {
   const product_commission = list.find((obj) => obj.product_id === product_id);
@@ -35,6 +35,15 @@ const CommissionList = () => {
   const [arrayCommissionColumn, setArrayCommissionColumn] = useState([]);
   const [listProductCommission, setListProductCommission] = useState([]);
   const { t } = useTranslation();
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionCommission = {};
+  permission_groups?.map((item) => {
+    if (item.name === 'Configuration') {
+      arrPermissionCommission = (item.permissions[1]);
+    }
+    return item.name === 'Configuration'
+  });
   const [objFilter , setObjFilter] = useState({
     name_search: "",
     page: 1,
@@ -83,11 +92,20 @@ const CommissionList = () => {
           align: 'right',
           formatter: (cell, row) => {
             let proCommission = getCommissionByProduct(row.product_commission, item?.product_id);
+            let check = true;
+            if (arrPermissionCommission?.full) {
+              check = true;
+            } else if (arrPermissionCommission?.view) {
+              check = false;
+            } else {
+              check = true;
+            }
+            console.log(check);
             return (
               <CommissionInput 
                 name={`${row.brand_name}_${item?.product_id}`}
                 defaultValue={proCommission.commission}
-                disabled={!proCommission.enable}
+                disabled={check ? !proCommission.enable : true}
                 {...register(`${row.brand_name}_${item?.product_id}` ,  { required: true })}
                 ref={`${row.brand_name}_${item?.product_id}`.ref}
                 control={control}
@@ -168,21 +186,40 @@ const CommissionList = () => {
       align: 'left'
     },
     ...arrayCommissionColumn,
-    {
-      data_field: 'action',
-      column_name: 'Action',
-      align: 'center',
-      formatter: (cell, row) => {
-        return (
-          <UpdateCommission 
-            onHandleUpdate={onHandleUpdate} 
-            brand_id={row.brand_id} 
-            name={row.brand_name} 
-            row={row}
-          />
-        );
-      },
-    }
+    arrPermissionCommission?.full ? (
+      {
+        data_field: 'action',
+        column_name: 'Action',
+        align: 'center',
+        formatter: (cell, row) => {
+          return (
+            <UpdateCommission 
+              onHandleUpdate={onHandleUpdate} 
+              brand_id={row.brand_id} 
+              name={row.brand_name} 
+              row={row}
+            />
+          );
+        },
+      }
+    ) : 
+    arrPermissionCommission?.edit ? (
+      {
+        data_field: 'action',
+        column_name: 'Action',
+        align: 'center',
+        formatter: (cell, row) => {
+          return (
+            <UpdateCommission 
+              onHandleUpdate={onHandleUpdate} 
+              brand_id={row.brand_id} 
+              name={row.brand_name} 
+              row={row}
+            />
+          );
+        },
+      }
+    ) : {}
   ];
 
   const handleChangePage = (page) => {

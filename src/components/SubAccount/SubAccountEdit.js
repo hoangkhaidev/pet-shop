@@ -29,6 +29,7 @@ import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
 import cloneDeep from 'lodash.clonedeep';
 import SelectFieldMutiple from '../shared/InputField/SelectFieldMutiple';
 import { useTranslation } from 'react-i18next';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
 
 const useStyles = makeStyles(() => ({
   whitelistIPLine: {

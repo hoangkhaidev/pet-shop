@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-const CurrencyListFilter = () => {
+const CurrencyListFilter = ({arrPermissionCurrency}) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const { dataResponse: dataCurrency} = useFetchData("/api/currency/all_for_create");
@@ -99,14 +99,29 @@ const CurrencyListFilter = () => {
           </FormControl>
         </Grid>
         <Grid item xs={12} xl={3} md={6} style={{ alignItems: 'center', display: 'flex', justifyContent: 'center' }}>
-          <Button
-            variant="contained"
-            style={{ backgroundColor: '#1cb13c' }}
-            startIcon={<AddIcon />}
-            onClick={() => onAddCurrency()}
-          >
-            Add New Currency
-          </Button>
+          {
+            arrPermissionCurrency.full ? (
+              <Button
+                variant="contained"
+                style={{ backgroundColor: '#1cb13c' }}
+                startIcon={<AddIcon />}
+                onClick={() => onAddCurrency()}
+              >
+                Add New Currency
+              </Button>
+            ) : 
+            arrPermissionCurrency.create ? (
+              <Button
+                variant="contained"
+                style={{ backgroundColor: '#1cb13c' }}
+                startIcon={<AddIcon />}
+                onClick={() => onAddCurrency()}
+              >
+                Add New Currency
+              </Button>
+            ) : ''
+          }
+          
         </Grid>
       </Grid>
     </ContentCardPage>

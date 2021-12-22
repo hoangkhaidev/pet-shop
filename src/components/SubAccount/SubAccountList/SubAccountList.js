@@ -15,6 +15,7 @@ import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
 import SubAccountListFilter from './SubAccountListFilter';
+import { useSelector } from 'react-redux';
 
 const ChangePasswordForm = lazy(() =>
   import('src/components/Modal/ChangePasswordForm')
@@ -111,6 +112,15 @@ const STATUS_LOCKED_SUSPENDED = [
 const SubAccountList = () => {
   const [data, setData] = useState([]);
   const router = useRouter();
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionSubAccount = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Sub Account') {
+      arrPermissionSubAccount = item.permissions;
+    }
+    return item.name === 'SubA Account'
+  });
   
   const [objFilter, setObjFilter] = useState({
     name_search: '',
@@ -150,9 +160,15 @@ const SubAccountList = () => {
       data_field: 'username',
       column_name: 'Username',
       align: 'left',
-      formatter: (cell, row) => (
-        <Link href={`/sub/list/${row.id}/edit`}>{cell}</Link>
-      ),
+      formatter: (cell, row) => 
+        arrPermissionSubAccount[0]?.full ? (
+          <Link href={`/sub/list/${row.id}/edit`}>{cell}</Link>
+        ) : 
+        arrPermissionSubAccount[0]?.view || arrPermissionSubAccount[0]?.create ? (
+          <Link href={`/sub/list/${row.id}/view`}>{cell}</Link>
+        ) : (
+          <Link href={`/sub/list/${row.id}/edit`}>{cell}</Link>
+        )
     },
     {
       data_field: 'name',
@@ -198,44 +214,96 @@ const SubAccountList = () => {
       column_name: 'Last Login Time',
       align: 'left',
     },
-    {
-      data_field: 'action',
-      column_name: 'Action',
-      align: 'center',
-      formatter: (cell, row) => {
-        const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
-        let STATUS = [];
-        if (newlabel === 'active') STATUS = STATUS_ACTIVE;
-        if (newlabel === 'locked') STATUS = STATUS_LOCKED;
-        if (newlabel === 'suspended') STATUS = STATUS_SUSPENDED;
-        if (row.statuses.length > 1) {
-          STATUS = STATUS_LOCKED_SUSPENDED;
+    arrPermissionSubAccount[0]?.full ? (
+      {
+        data_field: 'action',
+        column_name: 'Action',
+        align: 'center',
+        formatter: (cell, row) => {
+          const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
+          let STATUS = [];
+          if (newlabel === 'active') STATUS = STATUS_ACTIVE;
+          if (newlabel === 'locked') STATUS = STATUS_LOCKED;
+          if (newlabel === 'suspended') STATUS = STATUS_SUSPENDED;
+          if (row.statuses.length > 1) {
+            STATUS = STATUS_LOCKED_SUSPENDED;
+          }
+          return (
+            <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
+              <ChangeStatus
+                setRefreshData={setRefreshData}
+                newlabel={newlabel}
+                types={'editStatus'}
+                linkApi={`/api/subs/${row.id}/update_status`}
+                username={row.username}
+                statuses={row.statuses}
+                STATUS={STATUS}
+              />
+              <ChangePasswordForm
+                linkApi={`/api/subs/${row.id}/update_password`}
+                username={row.username}
+              />
+              <DeleteItem
+                linkApi={`/api/subs/${row.id}/delete`}
+                title={`Confirmation`}
+                username={row.username}
+                types='account'
+              />
+            </ButtonGroup>
+          )
         }
-        return (
-          <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
-            <ChangeStatus
-              setRefreshData={setRefreshData}
-              newlabel={newlabel}
-              types={'editStatus'}
-              linkApi={`/api/subs/${row.id}/update_status`}
-              username={row.username}
-              statuses={row.statuses}
-              STATUS={STATUS}
-            />
-            <ChangePasswordForm
-              linkApi={`/api/subs/${row.id}/update_password`}
-              username={row.username}
-            />
-            <DeleteItem
-              linkApi={`/api/subs/${row.id}/delete`}
-              title={`Confirmation`}
-              username={row.username}
-              types='account'
-            />
-          </ButtonGroup>
-        )
       }
-    },
+    ) :
+    arrPermissionSubAccount[0]?.edit || arrPermissionSubAccount[0]?.create ? (
+      {
+        data_field: 'action',
+        column_name: 'Action',
+        align: 'center',
+        formatter: (cell, row) => {
+          const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
+          let STATUS = [];
+          if (newlabel === 'active') STATUS = STATUS_ACTIVE;
+          if (newlabel === 'locked') STATUS = STATUS_LOCKED;
+          if (newlabel === 'suspended') STATUS = STATUS_SUSPENDED;
+          if (row.statuses.length > 1) {
+            STATUS = STATUS_LOCKED_SUSPENDED;
+          }
+          return (
+            <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
+              {
+                arrPermissionSubAccount[0]?.create ? '' : (
+                  <>
+                    <ChangeStatus
+                      setRefreshData={setRefreshData}
+                      newlabel={newlabel}
+                      types={'editStatus'}
+                      linkApi={`/api/subs/${row.id}/update_status`}
+                      username={row.username}
+                      statuses={row.statuses}
+                      STATUS={STATUS}
+                    />
+                    <ChangePasswordForm
+                      linkApi={`/api/subs/${row.id}/update_password`}
+                      username={row.username}
+                    />
+                  </>
+                )
+              }
+              {
+                arrPermissionSubAccount[0]?.edit ? '' : (
+                  <DeleteItem
+                    linkApi={`/api/subs/${row.id}/delete`}
+                    title={`Confirmation`}
+                    username={row.username}
+                    types='account'
+                  />
+                )
+              }
+            </ButtonGroup>
+          )
+        }
+      }
+    ) : {}
   ];
 
   const handleChangePage = (page) => {
@@ -322,15 +390,31 @@ const SubAccountList = () => {
         </form>
       </FormProvider>
       <ContentCardPage>
-        <Button
-          className={classes.addRoleButton}
-          variant="contained"
-          style={{ backgroundColor: '#1cb13c' }}
-          startIcon={<AddIcon />}
-          onClick={onGotoAddSubPage}
-        >
-          Add Sub Account
-        </Button>
+        {
+          arrPermissionSubAccount[0]?.full ? (
+            <Button
+              className={classes.addRoleButton}
+              variant="contained"
+              style={{ backgroundColor: '#1cb13c' }}
+              startIcon={<AddIcon />}
+              onClick={onGotoAddSubPage}
+            >
+              Add Sub Account
+            </Button>
+          ) : 
+          arrPermissionSubAccount[0]?.create ? (
+            <Button
+              className={classes.addRoleButton}
+              variant="contained"
+              style={{ backgroundColor: '#1cb13c' }}
+              startIcon={<AddIcon />}
+              onClick={onGotoAddSubPage}
+            >
+              Add Sub Account
+            </Button>
+          ) : ''
+        }
+        
         <TitlePage title="Sub Account List" />
         <TableComponent
           data={data}

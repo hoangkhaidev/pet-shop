@@ -14,6 +14,7 @@ import BrandListFilter from './BrandListFilter';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 
 const ChangePasswordForm = lazy(() =>
   import('src/components/Modal/ChangePasswordForm')
@@ -149,6 +150,17 @@ const BrandList = () => {
   const router = useRouter();
   const classes = useStyles();
   const [data, setData] = useState([]);
+
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionBrand = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Brand') {
+      arrPermissionBrand = item.permissions;
+    }
+    return item.name === 'Brand'
+  });
+
   const [objFilter, setObjFilter] = useState({
     name_search: '',
     status_search: '',
@@ -246,9 +258,15 @@ const BrandList = () => {
       data_field: 'username',
       column_name: 'Username',
       align: 'left',
-      formatter: (cell, row) => (
-        <Link href={`/brand/list/${row.id}/edit`}>{cell}</Link>
-      ),
+      formatter: (cell, row) => 
+        arrPermissionBrand[0]?.full ? (
+          <Link href={`/brand/list/${row.id}/edit`}>{cell}</Link>
+        ) : 
+        arrPermissionBrand[0]?.view || arrPermissionBrand[0]?.create ? (
+          <Link href={`/brand/list/${row.id}/view`}>{cell}</Link>
+        ) : (
+          <Link href={`/brand/list/${row.id}/edit`}>{cell}</Link>
+        )
     },
     {
       data_field: 'brand_name',
@@ -315,58 +333,124 @@ const BrandList = () => {
         );
       },
     },
-    {
-      data_field: 'action',
-      column_name: 'Action',
-      align: 'center',
-      formatter: (cell, row) => {
-        const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
-        let STATUS = [];
-        switch(row.statuses.length > 0) {
-          case row.statuses.length === 1:
-            if (newlabel === 'inactive') STATUS = STATUS_INACTIVE;
-            if (newlabel === 'active') STATUS = STATUS_ACTIVE;
-            if (newlabel === 'locked') STATUS = STATUS_LOCKED;
-            if (newlabel === 'suspended') STATUS = STATUS_SUSPENDED;
-            break;
-          case row.statuses.length === 2:
-            if (row.statuses[0].status === 'inactive' || row.statuses[1].status === 'inactive') {
+    arrPermissionBrand[0]?.full ? (
+      {
+        data_field: 'action',
+        column_name: 'Action',
+        align: 'center',
+        formatter: (cell, row) => {
+          const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
+          let STATUS = [];
+          switch(row.statuses.length > 0) {
+            case row.statuses.length === 1:
+              if (newlabel === 'inactive') STATUS = STATUS_INACTIVE;
+              if (newlabel === 'active') STATUS = STATUS_ACTIVE;
+              if (newlabel === 'locked') STATUS = STATUS_LOCKED;
+              if (newlabel === 'suspended') STATUS = STATUS_SUSPENDED;
+              break;
+            case row.statuses.length === 2:
+              if (row.statuses[0].status === 'inactive' || row.statuses[1].status === 'inactive') {
+                STATUS = STATUS_INACTIVE;
+              } else {
+                STATUS = STATUS_LOCKED_SUSPENDED;
+              }
+              break;
+            case row.statuses.length === 3:
               STATUS = STATUS_INACTIVE;
-            } else {
-              STATUS = STATUS_LOCKED_SUSPENDED;
-            }
-            break;
-          case row.statuses.length === 3:
-            STATUS = STATUS_INACTIVE;
-            break;
-          default:
-            STATUS = STATUS_ACTIVE;
-        };
-        return (
-          <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
-            <ChangeStatus
-              setRefreshData={setRefreshData}
-              newlabel={newlabel}
-              types={'editStatus'}
-              STATUS={STATUS}
-              linkApi={`/api/brand/${row.id}/update_status`}
-              username={row.username}
-              statuses={row.statuses}
-            />
-            <ChangePasswordForm
-              linkApi={`/api/brand/${row.account_id}/update_password`}
-              username={row.username}
-            />
-            <DeleteItem
-              linkApi={`/api/brand/${row.account_id}/delete`}
-              title={`Confirmation`}
-              types='brand'
-              username={row.username}
-            />
-          </ButtonGroup>
-        )
+              break;
+            default:
+              STATUS = STATUS_ACTIVE;
+          };
+          return (
+            <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
+              <ChangeStatus
+                setRefreshData={setRefreshData}
+                newlabel={newlabel}
+                types={'editStatus'}
+                STATUS={STATUS}
+                linkApi={`/api/brand/${row.id}/update_status`}
+                username={row.username}
+                statuses={row.statuses}
+              />
+              <ChangePasswordForm
+                linkApi={`/api/brand/${row.account_id}/update_password`}
+                username={row.username}
+              />
+              <DeleteItem
+                linkApi={`/api/brand/${row.account_id}/delete`}
+                title={`Confirmation`}
+                types='brand'
+                username={row.username}
+              />
+            </ButtonGroup>
+          )
+        }
       }
-    }
+    ) : 
+    arrPermissionBrand[0]?.edit || arrPermissionBrand[0]?.create ? (
+      {
+        data_field: 'action',
+        column_name: 'Action',
+        align: 'center',
+        formatter: (cell, row) => {
+          const newlabel = row.statuses[0] ? row.statuses[0].status : 'active';
+          let STATUS = [];
+          switch(row.statuses.length > 0) {
+            case row.statuses.length === 1:
+              if (newlabel === 'inactive') STATUS = STATUS_INACTIVE;
+              if (newlabel === 'active') STATUS = STATUS_ACTIVE;
+              if (newlabel === 'locked') STATUS = STATUS_LOCKED;
+              if (newlabel === 'suspended') STATUS = STATUS_SUSPENDED;
+              break;
+            case row.statuses.length === 2:
+              if (row.statuses[0].status === 'inactive' || row.statuses[1].status === 'inactive') {
+                STATUS = STATUS_INACTIVE;
+              } else {
+                STATUS = STATUS_LOCKED_SUSPENDED;
+              }
+              break;
+            case row.statuses.length === 3:
+              STATUS = STATUS_INACTIVE;
+              break;
+            default:
+              STATUS = STATUS_ACTIVE;
+          };
+          return (
+            <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
+              {
+                arrPermissionBrand[0]?.create ? '' : (
+                  <>
+                    <ChangeStatus
+                      setRefreshData={setRefreshData}
+                      newlabel={newlabel}
+                      types={'editStatus'}
+                      STATUS={STATUS}
+                      linkApi={`/api/brand/${row.id}/update_status`}
+                      username={row.username}
+                      statuses={row.statuses}
+                    />
+                    <ChangePasswordForm
+                      linkApi={`/api/brand/${row.account_id}/update_password`}
+                      username={row.username}
+                    />
+                  </>
+                )
+              }
+              {
+                arrPermissionBrand[0]?.edit ? '' : (
+                  <DeleteItem
+                    linkApi={`/api/brand/${row.account_id}/delete`}
+                    title={`Confirmation`}
+                    types='brand'
+                    username={row.username}
+                  />
+                )
+              }
+            </ButtonGroup>
+          )
+        }
+      }
+    ) : {}
   ];
 
   const handleChangePage = (page) => {

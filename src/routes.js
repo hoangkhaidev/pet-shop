@@ -17,15 +17,20 @@ const SubAccountList = lazy(() =>
 const SubAccountEdit = lazy(() =>
   import('src/components/SubAccount/SubAccountEdit')
 );
+const SubAccountView = lazy(() => 
+  import('src/components/SubAccount/SubAccountView')
+);
 const OperatorCreate = lazy(() =>
   import('src/components/Operator/OperatorCreate')
 );
 const OperatorList = lazy(() => import('src/components/Operator/OperatorList'));
 const OperatorEdit = lazy(() => import('src/components/Operator/OperatorEdit'));
+const OperatorView = lazy(() => import('src/components/Operator/OperatorView'));
 const BrandCreate = lazy(() => import('src/components/Brand/BrandCreate'));
 const BrandList = lazy(() =>
   import('src/components/Brand/BrandList/BrandList')
 );
+const BrandView = lazy(() => import('src/components/Brand/BrandView'));
 const BrandEdit = lazy(() => import('src/components/Brand/BrandEdit'));
 const RoleAdd = lazy(() => import('src/components/RoleManagement/RoleAdd'));
 const RoleList = lazy(() => import('src/components/RoleManagement/RoleList'));
@@ -138,6 +143,12 @@ const routes = (isLoggedIn) => [
         element: <SubAccountList />,
       },
       {
+        path: 'list/:id/view',
+        fullpath: '/sub/list/:id/view',
+        name: 'Sub Account Detail',
+        element: <SubAccountView />,
+      },
+      {
         path: 'list/:id/edit',
         fullpath: '/sub/list/:id/edit',
         name: 'Edit Sub Account',
@@ -168,6 +179,12 @@ const routes = (isLoggedIn) => [
         name: 'Edit Operator',
         element: <OperatorEdit />,
       },
+      {
+        path: 'list/:id/view',
+        fullpath: '/operator/list/:id/view',
+        name: 'Operator Detail',
+        element: <OperatorView />,
+      },
     ],
   },
   {
@@ -191,6 +208,12 @@ const routes = (isLoggedIn) => [
         fullpath: '/brand/list/:id/edit',
         name: 'Brand Edit',
         element: <BrandEdit />,
+      },
+      {
+        path: 'list/:id/view',
+        fullpath: '/brand/list/:id/view',
+        name: 'Brand View',
+        element: <BrandView />,
       },
     ],
   }, 

@@ -16,10 +16,22 @@ import FailedTransactionFilter from "./FailedTransactionFilter";
 import ButtonResume from "./ButtonResume";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 const FailedTransaction = () => {
   const router = useRouter();
   const { t } = useTranslation();
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionFailed = {};
+  permission_groups?.map((item) => {
+    if (item.name === 'Global') {
+      arrPermissionFailed = (item.permissions[1]);
+    }
+    return item.name === 'Global'
+  });
+
+  console.log(arrPermissionFailed);
 
   const pad = (number, length) => {
     let str = "" + number
@@ -115,14 +127,26 @@ const FailedTransaction = () => {
       column_name: "Game",
       align: "left"
     },
-    {
-      data_field: 'process_status',
-      column_name: 'Action',
-      align: 'left',
-      formatter: (cell, row) => {
-        return <ButtonResume cell={cell} row={row} />
+    arrPermissionFailed?.full ? (
+      {
+        data_field: 'process_status',
+        column_name: 'Action',
+        align: 'left',
+        formatter: (cell, row) => {
+          return <ButtonResume cell={cell} row={row} />
+        }
       }
-    }
+    ) :
+    arrPermissionFailed?.edit ? (
+      {
+        data_field: 'process_status',
+        column_name: 'Action',
+        align: 'left',
+        formatter: (cell, row) => {
+          return <ButtonResume cell={cell} row={row} />
+        }
+      }
+    ) : {}
   ];
 
   const onSubmit = async (data) => {
