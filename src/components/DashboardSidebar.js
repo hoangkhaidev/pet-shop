@@ -19,12 +19,14 @@ import NavItem from './NavItem';
 import APIUtils from 'src/api/APIUtils';
 import { onLogout } from 'src/features/authentication/authentication';
 import { useNavigate } from 'react-router';
+import useRouter from 'src/utils/hooks/useRouter';
 
 const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
   const [listNav, setListNav] = useState({});
   const { currentMenu } = useContext(CurrentPageContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const router = useRouter();
 
   const onUserLogout = () => {
     dispatch((onLogout()));
@@ -39,6 +41,10 @@ const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
       console.log("response", response);
     }
   }, []);
+
+  useEffect(() => {
+    getUserData();
+  }, [router]);
 
   const getUserData = async() => {
     const response = await api.post('/api/auth', null);

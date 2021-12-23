@@ -221,7 +221,6 @@ const OperatorCreate = () => {
   };
 
   const onRemoveFinanceEmail = (email) => {
-    console.log(email);
     const cloneArr = financeEmail.slice();
     remove(cloneArr, (item) => item === email);
     setFinanceEmail(cloneArr);

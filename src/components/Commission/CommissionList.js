@@ -100,7 +100,6 @@ const CommissionList = () => {
             } else {
               check = true;
             }
-            console.log(check);
             return (
               <CommissionInput 
                 name={`${row.brand_name}_${item?.product_id}`}

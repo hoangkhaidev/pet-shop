@@ -306,10 +306,6 @@ const BrandCreate = () => {
     setAPIWLIP(cloneArr);
   };
 
-  useEffect(() => {
-    console.log(apiWLIP);
-  }, [apiWLIP]);
-
   const onCancel = () => {
     navigate('/brand/list');
   }

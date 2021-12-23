@@ -200,17 +200,6 @@ const PlayerSummary = () => {
       column_name: "Player ID",
       align: "left",
       formatter: (cell, row) => {
-        // let timeFrom_date = moment().format("DD/MM/YYYY");
-        // let timeTo_date = moment().format("DD/MM/YYYY");
-        // if (router.query.option === 'day') {
-        //   timeFrom_date = router.query.id;
-        //   timeTo_date = router.query.id;
-        // } else {
-        //   timeFrom_date = router.query.from_date;
-        //   timeTo_date = router.query.to_date;
-        // }
-        // console.log(router);
-
         return (
           <Link href={`/players/${row.player_id}/information?from_date=${router.query.from_date}&game_name=&game_type=&id=${row.player_id}&page=1&page_size=30&player_id=${row.player_id}&round_id=&sort_field=start_date&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${router.query.to_date}`}>{cell}</Link>
         )

@@ -13,7 +13,7 @@ class APIUtils {
 		  },
 		  body: JSON.stringify(data)
 		}).then(response => {
-			// console.log(response)
+			console.log(response);
 			if (response.ok) {
 				return response.json()
 			}
@@ -24,7 +24,7 @@ class APIUtils {
 			if (data.success) {
 				return data
 			}
-			// console.log(data)
+			console.log(data)
 			return Promise.reject({
 				message: data.err,
 				data: data.data,

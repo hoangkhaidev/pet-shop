@@ -87,7 +87,6 @@ const OperatorView = () => {
                 {data?.operator_name}  
             </span>
         </div>
-        {console.log(dataResponse)}
         <div className={classes.playerInfoName}>
             <span className={classes.playerNameDisplay}>
                 Support Name:
