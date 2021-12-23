@@ -9,9 +9,20 @@ import Loading from "../shared/Loading/Loading";
 import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
 import GamesFilterConfig from "./GamesFilterConfig";
 import ChangeStatusGamesConfig from "src/components/Modal/ChangeStatusGamesConfig";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router";
 
 const GamesListConfig = () => {
   const router = useRouter();
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionGames = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Configuration') {
+      arrPermissionGames = item.permissions[0];
+    }
+    return item.name === 'Configuration'
+  });
 
   const [objFilter, setObjFilter] = useState({
     brand_ids: [],
@@ -41,11 +52,15 @@ const GamesListConfig = () => {
       data_field: "game_code",
       column_name: "Game Code",
       align: "left",
-      formatter: (cell, row) => {
-        return (
+      formatter: (cell, row) => 
+        arrPermissionGames?.full ? (
+          <Link href={`/configuration/games/${row.game_code}/brand_id/${row.brand_id}/edit`}>{cell}</Link>
+        ) : 
+        arrPermissionGames?.view || arrPermissionGames?.create ? (
+          <Link href={`/configuration/games/${row.game_code}/brand_id/${row.brand_id}/view`}>{cell}</Link>
+        ) : (
           <Link href={`/configuration/games/${row.game_code}/brand_id/${row.brand_id}/edit`}>{cell}</Link>
         )
-      }
     },
     {
       data_field: "game_name",
@@ -106,6 +121,10 @@ const GamesListConfig = () => {
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
+  }
+
+  if (arrPermissionGames?.none) {
+    return <Navigate to="/404" />;
   }
 
   return (

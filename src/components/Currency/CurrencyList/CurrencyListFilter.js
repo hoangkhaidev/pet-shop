@@ -1,9 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Grid from "@material-ui/core/Grid";
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import { Button, FormControl, makeStyles } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import useFetchData from "src/utils/hooks/useFetchData";
 import cloneDeep from 'lodash/cloneDeep';
 import { useEffect, useState } from "react";
 import api from "src/utils/api";
@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import AddIcon from "@material-ui/icons/Add";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -26,10 +27,42 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-const CurrencyListFilter = ({arrPermissionCurrency}) => {
+const CurrencyListFilter = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-  const { dataResponse: dataCurrency} = useFetchData("/api/currency/all_for_create");
+  const [currencyData, setCurrencyData] = useState([]);
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionCurrency = {};
+  permission_groups?.map((item) => {
+    if (item.name === 'Configuration') {
+      arrPermissionCurrency = (item.permissions[0]);
+    }
+    return item.name === 'Configuration'
+  });
+
+  const onDataCurrency = async () => {
+    if (arrPermissionCurrency.full) {
+      const response = await api.post('/api/currency/all_for_create', null);
+      if (get(response, "success", false)) {
+        setCurrencyData(response?.data);
+      } else {
+        console.log("response", response);
+      }
+    } else if(arrPermissionCurrency.create) {
+      const response = await api.post('/api/currency/all_for_create', null);
+      if (get(response, "success", false)) {
+        setCurrencyData(response?.data);
+      } else {
+        console.log("response", response);
+      }
+    }
+
+  };
+
+  useEffect(() => {
+    onDataCurrency();
+  }, []);
 
   const [currencydata, setCurrencydata] = useState([]);
   const [formState, setFormState] = useState({
@@ -40,7 +73,7 @@ const CurrencyListFilter = ({arrPermissionCurrency}) => {
 
   useEffect(() => {
     let mapData = [];
-    let newCurrency = cloneDeep(dataCurrency);
+    let newCurrency = cloneDeep(currencyData);
     (newCurrency || []).forEach((data, index) => {
       let optionData = {
         id: data.code,
@@ -51,7 +84,7 @@ const CurrencyListFilter = ({arrPermissionCurrency}) => {
       mapData.push(optionData)
     });
     setCurrencydata([...mapData]);
-  }, [dataCurrency, setCurrencydata]);
+  }, [currencyData, setCurrencydata]);
 
   const onChangeCurrency = (event, value) => {
     let data = value?.split(" - ");

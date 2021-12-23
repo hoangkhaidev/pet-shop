@@ -116,7 +116,7 @@ const BrandEdit = () => {
   let arrPermissionBrand = {};
   permission_groups.map((item) => {
     if (item.name === 'Brand') {
-      arrPermissionBrand = item.permissions;
+      arrPermissionBrand = item.permissions[0];
     }
     return item.name === 'Brand'
   });
@@ -445,8 +445,12 @@ const BrandEdit = () => {
     return <NoPermissionPage />;
   }
 
-  if (!arrPermissionBrand[0].full) {
-    if (arrPermissionBrand[0].view || arrPermissionBrand[0].create || arrPermissionBrand[0].none) {
+  if (roleUser.account_type === 'brand') {
+    return <Navigate to="/404" />;
+  }
+
+  if (!arrPermissionBrand?.full) {
+    if (arrPermissionBrand?.view || arrPermissionBrand?.create || arrPermissionBrand.none) {
       return <Navigate to="/404" />;
     }
   }

@@ -94,11 +94,12 @@ const OperatorEdit = () => {
   const router = useRouter();
   const navigate = useNavigate();
   ///handle permission
+  const roleUser = useSelector((state) => state.roleUser);
   const permission_groups = useSelector((state) => state.roleUser.permission_groups);
   let arrPermissionOperator = {};
   permission_groups.map((item) => {
     if (item.name === 'Operator') {
-      arrPermissionOperator = item.permissions;
+      arrPermissionOperator = item.permissions[0];
     }
     return item.name === 'Operator'
   });
@@ -420,8 +421,16 @@ const OperatorEdit = () => {
     return <NoPermissionPage />;
   }
 
-  if (!arrPermissionOperator[0].full) {
-    if (arrPermissionOperator[0].view || arrPermissionOperator[0].create || arrPermissionOperator[0].none) {
+  if (roleUser.account_type === 'operator') {
+    return <Navigate to="/404" />;
+  }
+
+  if (roleUser.account_type === 'brand') {
+    return <NoPermissionPage />;
+  }
+
+  if (!arrPermissionOperator?.full) {
+    if (arrPermissionOperator?.view || arrPermissionOperator?.create || arrPermissionOperator?.none) {
       return <Navigate to="/404" />;
     }
   }

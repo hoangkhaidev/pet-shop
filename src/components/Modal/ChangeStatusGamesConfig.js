@@ -2,6 +2,7 @@ import { Button, makeStyles } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import api from 'src/utils/api';
 import ModalComponent from '../shared/ModalComponent/ModalComponent';
@@ -37,9 +38,29 @@ const ChangeStatusGamesConfig = ({status, game_code, brand_id, brand_name, game_
     setOpen(false);
   };
 
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionGames = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Configuration') {
+      arrPermissionGames = item.permissions[0];
+    }
+    return item.name === 'Configuration'
+  });
+
   const handleChange = (event) => {
-    onOpenModal();
-    setValCheck(event.target.checked)
+    if (arrPermissionGames?.full) {
+        onOpenModal();
+        setValCheck(event.target.checked)
+    } else {
+      if (arrPermissionGames?.view || arrPermissionGames?.create) {
+        return;
+      } else {
+        onOpenModal();
+        setValCheck(event.target.checked)
+      }
+    }
+    
   };
 
   const onChangeStatus = async () => {

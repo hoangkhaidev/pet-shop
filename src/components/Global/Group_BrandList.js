@@ -54,7 +54,6 @@ const Group_BrandList = () => {
       column_name: 'Group / Operator',
       align: 'left',
       formatter: (cell, row) => {
-
         return (
           <Link href={`/operator/list/${row.account_id}/edit`}>{cell}</Link>
         )

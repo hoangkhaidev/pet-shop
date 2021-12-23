@@ -156,10 +156,13 @@ const BrandView = () => {
                 {
                     data?.product_commission?.map((item, index) => (
                         <div key={index} className={classes.spanItem}>
-                            <span>
+                            <span style={{marginRight: '5px'}}>
                                 {item?.product_name}  
                             </span>
-                            <span>
+                            <span style={{marginRight: '5px'}}>
+                                Commission  
+                            </span>
+                            <span style={{marginRight: '5px'}}>
                                 {item?.commission}% 
                             </span>
                         </div>
