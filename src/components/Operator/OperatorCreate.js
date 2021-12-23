@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Chip from '@material-ui/core/Chip';
 import remove from 'lodash/remove';
@@ -34,6 +34,7 @@ import clsx from 'clsx';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
 import cloneDeep from 'lodash.clonedeep';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -78,6 +79,15 @@ const OperatorCreate = () => {
     clearErrors,
     register,
   } = useForm();
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionOperator = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Operator') {
+      arrPermissionOperator = item.permissions;
+    }
+    return item.name === 'Operator'
+  });
 
   const [financeEmail, setFinanceEmail] = useState([]);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
@@ -261,6 +271,12 @@ const OperatorCreate = () => {
 
   if (!isHasAccessPermission) {
     return <NoPermissionPage />;
+  }
+
+  if (!arrPermissionOperator[0].full) {
+    if (arrPermissionOperator[0].view || arrPermissionOperator[0].edit || arrPermissionOperator[0].none) {
+      return <Navigate to="/404" />;
+    }
   }
 
   return (

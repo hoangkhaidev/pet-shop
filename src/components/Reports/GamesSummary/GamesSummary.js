@@ -9,9 +9,20 @@ import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import Loading from "src/components/shared/Loading/Loading";
 import GamesSummaryFilter from "./GamesSummaryFilter";
 import TableComponentGamesSummary from "src/components/shared/TableComponent/TableComponentGamesSummary";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router";
 
 const GamesSummary = () => {
   const router = useRouter();
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionReports = {};
+  permission_groups?.map((item) => {
+    if (item.name === 'Reports') {
+      arrPermissionReports = (item.permissions[0]);
+    }
+    return item.name === 'Reports'
+  });
   const [objFilter, setObjFilter] = useState({
     brand_ids: [],
     product_ids: [],
@@ -168,6 +179,10 @@ const GamesSummary = () => {
     return <NoPermissionPage />;
   }
 
+  if (arrPermissionReports.none) {
+    return <Navigate to="/404" />;
+  }
+  
   return (
     <>
       {isLoading && <Loading />}

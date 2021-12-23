@@ -10,6 +10,7 @@ import CurrencyListFilter from './CurrencyListFilter';
 import ChangeStatusCurrency from 'src/components/Modal/ChangeStatusCurrency';
 import RateHistory from './RateHistory';
 import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router';
 
 const CurrencyList = () => {
   const [data, setData] = useState([]);
@@ -130,6 +131,10 @@ const CurrencyList = () => {
 
   if (total === null) {
     return <Loading />;
+  }
+
+  if (arrPermissionCurrency.none) {
+    return <Navigate to="/404" />;
   }
 
   return (

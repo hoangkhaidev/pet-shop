@@ -8,6 +8,8 @@ import moment from 'moment';
 import TabPanel from "src/components/shared/TabPanel/TabPanel";
 import Loading from "src/components/shared/Loading/Loading";
 import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router";
 
 const GameTransactionHistory = lazy(() => import("./GameTransactionHistory/GameTransactionHistory"));
 const GamesListHistory = lazy(() => import("./GameHistory/GamesListHistory"));
@@ -49,6 +51,16 @@ const GameHistory = () => {
     start: moment().format("DD/MM/YYYY"),
     end: moment().format("DD/MM/YYYY")
   });
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionPlayers = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Players') {
+      arrPermissionPlayers = item.permissions;
+    }
+    return item.name === 'Players'
+  });
+
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
   const { t } = useTranslation();
@@ -60,6 +72,10 @@ const GameHistory = () => {
 
   if (!isHasAccessPermission) {
     return <NoPermissionPage />;
+  }
+  
+  if (arrPermissionPlayers[0]?.none) {
+    return <Navigate to="/404" />;
   }
 
   return (

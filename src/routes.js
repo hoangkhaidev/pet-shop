@@ -79,6 +79,10 @@ const BrandGlobalEdit = lazy(() =>
   import('src/components/Global/BrandDetail/BrandDetail')
 );
 
+const BrandGlobalView = lazy(() =>
+  import('src/components/Global/BrandDetail/BrandDetailView')
+);
+
 const BusinessSummary = lazy(() =>
   import('src/components/Reports/BusinessSummary/BusinessSummary')
 );
@@ -288,6 +292,12 @@ const routes = (isLoggedIn) => [
         fullpath: '/global/group_brand/brand_detail/:id',
         name: 'Brand Detail',
         element: <BrandGlobalEdit />,
+      },
+      {
+        path: '/group_brand/brand_view/:id',
+        fullpath: '/global/group_brand/brand_view/:id',
+        name: 'Brand View',
+        element: <BrandGlobalView />,
       },
       {
         path: '/failed_transaction',

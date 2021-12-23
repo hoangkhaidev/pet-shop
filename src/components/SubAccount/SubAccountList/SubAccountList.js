@@ -1,7 +1,7 @@
 import { useState, useEffect, lazy } from 'react';
 import get from 'lodash/get';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Link from '@material-ui/core/Link';
@@ -119,7 +119,7 @@ const SubAccountList = () => {
     if (item.name === 'Sub Account') {
       arrPermissionSubAccount = item.permissions;
     }
-    return item.name === 'SubA Account'
+    return item.name === 'Sub Account'
   });
   
   const [objFilter, setObjFilter] = useState({
@@ -379,6 +379,10 @@ const SubAccountList = () => {
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
+  }
+
+  if (arrPermissionSubAccount[0].none) {
+    return <Navigate to="/404" />;
   }
 
   return (

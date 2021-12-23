@@ -15,6 +15,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router';
 
 const ChangePasswordForm = lazy(() =>
   import('src/components/Modal/ChangePasswordForm')
@@ -471,6 +472,10 @@ const BrandList = () => {
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
+  }
+
+  if (arrPermissionBrand[0].none) {
+    return <Navigate to="/404" />;
   }
 
   return (

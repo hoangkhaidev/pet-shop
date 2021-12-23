@@ -13,10 +13,20 @@ import { ExportExcelPlayersBusinessSummary } from "./ExportExcelPlayersBusinessS
 import { useDispatch, useSelector } from "react-redux";
 import PlayersBusinessSummaryFilter from "./PlayersBusinessSummaryFilter";
 import { clearPage, setPage, setParentParam } from "src/features/parentParam/parentParam";
+import { Navigate } from "react-router";
 
 const PlayersBusinessSummary = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionReports = {};
+  permission_groups?.map((item) => {
+    if (item.name === 'Reports') {
+      arrPermissionReports = (item.permissions[0]);
+    }
+    return item.name === 'Reports'
+  });
 
   const pad = (number, length) => {
     let str = "" + number
@@ -257,6 +267,10 @@ const PlayersBusinessSummary = () => {
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
+  }
+
+  if (arrPermissionReports.none) {
+    return <Navigate to="/404" />;
   }
 
   return (

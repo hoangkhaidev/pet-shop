@@ -74,6 +74,8 @@ const Routes = () => {
   useEffect(() => {
     const currentPage = find(routerHasUrl, item => item.fullpath === router.pathname);
     setCurPage(currentPage);
+    console.log(router.pathname);
+    
   }, [router.pathname, routerHasUrl]);
 
   useEffect(() => {

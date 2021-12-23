@@ -37,7 +37,7 @@ import useRouter from 'src/utils/hooks/useRouter';
 import api from 'src/utils/api';
 import { toast } from 'react-toastify';
 import isEmpty from 'lodash/isEmpty';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ProductCommission from '../Operator/ProductCommission';
 import { validate } from 'validate.js';
@@ -111,6 +111,15 @@ const BrandEdit = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const roleUser = useSelector((state) => state.roleUser);
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionBrand = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Brand') {
+      arrPermissionBrand = item.permissions;
+    }
+    return item.name === 'Brand'
+  });
   
   const { dataResponse, isLoading, isHasPermission } = useFetchData(
     `/api/brand/${router.query?.id}`,
@@ -434,6 +443,12 @@ const BrandEdit = () => {
 
   if (!isHasAccessPermission) {
     return <NoPermissionPage />;
+  }
+
+  if (!arrPermissionBrand[0].full) {
+    if (arrPermissionBrand[0].view || arrPermissionBrand[0].create || arrPermissionBrand[0].none) {
+      return <Navigate to="/404" />;
+    }
   }
 
   return (

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import AddIcon from '@material-ui/icons/Add';
@@ -61,6 +61,15 @@ const SubAccountCreate = () => {
 
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
   const roleUser = useSelector((state) => state.roleUser);
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionSubAccount = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Sub Account') {
+      arrPermissionSubAccount = item.permissions;
+    }
+    return item.name === 'Sub Account'
+  });
 
   const {
     control,
@@ -202,6 +211,12 @@ const SubAccountCreate = () => {
   
   if (!isHasPermission) {
     return <NoPermissionPage />;
+  }
+
+  if (!arrPermissionSubAccount[0].full) {
+    if (arrPermissionSubAccount[0].view || arrPermissionSubAccount[0].edit || arrPermissionSubAccount[0].none) {
+      return <Navigate to="/404" />;
+    }
   }
 
   return (

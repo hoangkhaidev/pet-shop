@@ -17,6 +17,7 @@ import ButtonResume from "./ButtonResume";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import { Navigate } from "react-router";
 
 const FailedTransaction = () => {
   const router = useRouter();
@@ -30,8 +31,6 @@ const FailedTransaction = () => {
     }
     return item.name === 'Global'
   });
-
-  console.log(arrPermissionFailed);
 
   const pad = (number, length) => {
     let str = "" + number
@@ -241,6 +240,10 @@ const FailedTransaction = () => {
 
   if (!isHasAccessPermission) {
     return <NoPermissionPage />;
+  }
+
+  if (arrPermissionFailed.none) {
+    return <Navigate to="/404" />;
   }
 
   return (

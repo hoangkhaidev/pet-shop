@@ -11,10 +11,20 @@ import BusinessSummaryFilter from "./BusinessSummaryFilter";
 import { ExportExcel } from "./ExportExcel";
 import { useSelector } from "react-redux";
 import useRouter from "src/utils/hooks/useRouter";
+import { Navigate } from "react-router";
 
 const BusinessSummary = () => {
   const roleUser = useSelector((state) => state.roleUser);
   const router = useRouter();
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionReports = {};
+  permission_groups?.map((item) => {
+    if (item.name === 'Reports') {
+      arrPermissionReports = (item.permissions[0]);
+    }
+    return item.name === 'Reports'
+  });
   
   let brand_router = [];
 
@@ -226,6 +236,10 @@ const BusinessSummary = () => {
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
+  }
+
+  if (arrPermissionReports.none) {
+    return <Navigate to="/404" />;
   }
 
   return (

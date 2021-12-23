@@ -31,7 +31,7 @@ import clsx from 'clsx';
 import get from 'lodash/get';
 import api from 'src/utils/api';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import cloneDeep from 'lodash.clonedeep';
 import { useSelector } from 'react-redux';
@@ -83,6 +83,15 @@ const useStyles = makeStyles((theme) => ({
 const BrandCreate = () => {
   const roleUser = useSelector((state) => state.roleUser);
   const { dataResponse: dataProduct } = useFetchData('/api/product');
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionBrand = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Brand') {
+      arrPermissionBrand = item.permissions;
+    }
+    return item.name === 'Brand'
+  });
 
   const classes = useStyles();
   const navigate = useNavigate();
@@ -309,7 +318,11 @@ const BrandCreate = () => {
     return <NoPermissionPage />;
   }
 
-  console.log(errors?.api_whitelist_ip?.message)
+  if (!arrPermissionBrand[0].full) {
+    if (arrPermissionBrand[0].view || arrPermissionBrand[0].edit || arrPermissionBrand[0].none) {
+      return <Navigate to="/404" />;
+    }
+  }
 
   return (
     <ContentCardPage>

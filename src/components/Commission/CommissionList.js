@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import UpdateCommission from './UpdateCommission';
 import api from 'src/utils/api';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const getCommissionByProduct = (list, product_id) => {
@@ -254,6 +254,10 @@ const CommissionList = () => {
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
+  }
+
+  if (arrPermissionCommission.none) {
+    return <Navigate to="/404" />;
   }
 
   return (

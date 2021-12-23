@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, makeStyles, Typography } from "@material-ui/core";
 import ClearAllIcon from '@material-ui/icons/ClearAll';
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import useFetchData from "src/utils/hooks/useFetchData";
 import { useEffect, useState } from "react";
 import useRouter from "src/utils/hooks/useRouter";
@@ -66,6 +66,15 @@ const PlayerSummary = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const roleUser = useSelector((state) => state.roleUser);
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionReports = {};
+  permission_groups?.map((item) => {
+    if (item.name === 'Reports') {
+      arrPermissionReports = (item.permissions[0]);
+    }
+    return item.name === 'Reports'
+  });
   
   const router = useRouter();
 
@@ -305,10 +314,6 @@ const PlayerSummary = () => {
     
   ];
 
-  // useEffect(() => {
-  //   console.log(objFilter);
-  // }, [objFilter]);
-
   const onSubmit = async (data) => {
     
     setObjFilter(prevState => ({
@@ -339,6 +344,10 @@ const PlayerSummary = () => {
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
+  }
+  
+  if (arrPermissionReports.none) {
+    return <Navigate to="/404" />;
   }
 
   return (

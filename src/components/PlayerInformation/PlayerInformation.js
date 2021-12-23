@@ -2,7 +2,7 @@ import { Button, makeStyles, Typography } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 
@@ -49,6 +49,16 @@ const useStyles = makeStyles(() => ({
 
 const PlayerInformation = ({ data }) => {
   const classes = useStyles();
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionPlayers = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Players') {
+      arrPermissionPlayers = item.permissions;
+    }
+    return item.name === 'Players'
+  });
+
   const parentParam = useSelector((state) => state.parentParam.parentParam);
 
   const navigate = useNavigate();
@@ -63,6 +73,10 @@ const PlayerInformation = ({ data }) => {
       document.title = '';
     }
   }, []);
+
+  if (arrPermissionPlayers[0]?.none) {
+    return <Navigate to="/404" />;
+  }
 
   return (
     <>

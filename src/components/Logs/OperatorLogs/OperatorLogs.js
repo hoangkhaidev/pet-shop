@@ -6,9 +6,20 @@ import useFetchData from "src/utils/hooks/useFetchData";
 import Loading from "src/components/shared/Loading/Loading";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import OperatorLogsFilter from "./OperatorLogsFilter";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router";
 
 const OperatorLogs = () => {
   const router = useRouter();
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionLog = {};
+  permission_groups?.map((item) => {
+    if (item.name === 'Logs') {
+      arrPermissionLog = (item.permissions[0]);
+    }
+    return item.name === 'Logs'
+  });
 
   const [objFilter, setObjFilter] = useState({
     username: "",
@@ -106,6 +117,10 @@ const OperatorLogs = () => {
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
+  }
+
+  if (arrPermissionLog.none) {
+    return <Navigate to="/404" />;
   }
 
   return (

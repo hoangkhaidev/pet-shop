@@ -10,11 +10,21 @@ import useRouter from "src/utils/hooks/useRouter";
 import ContentCardPage from "../ContentCardPage/ContentCardPage";
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import { Button } from "@material-ui/core";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
 const BrandListBelow = () => {
   const router = useRouter();
   const navigate = useNavigate();
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionGlobalBrand = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Global') {
+      arrPermissionGlobalBrand = item.permissions[0];
+    }
+    return item.name === 'Global'
+  });
 
   const { dataResponse, isHasPermission } = useFetchData(
     `/api/global/group_brand/${router.query.id}`,
@@ -44,11 +54,15 @@ const BrandListBelow = () => {
       data_field: "brand_name",
       column_name: "Brand Name",
       align: "left",
-      formatter: (cell, row) => {
-        return (
+      formatter: (cell, row) => 
+        arrPermissionGlobalBrand?.full ? (
+          <Link href={`/global/group_brand/brand_detail/${row.brand_id}`}>{cell}</Link>
+        ) : 
+        arrPermissionGlobalBrand?.view || arrPermissionGlobalBrand?.create ? (
+          <Link href={`/global/group_brand/brand_view/${row.brand_id}`}>{cell}</Link>
+        ) : (
           <Link href={`/global/group_brand/brand_detail/${row.brand_id}`}>{cell}</Link>
         )
-      }
     },
     {
       data_field: "players",
@@ -87,6 +101,10 @@ const BrandListBelow = () => {
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
+  }
+
+  if (arrPermissionGlobalBrand.none) {
+    return <Navigate to="/404" />;
   }
 
   return (

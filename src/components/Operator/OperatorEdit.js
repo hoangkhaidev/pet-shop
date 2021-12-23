@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Chip from '@material-ui/core/Chip';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -32,6 +32,7 @@ import api from 'src/utils/api';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ProductCommission from './ProductCommission';
 import { validate } from 'validate.js';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -92,6 +93,15 @@ const OperatorEdit = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const navigate = useNavigate();
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionOperator = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Operator') {
+      arrPermissionOperator = item.permissions;
+    }
+    return item.name === 'Operator'
+  });
 
   const { dataResponse, isLoading, isHasPermission } = useFetchData(
     `/api/operators/${router.query?.id}`,
@@ -408,6 +418,12 @@ const OperatorEdit = () => {
 
   if (!isHasAccessPermission) {
     return <NoPermissionPage />;
+  }
+
+  if (!arrPermissionOperator[0].full) {
+    if (arrPermissionOperator[0].view || arrPermissionOperator[0].create || arrPermissionOperator[0].none) {
+      return <Navigate to="/404" />;
+    }
   }
 
   return (

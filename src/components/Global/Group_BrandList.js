@@ -11,12 +11,23 @@ import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
 import Group_BrandFilter from './Group_BrandFilter';
 import cloneDeep from 'lodash.clonedeep';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router';
 
 const Group_BrandList = () => {
   const router = useRouter();
   const [data, setData] = useState([]);
   const [objFilter , setObjFilter] = useState({
     key_search: ""
+  });
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionGlobalBrand = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Global') {
+      arrPermissionGlobalBrand = item.permissions[0];
+    }
+    return item.name === 'Global'
   });
 
   const methods = useForm({
@@ -88,6 +99,10 @@ const Group_BrandList = () => {
       ...form,
     });
   };
+
+  if (arrPermissionGlobalBrand.none) {
+    return <Navigate to="/404" />;
+  }
 
   return (
     <>

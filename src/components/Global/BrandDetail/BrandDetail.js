@@ -15,6 +15,7 @@ import DevelopmentVariables from "./DevelopmentVariables/DevelopmentVariables";
 import useRouter from "src/utils/hooks/useRouter";
 import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import useFetchData from "src/utils/hooks/useFetchData";
+import { Navigate } from "react-router";
 
 const Endpoint_Settings = lazy(() => import("./Endpoint_Settings"));
 
@@ -54,6 +55,15 @@ const BrandDetail = () => {
   const router = useRouter();
   const roleUser = useSelector((state) => state.roleUser);
   const [value, setValue] = useState(0);
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionGlobalBrand = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Global') {
+      arrPermissionGlobalBrand = item.permissions[0];
+    }
+    return item.name === 'Global'
+  });
 
   const [dateRange, setDateRange] = useState({
     start: moment().format("DD/MM/YYYY"),
@@ -81,6 +91,12 @@ const BrandDetail = () => {
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
+  }
+
+  if (!arrPermissionGlobalBrand.full) {
+    if (arrPermissionGlobalBrand.none || arrPermissionGlobalBrand.view || arrPermissionGlobalBrand.create) {
+      return <Navigate to="/404" />;
+    }
   }
 
   return (

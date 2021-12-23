@@ -14,11 +14,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHistory } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from "react-redux";
 import { clearPage, setParentParam } from "src/features/parentParam/parentParam";
+import { Navigate } from "react-router";
 
 const PlayersList = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const pageName = useSelector((state) => state.parentParam.page);
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionPlayers = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Players') {
+      arrPermissionPlayers = item.permissions;
+    }
+    return item.name === 'Players'
+  });
 
   const [objFilter, setObjFilter] = useState({
     player_id: 0,
@@ -160,6 +170,10 @@ const PlayersList = () => {
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
+  }
+
+  if (arrPermissionPlayers[0]?.none) {
+    return <Navigate to="/404" />;
   }
 
   return (
