@@ -21,6 +21,7 @@ const Group_BrandList = () => {
     key_search: ""
   });
   ///handle permission
+  const roleUser = useSelector((state) => state.roleUser);
   const permission_groups = useSelector((state) => state.roleUser.permission_groups);
   let arrPermissionGlobalBrand = {};
   permission_groups.map((item) => {
@@ -28,6 +29,14 @@ const Group_BrandList = () => {
       arrPermissionGlobalBrand = item.permissions[0];
     }
     return item.name === 'Global'
+  });
+
+  let arrPermissionOperator = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Operator') {
+      arrPermissionOperator = item.permissions[0];
+    }
+    return item.name === 'Operator'
   });
 
   const methods = useForm({
@@ -54,9 +63,21 @@ const Group_BrandList = () => {
       column_name: 'Group / Operator',
       align: 'left',
       formatter: (cell, row) => {
-        return (
-          <Link href={`/operator/list/${row.account_id}/edit`}>{cell}</Link>
-        )
+        let link = '';
+
+        if (roleUser.account_type === 'operator' || roleUser.account_type === ' brand') {
+          link = cell;
+
+        } else {
+          if (arrPermissionOperator?.full) {
+            link = (<Link href={`/operator/list/${row.account_id}/edit`}>{cell}</Link>);
+          } else if (arrPermissionOperator?.view || arrPermissionOperator?.create) {
+            link = cell;
+          } else {
+            link = (<Link href={`/operator/list/${row.account_id}/edit`}>{cell}</Link>);
+          }
+        }
+        return link;
       }
     },
     {
@@ -69,7 +90,7 @@ const Group_BrandList = () => {
             {cell}
           </Link>
         );
-      },
+      }
     }
   ];
 
