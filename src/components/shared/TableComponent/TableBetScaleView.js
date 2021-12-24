@@ -65,20 +65,6 @@ export default function TableBetScaleView({ dataDetail, setFormState, default_be
 
   const [newScale, setNewScale] = useState(initNewScale);
 
-  const handleChange = (event) => {
-    setCheckedRadio(event.target.value)
-    setFormState((formState) => ({
-      ...formState,
-      values: {
-        ...formState.values,
-        default_bet_scale: event.target.value
-      },
-      touched: {
-        ...formState.touched,
-        [event.target.name]: true
-      }
-    }));
-  };
 
   useEffect(() => {
     setCheckedRadio(default_bet_scale);
@@ -141,7 +127,6 @@ export default function TableBetScaleView({ dataDetail, setFormState, default_be
                       value={row.bet_scale}
                       checked={checkedRadio === String(row.bet_scale) ? true : false}
                       name="default_bet_scale"
-                      onChange={handleChange}
                   />
                 </TableCell>
               </TableRow>
