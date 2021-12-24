@@ -67,11 +67,12 @@ const Group_BrandList = () => {
 
         if (roleUser.account_type === 'operator' || roleUser.account_type === 'operatorsub' || roleUser.account_type === ' brand' || roleUser.account_type === 'brandsub') {
           link = cell;
-
         } else {
           if (arrPermissionOperator?.full) {
             link = (<Link href={`/operator/list/${row.account_id}/edit`}>{cell}</Link>);
           } else if (arrPermissionOperator?.view || arrPermissionOperator?.create) {
+            link = (<Link href={`/operator/list/${row.account_id}/view`}>{cell}</Link>);
+          } else if (arrPermissionOperator?.none) {
             link = cell;
           } else {
             link = (<Link href={`/operator/list/${row.account_id}/edit`}>{cell}</Link>);
