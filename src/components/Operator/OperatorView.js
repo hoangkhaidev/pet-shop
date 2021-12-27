@@ -12,6 +12,7 @@ import ButtonGroup, {
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -49,6 +50,7 @@ const OperatorView = () => {
   const classes = useStyles();
   const router = useRouter();
   const navigate = useNavigate();
+  const parentParam = useSelector((state) => state.parentParam.parentParam);
 
   const { dataResponse, isLoading, isHasPermission } = useFetchData(
     `/api/operators/${router.query?.id}`,
@@ -69,7 +71,7 @@ const OperatorView = () => {
   }, [router]);
 
   const onCancel = () => {
-    navigate('/operator/list');
+    navigate(parentParam);
   }
 
   if (!isHasPermission) {

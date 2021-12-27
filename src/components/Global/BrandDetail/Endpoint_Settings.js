@@ -158,6 +158,9 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
           onClose: navigate('/global/group_brand'),
         });
       } else {
+        if (response?.err === 'err:no_permission') {
+          toast.warn(t('no_permission'));
+        }
         if (response?.err === 'err:brand_not_found') {
           toast.warn(t('brand_not_found'));
         }

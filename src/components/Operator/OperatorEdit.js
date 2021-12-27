@@ -93,6 +93,7 @@ const OperatorEdit = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const navigate = useNavigate();
+  const parentParam = useSelector((state) => state.parentParam.parentParam);
   ///handle permission
   const roleUser = useSelector((state) => state.roleUser);
   const permission_groups = useSelector((state) => state.roleUser.permission_groups);
@@ -408,7 +409,7 @@ const OperatorEdit = () => {
   };
 
   const onCancel = () => {
-    navigate('/operator/list');
+    navigate(parentParam);
   }
 
   const hasError = (field) => productCommission.touched[field] && productCommission.errors[field] ? true : false;

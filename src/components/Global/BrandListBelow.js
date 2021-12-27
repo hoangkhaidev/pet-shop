@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable arrow-body-style */
 import { useState, useEffect } from "react";
 import TableComponent from "../shared/TableComponent/TableComponent";

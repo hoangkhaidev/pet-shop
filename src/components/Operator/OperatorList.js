@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, lazy } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import get from 'lodash/get';
@@ -13,8 +14,9 @@ import useRouter from 'src/utils/hooks/useRouter';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core';
 import moment from 'moment';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router';
+import { setParentParam } from 'src/features/parentParam/parentParam';
 
 const ChangePasswordForm = lazy(() =>
   import('src/components/Modal/ChangePasswordForm')
@@ -150,6 +152,7 @@ const OperatorList = () => {
   const router = useRouter();
   const classes = useStyles();
   const [data, setData] = useState([]);
+  const dispatch = useDispatch();
   ///handle permission
   const permission_groups = useSelector((state) => state.roleUser.permission_groups);
   let arrPermissionOperator = {};
@@ -199,6 +202,10 @@ const OperatorList = () => {
       page_size: 30,
     });
   };
+
+  useEffect(() => {
+    dispatch(setParentParam(`${router.location.pathname}${router.location.search}`));
+  }, [router]);
 
   const columns = [
     {

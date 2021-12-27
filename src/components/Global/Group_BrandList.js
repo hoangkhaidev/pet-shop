@@ -11,12 +11,14 @@ import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
 import Group_BrandFilter from './Group_BrandFilter';
 import cloneDeep from 'lodash.clonedeep';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router';
+import { setParentParam } from 'src/features/parentParam/parentParam';
 
 const Group_BrandList = () => {
   const router = useRouter();
   const [data, setData] = useState([]);
+  const dispatch = useDispatch();
   const [objFilter , setObjFilter] = useState({
     key_search: ""
   });
@@ -52,6 +54,10 @@ const Group_BrandList = () => {
     let mapData = cloneDeep(dataResponse);
     setData(mapData);
   }, [dataResponse]);
+
+  useEffect(() => {
+    dispatch(setParentParam(`${router.location.pathname}${router.location.search}`));
+  }, [router]);
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
