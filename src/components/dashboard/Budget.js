@@ -1,5 +1,5 @@
 import {
-  Card, CardContent, makeStyles,
+  Card, CardContent, Grid, makeStyles,
 } from '@material-ui/core';
 
 import React from 'react';
@@ -13,6 +13,11 @@ const useStyles = makeStyles((theme) => ({
     width: '50%',
     textAlign: 'center',
     paddingTop: '10px',
+  },
+  itemTitle: {
+    fontSize: '20px',
+    display: 'flex',
+    justifyContent: 'center',
   }
 }));
 
@@ -85,16 +90,19 @@ const Budget = (props) => {
               Welcome to Dashboard
           </Grid> */}
         </CardContent>
-        <div style={{display: 'flex'}}> 
-          <div className={classes.itemChart} >
-            <span style={{ fontSize: '20px' }}>BET / WIN by Month</span>
+        {/* <div style={{display: 'flex'}}>  */}
+        <Grid container spacing={2} style={{paddingTop: '20px'}}>
+          <Grid item xs={12} xl={6} md={6}>
+            <span className={classes.itemTitle}>BET / WIN by Month</span>
             <Bar options={options} data={data}/>
-          </div> 
-          <div className={classes.itemChart} >
-            <span style={{ fontSize: '20px' }}>% BET / GGR increase by Month</span>
+          </Grid>
+          <Grid item xs={12} xl={6} md={6}>
+            <span className={classes.itemTitle}>% BET / GGR increase by Month</span>
             <Line options={options} data={dataLine} />
-          </div>
-        </div>
+          </Grid>
+        </Grid>
+
+        {/* </div> */}
       </Card>
     </>
   );

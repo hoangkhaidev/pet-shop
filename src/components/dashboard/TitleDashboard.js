@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
 function TitleDashboard() {
   const classes = useStyles();
   return (
-    <Grid container spacing={2} style={{paddingBottom: '20px'}}>
+    <Grid container spacing={2} >
         <Grid item xs={6} xl={3} md={3}>
           <div className={classes.divContainer}>
             <div className={classes.divItem}>
