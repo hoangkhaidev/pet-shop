@@ -345,13 +345,7 @@ const PlayersBusinessSummaryFilter = ({
                   </div>
                 </div>
               </RadioGroup>
-              {/* <RadioGroup aria-label="gender" name="search_by_option" value={radioSearchBy} onChange={handleChangeSearchBy}>
-                <div style={{ display: 'grid', paddingLeft: '30px' }}>
-                  <FormControlLabel value="<" control={<Radio />} label="Less than" />
-                  <FormControlLabel value=">" control={<Radio />} label="More or equal" />
-                </div>
-              </RadioGroup> */}
-              <FormControl style={{width: '100%', margin: '45px 0',}} ></FormControl>
+              <FormControl style={{width: '100%', margin: '45.5px 0',}} ></FormControl>
               <InputNumberValue
                 control={control}
                 namefileld="to_value"
