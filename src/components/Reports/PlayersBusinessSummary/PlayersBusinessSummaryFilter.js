@@ -257,7 +257,7 @@ const PlayersBusinessSummaryFilter = ({
       <ContentCardPage>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
-            <Grid className={classes.dateRangeInput} item xs={12} xl={3} md={3}>
+            <Grid className={classes.dateRangeInput} item xs={12} xl={4} md={4}>
               <FormControl style={{ width: '100%' }}>
                 <FormLabel style={{ paddingTop: '24px' }}>
                 </FormLabel>
@@ -272,20 +272,6 @@ const PlayersBusinessSummaryFilter = ({
                   format="DD/MM/YYYY"
                 />
               </FormControl>
-              <RadioGroup aria-label="gender" name="option" value={radio} onChange={handleChange}>
-                <div style={{ display: 'flex', paddingTop: '25px', paddingLeft: '15px' }}>
-                  <div>
-                    <FormControlLabel value="day" control={<Radio />} label="Total by Day" />
-                    <FormControlLabel value="month" control={<Radio />} label="Total by Month" />
-                  </div>
-                  <div>
-                    <FormControlLabel value="week" control={<Radio />} label="Total by Week" />
-                    <FormControlLabel value="year" control={<Radio />} label="Total by Year" />
-                  </div>
-                </div>
-              </RadioGroup>
-            </Grid>
-            <Grid item xs={12} xl={3} md={3}>
               <InputNumber
                 namefileld="player_id"
                 label="Player ID"
@@ -310,9 +296,17 @@ const PlayersBusinessSummaryFilter = ({
                 label={'Search by'} 
                 id={'search_by'}
               />
-             
             </Grid>
-            <Grid item xs={12} xl={3} md={3}>
+            <Grid item xs={12} xl={4} md={4}>
+              <SelectFieldMutiple
+                selectDisabled= {roleUser.account_type === 'brand' ? true : false}
+                options={brandData} 
+                label={'Brand'} 
+                id={'brand_ids'}
+                setBrandMultiple={setBrandMultiple}
+                brandMultiple={brandMultiple}
+                defaultValue={'all'}
+              />
               <InputField
                 control={control}
                 namefileld="nick_name"
@@ -329,12 +323,6 @@ const PlayersBusinessSummaryFilter = ({
                 fullWidth={false}
                 options={gameNameData}
               />
-              {/* <RadioGroup aria-label="gender" name="search_by_option" value={radioSearchBy} onChange={handleChangeSearchBy}>
-                <div style={{ display: 'grid', paddingLeft: '30px' }}>
-                  <FormControlLabel value="<" control={<Radio />} label="Less than" />
-                  <FormControlLabel value=">" control={<Radio />} label="More or equal" />
-                </div>
-              </RadioGroup> */}
               <InputNumberValue
                 control={control}
                 namefileld="from_value"
@@ -343,19 +331,27 @@ const PlayersBusinessSummaryFilter = ({
                 disabled={searchBy !== '' ? false : true}
                 fullWidth={false}
               />
-              
             </Grid>
-            <Grid item xs={12} xl={3} md={3}>
-              <SelectFieldMutiple
-                selectDisabled= {roleUser.account_type === 'brand' ? true : false}
-                options={brandData} 
-                label={'Brand'} 
-                id={'brand_ids'}
-                setBrandMultiple={setBrandMultiple}
-                brandMultiple={brandMultiple}
-                defaultValue={'all'}
-              />
-              <FormControl style={{width: '100%', margin: '36px 0',}} ></FormControl>
+            <Grid item xs={12} xl={4} md={4}>
+              <RadioGroup aria-label="gender" name="option" value={radio} onChange={handleChange}>
+                <div style={{ display: 'flex', paddingTop: '25px', paddingLeft: '15px' }}>
+                  <div>
+                    <FormControlLabel value="day" control={<Radio />} label="Total by Day" />
+                    <FormControlLabel value="month" control={<Radio />} label="Total by Month" />
+                  </div>
+                  <div>
+                    <FormControlLabel value="week" control={<Radio />} label="Total by Week" />
+                    <FormControlLabel value="year" control={<Radio />} label="Total by Year" />
+                  </div>
+                </div>
+              </RadioGroup>
+              {/* <RadioGroup aria-label="gender" name="search_by_option" value={radioSearchBy} onChange={handleChangeSearchBy}>
+                <div style={{ display: 'grid', paddingLeft: '30px' }}>
+                  <FormControlLabel value="<" control={<Radio />} label="Less than" />
+                  <FormControlLabel value=">" control={<Radio />} label="More or equal" />
+                </div>
+              </RadioGroup> */}
+              <FormControl style={{width: '100%', margin: '45px 0',}} ></FormControl>
               <InputNumberValue
                 control={control}
                 namefileld="to_value"
@@ -364,10 +360,11 @@ const PlayersBusinessSummaryFilter = ({
                 disabled={searchBy !== '' ? false : true}
                 fullWidth={false}
               />
+              
             </Grid>
           </Grid>
           <Grid container spacing={2}>
-            <Grid item xs={12} xl={3} md={3}>
+            <Grid item xs={12} xl={4} md={4}>
               <SelectField
                 control={control}
                 namefileld="sort_field"
@@ -441,12 +438,12 @@ const PlayersBusinessSummaryFilter = ({
                 defaultValue="period"
               />
             </Grid>
-            <Grid item xs={12} xl={3} md={3}>
+            <Grid item xs={12} xl={4} md={4}>
               <SelectField
                 control={control}
                 namefileld="sort_order"
                 id="sort_order"
-                label="Sort order"
+                label="Order by"
                 options={SORT_ODER}
                 fullWidth={false}
                 defaultValue="desc"

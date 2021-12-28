@@ -1,10 +1,11 @@
 import {
-  Card, CardContent, Grid,
+  Card, CardContent,
 } from '@material-ui/core';
 
 import React from 'react';
-import { Bar, Pie } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import faker from 'faker';
+import TitleDashboard from './TitleDashboard';
 
 // ChartJS.register({
 //   CategoryScale,
@@ -81,25 +82,30 @@ const config = {
 const Budget = (props) => {
   
   return (
-    <Card
-      sx={{ height: '100%' }}
-      {...props}
-    >
-      <CardContent sx={{background: '#7c85ca',padding: '0 !important'}}>
-        <Grid
-          container
-          sx={{ justifyContent: 'center', padding: '0.8rem', alignItems: 'center', background: '#7c85ca', color: '#fff', fontSize: '26px' }}
-        >
-            Welcome to Dashboard
-        </Grid>
-      </CardContent>
-      <div> 
-        <Bar options={options} data={data} config={config}/>
-      </div>
-      <div>
-        <Pie data={dataPie} />
-      </div>
-    </Card>
+    <>
+      <TitleDashboard />
+      <Card
+        sx={{ height: '100%' }}
+        {...props}
+      >
+        <CardContent sx={{padding: '0 !important'}}>
+          {/* <Grid
+            container
+            sx={{ justifyContent: 'center', padding: '0.8rem', alignItems: 'center', background: '#7c85ca', color: '#fff', fontSize: '26px' }}
+          >
+              Welcome to Dashboard
+          </Grid> */}
+        </CardContent>
+        <div style={{display: 'flex'}}> 
+          <div style={{width: '50%'}}>
+            <Bar options={options} data={data} config={config}/>
+          </div> 
+          <div style={{width: '50%'}}>
+            <Bar options={options} data={data} config={config}/>
+          </div>
+        </div>
+      </Card>
+    </>
   );
 }
 
