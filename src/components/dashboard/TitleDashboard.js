@@ -10,7 +10,7 @@ import { faWindowRestore } from '@fortawesome/free-solid-svg-icons';
 // Data
 const useStyles = makeStyles((theme) => ({
   divContainer: {
-    height: '135px',
+    // height: '135px',
     background: '#fff',
     borderRadius: '15px',
     padding: '0 20px',
