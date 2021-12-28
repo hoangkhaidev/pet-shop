@@ -9,7 +9,7 @@ import isEmpty from 'lodash/isEmpty';
 
 const useStyles = makeStyles(() => ({
   inputField: {
-    margin: '16px 0',
+    // margin: '16px 0',
   },
   formControl: {
     width: '100%',

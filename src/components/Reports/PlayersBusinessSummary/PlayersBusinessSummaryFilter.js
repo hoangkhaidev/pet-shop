@@ -323,14 +323,25 @@ const PlayersBusinessSummaryFilter = ({
                 fullWidth={false}
                 options={gameNameData}
               />
-              <InputNumberValue
-                control={control}
-                namefileld="from_value"
-                label="Form"
-                id="from_value"
-                disabled={searchBy !== '' ? false : true}
-                fullWidth={false}
-              />
+              <div style={{display: 'flex'}}>
+                <InputNumberValue
+                  control={control}
+                  namefileld="from_value"
+                  label="Form"
+                  id="from_value"
+                  disabled={searchBy !== '' ? false : true}
+                  fullWidth={false}
+                />
+                <div style={{width: '5px'}}></div>
+                <InputNumberValue
+                  control={control}
+                  namefileld="to_value"
+                  label="To"
+                  id="to_value"
+                  disabled={searchBy !== '' ? false : true}
+                  fullWidth={false}
+                />
+              </div>
             </Grid>
             <Grid item xs={12} xl={4} md={4}>
               <RadioGroup aria-label="gender" name="option" value={radio} onChange={handleChange}>
@@ -345,16 +356,6 @@ const PlayersBusinessSummaryFilter = ({
                   </div>
                 </div>
               </RadioGroup>
-              <FormControl style={{width: '100%', margin: '45.5px 0',}} ></FormControl>
-              <InputNumberValue
-                control={control}
-                namefileld="to_value"
-                label="To"
-                id="to_value"
-                disabled={searchBy !== '' ? false : true}
-                fullWidth={false}
-              />
-              
             </Grid>
           </Grid>
           <Grid container spacing={2}>
