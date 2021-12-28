@@ -1,20 +1,20 @@
 import {
-  Card, CardContent,
+  Card, CardContent, makeStyles,
 } from '@material-ui/core';
 
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Line } from 'react-chartjs-2';
 import faker from 'faker';
 import TitleDashboard from './TitleDashboard';
 
-// ChartJS.register({
-//   CategoryScale,
-//   LinearScale,
-//   BarElement,
-//   Title,
-//   Tooltip,
-//   Legend
-// });
+const useStyles = makeStyles((theme) => ({
+  
+  itemChart: {
+    width: '50%',
+    textAlign: 'center',
+    paddingTop: '10px',
+  }
+}));
 
 export const options = {
   responsive: true,
@@ -24,12 +24,13 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Chart.js Bar Chart',
+      text: 'Chart.js Line Chart',
     },
   },
 };
+// 'January', 'February', 'March', 'April', 'May', 'June', 
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const labels = ['July', 'August', 'September', 'October', 'November', 'December'];
 export const data = {
   labels,
   datasets: [
@@ -45,42 +46,30 @@ export const data = {
     },
   ],
 };
-
-export const dataPie = {
-  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+export const dataLine = {
+  labels,
   datasets: [
     {
-      label: '# of Votes',
-      data: [30, 20, 15, 15, 12, 8],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-      ],
-      borderWidth: 1,
+      label: 'GGR increase',
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
+      borderColor: 'rgb(255, 99, 132)',
+      fill: false,
+      tension: 0.1
+      // backgroundColor: 'rgba(255, 99, 132, 0.5)',
+    },
+    {
+      label: 'BET increase',
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
+      borderColor: 'rgb(53, 162, 235)',
+      fill: false,
+      tension: 0.1
+      // backgroundColor: 'rgba(53, 162, 235, 0.5)',
     },
   ],
 };
 
-const config = {
-  type: 'line',
-  data: data,
-  options: {}
-};
-
 const Budget = (props) => {
-  
+  const classes = useStyles();
   return (
     <>
       <TitleDashboard />
@@ -97,11 +86,13 @@ const Budget = (props) => {
           </Grid> */}
         </CardContent>
         <div style={{display: 'flex'}}> 
-          <div style={{width: '50%'}}>
-            <Bar options={options} data={data} config={config}/>
+          <div className={classes.itemChart} >
+            <span style={{ fontSize: '20px' }}>BET / WIN by Month</span>
+            <Bar options={options} data={data}/>
           </div> 
-          <div style={{width: '50%'}}>
-            <Bar options={options} data={data} config={config}/>
+          <div className={classes.itemChart} >
+            <span style={{ fontSize: '20px' }}>% BET / GGR increase by Month</span>
+            <Line options={options} data={dataLine} />
           </div>
         </div>
       </Card>
