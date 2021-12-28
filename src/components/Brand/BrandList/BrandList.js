@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, lazy } from 'react';
+import { useState, useEffect, lazy, Fragment } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import get from 'lodash/get';
 import Link from '@material-ui/core/Link';
@@ -259,15 +259,26 @@ const BrandList = () => {
       data_field: 'username',
       column_name: 'Username',
       align: 'left',
-      formatter: (cell, row) => 
-        arrPermissionBrand[0]?.full ? (
-          <Link href={`/brand/list/${row.id}/edit`}>{cell}</Link>
-        ) : 
-        arrPermissionBrand[0]?.view || arrPermissionBrand[0]?.create ? (
-          <Link href={`/brand/list/${row.id}/view`}>{cell}</Link>
-        ) : (
-          <Link href={`/brand/list/${row.id}/edit`}>{cell}</Link>
-        )
+      formatter: (cell, row) => {
+        let checkInactive = false;
+        row.statuses?.map((item) => {
+          if (item.status === 'inactive') {
+            checkInactive = true;
+          }
+          return item.status;
+        });
+        if (!checkInactive) {
+          if (arrPermissionBrand[0]?.full) {
+            return <Link href={`/brand/list/${row.id}/edit`}>{cell}</Link>;
+          } else if (arrPermissionBrand[0]?.view || arrPermissionBrand[0]?.create) {
+            return <Link href={`/brand/list/${row.id}/view`}>{cell}</Link>;
+          } else {
+            return <Link href={`/brand/list/${row.id}/edit`}>{cell}</Link>;
+          }
+        } else {
+          return cell;
+        }
+      }
     },
     {
       data_field: 'brand_name',
@@ -420,7 +431,6 @@ const BrandList = () => {
             <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
               {
                 arrPermissionBrand[0]?.create ? '' : (
-                  <>
                     <ChangeStatus
                       setRefreshData={setRefreshData}
                       newlabel={newlabel}
@@ -430,11 +440,14 @@ const BrandList = () => {
                       username={row.username}
                       statuses={row.statuses}
                     />
-                    <ChangePasswordForm
-                      linkApi={`/api/brand/${row.account_id}/update_password`}
-                      username={row.username}
-                    />
-                  </>
+                )
+              }
+              {
+                arrPermissionBrand[0]?.create ? '' : (
+                  <ChangePasswordForm
+                    linkApi={`/api/brand/${row.account_id}/update_password`}
+                    username={row.username}
+                  />
                 )
               }
               {

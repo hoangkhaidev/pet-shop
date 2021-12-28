@@ -212,15 +212,26 @@ const OperatorList = () => {
       data_field: 'username',
       column_name: 'Username',
       align: 'left',
-      formatter: (cell, row) => 
-        arrPermissionOperator[0]?.full ? (
-          <Link href={`/operator/list/${row.id}/edit`}>{cell}</Link>
-        ) : 
-        arrPermissionOperator[0]?.view || arrPermissionOperator[0]?.create ? (
-          <Link href={`/operator/list/${row.id}/view`}>{cell}</Link>
-        ) : (
-          <Link href={`/operator/list/${row.id}/edit`}>{cell}</Link>
-        )
+      formatter: (cell, row) => {
+        let checkInactive = false;
+        row.statuses?.map((item) => {
+          if (item.status === 'inactive') {
+            checkInactive = true;
+          }
+          return item.status;
+        });
+        if (!checkInactive) {
+          if (arrPermissionOperator[0]?.full) {
+            return <Link href={`/brand/list/${row.id}/edit`}>{cell}</Link>;
+          } else if (arrPermissionOperator[0]?.view || arrPermissionOperator[0]?.create) {
+            return <Link href={`/brand/list/${row.id}/view`}>{cell}</Link>;
+          } else {
+            return <Link href={`/brand/list/${row.id}/edit`}>{cell}</Link>;
+          }
+        } else {
+          return cell;
+        }
+      }
     },
     {
       data_field: 'operator_name',
@@ -385,7 +396,6 @@ const OperatorList = () => {
             <ButtonGroup className={classes.root} style={{alignItems: 'center'}}>
               {
                 arrPermissionOperator[0]?.create ? '' : (
-                  <>
                     <ChangeStatus
                       setRefreshData={setRefreshData}
                       newlabel={newlabel}
@@ -395,12 +405,15 @@ const OperatorList = () => {
                       username={row.username}
                       statuses={row.statuses}
                     />
-                    <ChangePasswordForm
+                )
+              }
+              {
+                arrPermissionOperator[0]?.create ? '' : (
+                  <ChangePasswordForm
                       linkApi={`/api/operators/${row.id}/update_password`}
                       username={row.username}
                       title="Change password"
-                    />
-                  </>
+                  />
                 )
               }
               {
