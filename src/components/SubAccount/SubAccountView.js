@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import ButtonGroup, {
   ResetButton,
@@ -13,6 +13,7 @@ import useRouter from 'src/utils/hooks/useRouter';
 import { useEffect, useState } from 'react';
 import Loading from '../shared/Loading/Loading';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
+import { clearPage, setPageName } from 'src/features/parentParam/parentParam';
 
 const useStyles = makeStyles(() => ({
   formStyle: {
@@ -51,6 +52,7 @@ const SubAccountView = () => {
   const router = useRouter();
   const classes = useStyles();
   const roleUser = useSelector((state) => state.roleUser);
+  const dispatch = useDispatch();
 
   const { dataResponse, isLoading, isHasPermission  } = useFetchData(`/api/subs/${router.query?.id}`);
   const [data, setData] = useState(null);
@@ -61,6 +63,13 @@ const SubAccountView = () => {
       document.title = '';
     }
   }, [router]);
+
+  useEffect(() => {
+    dispatch(setPageName("sub_view"));
+    return () => {
+      dispatch(clearPage());
+    }
+  }, []);
 
   useEffect(() => {
     setData(dataResponse);

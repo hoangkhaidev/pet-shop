@@ -1,16 +1,15 @@
 import { Grid, makeStyles } from "@material-ui/core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faUsersCog } from '@fortawesome/free-solid-svg-icons';
 import { faUsers } from '@fortawesome/free-solid-svg-icons';
 import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 import { faTrophy } from '@fortawesome/free-solid-svg-icons';
 import { faGamepad } from '@fortawesome/free-solid-svg-icons';
 import { faCrown } from '@fortawesome/free-solid-svg-icons';
-import { faWindowRestore } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 // Data
 const useStyles = makeStyles((theme) => ({
   divContainer: {
-    // height: '135px',
     background: '#fff',
     borderRadius: '15px',
     padding: '0 20px',
@@ -69,8 +68,8 @@ function TitleDashboard() {
             <div className={classes.divItem}>
               <div className={classes.boxImage} style={{background: '#37373d'}}>
                 <FontAwesomeIcon 
-                  style={{width: '23px', height: '23px'}}
-                  icon={faUserCircle} 
+                  style={{width: '30px', height: '30px'}}
+                  icon={faUsersCog} 
                   color={'#fff'} 
                   title={'Change status'} 
                 />
@@ -99,7 +98,7 @@ function TitleDashboard() {
                 <FontAwesomeIcon 
                   icon={faUsers} 
                   color={'#fff'} 
-                  style={{width: '23px', height: '23px'}}
+                  style={{width: '30px', height: '30px'}}
                   title={'Change status'} 
                 />
               </div>
@@ -127,7 +126,7 @@ function TitleDashboard() {
                 <FontAwesomeIcon 
                   icon={faExchangeAlt} 
                   color={'#fff'} 
-                  style={{width: '23px', height: '23px'}}
+                  style={{width: '30px', height: '30px'}}
                   title={'Change status'} 
                 />
               </div>
@@ -155,7 +154,7 @@ function TitleDashboard() {
                 <FontAwesomeIcon 
                   icon={faGamepad} 
                   color={'#fff'} 
-                  style={{width: '23px', height: '23px'}}
+                  style={{width: '30px', height: '30px'}}
                   title={'Change status'} 
                 />
               </div>
@@ -181,9 +180,9 @@ function TitleDashboard() {
             <div className={classes.divItem}>
               <div className={classes.boxImage} style={{background: '#37373d'}}>
                 <FontAwesomeIcon 
-                  icon={faWindowRestore} 
+                  icon={faHeart} 
                   color={'#fff'} 
-                  style={{width: '23px', height: '23px'}}
+                  style={{width: '30px', height: '30px'}}
                   title={'Change status'} 
                 />
               </div>
@@ -211,7 +210,7 @@ function TitleDashboard() {
                 <FontAwesomeIcon 
                   icon={faCrown} 
                   color={'#fff'} 
-                  style={{width: '23px', height: '23px'}}
+                  style={{width: '30px', height: '30px'}}
                   title={'Change status'} 
                 />
               </div>
@@ -239,7 +238,7 @@ function TitleDashboard() {
                 <FontAwesomeIcon 
                   icon={faTrophy} 
                   color={'#fff'} 
-                  style={{width: '23px', height: '23px'}}
+                  style={{width: '30px', height: '30px'}}
                   title={'Change status'} 
                 />
               </div>
@@ -260,34 +259,6 @@ function TitleDashboard() {
             </div>
           </div>
         </Grid>
-        {/* <Grid item xs={6} xl={3} md={3}>
-          <div className={classes.divContainer}>
-            <div className={classes.divItem}>
-              <div className={classes.boxImage} style={{background: '#e3306e'}}>
-                <FontAwesomeIcon 
-                  icon={faUserPlus} 
-                  color={'#fff'} 
-                  style={{width: '23px', height: '23px'}}
-                  title={'Change status'} 
-                />
-              </div>
-              <div></div>
-              <div style={{textAlign: 'right'}}>
-                <span className={classes.title1}>Games</span>
-                <div className={classes.totalTitle}>
-                  281
-                </div>
-              </div>
-            </div>
-            <div className={classes.divLine}></div>
-            <div className={classes.divItem}>
-              <div>
-                <span className={classes.titleNum}>+55%</span>
-                <span className={classes.title2}> than lask week</span>
-              </div>
-            </div>
-          </div>
-        </Grid> */}
     </Grid>
   );
 }

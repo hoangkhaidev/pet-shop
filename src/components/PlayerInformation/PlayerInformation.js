@@ -1,10 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, makeStyles, Typography } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ContentCardPage from "src/components/ContentCardPage/ContentCardPage";
 import { Navigate, useNavigate } from "react-router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { clearPage, setPageName } from "src/features/parentParam/parentParam";
 
 const useStyles = makeStyles(() => ({
   playerInfoName: {
@@ -49,6 +51,7 @@ const useStyles = makeStyles(() => ({
 
 const PlayerInformation = ({ data }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   ///handle permission
   const permission_groups = useSelector((state) => state.roleUser.permission_groups);
   let arrPermissionPlayers = {};
@@ -71,6 +74,13 @@ const PlayerInformation = ({ data }) => {
     document.title = 'Player Information';
     return () => {
       document.title = '';
+    }
+  }, []);
+
+  useEffect(() => {
+    dispatch(setPageName("player_info"));
+    return () => {
+      dispatch(clearPage());
     }
   }, []);
 

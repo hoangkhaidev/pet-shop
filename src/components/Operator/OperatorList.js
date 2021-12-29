@@ -222,11 +222,11 @@ const OperatorList = () => {
         });
         if (!checkInactive) {
           if (arrPermissionOperator[0]?.full) {
-            return <Link href={`/brand/list/${row.id}/edit`}>{cell}</Link>;
+            return <Link href={`/operator/list/${row.id}/edit`}>{cell}</Link>;
           } else if (arrPermissionOperator[0]?.view || arrPermissionOperator[0]?.create) {
-            return <Link href={`/brand/list/${row.id}/view`}>{cell}</Link>;
+            return <Link href={`/operator/list/${row.id}/view`}>{cell}</Link>;
           } else {
-            return <Link href={`/brand/list/${row.id}/edit`}>{cell}</Link>;
+            return <Link href={`/operator/list/${row.id}/edit`}>{cell}</Link>;
           }
         } else {
           return cell;

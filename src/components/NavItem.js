@@ -13,6 +13,7 @@ import {
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useRouter from "src/utils/hooks/useRouter";
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   nested: {
@@ -41,7 +42,7 @@ const NavItem = ({
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-
+  const pageName = useSelector(state => state.parentParam.pageName);
   const onOpenCollapseMenu = () => {
     setIsOpen((open) => !open);
   };
@@ -106,7 +107,47 @@ const NavItem = ({
                     </ListItem>
                   )
                 }
-               
+                let activePage2 = router.pathname;
+                if (activePage2 === '/role/add') {
+                  activePage2 = '/role';
+                }
+                if (pageName === 'role_edit') {
+                  activePage2 = '/role';
+                }
+                if (activePage2 === '/sub/create') {
+                  activePage2 = '/sub/list';
+                }
+                if (pageName === 'sub_view') {
+                  activePage2 = '/sub/list';
+                }
+                if (pageName === 'sub_edit') {
+                  activePage2 = '/sub/list';
+                }
+                if (pageName === 'player_summary') {
+                  activePage2 = '/reports/business_summary';
+                }
+                if (pageName === 'game_details') {
+                  activePage2 = '/configuration/games';
+                }
+                if (pageName === 'player_info') {
+                  activePage2 = '/players/players';
+                }
+                if (pageName === 'brand_edit') {
+                  activePage2 = '/brand/list';
+                }
+                if (pageName === 'brand_view') {
+                  activePage2 = '/brand/list';
+                }
+                if (pageName === 'operator_edit') {
+                  activePage2 = '/operator/list';
+                }
+                if (pageName === 'operator_view') {
+                  activePage2 = '/operator/list';
+                }
+                if (pageName === 'operator_view') {
+                  activePage2 = '/operator/list';
+                }
+                
                 return (
                   <ListItem
                     button
@@ -116,7 +157,7 @@ const NavItem = ({
                     className={classes.nested}
                     sx={{
                       py: 2,
-                      color: sub?.url === router.pathname ? 'text.active' : 'text.secondary',
+                      color: sub?.url === activePage2 ? 'text.active' : 'text.secondary',
                     }}
                   >
                     {sub.name}

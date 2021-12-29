@@ -41,7 +41,8 @@ import { useNavigate } from 'react-router-dom';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ProductCommission from '../Operator/ProductCommission';
 import { validate } from 'validate.js';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearPage, setPageName } from 'src/features/parentParam/parentParam';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,6 +76,7 @@ const useStyles = makeStyles((theme) => ({
 
 const BrandView = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const classes = useStyles();
   const navigate = useNavigate();
   const roleUser = useSelector((state) => state.roleUser);
@@ -96,6 +98,13 @@ const BrandView = () => {
       document.title = '';
     }
   }, [router]);
+
+  useEffect(() => {
+    dispatch(setPageName("brand_view"));
+    return () => {
+      dispatch(clearPage());
+    }
+  }, []);
 
   const onCancel = () => {
     navigate('/brand/list');

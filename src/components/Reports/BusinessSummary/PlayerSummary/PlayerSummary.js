@@ -13,7 +13,7 @@ import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
 import Loading from "src/components/shared/Loading/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { ExportExcelPlayerSummary } from "./ExportExcelPlayerSummary";
-import { clearPage, setPage, setParentParam } from "src/features/parentParam/parentParam";
+import { clearPage, setPage, setPageName, setParentParam } from "src/features/parentParam/parentParam";
 import PlayerSummaryFilter from "./PlayerSummaryFilter";
 
 const useStyles = makeStyles((theme) => ({
@@ -143,10 +143,18 @@ const PlayerSummary = () => {
 
   useEffect(() => {
     dispatch(setPage("infoPlayer"));
+    dispatch(setPageName("player_summary"));
     return () => {
-      dispatch(clearPage('infoPlayer'));
+      dispatch(clearPage());
     }
   }, []);
+
+  useEffect(() => {
+    document.title = 'Player Summary';
+    return () => {
+      document.title = '';
+    }
+  }, [router]);
 
   useEffect(() => {
     const mapData = get(dataResponse, 'list', []);

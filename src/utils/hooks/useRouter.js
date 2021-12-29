@@ -11,7 +11,7 @@ export default function useRouter() {
   return useMemo(() => ({
     // For convenience add push(), replace(), pathname at top level
     pathname: location.pathname,
-    active_name: location.pathname,
+    active_name: location.active_name,
     // Merge params and parsed query string into single "query" object
     // so that they can be used interchangeably.
     // Example: /:topic?sort=popular -> { topic: "react", sort: "popular" }

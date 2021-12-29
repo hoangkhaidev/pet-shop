@@ -14,19 +14,15 @@ import { CurrentPageContext } from "src/App";
 import { useDispatch } from "react-redux";
 import { getUser } from "src/features/roleUser/roleUser";
 import NavItem from './NavItem';
-// import { useNavigate } from 'react-router-dom';
-// import { onLogout } from "src/features/authentication/authentication";
 import APIUtils from 'src/api/APIUtils';
 import { onLogout } from 'src/features/authentication/authentication';
 import { useNavigate } from 'react-router';
-import useRouter from 'src/utils/hooks/useRouter';
 
 const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
   const [listNav, setListNav] = useState({});
   const { currentMenu } = useContext(CurrentPageContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const router = useRouter();
 
   const onUserLogout = () => {
     dispatch((onLogout()));
@@ -44,7 +40,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
 
   useEffect(() => {
     getUserData();
-  }, [router]);
+  }, []);
 
   const getUserData = async() => {
     const response = await api.post('/api/auth', null);
@@ -59,10 +55,6 @@ const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
       }
     }
   };
-
-  useEffect(() => {
-    getUserData();
-  }, []);
 
   useEffect(() => {
     getListNav();
@@ -81,6 +73,9 @@ const DashboardSidebar = ({ onMobileClose, openMobile, openMenu }) => {
         <List>
           {(listNav?.NavItems || []).map((item) => {
             let urlActive = '/' + currentMenu?.path;
+            if (urlActive === '/undefined' || urlActive === '/role') {
+              urlActive = '/sub';
+            }
             return (
               <NavItem
                 item={item}

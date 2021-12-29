@@ -41,7 +41,8 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ProductCommission from '../Operator/ProductCommission';
 import { validate } from 'validate.js';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearPage, setPageName } from 'src/features/parentParam/parentParam';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -108,6 +109,7 @@ let schema = {};
 const BrandEdit = () => {
   const router = useRouter();
   const classes = useStyles();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const roleUser = useSelector((state) => state.roleUser);
@@ -203,6 +205,13 @@ const BrandEdit = () => {
       document.title = '';
     }
   }, [router]);
+
+  useEffect(() => {
+    dispatch(setPageName("brand_edit"));
+    return () => {
+      dispatch(clearPage());
+    }
+  }, []);
 
   useEffect(() => {
     if (data) {

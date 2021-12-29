@@ -230,7 +230,11 @@ const routes = (isLoggedIn) => [
     name: 'Role',
     element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
     children: [
-      { path: '/', fullpath: '/role', name: 'Role Management', element: <RoleList /> },
+      { 
+        path: '/', 
+        fullpath: '/role', 
+        name: 'Role Management', 
+        element: <RoleList /> },
       {
         path: '/add',
         fullpath: '/role/add',
@@ -240,6 +244,7 @@ const routes = (isLoggedIn) => [
       {
         path: '/:id/edit',
         fullpath: '/role/:id/edit',
+        active_name: '/role/edit',
         name: 'Edit Role',
         element: <RoleEdit />,
       },

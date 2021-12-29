@@ -32,7 +32,8 @@ import api from 'src/utils/api';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ProductCommission from './ProductCommission';
 import { validate } from 'validate.js';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearPage, setPageName } from 'src/features/parentParam/parentParam';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -93,6 +94,7 @@ const OperatorEdit = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const parentParam = useSelector((state) => state.parentParam.parentParam);
   ///handle permission
   const roleUser = useSelector((state) => state.roleUser);
@@ -257,6 +259,13 @@ const OperatorEdit = () => {
       document.title = '';
     }
   }, [router]);
+
+  useEffect(() => {
+    dispatch(setPageName("operator_edit"));
+    return () => {
+      dispatch(clearPage());
+    }
+  }, []);
 
   const onSubmit = async (dataForm) => {
     if (productCommission.isValid === true) {

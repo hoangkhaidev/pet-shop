@@ -18,6 +18,8 @@ import ResetConfirm from './ResetConfirm';
 import { toast } from 'react-toastify';
 import NoPermissionPage from 'src/components/NoPermissionPage/NoPermissionPage';
 import { useTranslation } from 'react-i18next';
+import { clearPage, setPageName } from 'src/features/parentParam/parentParam';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles(() => ({
   playerInfoName: {
@@ -73,6 +75,7 @@ const GamesConfigDetails = () => {
   const navigate = useNavigate();
   const router = useRouter();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const [objFilter, setObjFilter] = useState({
     brand_id: Number(router.query.brand_id),
@@ -97,6 +100,13 @@ const GamesConfigDetails = () => {
       }
     }
   };
+
+  useEffect(() => {
+    dispatch(setPageName("game_details"));
+    return () => {
+      dispatch(clearPage());
+    }
+  }, []);
 
   useEffect(() => {
     document.title = 'Game Details';

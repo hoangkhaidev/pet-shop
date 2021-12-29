@@ -12,7 +12,8 @@ import ButtonGroup, {
 import useFetchData from 'src/utils/hooks/useFetchData';
 import useRouter from 'src/utils/hooks/useRouter';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearPage, setPageName } from 'src/features/parentParam/parentParam';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -50,6 +51,7 @@ const OperatorView = () => {
   const classes = useStyles();
   const router = useRouter();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const parentParam = useSelector((state) => state.parentParam.parentParam);
 
   const { dataResponse, isLoading, isHasPermission } = useFetchData(
@@ -69,6 +71,13 @@ const OperatorView = () => {
       document.title = '';
     }
   }, [router]);
+
+  useEffect(() => {
+    dispatch(setPageName("operator_view"));
+    return () => {
+      dispatch(clearPage());
+    }
+  }, []);
 
   const onCancel = () => {
     navigate(parentParam);

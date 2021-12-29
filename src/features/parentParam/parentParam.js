@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   parentParam: '',
   page: '',
+  pageName: '',
 };
 
 export const parentParamSlice = createSlice({
@@ -19,12 +20,16 @@ export const parentParamSlice = createSlice({
     setPage: (state, action) => {
       state.page = action.payload;
     },
+    setPageName: (state, action) => {
+      state.pageName = action.payload;
+    },
     clearPage: (state, action) => {
       state.page = '';
+      state.pageName = '';
     }
   }
 });
 
-export const { setParentParam, clearParentParam, setPage, clearPage } = parentParamSlice.actions;
+export const { setParentParam, clearParentParam, setPage, clearPage, setPageName } = parentParamSlice.actions;
 
 export default parentParamSlice.reducer;

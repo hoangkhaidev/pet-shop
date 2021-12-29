@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-param-reassign */
 import { useState, useEffect } from "react";
 import { useForm } from 'react-hook-form';
@@ -31,6 +32,8 @@ import useFetchData from "src/utils/hooks/useFetchData";
 import useRouter from "src/utils/hooks/useRouter";
 import api from "src/utils/api";
 import { LIST_PERMISSIONS } from "src/constants";
+import { clearPage, setPageName } from "src/features/parentParam/parentParam";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   formStyle: {
@@ -57,6 +60,7 @@ const RoleEdit = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [headerPermission, setHeaderPermission] = useState([]);
   const [permissionGroup, setPermissionGroup] = useState([]);
   const [selectedColumn, setSelectedColumn] = useState(null);
@@ -108,6 +112,13 @@ const RoleEdit = () => {
       document.title = '';
     }
   }, [router]);
+
+  useEffect(() => {
+    dispatch(setPageName("role_edit"));
+    return () => {
+      dispatch(clearPage());
+    }
+  }, []);
 
   const onSubmit = async (dataForm) => {
     const form = {

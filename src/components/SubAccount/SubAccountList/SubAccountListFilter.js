@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect} from "react";
 import { useFormContext } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
@@ -46,7 +47,7 @@ const SubAccountListFilter = ({
     if (roleUser.account_type !== 'brand') {
       onDataBrand();
     }
-  }, [roleUser]);
+  }, []);
 
   const onDataBrand = async () => {
     const response = await api.post('/api/brand/public_list', null);

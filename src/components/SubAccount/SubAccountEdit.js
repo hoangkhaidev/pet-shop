@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import remove from 'lodash/remove';
 import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
 import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
 import ButtonGroup, {
   SubmitButton,
@@ -30,6 +30,7 @@ import cloneDeep from 'lodash.clonedeep';
 import SelectFieldMutiple from '../shared/InputField/SelectFieldMutiple';
 import { useTranslation } from 'react-i18next';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
+import { clearPage, setPageName } from 'src/features/parentParam/parentParam';
 
 const useStyles = makeStyles(() => ({
   whitelistIPLine: {
@@ -64,6 +65,7 @@ const SubAccountEdit = () => {
   const navigate = useNavigate();
   const router = useRouter();
   const classes = useStyles();
+  const dispatch = useDispatch();
   const roleUser = useSelector((state) => state.roleUser);
   const { t } = useTranslation();
   ///handle permission
@@ -113,6 +115,13 @@ const SubAccountEdit = () => {
       document.title = '';
     }
   }, [router]);
+
+  useEffect(() => {
+    dispatch(setPageName("sub_edit"));
+    return () => {
+      dispatch(clearPage());
+    }
+  }, []);
 
   const onDataBrand = async () => {
     const response = await api.post('/api/brand/public_list', null);
