@@ -155,6 +155,7 @@ const NavItem = ({
                     to={sub.url}
                     key={sub.name}
                     className={classes.nested}
+                    style={{fontSize: '12px'}}
                     sx={{
                       py: 2,
                       color: sub?.url === activePage2 ? 'text.active' : 'text.secondary',
