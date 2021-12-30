@@ -1,4 +1,4 @@
-import { Grid, makeStyles } from "@material-ui/core";
+import { Grid, Link, makeStyles } from "@material-ui/core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsersCog } from '@fortawesome/free-solid-svg-icons';
 import { faUsers } from '@fortawesome/free-solid-svg-icons';
@@ -85,8 +85,10 @@ function TitleDashboard() {
             <div className={classes.divLine}></div>
             <div className={classes.divItem}>
               <div>
-                <span className={classes.titleNum}>+55%</span>
-                <span className={classes.title2}> than lask week</span>
+                
+                <span className={classes.title2}> 
+                  Go to <span className={classes.titleNum}><Link href={`/brand/list`}>Brand (Operator) List</Link></span> page
+                </span>
               </div>
             </div>
           </div>
@@ -113,8 +115,11 @@ function TitleDashboard() {
             <div className={classes.divLine}></div>
             <div className={classes.divItem}>
               <div>
-                <span className={classes.titleNum}>+55%</span>
-                <span className={classes.title2}> than lask week</span>
+                <span className={classes.title2}> 
+                  Go to 
+                  <span className={classes.titleNum}><Link href={`/players/players`}> Player List</Link></span> page
+                </span>
+                
               </div>
             </div>
           </div>
@@ -141,8 +146,10 @@ function TitleDashboard() {
             <div className={classes.divLine}></div>
             <div className={classes.divItem}>
               <div>
-                <span className={classes.titleNum}>+55%</span>
-                <span className={classes.title2}> than lask week</span>
+                <span className={classes.title2}> 
+                  Go to 
+                  <span className={classes.titleNum}><Link href={`/global/failed_transaction`}> Fail Transaction List</Link></span> page
+                </span>
               </div>
             </div>
           </div>
@@ -169,8 +176,10 @@ function TitleDashboard() {
             <div className={classes.divLine}></div>
             <div className={classes.divItem}>
               <div>
-                <span className={classes.titleNum}>+55%</span>
-                <span className={classes.title2}> than lask week</span>
+                <span className={classes.title2}> 
+                  Go to 
+                  <span className={classes.titleNum}><Link href={`/configuration/games`}> Game List</Link></span> page
+                </span>
               </div>
             </div>
           </div>
@@ -197,8 +206,7 @@ function TitleDashboard() {
             <div className={classes.divLine}></div>
             <div className={classes.divItem}>
               <div>
-                <span className={classes.titleNum}>+55%</span>
-                <span className={classes.title2}> than lask week</span>
+                <span className={classes.titleNum}>Game has highest Players</span>
               </div>
             </div>
           </div>
@@ -225,8 +233,7 @@ function TitleDashboard() {
             <div className={classes.divLine}></div>
             <div className={classes.divItem}>
               <div>
-                <span className={classes.titleNum}>+55%</span>
-                <span className={classes.title2}> than lask week</span>
+                <span className={classes.titleNum}>The player has highest BET</span>
               </div>
             </div>
           </div>
@@ -253,8 +260,7 @@ function TitleDashboard() {
             <div className={classes.divLine}></div>
             <div className={classes.divItem}>
               <div>
-                <span className={classes.titleNum}>+55%</span>
-                <span className={classes.title2}> than lask week</span>
+                <span className={classes.titleNum}>The player has highest Win</span>
               </div>
             </div>
           </div>

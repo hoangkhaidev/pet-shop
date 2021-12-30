@@ -64,6 +64,7 @@ const NavItem = ({
               sx={{
                 color: isActiveMenu ? 'text.active' : 'text.secondary',
                 fontWeight: isActiveMenu ? "bold" : "medium",
+                fontSize: '1rem',
                 justifyContent: 'space-between',
                 letterSpacing: 0,
                 py: 1.25,
@@ -98,6 +99,7 @@ const NavItem = ({
                       to={sub.url}
                       key={sub.name}
                       className={classes.nested}
+                      style={{fontSize: '0.9rem'}}
                       sx={{
                         py: 2,
                         color: sub?.url === '/global/group_brand' ? 'text.active' : 'text.secondary',
@@ -155,7 +157,7 @@ const NavItem = ({
                     to={sub.url}
                     key={sub.name}
                     className={classes.nested}
-                    style={{fontSize: '12px'}}
+                    style={{fontSize: '0.9rem'}}
                     sx={{
                       py: 2,
                       color: sub?.url === activePage2 ? 'text.active' : 'text.secondary',
