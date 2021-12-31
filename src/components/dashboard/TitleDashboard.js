@@ -76,7 +76,7 @@ function TitleDashboard() {
               </div>
               <div></div>
               <div style={{textAlign: 'right'}}>
-                <span className={classes.title1}>Brands / Operators</span>
+                <span className={classes.title1}>Brands</span>
                 <div className={classes.totalTitle}>
                   281
                 </div>
@@ -87,7 +87,7 @@ function TitleDashboard() {
               <div>
                 
                 <span className={classes.title2}> 
-                  Go to <span className={classes.titleNum}><Link href={`/brand/list`}>Brand (Operator) List</Link></span> page
+                  Go to <span className={classes.titleNum}><Link href={`/brand/list`}>Brand List</Link></span>
                 </span>
               </div>
             </div>
@@ -117,7 +117,7 @@ function TitleDashboard() {
               <div>
                 <span className={classes.title2}> 
                   Go to 
-                  <span className={classes.titleNum}><Link href={`/players/players`}> Player List</Link></span> page
+                  <span className={classes.titleNum}><Link href={`/players/players`}> Player List</Link></span>
                 </span>
                 
               </div>
@@ -148,7 +148,7 @@ function TitleDashboard() {
               <div>
                 <span className={classes.title2}> 
                   Go to 
-                  <span className={classes.titleNum}><Link href={`/global/failed_transaction`}> Fail Transaction List</Link></span> page
+                  <span className={classes.titleNum}><Link href={`/global/failed_transaction`}> Fail Transaction List</Link></span>
                 </span>
               </div>
             </div>
@@ -178,7 +178,7 @@ function TitleDashboard() {
               <div>
                 <span className={classes.title2}> 
                   Go to 
-                  <span className={classes.titleNum}><Link href={`/configuration/games`}> Game List</Link></span> page
+                  <span className={classes.titleNum}><Link href={`/configuration/games`}> Game List</Link></span>
                 </span>
               </div>
             </div>
