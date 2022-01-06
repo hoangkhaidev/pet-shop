@@ -148,7 +148,7 @@ const FailedTransactionFilter = ({
   };
 
   const [dateRange, setDateRange] = useState({
-    start: moment().format("DD/MM/YYYY 00:00"),
+    start: moment().subtract(29, 'days').format("DD/MM/YYYY 00:00"),
     end: moment().format("DD/MM/YYYY 23:59"),
   });
 
@@ -188,7 +188,7 @@ const FailedTransactionFilter = ({
       nick_name: "",
     });
     setDateRange({
-      start: moment().format("DD/MM/YYYY 00:00"),
+      start: moment().subtract(29, 'days').format("DD/MM/YYYY 00:00"),
       end: moment().format("DD/MM/YYYY 23:59")
     });
     setObjFilter({
@@ -201,7 +201,7 @@ const FailedTransactionFilter = ({
       player_id: 0,
       nick_name: "",
       round_id: "",
-      from_date: moment().format("DD/MM/YYYY 00:00"),
+      from_date: moment().subtract(29, 'days').format("DD/MM/YYYY 00:00"),
       to_date: moment().format("DD/MM/YYYY 23:59"),
       status_list: []
     });

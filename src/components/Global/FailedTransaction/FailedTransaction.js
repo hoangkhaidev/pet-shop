@@ -1,27 +1,22 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import toString from "lodash/toString";
-import queryString from 'query-string';
 import useRouter from "src/utils/hooks/useRouter";
 import TitlePage from "src/components/shared/TitlePage/TitlePage";
 import TableComponent from "src/components/shared/TableComponent/TableComponent";
 import { formatNumberWithComma } from "src/utils/function";
 import get from 'lodash/get';
-import api from "src/utils/api";
-import { toast } from "react-toastify";
 import TransactionDetails from "src/components/TransactionDetails/TransactionDetails";
 import FailedTransactionFilter from "./FailedTransactionFilter";
 import ButtonResume from "./ButtonResume";
-import NoPermissionPage from "src/components/NoPermissionPage/NoPermissionPage";
-import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router";
+import useFetchData from "src/utils/hooks/useFetchData";
 
 const FailedTransaction = () => {
   const router = useRouter();
-  const { t } = useTranslation();
   ///handle permission
   const permission_groups = useSelector((state) => state.roleUser.permission_groups);
   let arrPermissionFailed = {};
@@ -53,29 +48,26 @@ const FailedTransaction = () => {
     nick_name: "",
     round_id: "",
     time_zone: tz,
-    from_date: moment().format("DD/MM/YYYY 00:00"),
+    from_date: moment().subtract(29, 'days').format("DD/MM/YYYY 00:00"),
     to_date: moment().format("DD/MM/YYYY 23:59"),
     status_list : [],
-    ...router.query
+    ...{
+      ...router.query,
+      player_id: router.query.player_id ? Number(router.query.id) : 0,
+    },
   });
 
-  const clickRef = useRef(0);
-
-  useEffect(() => {
-    if (router.query.player_id) {
-      clickRef.current.click();
-    }
-  }, []);
-
-  useEffect(() => {
-    const stringified = queryString.stringify(objFilter);
-    let url = `${router.location.pathname}?${stringified}`;
-    router.navigate(url);
-  }, [objFilter]);
-
   const [data, setData] = useState([]);
-  const [total_size, setTotal_size] = useState(0);
-  const [isHasAccessPermission, setIsHasPermission] = useState(true);
+
+  const { dataResponse, total_size } = useFetchData(
+    `/api/global/brand_detail/failed_transactions`,
+    objFilter
+  );
+  
+  useEffect(() => {
+    const mapData = get(dataResponse, 'list', []);
+    setData(mapData);
+  }, [dataResponse]);
 
   const columns = [
     {
@@ -153,30 +145,6 @@ const FailedTransaction = () => {
       ...prevState,
       ...data,
     }));
-
-    const dataForm = {
-      ...objFilter,
-      ...data
-    };
-
-    try {
-        const response = await api.post(`/api/global/brand_detail/failed_transactions`, dataForm);
-        
-        if (get(response, 'success', false)) {
-          const mapData = get(response.data, 'list', []);
-          const total_sizeData = get(response.data, 'total_size', []);
-          setTotal_size(total_sizeData)
-          setData(mapData);
-        } else {
-          if (response?.err === "err:no_permission") {
-            setIsHasPermission(false);
-          }
-          if (response.err === "err:not_enough_arguments") toast.warn(t('not_enough_arguments_1'));
-          if (response.err === "err:player_not_found") toast.warn(t('player_not_found'));
-        }
-    } catch (e) {
-      console.log('e', e);
-    }
   };
 
   const handleChangePage = async (page) => {
@@ -185,27 +153,6 @@ const FailedTransaction = () => {
       ...prevState,
       page: pageNew,
     }));
-
-    const dataForm = {
-      ...objFilter,
-      page: pageNew,
-    };
-
-    try {
-      const response = await api.post(`/api/global/brand_detail/failed_transactions`, dataForm);
-      
-      if (get(response, 'success', false)) {
-        const mapData = get(response.data, 'list', []);
-        const total_sizeData = get(response.data, 'total_size', []);
-        setTotal_size(total_sizeData)
-        setData(mapData);
-      } else {
-        if (response.err === "err:not_enough_arguments") toast.warn(t('not_enough_arguments_1'));
-        if (response.err === "err:player_not_found") toast.warn(t('player_not_found'));
-      }
-    } catch (e) {
-      console.log('e', e);
-    }
   };
 
   const handleChangeRowsPerPage = async (event) => {
@@ -214,33 +161,7 @@ const FailedTransaction = () => {
       page: 1,
       page_size: parseInt(event.target.value, 10)
     }));
-
-    const dataForm = {
-      ...objFilter,
-      page: 1,
-      page_size: parseInt(event.target.value, 10)
-    };
-
-    try {
-      const response = await api.post(`/api/global/brand_detail/failed_transactions`, dataForm);
-      
-      if (get(response, 'success', false)) {
-        const mapData = get(response.data, 'list', []);
-        const total_sizeData = get(response.data, 'total_size', []);
-        setTotal_size(total_sizeData)
-        setData(mapData);
-      } else {
-        if (response.err === "err:not_enough_arguments") toast.warn(t('not_enough_arguments'));
-        if (response.err === "err:member_not_found") toast.warn(t('player_not_found'));
-      }
-    } catch (e) {
-      console.log('e', e);
-    }
   };
-
-  if (!isHasAccessPermission) {
-    return <NoPermissionPage />;
-  }
 
   if (arrPermissionFailed.none) {
     return <Navigate to="/404" />;
@@ -249,7 +170,7 @@ const FailedTransaction = () => {
   return (
     <>
       <TitlePage title="Failed Transactions" />
-      <FailedTransactionFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} clickRef={clickRef}/>
+      <FailedTransactionFilter onSubmitProps={onSubmit} setObjFilter={setObjFilter} />
       <TableComponent
         data={data}
         columns={columns}
