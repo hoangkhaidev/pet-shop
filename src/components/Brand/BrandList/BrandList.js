@@ -487,7 +487,7 @@ const BrandList = () => {
     return <NoPermissionPage />;
   }
 
-  if (arrPermissionBrand[0].none) {
+  if (arrPermissionBrand[0]?.none) {
     return <Navigate to="/404" />;
   }
 

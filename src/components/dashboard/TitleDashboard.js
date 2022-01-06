@@ -59,8 +59,15 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-function TitleDashboard() {
+function TitleDashboard({dataResponse}) {
   const classes = useStyles();
+
+  const formatNumber = (num) => {
+    let cellFormat = (Math.round(num * 100)/100).toFixed(2);
+    let formatNum = cellFormat?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    return formatNum;
+  }
+  
   return (
     <Grid container spacing={2} >
         <Grid item xs={6} xl={3} md={3}>
@@ -78,7 +85,7 @@ function TitleDashboard() {
               <div style={{textAlign: 'right'}}>
                 <span className={classes.title1}>Brands</span>
                 <div className={classes.totalTitle}>
-                  281
+                  {dataResponse?.number_of_accounts}
                 </div>
               </div>
             </div>
@@ -108,7 +115,7 @@ function TitleDashboard() {
               <div style={{textAlign: 'right'}}>
                 <span className={classes.title1}>Total Players</span>
                 <div className={classes.totalTitle}>
-                  281
+                  {dataResponse?.number_of_players}
                 </div>
               </div>
             </div>
@@ -139,7 +146,7 @@ function TitleDashboard() {
               <div style={{textAlign: 'right'}}>
                 <span className={classes.title1}>Failed Transactions</span>
                 <div className={classes.totalTitle}>
-                  281
+                  {dataResponse?.number_of_fail_transactions}
                 </div>
               </div>
             </div>
@@ -169,7 +176,7 @@ function TitleDashboard() {
               <div style={{textAlign: 'right'}}>
                 <span className={classes.title1}>Total Games</span>
                 <div className={classes.totalTitle}>
-                  281
+                  {dataResponse?.number_of_games}
                 </div>
               </div>
             </div>
@@ -199,14 +206,14 @@ function TitleDashboard() {
               <div style={{textAlign: 'right'}}>
                 <span className={classes.title1}>Game Most Players</span>
                 <div className={classes.totalTitle}>
-                  281
+                  {dataResponse?.highest_player_name}
                 </div>
               </div>
             </div>
             <div className={classes.divLine}></div>
             <div className={classes.divItem}>
               <div>
-                <span className={classes.titleNum}>Game has highest Players</span>
+                <span className={classes.titleNum}>Games has "{dataResponse?.highest_player_count}" Players </span>
               </div>
             </div>
           </div>
@@ -226,14 +233,14 @@ function TitleDashboard() {
               <div style={{textAlign: 'right'}}>
                 <span className={classes.title1}>Top BET Player</span>
                 <div className={classes.totalTitle}>
-                  281
+                  <Link href={`/players/${dataResponse?.highest_bet_member_id}/information`}> {dataResponse?.highest_bet_member_name}</Link>
                 </div>
               </div>
             </div>
             <div className={classes.divLine}></div>
             <div className={classes.divItem}>
               <div>
-                <span className={classes.titleNum}>The player has highest BET</span>
+                <span className={classes.titleNum}>Player has BET: {formatNumber(dataResponse?.highest_bet_total)}</span>
               </div>
             </div>
           </div>
@@ -253,14 +260,14 @@ function TitleDashboard() {
               <div style={{textAlign: 'right'}}>
                 <span className={classes.title1}>Top Winning Player</span>
                 <div className={classes.totalTitle}>
-                  281
+                  <Link href={`/players/${dataResponse?.highest_bet_member_id}/information`}> {dataResponse?.highest_win_member_name}</Link>
                 </div>
               </div>
             </div>
             <div className={classes.divLine}></div>
             <div className={classes.divItem}>
               <div>
-                <span className={classes.titleNum}>The player has highest Win</span>
+                <span className={classes.titleNum}>Player has Win: {formatNumber(dataResponse?.highest_win_total)}</span>
               </div>
             </div>
           </div>
