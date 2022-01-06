@@ -197,7 +197,7 @@ function TitleDashboard() {
               </div>
               <div></div>
               <div style={{textAlign: 'right'}}>
-                <span className={classes.title1}>Game most players</span>
+                <span className={classes.title1}>Game Most Players</span>
                 <div className={classes.totalTitle}>
                   281
                 </div>
@@ -224,7 +224,7 @@ function TitleDashboard() {
               </div>
               <div></div>
               <div style={{textAlign: 'right'}}>
-                <span className={classes.title1}>Top BET player</span>
+                <span className={classes.title1}>Top BET Player</span>
                 <div className={classes.totalTitle}>
                   281
                 </div>
