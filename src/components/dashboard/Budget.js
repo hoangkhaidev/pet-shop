@@ -11,6 +11,7 @@ import cloneDeep from 'lodash.clonedeep';
 import { setParentParam } from 'src/features/parentParam/parentParam';
 import { useDispatch, useSelector } from 'react-redux';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
+import NoPermissionPageNotBack from '../NoPermissionPage/NoPermissionPageNotBack';
 
 const useStyles = makeStyles((theme) => ({
   
@@ -39,6 +40,7 @@ const Budget = (props) => {
   let arrPermissionBrand = {};
   let arrPermissionPlayers = {};
   let arrPermissionGames = {};
+  let checkPermissionFail = false;
   permission_groups.map((item) => {
     if (item.name === 'Dashboard') {
       arrPermissionDashboard = item.permissions[0];
@@ -51,6 +53,12 @@ const Budget = (props) => {
     }
     if (item.name === 'Configuration') {
       arrPermissionGames = item.permissions[0];
+    }
+    if (item.name === 'Global') {
+      item.permissions?.map((item2) => {
+        if (item2.name === 'Failed Transaction') checkPermissionFail = item2.none;
+        return item2.name === 'Failed Transaction';
+      });
     }
     return item.name === 'Dashboard'
   });
@@ -136,6 +144,10 @@ const Budget = (props) => {
 
   if (arrPermissionDashboard.none) {
     return <NoPermissionPage />;
+  }
+
+  if (arrPermissionBrand?.none && arrPermissionPlayers?.none && checkPermissionFail) {
+    return <NoPermissionPageNotBack />;
   }
 
   return (
