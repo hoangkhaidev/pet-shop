@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
-  Card, CardContent, Grid, makeStyles,
+  Card, Grid, makeStyles,
 } from '@material-ui/core';
 
 import React, { useEffect, useState } from 'react';
@@ -32,14 +32,27 @@ const Budget = (props) => {
   const [dataChartBar, setDataChartBar] = useState({});
   const [dataChartLine, setDataChartLine] = useState({});
   const dispatch = useDispatch();
+  const roleUserType = useSelector((state) => state.roleUser.account_type);
   ///handle permission
   const permission_groups = useSelector((state) => state.roleUser.permission_groups);
   let arrPermissionDashboard = {};
+  let arrPermissionBrand = {};
+  let arrPermissionPlayers = {};
+  let arrPermissionGames = {};
   permission_groups.map((item) => {
     if (item.name === 'Dashboard') {
       arrPermissionDashboard = item.permissions[0];
     }
-    return item.name === 'Dashboard';
+    if (item.name === 'Brand') {
+      arrPermissionBrand = item.permissions[0];
+    }
+    if (item.name === 'Players') {
+      arrPermissionPlayers = item.permissions[0];
+    }
+    if (item.name === 'Configuration') {
+      arrPermissionGames = item.permissions[0];
+    }
+    return item.name === 'Dashboard'
   });
 
   useEffect(() => {
@@ -128,32 +141,30 @@ const Budget = (props) => {
   return (
     <>
       <TitleDashboard dataResponse={dataResponse}/>
-      <Card
-        sx={{ height: '100%' }}
-        {...props}
-      >
-        <CardContent sx={{padding: '0 !important'}}>
-          {/* <Grid
-            container
-            sx={{ justifyContent: 'center', padding: '0.8rem', alignItems: 'center', background: '#7c85ca', color: '#fff', fontSize: '26px' }}
-          >
-              Welcome to Dashboard
-          </Grid> */}
-        </CardContent>
-        <Grid container spacing={2} style={{paddingTop: '20px'}}>
-          <Grid item xs={12} xl={6} md={6}>
-            <span className={classes.itemTitle}>BET / WIN by Month</span>
-            <Bar options={options} data={dataChartBar}/>
-          </Grid>
-          <Grid item xs={12} xl={6} md={6}>
-            <span className={classes.itemTitle}>% BET / GGR increase by Month</span>
-            <Line 
-              options={optionsLine} 
-              data={dataChartLine} 
-            />
-          </Grid>
-        </Grid>
-      </Card>
+      {
+        roleUserType === 'operator' || roleUserType === 'operatorsub' || roleUserType === 'brand' || roleUserType === 'brandsub' ? 
+          !arrPermissionBrand?.none && !arrPermissionPlayers?.none && !arrPermissionGames?.none ? (
+            <Card
+              sx={{ height: '100%' }}
+              {...props}
+            >
+              <Grid container spacing={2} style={{paddingTop: '20px'}}>
+                <Grid item xs={12} xl={6} md={6}>
+                  <span className={classes.itemTitle}>BET / WIN by Month</span>
+                  <Bar options={options} data={dataChartBar}/>
+                </Grid>
+                <Grid item xs={12} xl={6} md={6}>
+                  <span className={classes.itemTitle}>% BET / GGR increase by Month</span>
+                  <Line 
+                    options={optionsLine} 
+                    data={dataChartLine} 
+                  />
+                </Grid>
+              </Grid>
+            </Card>
+          ) : ''
+        : ''
+      }
     </>
   );
 }
