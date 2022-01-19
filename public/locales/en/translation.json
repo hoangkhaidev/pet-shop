@@ -1,11 +1,11 @@
 {
   "NoPermissionHelpText": "The page you are looking for is temporarily unavailable.",
   "h_firstName": "Please specify the first name",
-  "h_name": "Length from 3 to 15 chars, allow letter, digit and underscore(_)",
+  "h_name": "Length from 3 to 15 chars, allow letter (lowercase), digit and underscore(_)",
   "h_name_length": "Max length 100 chars",
   "h_commission": "From 0% to 100%",
   "h_api_endpoint": "Accept URL only",
-  "h_username": "Length from 3 to 15 chars, allow letter, digit and underscore(_)",
+  "h_username": "Length from 3 to 15 chars, allow letter (lowercase), digit and underscore(_)",
   "h_password": "From 6 characters and at least 1 uppercase, 1 lowercase letter and 1 number",
   "logout-inactive": "Your account has been inactivated. Please contact your admin to activate",
   "logout-locked": "Your account has been locked. Please contact your admin to unlock",
