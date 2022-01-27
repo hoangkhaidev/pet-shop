@@ -219,6 +219,8 @@ const SubAccountCreate = () => {
     }
   }
 
+  console.log(roleData);
+
   return (
     <ContentCardPage>
       <TitlePage title="Create Sub Account" />

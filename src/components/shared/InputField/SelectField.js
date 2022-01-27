@@ -65,7 +65,7 @@ const SelectField = ({
           control={control}
           name={namefileld}
           render={({ field }) => {
-            if (options?.length === 0) return null;
+            // if (options?.length === 0) return null;
             return (
               <Select
                 {...field}
