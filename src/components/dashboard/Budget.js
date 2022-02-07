@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
-  Card, Grid, makeStyles,
+  Card, Grid, makeStyles, Tooltip,
 } from '@material-ui/core';
 
 import React, { useEffect, useState } from 'react';
@@ -13,7 +13,6 @@ import { setParentParam } from 'src/features/parentParam/parentParam';
 import { useDispatch, useSelector } from 'react-redux';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
 import NoPermissionPageNotBack from '../NoPermissionPage/NoPermissionPageNotBack';
-import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles((theme) => ({
   
@@ -28,14 +27,25 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   test: {
+    // position: 'absolute',
+    // bottom: '0px',
+    // right: '38%',
+    padding: '0px 20px',
+  },
+  test1: {
+    display: 'flex',
     position: 'absolute',
     bottom: '0px',
-    right: '38%',
-    padding: '15px 30px',
-    '&:hover': {
-      backgroundColor: 'red',
-    },
+    right: '0',
   },
+  marin: {
+    padding: '15px 30px',
+    background: 'none',
+    border: 'none',
+    // '&:hover': {
+    //   backgroundColor: 'red',
+    // },
+  }
 }));
 
 const Budget = (props) => {
@@ -104,22 +114,22 @@ const Budget = (props) => {
     const betChart2 = dataChart2?.map((item) => item.bet_percent);
     const ggrChart2 = dataChart2?.map((item) => item.margin_percent);
 
-    let ggrChartTest = ['-66.55', '36.33', null, '-291.24', '91.24'];
-    let monthTest = ['Dec 2021', 'Nov 2021', 'Oct 2021', 'Sep 2021', 'tesst 2021']
+    // let ggrChartTest = ['-66.55', '36.33', null, '-291.24', '91.24'];
+    // let monthTest = ['Dec 2021', 'Nov 2021', 'Oct 2021', 'Sep 2021', 'tesst 2021'];
 
     setDataChartLine({
-      labels: monthTest,
+      labels: monthChart2,
       datasets: [
         {
           label: 'GGR increase',
-          data: ggrChartTest,
+          data: ggrChart2,
           borderColor: 'rgb(255, 99, 132)',
           fill: false,
           tension: 0.1
         },
         {
           label: 'BET increase',
-          data: ggrChartTest,
+          data: betChart2,
           borderColor: 'rgb(53, 162, 235)',
           fill: false,
           tension: 0.1
@@ -168,6 +178,8 @@ const Budget = (props) => {
     return <NoPermissionPageNotBack />;
   }
 
+  let monthTest = ['Dec 2021', 'Nov 2021', 'Oct 2021', 'Sep 2021', 'tesst 2021']
+
   return (
     <>
       <TitleDashboard dataResponse={dataResponse}/>
@@ -189,8 +201,18 @@ const Budget = (props) => {
                     options={optionsLine} 
                     data={dataChartLine} 
                   />
-                  {/* <div className={classes.test}>
-                  </div> */}
+                  <div className={classes.test1}>
+                    {monthTest.map((item, index) => (
+                        <div key={index} className={classes.test}>
+                          <Tooltip
+                            key={index}
+                            title="This is content of tooltip"
+                          >
+                            <button className={classes.marin}></button>
+                          </Tooltip>
+                        </div>
+                    ))}
+                  </div>
                 </Grid>
               </Grid>
             </Card>

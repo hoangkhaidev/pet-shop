@@ -33,6 +33,13 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
 
   const onChangeWLIPAddressForAPI = (e, index) => {
     const { formattedValue } = e;
+    console.log(formattedValue);
+    console.log(index);
+    // if (formattedValue.length === 3 && index < 3) {
+    //   setTimeout(() => {
+    //     ref.current[index + 1]?.focus();
+    //   }, 0);
+    // }
     if (formattedValue.length === 3 && index < 3) {
       setTimeout(() => {
         ref.current[index + 1]?.focus();
@@ -42,7 +49,7 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
       setTimeout(() => {
         ref.current[index + 1]?.focus();
       }, 0);
-    } 
+    }
     onChange(e, index, rowIndex);
   };
 
