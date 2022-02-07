@@ -38,6 +38,11 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
         ref.current[index + 1]?.focus();
       }, 0);
     }
+    if (formattedValue > 25) {
+      setTimeout(() => {
+        ref.current[index + 1]?.focus();
+      }, 0);
+    } 
     onChange(e, index, rowIndex);
   };
 
@@ -66,7 +71,7 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
               value={value}
               getInputRef={(el) => (ref.current[index] = el)}
               onValueChange={(values) => {
-                if (values.formattedValue > 256) values.formattedValue = 255;
+                if (values.formattedValue > 255) values.formattedValue = 255;
                 if (values.formattedValue < 0) values.formattedValue = 0;
                 onChangeWLIPAddressForAPI(values, index)
               }}

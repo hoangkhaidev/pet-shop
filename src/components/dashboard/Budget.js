@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
   Card, Grid, makeStyles,
@@ -12,6 +13,7 @@ import { setParentParam } from 'src/features/parentParam/parentParam';
 import { useDispatch, useSelector } from 'react-redux';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
 import NoPermissionPageNotBack from '../NoPermissionPage/NoPermissionPageNotBack';
+import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles((theme) => ({
   
@@ -24,7 +26,16 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '20px',
     display: 'flex',
     justifyContent: 'center',
-  }
+  },
+  test: {
+    position: 'absolute',
+    bottom: '0px',
+    right: '38%',
+    padding: '15px 30px',
+    '&:hover': {
+      backgroundColor: 'red',
+    },
+  },
 }));
 
 const Budget = (props) => {
@@ -64,6 +75,10 @@ const Budget = (props) => {
   });
 
   useEffect(() => {
+    console.log(dataChartLine);
+  }, [dataChartLine]);
+
+  useEffect(() => {
     let dataChart1 = cloneDeep(dataResponse?.bet_win_list);
     const monthChart1 = dataChart1?.map((item) => item.month);
     const betChart1 = dataChart1?.map((item) => item.bet);
@@ -89,19 +104,22 @@ const Budget = (props) => {
     const betChart2 = dataChart2?.map((item) => item.bet_percent);
     const ggrChart2 = dataChart2?.map((item) => item.margin_percent);
 
+    let ggrChartTest = ['-66.55', '36.33', null, '-291.24', '91.24'];
+    let monthTest = ['Dec 2021', 'Nov 2021', 'Oct 2021', 'Sep 2021', 'tesst 2021']
+
     setDataChartLine({
-      labels: monthChart2,
+      labels: monthTest,
       datasets: [
         {
           label: 'GGR increase',
-          data: ggrChart2,
+          data: ggrChartTest,
           borderColor: 'rgb(255, 99, 132)',
           fill: false,
           tension: 0.1
         },
         {
           label: 'BET increase',
-          data: betChart2,
+          data: ggrChartTest,
           borderColor: 'rgb(53, 162, 235)',
           fill: false,
           tension: 0.1
@@ -165,12 +183,14 @@ const Budget = (props) => {
                   <span className={classes.itemTitle}>BET / WIN by Month</span>
                   <Bar options={options} data={dataChartBar}/>
                 </Grid>
-                <Grid item xs={12} xl={6} md={6}>
+                <Grid item xs={12} xl={6} md={6} style={{position: 'relative'}}>
                   <span className={classes.itemTitle}>% BET / GGR increase by Month</span>
                   <Line 
                     options={optionsLine} 
                     data={dataChartLine} 
                   />
+                  {/* <div className={classes.test}>
+                  </div> */}
                 </Grid>
               </Grid>
             </Card>
