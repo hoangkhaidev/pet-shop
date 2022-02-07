@@ -43,6 +43,8 @@ const GameTransactionHistory = ({ setIsHasPermission }) => {
     let new_from_date = moment(router.query.to_date, "DD/MM/YYYY");
     toDateRouter = moment(new_from_date).format("DD/MM/YYYY 23:59");
   }
+
+  console.log(router.query);
   
   const [objFilter, setObjFilter] = useState({
     page: 1,
