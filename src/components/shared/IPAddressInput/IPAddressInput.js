@@ -32,24 +32,20 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
   const ref = useRef([]);
 
   const onChangeWLIPAddressForAPI = (e, index) => {
-    const { formattedValue } = e;
-    console.log(formattedValue);
-    console.log(index);
-    // if (formattedValue.length === 3 && index < 3) {
-    //   setTimeout(() => {
-    //     ref.current[index + 1]?.focus();
-    //   }, 0);
-    // }
+    let { formattedValue } = e;
+    // console.log(formattedValue);
+    // console.log(index);
+    
     if (formattedValue.length === 3 && index < 3) {
       setTimeout(() => {
         ref.current[index + 1]?.focus();
       }, 0);
-    }
+    } 
     if (formattedValue > 25) {
       setTimeout(() => {
         ref.current[index + 1]?.focus();
       }, 0);
-    }
+    } 
     onChange(e, index, rowIndex);
   };
 
@@ -78,7 +74,17 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
               value={value}
               getInputRef={(el) => (ref.current[index] = el)}
               onValueChange={(values) => {
-                if (values.formattedValue > 255) values.formattedValue = 255;
+                if (values.formattedValue > 255) {
+                  let str = values.formattedValue.toString();
+                  str = str.slice(0, -1);
+                  values.formattedValue = Number(str);
+                  ref.current[index + 1]?.focus();
+                  // let text = values.value;
+                  // let result = text.substring(2, 3);
+                  // ref.current[index + 1]?.focus();
+                  // values.formattedValue = result;
+                }
+                // if (values.formattedValue > 255) values.formattedValue = 255;
                 if (values.formattedValue < 0) values.formattedValue = 0;
                 onChangeWLIPAddressForAPI(values, index)
               }}

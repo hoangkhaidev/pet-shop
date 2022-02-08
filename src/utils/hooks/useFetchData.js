@@ -40,7 +40,7 @@ export default function useFetchData(endpoint, objFilter, dependency = []) {
       url = `${router.location.pathname}${router.location.search}`;
     } else {
       if (pageName === 'test' && router.pathname !== '/reports/players_business_summary'){
-        url = `${router.location.pathname}${router.location.search}`;
+        url = `${router.location.pathname}?${stringified}`;
       } else {
         url = `${router.location.pathname}?${stringified}`;
       }

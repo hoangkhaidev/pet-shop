@@ -64,6 +64,7 @@ const GameTransactions = ({ gameName }) => {
       to_date: toDateRouter,
     },
   });
+  console.log(router);
 
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
     '/api/transaction/player_game_history',
@@ -141,6 +142,10 @@ const GameTransactions = ({ gameName }) => {
       ...data,
     }));
   };
+
+  useEffect(() => {
+    console.log(objFilter);
+  } ,[objFilter]);
 
   const handleChangePage = (page) => {
     let pageNew = page + 1;
