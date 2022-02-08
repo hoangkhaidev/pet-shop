@@ -12,7 +12,8 @@ const captchaConfig = {
 };
 
 const Captcha = ({
-  setCaptchaId
+  setCaptchaId,
+  captchaLoad
 }) => {
   const [captcha, setCaptcha] = useState({});
 
@@ -28,7 +29,7 @@ const Captcha = ({
 
   useEffect(() => {
     generateCaptcha();
-  }, [generateCaptcha]);
+  }, [generateCaptcha, captchaLoad]);
 
   return (
     <div

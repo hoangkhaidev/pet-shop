@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useForm } from 'react-hook-form';
@@ -45,6 +45,7 @@ const Login = () => {
   const { control, handleSubmit, setError, formState: { errors } } = useForm();
   const dispatch = useDispatch();
   const token = useSelector(state => state.authentication.token);
+  const [captchaLoad, setCaptchaLoad] = useState('');
 
   const [logOutReason, setLogOutReason] = useState(APIUtils.getLogOutReason());
   
@@ -101,6 +102,7 @@ const Login = () => {
           message: t(errorsResponse[err])
         });
       }
+      setCaptchaLoad('load');
     }
   };
 
@@ -154,6 +156,7 @@ const Login = () => {
                 <div className={classes.captchaInput}>
                   <Captcha
                     setCaptchaId={setCaptchaId}
+                    captchaLoad={captchaLoad}
                   />
                   <FormattedNumberInputCaptcha
                     namefileld="captcha"
