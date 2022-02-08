@@ -79,11 +79,13 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
                   str = str.slice(0, -1);
                   values.formattedValue = Number(str);
                   ref.current[index + 1]?.focus();
-                  // let text = values.value;
-                  // let result = text.substring(2, 3);
-                  // ref.current[index + 1]?.focus();
-                  // values.formattedValue = result;
                 }
+                // if (values.formattedValue) {
+                //   ref.current[index + 1]?.focus();
+                //   let text = values.value;
+                //   let result = text.substring(2, 3);
+                //   values.formattedValue = Number(result);
+                // }
                 // if (values.formattedValue > 255) values.formattedValue = 255;
                 if (values.formattedValue < 0) values.formattedValue = 0;
                 onChangeWLIPAddressForAPI(values, index)

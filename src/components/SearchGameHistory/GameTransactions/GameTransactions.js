@@ -143,10 +143,6 @@ const GameTransactions = ({ gameName }) => {
     }));
   };
 
-  useEffect(() => {
-    console.log(objFilter);
-  } ,[objFilter]);
-
   const handleChangePage = (page) => {
     let pageNew = page + 1;
     setObjFilter(prevState => ({

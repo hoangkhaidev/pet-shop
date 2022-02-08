@@ -263,6 +263,7 @@ export const FormattedNumberInputCaptcha = ({
   ...rest
 }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const renderErrors = () => {
     if (isEmpty(errors)) {
@@ -273,6 +274,9 @@ export const FormattedNumberInputCaptcha = ({
     }
     if (errors.type === 'pattern') {
       // return 'Field is required';
+    }
+    if (errors.message === 'invalid_recaptcha') {
+      return errors.message = t('invalid_recaptcha');
     }
     return errors.message;
   };
