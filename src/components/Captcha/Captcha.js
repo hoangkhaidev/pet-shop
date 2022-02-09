@@ -25,10 +25,11 @@ const Captcha = ({
     } catch (e) {
       console.log('e', e);
     }
-  }, []);
+  }, [captchaLoad]);
 
   useEffect(() => {
     generateCaptcha();
+    console.log(captchaLoad);
   }, [generateCaptcha, captchaLoad]);
 
   return (
