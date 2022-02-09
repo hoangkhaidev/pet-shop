@@ -53,6 +53,7 @@ const Budget = (props) => {
   const { dataResponse } = useFetchData("/api/dashboard");
   const [dataChartBar, setDataChartBar] = useState({});
   const [dataChartLine, setDataChartLine] = useState({});
+  const [prevChart2, setPrevChart2] = useState({});
   const dispatch = useDispatch();
   const roleUserType = useSelector((state) => state.roleUser.account_type);
   ///handle permission
@@ -85,8 +86,8 @@ const Budget = (props) => {
   });
 
   useEffect(() => {
-    console.log(dataChartLine);
-  }, [dataChartLine]);
+    console.log(dataResponse);
+  }, [dataResponse]);
 
   useEffect(() => {
     let dataChart1 = cloneDeep(dataResponse?.bet_win_list);
@@ -112,10 +113,18 @@ const Budget = (props) => {
     let dataChart2 = cloneDeep(dataResponse?.bet_margin_percent_list);
     const monthChart2 = dataChart2?.map((item) => item.month);
     const betChart2 = dataChart2?.map((item) => item.bet_percent);
-    const ggrChart2 = dataChart2?.map((item) => item.margin_percent);
-
-    // let ggrChartTest = ['-66.55', '36.33', null, '-291.24', '91.24'];
-    // let monthTest = ['Dec 2021', 'Nov 2021', 'Oct 2021', 'Sep 2021', 'tesst 2021'];
+    const ggrChart2 = dataChart2?.map((item) => {
+      if (item.empty_previous) {
+        return item.margin_percent = null;
+      }
+      return item.margin_percent;
+    });
+    const betPrevChart2 = dataChart2?.map((item) => item.bet);
+    const marginPrevChart2 = dataChart2?.map((item) => item.margin);
+    setPrevChart2({
+      betPrevChart2,
+      marginPrevChart2
+    });
 
     setDataChartLine({
       labels: monthChart2,
@@ -178,8 +187,6 @@ const Budget = (props) => {
     return <NoPermissionPageNotBack />;
   }
 
-  let monthTest = ['Dec 2021', 'Nov 2021', 'Oct 2021', 'Sep 2021', 'tesst 2021']
-
   return (
     <>
       <TitleDashboard dataResponse={dataResponse}/>
@@ -202,11 +209,18 @@ const Budget = (props) => {
                     data={dataChartLine} 
                   />
                   <div className={classes.test1}>
-                    {monthTest.map((item, index) => (
+                    {prevChart2.betPrevChart2?.map((item, index) => (
                         <div key={index} className={classes.test}>
                           <Tooltip
                             key={index}
-                            title="This is content of tooltip"
+                            title={
+                              <>
+                                <span style={{ whiteSpace: 'pre-line' }}>{`Bet: ${item}`}</span>
+                                <br/>
+                                <span >{`Margin: ${prevChart2.marginPrevChart2[index]}`}</span>
+                              </>
+                            }
+                            // title={`Bet: ${item} Margin: ${prevChart2.marginPrevChart2[index]}`}
                           >
                             <button className={classes.marin}></button>
                           </Tooltip>
