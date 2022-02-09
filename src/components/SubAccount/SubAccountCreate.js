@@ -187,6 +187,7 @@ const SubAccountCreate = () => {
   }, [whitelistIP]);
 
   const onChangeWhitelistIp = (e, index, rowIndex) => {
+    console.log(index, rowIndex);
     const { formattedValue } = e;
     const cloneArr = whitelistIP.slice();
     cloneArr[rowIndex][index] = formattedValue;

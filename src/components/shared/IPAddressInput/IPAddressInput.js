@@ -33,9 +33,8 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
 
   const onChangeWLIPAddressForAPI = (e, index) => {
     let { formattedValue } = e;
-    // console.log(formattedValue);
-    // console.log(index);
-    
+    console.log(formattedValue);
+
     if (formattedValue.length === 3 && index < 3) {
       setTimeout(() => {
         ref.current[index + 1]?.focus();
@@ -45,7 +44,8 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
       setTimeout(() => {
         ref.current[index + 1]?.focus();
       }, 0);
-    } 
+    }
+
     onChange(e, index, rowIndex);
   };
 
@@ -75,20 +75,27 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
               getInputRef={(el) => (ref.current[index] = el)}
               onValueChange={(values) => {
                 if (values.formattedValue > 255) {
-                  let str = values.formattedValue.toString();
-                  str = str.slice(0, -1);
-                  values.formattedValue = Number(str);
-                  ref.current[index + 1]?.focus();
+                  if (index >= 3) onChangeWLIPAddressForAPI({ formattedValue: 255 }, index);
+                  else {
+                    let str = values.formattedValue.toString();
+                    str = str.slice(0, -1);
+                    values.formattedValue = Number(str);
+  
+                    let text = values.value;
+                    let result = text.substring(2, 3);
+                    
+                    onChangeWLIPAddressForAPI({ formattedValue: result }, index + 1);
+                    setTimeout(() => {
+                      ref.current[index + 1]?.focus();
+                    }, 100);
+                  }
+
+                  return;
                 }
-                // if (values.formattedValue) {
-                //   ref.current[index + 1]?.focus();
-                //   let text = values.value;
-                //   let result = text.substring(2, 3);
-                //   values.formattedValue = Number(result);
-                // }
-                // if (values.formattedValue > 255) values.formattedValue = 255;
+                  
                 if (values.formattedValue < 0) values.formattedValue = 0;
-                onChangeWLIPAddressForAPI(values, index)
+
+                onChangeWLIPAddressForAPI(values, index);
               }}
               onKeyDown={(e) => onKeyPress(e, index)}
             />
