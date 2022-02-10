@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   totalTitle: {
     fontWeight: '600',
-    fontSize: '26px',
+    fontSize: '18px',
     paddingTop: '5px',
     color: '#344767',
   },

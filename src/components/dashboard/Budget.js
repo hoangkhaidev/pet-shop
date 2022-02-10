@@ -54,6 +54,7 @@ const Budget = (props) => {
   const [dataChartBar, setDataChartBar] = useState({});
   const [dataChartLine, setDataChartLine] = useState({});
   const [prevChart2, setPrevChart2] = useState({});
+  const [maxAll, setMaxAll] = useState(null);
   const dispatch = useDispatch();
   const roleUserType = useSelector((state) => state.roleUser.account_type);
   ///handle permission
@@ -94,6 +95,18 @@ const Budget = (props) => {
     const monthChart1 = dataChart1?.map((item) => item.month);
     const betChart1 = dataChart1?.map((item) => item.bet);
     const winChart1 = dataChart1?.map((item) => item.win);
+    let maxBet = Math.max.apply(Math, betChart1);
+    let maxWin = Math.max.apply(Math, winChart1);
+    let maxNum = 0;
+    if (maxWin > maxBet) {
+      maxNum = maxWin;
+    } else {
+      maxNum = maxBet;
+    }
+    let maxAll = maxNum + maxNum / 100 * 10;
+
+    setMaxAll(maxAll);
+
     setDataChartBar({
       labels: monthChart1,
       datasets: [
@@ -159,6 +172,15 @@ const Budget = (props) => {
         text: 'Chart.js Line Chart',
       },
     },
+    scales: {
+      yAxes: [{
+          display: true,
+          ticks: {
+              suggestedMin: 0,    // minimum will be 0, unless there is a lower value.
+              suggestedMax: maxAll,   // minimum value will be 0.
+          }
+      }]
+    }
   };
 
   const optionsLine = {
