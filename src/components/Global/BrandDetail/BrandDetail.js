@@ -125,16 +125,28 @@ const BrandDetail = () => {
             <Endpoint_Settings dataResponse={dataResponse} />
           </TabPanel>
           {roleUser.account_type !== 'brand' && (
-            <TabPanel value={value} index={1} className={classes.stylePanel}>
-              <GameParamCloning />
+            <>
+              <TabPanel value={value} index={1} className={classes.stylePanel}>
+                <GameParamCloning />
+              </TabPanel>
+              <TabPanel value={value} index={2} className={classes.stylePanel}>
+                <RunDevelopmentTest />
+              </TabPanel>
+              <TabPanel value={value} index={3} className={classes.stylePanel}>
+                <DevelopmentVariables setValueTab={setValue} />
+              </TabPanel>
+            </>
+          )}
+          {roleUser.account_type === 'brand' && (
+            <TabPanel value={value + 1} index={2} className={classes.stylePanel}>
+              <RunDevelopmentTest />
             </TabPanel>
           )}
-          <TabPanel value={value} index={2} className={classes.stylePanel}>
-            <RunDevelopmentTest />
-          </TabPanel>
-          <TabPanel value={value} index={3} className={classes.stylePanel}>
-            <DevelopmentVariables setValueTab={setValue} />
-          </TabPanel>
+          {roleUser.account_type === 'brand' && (
+            <TabPanel value={value + 1} index={3} className={classes.stylePanel}>
+              <DevelopmentVariables setValueTab={setValue} />
+            </TabPanel>
+          )}
         </Suspense>
       </DateRangeContext.Provider>
     </div>

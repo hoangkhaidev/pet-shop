@@ -33,7 +33,6 @@ const IPAddressInput = ({ apiWLIP, onChange, rowIndex, requiredCheck }) => {
 
   const onChangeWLIPAddressForAPI = (e, index) => {
     let { formattedValue } = e;
-    console.log(formattedValue);
 
     if (formattedValue.length === 3 && index < 3) {
       setTimeout(() => {
