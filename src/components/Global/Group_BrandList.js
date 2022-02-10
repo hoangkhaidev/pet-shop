@@ -71,7 +71,7 @@ const Group_BrandList = () => {
       formatter: (cell, row) => {
         let link = '';
 
-        if (roleUser.account_type === 'operator' || roleUser.account_type === 'operatorsub' || roleUser.account_type === ' brand' || roleUser.account_type === 'brandsub') {
+        if (roleUser.account_type === 'operator' || roleUser.account_type === 'operatorsub' || roleUser.account_type === 'brand' || roleUser.account_type === 'brandsub') {
           link = cell;
         } else {
           if (arrPermissionOperator?.full) {
