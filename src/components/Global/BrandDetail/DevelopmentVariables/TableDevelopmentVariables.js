@@ -67,7 +67,6 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
  
   const handleChangeCountRefund = (event) => {
     let value = event.target.value;
-    console.log(value);
     if (value < 0) {
       return;
     }
@@ -152,10 +151,14 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
   //  retry
   const handleChangeCountRetry = (event) => {
     let value = event.target.value;
-    let regex = /^\d+(\\d{0})?$/g;
-    if (!regex.test(value)) {
-      event.target.value = value.slice(0, -1)
-      return 
+    // let regex = /^\d+(\\d{0})?$/g;
+    // if (!regex.test(value)) {
+    //   event.target.value = value.slice(0, -1)
+    //   return 
+    // }
+
+    if (value < 0) {
+      return;
     }
 
     setFormStateRetry((formStateRetry) => ({
@@ -444,7 +447,7 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
                     <td className={classes.tdDevelopment} style={{ textAlign: 'right', width: '15%' }} >
                         <Input 
                             id="standard-basic" 
-                            type="text" 
+                            type="number" 
                             name="count"
                             onChange={handleChangeCountRetry}
                             value={formStateRetry.count}
