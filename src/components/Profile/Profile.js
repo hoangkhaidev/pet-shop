@@ -107,6 +107,12 @@ const Profile = () => {
       delete form.display_name;
     }
 
+    if (roleUser.account_type === 'adminsub' || roleUser.account_type === 'brandsub' || roleUser.account_type === 'operatorsub') {
+      delete form.finance_emails;
+      delete form.support_email;
+    }
+    
+
     try {
       let response = await api.post(
         `/api/profile/update`,
