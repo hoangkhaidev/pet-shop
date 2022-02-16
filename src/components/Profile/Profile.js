@@ -104,6 +104,7 @@ const Profile = () => {
     if (form?.display_name === 'admin') {
       delete form.finance_email;
       delete form.support_email;
+      delete form.display_name;
     }
 
     try {
