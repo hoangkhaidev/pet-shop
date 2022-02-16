@@ -67,11 +67,15 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
  
   const handleChangeCountRefund = (event) => {
     let value = event.target.value;
-    let regex = /^\d+(\\d{0})?$/g;
-    if (!regex.test(value)) {
-      event.target.value = value.slice(0, -1)
-      return 
+    console.log(value);
+    if (value < 0) {
+      return;
     }
+    // let regex = /^\d+(\\d{0})?$/g;
+    // if (!regex.test(value)) {
+    //   event.target.value = value.slice(0, -1)
+    //   return 
+    // }
 
     setFormStateRefund((formStateRefund) => ({
         ...formStateRefund,
@@ -397,7 +401,7 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
                     <td className={classes.tdDevelopment} style={{ textAlign: 'right', width: '15%' }} >
                         <Input 
                             id="standard-basic" 
-                            type="text" 
+                            type="number" 
                             name="count"
                             value={formStateRefund.count}
                             onChange={handleChangeCountRefund}
