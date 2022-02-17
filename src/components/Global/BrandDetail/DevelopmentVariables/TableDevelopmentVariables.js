@@ -119,6 +119,10 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
           if (response?.err === 'err:no_permission') {
             toast.warn(t('no_permission'));
           }
+          if (response?.err === 'err:invalid_username') {
+            toast.warn(t('invalid_username'));
+          }
+          
         }
     } catch (e) {
         console.log('e', e);
@@ -199,6 +203,9 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
           if (response?.err === 'err:no_permission') {
             toast.warn(t('no_permission'));
           }
+          if (response?.err === 'err:invalid_username') {
+            toast.warn(t('invalid_username'));
+          }
         }
     } catch (e) {
         console.log('e', e);
@@ -259,6 +266,9 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
           if (response?.err === 'err:no_permission') {
             toast.warn(t('no_permission'));
           }
+          if (response?.err === 'err:invalid_username') {
+            toast.warn(t('invalid_username'));
+          }
         }
     } catch (e) {
         console.log('e', e);
@@ -317,6 +327,9 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
           }
           if (response?.err === 'err:no_permission') {
             toast.warn(t('no_permission'));
+          }
+          if (response?.err === 'err:invalid_username') {
+            toast.warn(t('invalid_username'));
           }
         }
     } catch (e) {
