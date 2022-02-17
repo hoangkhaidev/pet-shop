@@ -4,14 +4,15 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import api from 'src/utils/api';
 
-const ButtonResume = ({cell, row }) => {
+const ButtonResume = ({cell, row, setRefreshData = () => {} }) => {
   const { t } = useTranslation();
     
-  const onResume = async (row) => {
+  const onResume = async (row, message) => {
     const response = await api.post(`/api/global/brand_detail/${row.brand_id}/${row.round_id}/resume`, null);
     if (get(response, 'success', false)) {
-        toast.success("Reset Success");
-        window.location.reload();
+        setRefreshData(() => Math.random());
+        toast.success(message);
+        // window.location.reload();
     } else {
         if (response?.err === 'err:suspended_account') {
             toast.warn(t('suspended_account'));
@@ -32,7 +33,7 @@ const ButtonResume = ({cell, row }) => {
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => onResume(row)}
+                    onClick={() => onResume(row, 'Retry Success')}
                 >
                     Retry Now
                 </Button>
@@ -43,7 +44,7 @@ const ButtonResume = ({cell, row }) => {
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => onResume(row)}
+                    onClick={() => onResume(row, 'Refund Success')}
                 >
                     Refund Now
                 </Button>

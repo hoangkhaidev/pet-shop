@@ -17,6 +17,7 @@ import useFetchData from "src/utils/hooks/useFetchData";
 
 const FailedTransaction = () => {
   const router = useRouter();
+  const [refreshData, setRefreshData] = useState(null);
   ///handle permission
   const permission_groups = useSelector((state) => state.roleUser.permission_groups);
   let arrPermissionFailed = {};
@@ -61,7 +62,8 @@ const FailedTransaction = () => {
 
   const { dataResponse, total_size } = useFetchData(
     `/api/global/brand_detail/failed_transactions`,
-    objFilter
+    objFilter,
+    [refreshData]
   );
   
   useEffect(() => {
@@ -124,7 +126,7 @@ const FailedTransaction = () => {
         column_name: 'Action',
         align: 'left',
         formatter: (cell, row) => {
-          return <ButtonResume cell={cell} row={row} />
+          return <ButtonResume cell={cell} row={row} setRefreshData={setRefreshData}/>
         }
       }
     ) :
@@ -134,7 +136,7 @@ const FailedTransaction = () => {
         column_name: 'Action',
         align: 'left',
         formatter: (cell, row) => {
-          return <ButtonResume cell={cell} row={row} />
+          return <ButtonResume cell={cell} row={row} setRefreshData={setRefreshData} />
         }
       }
     ) : {}
