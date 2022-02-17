@@ -67,14 +67,14 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
  
   const handleChangeCountRefund = (event) => {
     let value = event.target.value;
+    let regex = /^\d+$/;
     if (value < 0) {
       return;
     }
-    // let regex = /^\d+(\\d{0})?$/g;
-    // if (!regex.test(value)) {
-    //   event.target.value = value.slice(0, -1)
-    //   return 
-    // }
+    if (!regex.test(value)) {
+      event.target.value = value.slice(0, -1);
+      return;
+    }
 
     setFormStateRefund((formStateRefund) => ({
         ...formStateRefund,
@@ -151,19 +151,18 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
   //  retry
   const handleChangeCountRetry = (event) => {
     let value = event.target.value;
-    // let regex = /^\d+(\\d{0})?$/g;
-    // if (!regex.test(value)) {
-    //   event.target.value = value.slice(0, -1)
-    //   return 
-    // }
-
+    let regex = /^\d+$/;
     if (value < 0) {
+      return;
+    }
+    if (!regex.test(value)) {
+      event.target.value = value.slice(0, -1);
       return;
     }
 
     setFormStateRetry((formStateRetry) => ({
-        ...formStateRetry,
-        count: Number(event.target.value),
+      ...formStateRetry,
+      count: Number(event.target.value),
     }));
     
   }
@@ -404,8 +403,9 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
                     <td className={classes.tdDevelopment} style={{ textAlign: 'right', width: '15%' }} >
                         <Input 
                             id="standard-basic" 
-                            type="number" 
+                            type="text" 
                             name="count"
+                            pattern="[0-9]*"
                             value={formStateRefund.count}
                             onChange={handleChangeCountRefund}
                             className={classes.inputTotal} 
@@ -447,8 +447,9 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
                     <td className={classes.tdDevelopment} style={{ textAlign: 'right', width: '15%' }} >
                         <Input 
                             id="standard-basic" 
-                            type="number" 
+                            type="text" 
                             name="count"
+                            pattern="[0-9]*"
                             onChange={handleChangeCountRetry}
                             value={formStateRetry.count}
                             className={classes.inputTotal} 
