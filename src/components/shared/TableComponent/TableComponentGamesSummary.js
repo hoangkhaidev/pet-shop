@@ -200,37 +200,40 @@ const TableComponentGamesSummary = ({
                   className={classes.tableCellBody}>
                   {formatNumber(dataSum?.margin)}
                 </TableCell>
-                {dataSum?.currency_entry_list?.map((item, index) => (
-                  <Fragment key={index} >
-                    <TableCell
-                      sx={{
-                        padding: 1
-                      }} 
-                      align="right"
-                      style={{ fontWeight: '600' }} 
-                      className={classes.tableCellBody}>
-                      {formatNumber(item?.bet)}
-                    </TableCell>
-                    <TableCell 
-                      sx={{
-                        padding: 1
-                      }} 
-                      align="right"
-                      style={{ fontWeight: '600' }} 
-                      className={classes.tableCellBody}>
-                      {formatNumber(item?.win)}
-                    </TableCell>
-                    <TableCell 
-                      sx={{
-                        padding: 1
-                      }} 
-                      align="right"
-                      style={{ fontWeight: '600' }} 
-                      className={classes.tableCellBody}>
-                      {formatNumber(item?.margin)}
-                    </TableCell>
-                  </Fragment>
-                ))}
+                {
+                  listCurrency?.length > 0 ?
+                  dataSum?.currency_entry_list?.map((item, index) => (
+                    <Fragment key={index} >
+                      <TableCell
+                        sx={{
+                          padding: 1
+                        }} 
+                        align="right"
+                        style={{ fontWeight: '600' }} 
+                        className={classes.tableCellBody}>
+                        {formatNumber(item?.bet)}
+                      </TableCell>
+                      <TableCell 
+                        sx={{
+                          padding: 1
+                        }} 
+                        align="right"
+                        style={{ fontWeight: '600' }} 
+                        className={classes.tableCellBody}>
+                        {formatNumber(item?.win)}
+                      </TableCell>
+                      <TableCell 
+                        sx={{
+                          padding: 1
+                        }} 
+                        align="right"
+                        style={{ fontWeight: '600' }} 
+                        className={classes.tableCellBody}>
+                        {formatNumber(item?.margin)}
+                      </TableCell>
+                    </Fragment>
+                  )) : ''
+                }
               </TableRow>
             </>
           }

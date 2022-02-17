@@ -111,6 +111,7 @@ const GamesSummary = () => {
     const mapData = get(dataResponse, 'list', []);
     const mapDataSum = dataResponse?.sum;
 
+    console.log(dataResponse);
     setData(mapData);
     setDataSum(mapDataSum)
   }, [dataResponse]);
