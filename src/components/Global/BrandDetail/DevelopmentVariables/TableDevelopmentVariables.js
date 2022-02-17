@@ -68,18 +68,21 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
   const handleChangeCountRefund = (event) => {
     let value = event.target.value;
     let regex = /^\d+$/;
+    
+    if (!regex.test(value)) {
+      event.target.value = value.slice(0, -1);
+    }
+
     if (value < 0) {
       return;
     }
-    if (!regex.test(value)) {
-      event.target.value = value.slice(0, -1);
-      return;
-    }
 
-    setFormStateRefund((formStateRefund) => ({
-        ...formStateRefund,
-        count: Number(event.target.value),
-    }));
+    if (!isNaN(value)) {
+      setFormStateRefund((formStateRefund) => ({
+          ...formStateRefund,
+          count: Number(event.target.value),
+      }));
+    }
     
   }
 
@@ -152,19 +155,21 @@ const TableDevelopmentVariables = ({ setValueTab }) => {
   const handleChangeCountRetry = (event) => {
     let value = event.target.value;
     let regex = /^\d+$/;
-    if (value < 0) {
-      return;
-    }
-    if (!regex.test(value)) {
-      event.target.value = value.slice(0, -1);
+
+    if (event.target.value < 0) {
       return;
     }
 
-    setFormStateRetry((formStateRetry) => ({
-      ...formStateRetry,
-      count: Number(event.target.value),
-    }));
-    
+    if (!regex.test(value)) {
+      event.target.value = value.slice(0, -1);
+    }
+
+    if (!isNaN(value)) {
+      setFormStateRetry((formStateRetry) => ({
+        ...formStateRetry,
+        count: Number(event.target.value),
+      }));
+    }
   }
 
   const handleChangeInputRetry = (event) => {
