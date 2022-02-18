@@ -37,9 +37,10 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const TableHeader = ({ headers, listCurrency }) => {
+const TableHeader = ({ headers, listCurrency, listCurrencyFetch }) => {
   const { t } = useTranslation();
   const classes = useStyles();
+  console.log(headers);
   return (
     <TableHead className={classes.tableHeader}>
       <TableRow>
@@ -53,18 +54,33 @@ const TableHeader = ({ headers, listCurrency }) => {
           >
             Total (USD)
           </TableCell>
-          {listCurrency?.map((item, index) => (
-            <TableCell 
-              key={index}
-              align="center" 
-              colSpan={3} 
-              classes={{
-                  root: classes.tableCellHeader
-              }}
-            >
-              {item.currency_code}
-            </TableCell>
-          ))}
+
+          {
+            listCurrency?.length > 0 ?
+              listCurrency?.map((item, index) => (
+                <TableCell 
+                  key={index}
+                  align="center" 
+                  colSpan={3} 
+                  classes={{
+                      root: classes.tableCellHeader
+                  }}
+                >
+                  {item.currency_code}
+                </TableCell>
+              )) : listCurrencyFetch?.map((item, index) => (
+                <TableCell 
+                  key={index}
+                  align="center" 
+                  colSpan={3} 
+                  classes={{
+                      root: classes.tableCellHeader
+                  }}
+                >
+                  {item.currency_code}
+                </TableCell>
+              ))
+          }
       </TableRow>
       <TableRow>
         {(headers || []).map((header, index) => (
@@ -78,6 +94,37 @@ const TableHeader = ({ headers, listCurrency }) => {
             {t(header)}
           </TableCell>
         ))}
+        {
+          listCurrency?.length > 0 ?
+            '' : listCurrencyFetch?.map((item, index) => (
+              <Fragment key={index}>
+                <TableCell
+                  align="center"
+                  classes={{
+                    root: classes.tableCellHeader
+                  }}
+                >
+                  {'Bet'}
+                </TableCell>
+                <TableCell
+                  align="center"
+                  classes={{
+                    root: classes.tableCellHeader
+                  }}
+                >
+                  {'Win'}
+                </TableCell>
+                <TableCell
+                  align="center"
+                  classes={{
+                    root: classes.tableCellHeader
+                  }}
+                >
+                  {'Margin'}
+                </TableCell>
+              </Fragment>
+            ))
+        }
       </TableRow>
     </TableHead>
   );
@@ -145,7 +192,7 @@ const TableComponentGamesSummary = ({
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="table-component">
-        <TableHeader headers={columns.map(item => item.column_name)} listCurrency={listCurrency} />
+        <TableHeader headers={columns.map(item => item.column_name)} listCurrency={listCurrency} listCurrencyFetch={dataSum?.currency_entry_list}/>
         <TableBody>{data.length > 0 ? data.map((row, index) => {
               let startIndex = (page - 1) * page_size + 1; 
               return (
@@ -201,7 +248,6 @@ const TableComponentGamesSummary = ({
                   {formatNumber(dataSum?.margin)}
                 </TableCell>
                 {
-                  listCurrency?.length > 0 ?
                   dataSum?.currency_entry_list?.map((item, index) => (
                     <Fragment key={index} >
                       <TableCell
@@ -232,7 +278,7 @@ const TableComponentGamesSummary = ({
                         {formatNumber(item?.margin)}
                       </TableCell>
                     </Fragment>
-                  )) : ''
+                  ))
                 }
               </TableRow>
             </>
