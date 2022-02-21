@@ -103,6 +103,10 @@ const PlayersBusinessSummary = lazy(() =>
   import('src/components/Reports/PlayersBusinessSummary/PlayersBusinessSummary')
 );
 
+const GameRTPSummary = lazy(() =>
+  import('src/components/Reports/GameRTPSummary/GameRTPSummary')
+);
+
 const AdminLogs = lazy(() =>
   import('src/components/Logs/AdminLogs/AdminLogs')
 );
@@ -379,6 +383,12 @@ const routes = (isLoggedIn) => [
         fullpath: '/reports/players_business_summary',
         name: 'Players Business Summary',
         element: <PlayersBusinessSummary />,
+      },
+      {
+        path: '/games_rtp_summary',
+        fullpath: '/report/games_rtp_summary',
+        name: 'Game Rtp Summary',
+        element: <GameRTPSummary />,
       }
     ],
   },

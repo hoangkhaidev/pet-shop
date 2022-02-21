@@ -11,12 +11,14 @@ import get from 'lodash/get';
 import TransactionDetails from "src/components/TransactionDetails/TransactionDetails";
 import FailedTransactionFilter from "./FailedTransactionFilter";
 import ButtonResume from "./ButtonResume";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router";
 import useFetchData from "src/utils/hooks/useFetchData";
+import { clearPage, setPageName } from "src/features/parentParam/parentParam";
 
 const FailedTransaction = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [refreshData, setRefreshData] = useState(null);
   ///handle permission
   const permission_groups = useSelector((state) => state.roleUser.permission_groups);
@@ -70,6 +72,13 @@ const FailedTransaction = () => {
     const mapData = get(dataResponse, 'list', []);
     setData(mapData);
   }, [dataResponse]);
+
+  useEffect(() => {
+    dispatch(setPageName("failedTransaction"));
+    return () => {
+      dispatch(clearPage());
+    }
+  }, []);
 
   const columns = [
     {

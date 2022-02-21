@@ -14,6 +14,12 @@ import get from 'lodash/get';
 import { SORT_FIELD, SORT_ODER } from "src/constants";
 import SelectFieldMutiple from "../shared/InputField/SelectFieldMutiple";
 
+const activation = [
+  {id: 0, value: "all", label: "All"},
+  {id: 1, value: "enable", label: "Active"},
+  {id: 2, value: "disable", label: "Inactive"},
+];
+
 const status = [
   {id: 0, value: "all", label: "All"},
   {id: 1, value: "enable", label: "Enable"},
@@ -46,15 +52,29 @@ const GamesFilterConfig = ({
   const [gameTypeData, setGameTypeData] = useState([]);
   const [gameNameData, setGameNameData] = useState([]);
 
-  const { control, handleSubmit, reset } = useForm({
-    defaultValues: {
+  let defaultValuesInit = {};
+
+  if (roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') {
+    defaultValuesInit = {
+      game_type: "all",
+      game_name: "all",
+      sort_field: "game_name",
+      sort_order: "asc",
+      game_activation: "all"
+    };
+  } else {
+    defaultValuesInit = {
       game_type: "all",
       game_name: "all",
       sort_field: "game_name",
       sort_order: "asc",
       status: "all",
-      brand_ids: "all"
-    }
+      brand_ids: "all",
+    };
+  }
+
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: defaultValuesInit
   });
 
   useEffect(() => {
@@ -117,14 +137,27 @@ const GamesFilterConfig = ({
   };
 
   const onSubmit = async (data) => {
-    let checkBrand = brandMultiple?.findIndex(item => (item === 'all')) > -1;
-    const form = {
-      ...data,
-      game_type: data.game_type === 'all' ? '' : data.game_type,
-      game_name: data.game_name === 'all' ? '' : data.game_name,
-      brand_ids: checkBrand ? [] : brandMultiple,
-      status: data.status,
-    };
+
+    let form = {};
+
+    if (roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') {
+      form = {
+        ...data,
+        game_type: data.game_type === 'all' ? '' : data.game_type,
+        game_name: data.game_name === 'all' ? '' : data.game_name,
+        game_activation: data.game_activation,
+      };
+    } else {
+      let checkBrand = brandMultiple?.findIndex(item => (item === 'all')) > -1;
+      form = {
+        ...data,
+        game_type: data.game_type === 'all' ? '' : data.game_type,
+        game_name: data.game_name === 'all' ? '' : data.game_name,
+        brand_ids: checkBrand ? [] : brandMultiple,
+        status: data.status,
+      };
+    }
+
     onSubmitProps(form);
   };
 
@@ -135,19 +168,32 @@ const GamesFilterConfig = ({
       sort_field: "game_name",
       sort_order: "asc",
       status: "all",
-      jackpot: "all",
+      game_activation: "all",
     });
-    setObjFilter({
-      brand_ids: [],
-      game_name: "",
-      game_type: "",
-      sort_field: "game_name",
-      sort_order: "asc",
-      status: "all",
-      page: 1,
-      page_size: 30,
-    });
-    setBrandMultiple(['all']);
+
+    if (roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') {
+      setObjFilter({
+        game_name: "",
+        game_type: "",
+        sort_field: "game_name",
+        sort_order: "asc",
+        game_activation: "",
+        page: 1,
+        page_size: 30,
+      });
+    } else {
+      setObjFilter({
+        brand_ids: [],
+        game_name: "",
+        game_type: "",
+        sort_field: "game_name",
+        sort_order: "asc",
+        status: "all",
+        page: 1,
+        page_size: 30,
+      });
+      setBrandMultiple(['all']);
+    }
   }
 
   return (
@@ -164,14 +210,28 @@ const GamesFilterConfig = ({
                 fullWidth={false}
                 options={gameTypeData}
               />
-              <SelectField
-                control={control}
-                namefileld="status"
-                label="Game status"
-                id="status"
-                fullWidth={false}
-                options={status}
-              />
+              {
+                roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub' ? (
+                  <SelectField
+                    control={control}
+                    namefileld="game_activation"
+                    label="Game Activation"
+                    id="game_activation"
+                    fullWidth={false}
+                    options={activation}
+                  />
+                ) : (
+                  <SelectField
+                    control={control}
+                    namefileld="status"
+                    label="Game status"
+                    id="status"
+                    fullWidth={false}
+                    options={status}
+                  />
+                )
+              }
+              
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
               <SelectField
@@ -185,7 +245,7 @@ const GamesFilterConfig = ({
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
               <SelectFieldMutiple
-                selectDisabled= {roleUser.account_type === 'brand' ? true : false}
+                selectDisabled= {roleUser.account_type === 'operator' || roleUser.account_type === 'operatorsub' ? false : true}
                 options={brandData} 
                 label={'Brand'} 
                 id={'brand_ids'}

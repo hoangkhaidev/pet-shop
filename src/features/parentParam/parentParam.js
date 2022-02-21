@@ -24,6 +24,7 @@ export const parentParamSlice = createSlice({
       state.pageName = action.payload;
     },
     clearPage: (state, action) => {
+      console.log(123);
       state.page = '';
       state.pageName = '';
     }

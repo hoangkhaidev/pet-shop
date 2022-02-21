@@ -23,12 +23,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ChangeStatusGamesConfig = ({status, game_code, brand_id, brand_name, game_name}) => {
+const ChangeStatusGamesConfig = ({status, game_code, brand_id, brand_name, game_name, game_id}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(status);
   const [valCheck, setValCheck] = useState(null);
   const { t } = useTranslation();
+
+  const roleUser = useSelector((state) => state.roleUser);
 
   const onOpenModal = useCallback(() => {
     setOpen(true);
@@ -64,49 +66,94 @@ const ChangeStatusGamesConfig = ({status, game_code, brand_id, brand_name, game_
   };
 
   const onChangeStatus = async () => {
-    setChecked(valCheck);
-    onClose();
-    let dataForm = {
-      brand_id: brand_id,
-      game_code: game_code
-    }
-    if (valCheck === true) {
-      try {
-        let data = await api.post(`/api/game_config/brand_game/enable`, dataForm);
-        if(!data?.success) {
-          if (data?.err === 'err:no_permission') {
-            toast.warn(t('no_permission'), {
-              onClose: onClose()
-            });
-          } else if (data?.err === 'err:suspended_account') {
-            toast.warn(t('suspended_account'));
+
+    if (roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') {
+      setChecked(valCheck);
+      onClose();
+      if (valCheck === true) {
+        try {
+          let data = await api.post(`/api/game_config/admin_game/${game_id}/enable`, null);
+          if(!data?.success) {
+            if (data?.err === 'err:no_permission') {
+              toast.warn(t('no_permission'), {
+                onClose: onClose()
+              });
+            } else if (data?.err === 'err:suspended_account') {
+              toast.warn(t('suspended_account'));
+            } else {
+              toast.warn(`Failed to Change`);
+            }
           } else {
-            toast.warn(`Failed to Change`);
+            toast.success(`Change Status Success`);
           }
-        } else {
-          toast.success(`Change Status Success`);
+        } catch(e) {
+          console.log(e)
         }
-      } catch(e) {
-        console.log(e)
+      } else {
+        try {
+          let data = await api.post(`/api/game_config/admin_game/${game_id}/disable`, null);
+          if(!data?.success) {
+            if (data?.err === 'err:no_permission') {
+              toast.warn(t('no_permission'), {
+                onClose: onClose()
+              });
+            } else if (data?.err === 'err:suspended_account') {
+              toast.warn(t('suspended_account'));
+            } else {
+              toast.warn(`Failed to Change`);
+            }
+          } else {
+            toast.success(`Change Status Success`);
+          }
+        } catch(e) {
+          console.log(e)
+        }
       }
     } else {
-      try {
-        let data = await api.post(`/api/game_config/brand_game/disable`, dataForm);
-        if(!data?.success) {
-          if (data?.err === 'err:no_permission') {
-            toast.warn(t('no_permission'), {
-              onClose: onClose()
-            });
-          } else if (data?.err === 'err:suspended_account') {
-            toast.warn(t('suspended_account'));
+      setChecked(valCheck);
+      onClose();
+      let dataForm = {
+        brand_id: brand_id,
+        game_code: game_code
+      }
+      if (valCheck === true) {
+        try {
+          let data = await api.post(`/api/game_config/brand_game/enable`, dataForm);
+          if(!data?.success) {
+            if (data?.err === 'err:no_permission') {
+              toast.warn(t('no_permission'), {
+                onClose: onClose()
+              });
+            } else if (data?.err === 'err:suspended_account') {
+              toast.warn(t('suspended_account'));
+            } else {
+              toast.warn(`Failed to Change`);
+            }
           } else {
-            toast.warn(`Failed to Change`);
+            toast.success(`Change Status Success`);
           }
-        } else {
-          toast.success(`Change Status Success`);
+        } catch(e) {
+          console.log(e)
         }
-      } catch(e) {
-        console.log(e)
+      } else {
+        try {
+          let data = await api.post(`/api/game_config/brand_game/disable`, dataForm);
+          if(!data?.success) {
+            if (data?.err === 'err:no_permission') {
+              toast.warn(t('no_permission'), {
+                onClose: onClose()
+              });
+            } else if (data?.err === 'err:suspended_account') {
+              toast.warn(t('suspended_account'));
+            } else {
+              toast.warn(`Failed to Change`);
+            }
+          } else {
+            toast.success(`Change Status Success`);
+          }
+        } catch(e) {
+          console.log(e)
+        }
       }
     }
   }

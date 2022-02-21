@@ -87,10 +87,6 @@ const Budget = (props) => {
   });
 
   useEffect(() => {
-    console.log(dataResponse);
-  }, [dataResponse]);
-
-  useEffect(() => {
     let dataChart1 = cloneDeep(dataResponse?.bet_win_list);
     const monthChart1 = dataChart1?.map((item) => item.month);
     const betChart1 = dataChart1?.map((item) => item.bet);
