@@ -77,6 +77,14 @@ export const SORT_FIELD = [
   }
 ];
 
+export const SORT_FIELD_ADMIN = [
+  {
+    id: 1,
+    value: "game_name",
+    label: "Game Name"
+  },
+];
+
 export const LIST_PERMISSIONS = [
   {
     label: "None",

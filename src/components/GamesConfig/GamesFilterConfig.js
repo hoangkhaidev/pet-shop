@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import cloneDeep from "lodash.clonedeep";
 import api from "src/utils/api";
 import get from 'lodash/get';
-import { SORT_FIELD, SORT_ODER } from "src/constants";
+import { SORT_FIELD, SORT_FIELD_ADMIN, SORT_ODER } from "src/constants";
 import SelectFieldMutiple from "../shared/InputField/SelectFieldMutiple";
 
 const activation = [
@@ -263,7 +263,7 @@ const GamesFilterConfig = ({
                 label="Sort Field"
                 id="sort_field"
                 fullWidth={false}
-                options={SORT_FIELD}
+                options={roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub' ? SORT_FIELD_ADMIN : SORT_FIELD}
               />
             </Grid>
             <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>

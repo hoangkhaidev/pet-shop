@@ -166,7 +166,14 @@ const ChangeStatusGamesConfig = ({status, game_code, brand_id, brand_name, game_
       >
         <div>
           <TitlePage title="Confirmation" />
-            <div className={classes.title__text}>{`Are you sure you want to change this: ${game_name} ?`}</div>
+            {
+              roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub' ? 
+                checked ? (<div className={classes.title__text}>{`Are you sure you want to inactivate this game: ${game_name} ?`}</div>) 
+                  : (<div className={classes.title__text}>{`Are you sure you want to activate this game: ${game_name} ?`}</div>) 
+                    : checked ? (<div className={classes.title__text}>{`Are you sure you want to disable this game: ${game_name} ?`}</div>) 
+                      : (<div className={classes.title__text}>{`Are you sure you want to enable this game: ${game_name} ?`}</div>)
+            }
+            
             <div className={classes.title__groupButton} style={{ justifyContent: 'flex-end' }}>
                 <Button style={{ marginRight: '10px' }} variant="contained" color="primary" onClick={() => onChangeStatus()}>
                     OK
