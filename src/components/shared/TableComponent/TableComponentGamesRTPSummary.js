@@ -40,7 +40,6 @@ const StyledTableRow = withStyles((theme) => ({
 const TableHeader = ({ headers, listCurrency, listCurrencyFetch }) => {
   const { t } = useTranslation();
   const classes = useStyles();
-  console.log(headers);
   return (
     <TableHead className={classes.tableHeader}>
       <TableRow>
@@ -138,12 +137,10 @@ TableHeader.propTypes = {
 
 const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
   const classes = useStyles();
- 
+
   return (
     <StyledTableRow align={cellInfo.align}>
       {cellInfo.map((info, index) => {
-        const locationIndex = rowData.currency_entry_list.findIndex((item) => item.currency_code === info.currency_code);
-        const test = rowData.currency_entry_list[locationIndex];
         return (
           <TableCell
             sx={{
@@ -219,6 +216,28 @@ const TableComponentGamesRTPSummary = ({
                   style={{ fontWeight: '600' }} 
                   className={classes.tableCellBody}
                 >
+                </TableCell>
+                <TableCell 
+                  component="th" 
+                  scope="row" 
+                  sx={{
+                    padding: 1
+                  }}
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}
+                >
+                </TableCell>
+                <TableCell 
+                  component="th" 
+                  scope="row" 
+                  sx={{
+                    padding: 1
+                  }}
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}
+                >
                   Total:
                 </TableCell>
 
@@ -229,7 +248,7 @@ const TableComponentGamesRTPSummary = ({
                   align="right"
                   style={{ fontWeight: '600' }} 
                   className={classes.tableCellBody}>
-                  {formatNumber(dataSum?.bet)}
+                  {formatNumber(dataSum?.bets)}
                 </TableCell>
                 <TableCell 
                   sx={{
@@ -238,7 +257,7 @@ const TableComponentGamesRTPSummary = ({
                   align="right"
                   style={{ fontWeight: '600' }} 
                   className={classes.tableCellBody}>
-                  {formatNumber(dataSum?.win)}
+                  {formatNumber(dataSum?.wins)}
                 </TableCell>
                 <TableCell 
                   sx={{
@@ -247,41 +266,8 @@ const TableComponentGamesRTPSummary = ({
                   align="right"
                   style={{ fontWeight: '600' }} 
                   className={classes.tableCellBody}>
-                  {formatNumber(dataSum?.margin)}
+                  {formatNumber(dataSum?.margins)}
                 </TableCell>
-                {
-                  dataSum?.currency_entry_list?.map((item, index) => (
-                    <Fragment key={index} >
-                      <TableCell
-                        sx={{
-                          padding: 1
-                        }} 
-                        align="right"
-                        style={{ fontWeight: '600' }} 
-                        className={classes.tableCellBody}>
-                        {formatNumber(item?.bet)}
-                      </TableCell>
-                      <TableCell 
-                        sx={{
-                          padding: 1
-                        }} 
-                        align="right"
-                        style={{ fontWeight: '600' }} 
-                        className={classes.tableCellBody}>
-                        {formatNumber(item?.win)}
-                      </TableCell>
-                      <TableCell 
-                        sx={{
-                          padding: 1
-                        }} 
-                        align="right"
-                        style={{ fontWeight: '600' }} 
-                        className={classes.tableCellBody}>
-                        {formatNumber(item?.margin)}
-                      </TableCell>
-                    </Fragment>
-                  ))
-                }
               </TableRow>
             </>
           }

@@ -24,11 +24,10 @@ const GameRTPSummary = () => {
     return item.name === 'Reports'
   });
   const [objFilter, setObjFilter] = useState({
-    brand_ids: [],
     product_ids: [],
-    from_date: moment().startOf('month').format("DD/MM/YYYY"),
-    to_date: moment().endOf('month').format("DD/MM/YYYY"),
-    option: "day",
+    game_names: [],
+    from_date: moment().subtract(1, 'year').format("DD/MM/YYYY"),
+    to_date: moment().format("DD/MM/YYYY"),
     ...router.query,
   });
 
@@ -38,7 +37,7 @@ const GameRTPSummary = () => {
   const [listCurrency, setListCurrency] = useState([]);
 
   const { dataResponse, total_size, isLoading, isHasPermission } = useFetchData(
-    '/api/report/games_reports',
+    '/api/report/games_rtp_summary',
     objFilter
   );
 
@@ -111,7 +110,6 @@ const GameRTPSummary = () => {
     const mapData = get(dataResponse, 'list', []);
     const mapDataSum = dataResponse?.sum;
 
-    console.log(dataResponse);
     setData(mapData);
     setDataSum(mapDataSum)
   }, [dataResponse]);
@@ -128,12 +126,16 @@ const GameRTPSummary = () => {
       align: "left",
     },
     {
-      data_field: "game_rtp",
+      data_field: "rtp",
       column_name: "Game RTP",
       align: "left",
+      formatter: (cell) => {
+        let cellFormat = formatNumber(cell);
+        return cellFormat + '%';
+      }
     },
     {
-      data_field: "bet",
+      data_field: "bets",
       column_name: "Bet",
       align: "right",
       formatter: (cell) => {
@@ -142,7 +144,7 @@ const GameRTPSummary = () => {
       }
     },
     {
-      data_field: "win",
+      data_field: "wins",
       column_name: "Win",
       align: "right",
       formatter: (cell) => {
@@ -151,7 +153,7 @@ const GameRTPSummary = () => {
       }
     },
     {
-      data_field: "margin",
+      data_field: "margins",
       column_name: "Margin",
       align: "right",
       formatter: (cell) => {

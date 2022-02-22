@@ -25,18 +25,17 @@ const GameRTPSummaryFilter = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
   const { control, handleSubmit, reset } = useForm({
-    defaultValues: {
-      option: "day",
-    }
+    defaultValues: {}
   });
 
   const [gameMultiple, setGameMultiple] = useState(['all']);
   const [productMultiple, setProductMultiple] = useState(['all']);
 
   const [dateRange, setDateRange] = useState({
-    start: moment().startOf('month').format("DD/MM/YYYY"),
-    end: moment().endOf('month').format("DD/MM/YYYY")
+    start: moment().subtract(1, 'year').format("DD/MM/YYYY"),
+    end: moment().format("DD/MM/YYYY")
   });
+  
   const dateRangeRef = useRef(null);
   const classes = useStyles();
 
@@ -83,11 +82,11 @@ const GameRTPSummaryFilter = ({
   };
 
   const onSubmit = async (data) => {
-    let checkBrand = gameMultiple?.findIndex(item => (item === 'all')) > -1;
+    let checkGames = gameMultiple?.findIndex(item => (item === 'all')) > -1;
     let checkProduct = productMultiple?.findIndex(item => (item === 'all')) > -1;
     const form = {
       ...data,
-      games: checkBrand ? [] : gameMultiple,
+      game_names: checkGames ? [] : gameMultiple,
       product_ids: checkProduct ? [] : productMultiple,
       from_date: dateRange.start,
       to_date: dateRange.end,
@@ -97,19 +96,18 @@ const GameRTPSummaryFilter = ({
 
   const onResetFilterPlayer = () => {
     reset({
-      games: "all",
+      game_names: "all",
       product_ids: "all",
     });
     setDateRange({
-      start: moment().startOf('month').format("DD/MM/YYYY"),
-      end: moment().endOf('month').format("DD/MM/YYYY")
+      start: moment().subtract(1, 'year').format("DD/MM/YYYY"),
+      end: moment().format("DD/MM/YYYY")
     });
     setObjFilter({
-      games: [],
+      game_names: [],
       product_ids: [],
-      from_date: moment().startOf('month').format("DD/MM/YYYY"),
-      to_date: moment().endOf('month').format("DD/MM/YYYY"),
-      option: "day",
+      from_date: moment().subtract(1, 'year').format("DD/MM/YYYY"),
+      to_date: moment().format("DD/MM/YYYY"),
     });
     setGameMultiple(['all']);
     setProductMultiple(['all']);
@@ -153,7 +151,7 @@ const GameRTPSummaryFilter = ({
                 <SelectFieldMutipleCustom
                     setStateMultiple={setGameMultiple}
                     stateMultiple={gameMultiple}
-                    id="game_name"
+                    id="game_names"
                     label="Games"
                     fullWidth={false}
                     options={gameNameData}
