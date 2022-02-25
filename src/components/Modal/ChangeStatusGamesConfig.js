@@ -45,10 +45,17 @@ const ChangeStatusGamesConfig = ({status, game_code, brand_id, brand_name, game_
   let arrPermissionGames = {};
   permission_groups.map((item) => {
     if (item.name === 'Configuration') {
-      arrPermissionGames = item.permissions[0];
+      item.permissions.map((itemGame) => {
+        if (itemGame.name === 'Games') {
+          arrPermissionGames = itemGame;
+        }
+        return itemGame.name
+      });
     }
     return item.name === 'Configuration'
   });
+
+
 
   const handleChange = (event) => {
     if (arrPermissionGames?.full) {
@@ -62,11 +69,9 @@ const ChangeStatusGamesConfig = ({status, game_code, brand_id, brand_name, game_
         setValCheck(event.target.checked)
       }
     }
-    
   };
 
   const onChangeStatus = async () => {
-
     if (roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') {
       setChecked(valCheck);
       onClose();

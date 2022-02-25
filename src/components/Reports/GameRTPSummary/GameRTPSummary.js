@@ -131,34 +131,50 @@ const GameRTPSummary = () => {
       align: "left",
       formatter: (cell) => {
         let cellFormat = formatNumber(cell);
-        return cellFormat + '%';
+        if (cell > 100) {
+          return <b>{cellFormat}%</b>;
+        } else {
+          return cellFormat + '%';
+        }
       }
     },
     {
       data_field: "bets",
       column_name: "Bet",
       align: "right",
-      formatter: (cell) => {
+      formatter: (cell, row) => {
         let cellFormat = formatNumber(cell);
-        return cellFormat;
+        if (row.rtp > 100) {
+          return <b>{cellFormat}</b>;
+        } else {
+          return cellFormat;
+        }
       }
     },
     {
       data_field: "wins",
       column_name: "Win",
       align: "right",
-      formatter: (cell) => {
+      formatter: (cell, row) => {
         let cellFormat = formatNumber(cell);
-        return cellFormat;
+        if (row.rtp > 100) {
+          return <b>{cellFormat}</b>;
+        } else {
+          return cellFormat;
+        }
       }
     },
     {
       data_field: "margins",
       column_name: "Margin",
       align: "right",
-      formatter: (cell) => {
+      formatter: (cell, row) => {
         let cellFormat = formatNumber(cell);
-        return cellFormat;
+        if (row.rtp > 100) {
+          return <b>{cellFormat}</b>;
+        } else {
+          return cellFormat;
+        }
       }
     },
     ...arrayCurrencyColumn,
