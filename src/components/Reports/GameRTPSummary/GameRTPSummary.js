@@ -132,7 +132,7 @@ const GameRTPSummary = () => {
       formatter: (cell) => {
         let cellFormat = formatNumber(cell);
         if (cell > 100) {
-          return <b>{cellFormat}%</b>;
+          return <b style={{color: 'red'}}>{cellFormat}%</b>;
         } else {
           return cellFormat + '%';
         }
@@ -145,7 +145,7 @@ const GameRTPSummary = () => {
       formatter: (cell, row) => {
         let cellFormat = formatNumber(cell);
         if (row.rtp > 100) {
-          return <b>{cellFormat}</b>;
+          return <b style={{color: 'red'}}>{cellFormat}</b>;
         } else {
           return cellFormat;
         }
@@ -158,7 +158,7 @@ const GameRTPSummary = () => {
       formatter: (cell, row) => {
         let cellFormat = formatNumber(cell);
         if (row.rtp > 100) {
-          return <b>{cellFormat}</b>;
+          return <b style={{color: 'red'}}>{cellFormat}</b>;
         } else {
           return cellFormat;
         }
@@ -171,7 +171,7 @@ const GameRTPSummary = () => {
       formatter: (cell, row) => {
         let cellFormat = formatNumber(cell);
         if (row.rtp > 100) {
-          return <b>{cellFormat}</b>;
+          return <b style={{color: 'red'}}>{cellFormat}</b>;
         } else {
           return cellFormat;
         }
