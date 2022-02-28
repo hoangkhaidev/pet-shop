@@ -102,6 +102,13 @@ const GameRTPSummary = () => {
     return formatNum;
   }
 
+  useEffect(() => {
+    document.title = 'Games RTP Summary';
+    return () => {
+      document.title = '';
+    }
+  }, [router]);
+
   useEffect(()=> {
     getColumns();
   }, [getColumns]);

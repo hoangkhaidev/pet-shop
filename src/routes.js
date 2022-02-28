@@ -387,7 +387,7 @@ const routes = (isLoggedIn) => [
       {
         path: '/games_rtp_summary',
         fullpath: '/report/games_rtp_summary',
-        name: 'Game Rtp Summary',
+        name: 'Games RTP Summary',
         element: <GameRTPSummary />,
       }
     ],
