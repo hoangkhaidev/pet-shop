@@ -146,6 +146,8 @@ const GamesFilterConfig = ({
         game_type: data.game_type === 'all' ? '' : data.game_type,
         game_name: data.game_name === 'all' ? '' : data.game_name,
         game_activation: data.game_activation,
+        page: 1,
+        page_size: 30,
       };
     } else {
       let checkBrand = brandMultiple?.findIndex(item => (item === 'all')) > -1;
@@ -155,6 +157,8 @@ const GamesFilterConfig = ({
         game_name: data.game_name === 'all' ? '' : data.game_name,
         brand_ids: checkBrand ? [] : brandMultiple,
         status: data.status,
+        page: 1,
+        page_size: 30,
       };
     }
 

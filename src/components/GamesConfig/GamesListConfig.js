@@ -245,9 +245,9 @@ const GamesListConfig = () => {
     }));
   };
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
+  useEffect(() => {
+    console.log(objFilter);
+  }, [objFilter]);
 
   // if (!isHasPermission) {
   //   return <NoPermissionPage />;
