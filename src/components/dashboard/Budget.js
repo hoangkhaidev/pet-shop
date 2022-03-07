@@ -30,21 +30,20 @@ const useStyles = makeStyles((theme) => ({
     // position: 'absolute',
     // bottom: '0px',
     // right: '38%',
-    padding: '0px 20px',
+    width: '17%',
   },
   test1: {
     display: 'flex',
     position: 'absolute',
     bottom: '0px',
-    right: '0',
+    width: '100%',
+    padding: '0px 0px 0px 20px',
   },
   marin: {
     padding: '15px 30px',
     background: 'none',
     border: 'none',
-    // '&:hover': {
-    //   backgroundColor: 'red',
-    // },
+    width: '100%',
   }
 }));
 
