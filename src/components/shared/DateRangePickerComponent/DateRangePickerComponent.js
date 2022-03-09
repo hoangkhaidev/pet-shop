@@ -36,7 +36,7 @@ const DateRangePickerComponent = ({
         icon={faCalendarAlt} 
         size={'1x'} 
         color={'#616367'} 
-        style={{ position: 'absolute', top: '19px', right: '10px' }}
+        style={{ position: 'absolute', top: '19px', right: '10px', pointerEvents: 'none' }}
       />
     </div>
   );
