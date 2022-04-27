@@ -45,6 +45,7 @@ const PlayersList = () => {
     page_size: 30,
     ...{
       ...router.query,
+      operator_id: router.query.operator_id ? Number(router.query.operator_id) : 0,
       player_id: router.query.player_id ? Number(router.query.player_id) : 0,
       brand_id: router.query.brand_id ? Number(router.query.brand_id) : 0,
     },

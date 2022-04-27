@@ -122,6 +122,7 @@ const CommissionList = () => {
 
   const onHandleUpdate = async (brand_id, brand_name, row) => {
     const formData = getValues();
+    console.log(formData);
     let productCommission = [];
     row.product_commission.forEach(item => {
       if (item.enable) {
