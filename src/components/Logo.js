@@ -1,8 +1,8 @@
 const Logo = (props) => (
   <img
-    style={{ maxWidth: '40px' }}
+    style={{ maxWidth: '200px' }}
     alt="Logo"
-    src="/static/logo_new.png"
+    src="/static/liteplay_logo.png"
     {...props}
   />
 );

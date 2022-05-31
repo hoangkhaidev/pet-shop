@@ -117,7 +117,12 @@ const TableComponent = ({
         <TableBody>{data.length > 0 ? data.map((row, index) => {
               let startIndex = (page - 1) * page_size + 1; 
               return (
-                <TableRowComponent indexRow={startIndex + index} key={ `${row?.game_code}_${index}` || `${row?.brand_name}_${index}` || index } rowData={row} cellInfo={cellInfo} />
+                <TableRowComponent 
+                  indexRow={startIndex + index} 
+                  key={`${row?.game_code ?? row?.brand_id}_${index}`}
+                  rowData={row} 
+                  cellInfo={cellInfo} 
+                />
               )
             }) : <TableRow>
                   <TableCell component="th" scope="row">
