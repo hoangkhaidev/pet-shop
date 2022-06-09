@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable import/no-extraneous-dependencies */
 import { useMemo } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import queryString from 'query-string';

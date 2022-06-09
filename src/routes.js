@@ -1,146 +1,83 @@
+/* eslint-disable camelcase */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable prettier/prettier */
 /* eslint-disable react/jsx-pascal-case */
 /* eslint-disable import/no-cycle */
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
-const MainLayout = lazy(() => import('src/components/MainLayout'));
-const DashboardLayout = lazy(() => import('src/components/DashboardLayout'));
-const Login = lazy(() => import('src/pages/Login'));
-const Dashboard = lazy(() => import('src/pages/Dashboard'));
-const NotFound = lazy(() => import('src/pages/NotFound'));
-const DeviceReport = lazy(() => import('src/pages/DeviceReport/DeviceReport'));
-const SubAccountCreate = lazy(() =>
-  import('src/pages/SubAccount/SubAccountCreatePages')
-);
-const SubAccountList = lazy(() =>
-  import('src/pages/SubAccount/SubAccountListPages')
-);
-const SubAccountEdit = lazy(() =>
-  import('src/components/SubAccount/SubAccountEdit')
-);
-const SubAccountView = lazy(() => 
-  import('src/components/SubAccount/SubAccountView')
-);
-const OperatorCreate = lazy(() =>
-  import('src/components/Operator/OperatorCreate')
-);
-const OperatorList = lazy(() => import('src/components/Operator/OperatorList'));
-const OperatorEdit = lazy(() => import('src/components/Operator/OperatorEdit'));
-const OperatorView = lazy(() => import('src/components/Operator/OperatorView'));
-const BrandCreate = lazy(() => import('src/components/Brand/BrandCreate'));
-const BrandList = lazy(() =>
-  import('src/components/Brand/BrandList/BrandList')
-);
-const BrandView = lazy(() => import('src/components/Brand/BrandView'));
-const BrandEdit = lazy(() => import('src/components/Brand/BrandEdit'));
-const RoleAdd = lazy(() => import('src/components/RoleManagement/RoleAdd'));
-const RoleList = lazy(() => import('src/components/RoleManagement/RoleList'));
-const RoleEdit = lazy(() => import('src/components/RoleManagement/RoleEdit'));
-const PlayersList = lazy(() =>
-  import('src/components/PlayersList/PlayersList')
-);
+import MainLayout from 'layout/MainLayout';
+import Loadable from 'ui-component/Loadable';
 
-const SearchGameHistory = lazy(() =>
-  import('src/components/SearchGameHistory/SearchGameHistory')
-);
+const Login = lazy(() => import('views/pages/authentication/authentication3/Login3'));
+const NotFound = lazy(() => import('views/page/NotFound'));
+const Profile = lazy(() => import('views/Profile/Profile'));
 
-const TransactionDetails = lazy(() =>
-  import('src/components/TransactionDetails/TransactionDetails')
-);
+// dashboard routing
+const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
-const GameHistory = lazy(() =>
-  import('src/components/GameHistory/GameHistory')
-);
+const SubAccountCreate = Loadable(lazy(() => import('views/SubAccount/SubAccountCreate')));
+const SubAccountList = Loadable(lazy(() => import('views/SubAccount/SubAccountList/SubAccountList')));
+const SubAccountEdit = Loadable(lazy(() => import('views/SubAccount/SubAccountEdit')));
+const SubAccountView = Loadable(lazy(() => import('views/SubAccount/SubAccountView')));
 
-const GamesConfig = lazy(() =>
-  import('src/components/GamesConfig/GamesListConfig')
-);
+const RoleList = Loadable(lazy(() => import('views/RoleManagement/RoleList')));
+const RoleAdd = Loadable(lazy(() => import('views/RoleManagement/RoleAdd')));
+const RoleEdit = Loadable(lazy(() => import('views/RoleManagement/RoleEdit')));
 
-const GamesConfigDetails = lazy(() =>
-  import('src/components/GamesConfig/GamesConfigDetails/GamesConfigDetails')
-);
+const BrandList = Loadable(lazy(() => import('views/Brand/BrandList/BrandList')));
+const BrandCreate = Loadable(lazy(() => import('views/Brand/BrandCreate')));
+const BrandEdit = Loadable(lazy(() => import('views/Brand/BrandEdit')));
+const BrandView = Loadable(lazy(() => import('views/Brand/BrandView')));
 
-const GamesConfigDetailsView = lazy(() =>
-  import('src/components/GamesConfig/GamesConfigDetails/GamesConfigDetailsView')
-);
+const OperatorList = Loadable(lazy(() => import('views/Operator/OperatorList')));
+const OperatorCreate = Loadable(lazy(() => import('views/Operator/OperatorCreate')));
+const OperatorEdit = Loadable(lazy(() => import('views/Operator/OperatorEdit')));
+const OperatorView = Loadable(lazy(() => import('views/Operator/OperatorView')));
 
-const CurrencyList = lazy(() =>
-  import('src/components/Currency/CurrencyList/CurrencyList')
-);
+const PlayersList = Loadable(lazy(() => import('views/PlayersList/PlayersList')));
+const SearchGameHistory = Loadable(lazy(() => import('views/SearchGameHistory/SearchGameHistory')));
+const TransactionDetails = Loadable(lazy(() => import('views/TransactionDetails/TransactionDetails')));
+const GameHistory = Loadable(lazy(() => import('views/GameHistory/GameHistory')));
 
-const CommissionList = lazy(() =>
-  import('src/components/Commission/CommissionList')
-);
+const Group_BrandList = Loadable(lazy(() => import('views/Global/Group_BrandList')));
+const BrandListBelow = Loadable(lazy(() => import('views/Global/BrandListBelow')));
+const BrandGlobalEdit = Loadable(lazy(() => import('views/Global/BrandDetail/BrandDetail')));
+const BrandGlobalView = Loadable(lazy(() => import('views/Global/BrandDetail/BrandDetailView')));
+const FailedTransaction = Loadable(lazy(() => import('views/Global/FailedTransaction/FailedTransaction')));
 
-const Group_BrandList = lazy(() =>
-  import('src/components/Global/Group_BrandList')
-);
+const GamesConfig = Loadable(lazy(() => import('views/GamesConfig/GamesListConfig')));
+const GamesConfigDetails = Loadable(lazy(() => import('views/GamesConfig/GamesConfigDetails/GamesConfigDetails')));
+const GamesConfigDetailsView = Loadable(lazy(() => import('views/GamesConfig/GamesConfigDetails/GamesConfigDetailsView')));
+const CurrencyList = Loadable(lazy(() => import('views/Currency/CurrencyList/CurrencyList')));
+const CommissionList = Loadable(lazy(() => import('views/Commission/CommissionList')));
 
-const BrandListBelow = lazy(() =>
-  import('src/components/Global/BrandListBelow')
-);
+const BusinessSummary = Loadable(lazy(() => import('views/Reports/BusinessSummary/BusinessSummary')));
+const GamesSummary = Loadable(lazy(() => import('views/Reports/GamesSummary/GamesSummary')));
+const PlayerSummary = Loadable(lazy(() => import('views/Reports/BusinessSummary/PlayerSummary/PlayerSummary')));
+const PlayersBusinessSummary = Loadable(lazy(() => import('views/Reports/PlayersBusinessSummary/PlayersBusinessSummary')));
+const GameRTPSummary = Loadable(lazy(() => import('views/Reports/GameRTPSummary/GameRTPSummary')));
 
-const BrandGlobalEdit = lazy(() =>
-  import('src/components/Global/BrandDetail/BrandDetail')
-);
 
-const BrandGlobalView = lazy(() =>
-  import('src/components/Global/BrandDetail/BrandDetailView')
-);
+const AdminLogs = Loadable(lazy(() => import('views/Logs/AdminLogs/AdminLogs')));
+const BrandLogs = Loadable(lazy(() => import('views/Logs/BrandLogs/BrandLogs')));
+const OperatorLogs = Loadable(lazy(() => import('views/Logs/OperatorLogs/OperatorLogs')));
 
-const BusinessSummary = lazy(() =>
-  import('src/components/Reports/BusinessSummary/BusinessSummary')
-);
-
-const GamesSummary = lazy(() =>
-  import('src/components/Reports/GamesSummary/GamesSummary')
-);
-
-const PlayerSummary = lazy(() =>
-  import('src/components/Reports/BusinessSummary/PlayerSummary/PlayerSummary')
-);
-
-const PlayersBusinessSummary = lazy(() =>
-  import('src/components/Reports/PlayersBusinessSummary/PlayersBusinessSummary')
-);
-
-const GameRTPSummary = lazy(() =>
-  import('src/components/Reports/GameRTPSummary/GameRTPSummary')
-);
-
-const AdminLogs = lazy(() =>
-  import('src/components/Logs/AdminLogs/AdminLogs')
-);
-
-const BrandLogs = lazy(() =>
-  import('src/components/Logs/BrandLogs/BrandLogs')
-);
-
-const OperatorLogs = lazy(() =>
-  import('src/components/Logs/OperatorLogs/OperatorLogs')
-);
-
-const Profile = lazy(() =>
-  import('src/components/Profile/Profile')
-);
-
-const FailedTransaction = lazy(() =>
-  import('src/components/Global/FailedTransaction/FailedTransaction')
-);
 
 const routes = (isLoggedIn) => [
   {
     path: 'home',
-    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+    element: isLoggedIn ? <MainLayout /> : <Navigate to="/login" />,
     children: [
-      { path: 'dashboard', element: <Dashboard /> },
-      { path: 'device-report', element: <DeviceReport /> },
-      { path: '*', element: <Navigate to="/404" /> },
-    ],
+        {
+            path: '/dashboard',
+            element: <DashboardDefault />
+        },
+    ]
   },
   {
     path: 'sub',
     name: 'Sub Account',
-    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+    element: isLoggedIn ? <MainLayout /> : <Navigate to="/login" />,
     children: [
       {
         path: 'create',
@@ -166,12 +103,13 @@ const routes = (isLoggedIn) => [
         name: 'Edit Sub Account',
         element: <SubAccountEdit />,
       },
+      
     ],
   },
   {
     path: 'operator',
     name: 'Operator',
-    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+    element: isLoggedIn ? <MainLayout /> : <Navigate to="/login" />,
     children: [
       {
         path: 'create',
@@ -201,7 +139,7 @@ const routes = (isLoggedIn) => [
   },
   {
     path: 'brand',
-    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+    element: isLoggedIn ? <MainLayout /> : <Navigate to="/login" />,
     children: [
       {
         path: 'create',
@@ -232,7 +170,7 @@ const routes = (isLoggedIn) => [
   {
     path: 'role',
     name: 'Role',
-    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+    element: isLoggedIn ? <MainLayout /> : <Navigate to="/login" />,
     children: [
       { 
         path: '/', 
@@ -256,7 +194,7 @@ const routes = (isLoggedIn) => [
   },
   {
     path: 'players',
-    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+    element: isLoggedIn ? <MainLayout /> : <Navigate to="/login" />,
     children: [
       {
         path: '/players',
@@ -286,7 +224,7 @@ const routes = (isLoggedIn) => [
   },
   {
     path: 'global',
-    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+    element: isLoggedIn ? <MainLayout /> : <Navigate to="/login" />,
     children: [
       {
         path: '/group_brand',
@@ -322,7 +260,7 @@ const routes = (isLoggedIn) => [
   },
   {
     path: 'configuration',
-    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+    element: isLoggedIn ? <MainLayout /> : <Navigate to="/login" />,
     children: [
       {
         path: '/games',
@@ -358,7 +296,7 @@ const routes = (isLoggedIn) => [
   },
   {
     path: 'reports',
-    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+    element: isLoggedIn ? <MainLayout /> : <Navigate to="/login" />,
     children: [
       {
         path: '/business_summary',
@@ -394,7 +332,7 @@ const routes = (isLoggedIn) => [
   },
   {
     path: 'action-log',
-    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+    element: isLoggedIn ? <MainLayout /> : <Navigate to="/login" />,
     children: [
       {
         path: '/admin-logs',
@@ -418,7 +356,7 @@ const routes = (isLoggedIn) => [
   },
   {
     path: 'profile',
-    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+    element: isLoggedIn ? <MainLayout /> : <Navigate to="/login" />,
     children: [
       {
         path: '/',
@@ -430,11 +368,10 @@ const routes = (isLoggedIn) => [
   },
   {
     path: '/',
-    element: !isLoggedIn ? <MainLayout /> : <Navigate to="/home/dashboard" />,
+    element: !isLoggedIn ? <Login /> : <Navigate to="/home/dashboard" />,
     children: [
       { path: 'login', element: <Login /> },
       { path: '/', element: <Navigate to="/login" /> },
-      // { path: 'register', element: <Register /> },
       { path: '404', element: <NotFound /> },
       { path: '*', element: <Navigate to="/404" /> },
     ],

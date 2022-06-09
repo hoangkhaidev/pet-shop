@@ -1,3 +1,6 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, {createContext, useContext, useReducer} from 'react';
 
 const NotificationContext = createContext();

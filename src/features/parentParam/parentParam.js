@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable prettier/prettier */
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -24,7 +26,6 @@ export const parentParamSlice = createSlice({
       state.pageName = action.payload;
     },
     clearPage: (state, action) => {
-      console.log(123);
       state.page = '';
       state.pageName = '';
     }

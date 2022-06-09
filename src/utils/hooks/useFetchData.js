@@ -1,3 +1,8 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-else-return */
+/* eslint-disable no-lonely-if */
+/* eslint-disable prettier/prettier */
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useCallback } from 'react';
 import queryString from 'query-string';

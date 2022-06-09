@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 export const PER_PAGE_LIST = [30, 50, 100];
 
 export const USER_STATUS = [

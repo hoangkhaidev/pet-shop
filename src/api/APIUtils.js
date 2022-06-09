@@ -1,7 +1,11 @@
-import { getToken, onLogout } from 'src/features/authentication/authentication';
-import { store } from 'src/stores';
+/* eslint-disable prefer-template */
+/* eslint-disable prefer-promise-reject-errors */
+/* eslint-disable prettier/prettier */
+/* eslint-disable import/no-unresolved */
+import { getToken, onLogout } from 'features/authentication/authentication';
+import { store } from 'stores';
 
-const ROOT_API_URL = process.env.REACT_APP_ROOT_API_URL
+const ROOT_API_URL = process.env.REACT_APP_ROOT_API_URL;
 
 class APIUtils {
 	static POSTnoAuth(endpoint, data) {
@@ -13,7 +17,7 @@ class APIUtils {
 		  },
 		  body: JSON.stringify(data)
 		}).then(response => {
-			console.log(response);
+			// console.log(response);
 			if (response.ok) {
 				return response.json()
 			}
@@ -24,7 +28,6 @@ class APIUtils {
 			if (data.success) {
 				return data
 			}
-			console.log(data)
 			return Promise.reject({
 				message: data.err,
 				data: data.data,

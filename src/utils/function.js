@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable prefer-const */
 export const formatNumberWithComma = (x) => {
   const parts = x.toString().split(".");

@@ -1,108 +1,125 @@
-## [Material Kit - React](https://material-kit-react.devias.io/) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?text=%F0%9F%9A%A8Devias%20Freebie%20Alert%20-%20An%20awesome%20ready-to-use%20register%20page%20made%20with%20%23material%20%23react%0D%0Ahttps%3A%2F%2Fdevias.io%20%23createreactapp%20%23devias%20%23material%20%23freebie%20%40devias-io)
+# Berry Free React Material Admin Template [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Get%20Berry%20React%20-%20The%20most%20beautiful%20Material%20designed%20Admin%20Dashboard%20Template%20&url=https://berrydashboard.io&via=codedthemes&hashtags=reactjs,webdev,developers,javascript)
 
-![license](https://img.shields.io/badge/license-MIT-blue.svg)
-
-[![Material Kit - React](https://s3.eu-west-2.amazonaws.com/devias/products/react-material-dashboard/react-material-free-xl.jpg)](https://react-material-dashboard.devias.io/)
-
-> Free React Admin Dashboard made with [Material UI's](https://material-ui.com/?ref=devias-io) components, [React](https://reactjs.org/?ref=devias-io) and of course [create-react-app](https://facebook.github.io/create-react-app/?ref=devias-io) to boost your app development process! We'll launch a pro version soon, so if you are interested subscribe to our personal emailing list on [https://devias.io/](https://devias.io/)
-
-## Upgrade to PRO Version
-
-We also have a pro version of this product which bundles even more pages and components if you want to save more time and design efforts :)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Price](https://img.shields.io/badge/price-FREE-0098f7.svg)](https://github.com/codedthemes/berry-free-react-admin-template/blob/main/LICENSE)
+[![GitHub package version](https://img.shields.io/github/package-json/v/codedthemes/berry-free-react-admin-template)](https://github.com/codedthemes/berry-free-react-admin-template/)
 
 
-| Free Version (this one)              | [Material Kit Pro - React](https://material-ui.com/store/items/devias-kit-pro/) |
-| ------------------------ | :----------------------------------------------------------- |
-| **7** Demo Pages         | **32** demo pages
-| -                        | ✔ Dark & light mode
-| -                        | ✔ Authentication with *Amplify**, **Auth0** and **Firebase**  
-| -                        | ✔ TypeScript version                                                                                   
-| -                        | ✔ Design files (sketch & figma) - for extended license       
-| -                        | ✔ Complete users flows                                       
+Berry is a free react admin template build using the M-UI. It is meant to be the best User Experience with highly customizable feature-riched pages. It is a complete React Dashboard Template with easy and intuitive responsive design as on retina screens or laptops.
 
-## Demo
+:star: :star: :star: Do not forget to star (Top right of this page) it if you like the theme  :star: :star: :star:
 
-- [Dashboard Page](https://material-kit-react.devias.io/app/dashboard)
-- [Users Page](https://material-kit-react.devias.io/app/customers)
-- [Products Page](https://material-kit-react.devias.io/app/products)
-- [Register Page](https://material-kit-react.devias.io/register)
-- [Login Page](https://material-kit-react.devias.io/login)
-- [Account Page](https://material-kit-react.devias.io/app/account)
-- [Settings Page](https://material-kit-react.devias.io/app/settings)
+![IMG_8566.jpg](https://berrydashboard.io/imp-images/berry-github-free-repo-1.jpg)
 
 
-## Quick start
+[Pro version](https://berrydashboard.io) of Berry react template contains features like TypeScript, Apps, Authentication Methods (i.e. JWT, Auth0, Firebase), Advance Components, Form Plugins, Layouts, Widgets, and many more.
 
-- [Download from Github](https://github.com/devias-io/material-kit-react/archive/master.zip) or [Download from Devias](https://devias.io/products/material-kit-react) or clone the repo: `git clone https://github.com/devias-io/material-kit-react.git`
+| [Berry Free](https://berry-free-react-admin-template-git-v20-codedthemes.vercel.app/)    | [Berry](https://material-ui.com/store/items/berry-react-material-admin/) |
+| ---------------------------------------------------------------------------------------- | :------------------------------------------------------------------------|
+| **9** Demo pages                                                                         | **45+** demo pages                                                       |
+| -                                                                                        | ✓ Multi-language                                                         |
+| -                                                                                        | ✓ Dark/Light Mode 🌓                                                    |
+| -                                                                                        | ✓ TypeScript version                                                     |
+| -                                                                                        | ✓ Design files (Figma)                                                   |
+| -                                                                                        | ✓ 6+ color Options                                                       |
+| -                                                                                        | ✓ RTL                                                                    |
+| -                                                                                        | ✓ JWT, Firebase, Auth0 authentications                                   |
+| -                                                                                        | ✓ [More components](https://berrydashboard.io/dashboard/default)         |  
 
-- Make sure your NodeJS and npm versions are up to date for `React 17`
 
-- Install dependencies: `npm install` or `yarn`
+## Why Berry?
 
-- Start the server: `npm run start` or `yarn start`
+Berry brings everything you need for dashboard development. We have added the following high-end features in the initial release.
 
-- Views are on: `localhost:3000`
+ * Modern aesthetics UI design
+ * Material-UI components
+ * Fully Responsive, all modern browser supported
+ * Easy to use code structure
+ * Flexible & High-Performance code
+ * Easy Documentation Guide
 
-## 🖌 Design Files
+## Free Berry React version
 
-👉[Download Sketch file](https://s3.eu-west-2.amazonaws.com/devias/products/react-material-dashboard/react-material-dashboard-free.sketch)
+#### Preview
 
-👉[Download Figma file](https://devias.s3.eu-west-2.amazonaws.com/products/react-material-dashboard/react-material-dashboard-free.fig)
+ - [Demo](https://berry-free-react-admin-template-git-v20-codedthemes.vercel.app/)
 
-## File Structure
+#### Download
 
-Within the download you'll find the following directories and files:
+ - [Download from Github](https://github.com/codedthemes/berry-free-react-admin-template)
+ 
+## Berry Pro version
 
+Berry is available to purchase.
+#### Preview
+
+ - [Demo](https://berrydashboard.io)
+
+#### Purchase
+
+ - [Purchase from Material UI Store](https://material-ui.com/store/items/berry-react-material-admin/)
+
+## Table of contents
+
+ * [Getting Started](#getting-started)
+ * [Documentation](#documentation)
+ * [Technology Stack](#technology-stack)
+ * [Author](#author)
+ * [Issues?](#issues)
+ * [License](#license)
+ * [More Products](#more-free-react-material-admin-templates)
+ * [Follow us](#follow-us)
+ 
+## Getting Started
+
+Clone from Github 
 ```
-material-react-dashboard
-
-├── .eslintrc
-├── .gitignore
-├── .prettierrc
-├── CHANGELOG.md
-├── jsconfig.json
-├── LICENSE.md
-├── package.json
-├── README.md
-├── public
-├── docs
-└── src
-	├── assets
-	├── common
-	├── components
-	├── helpers
-	├── icons
-	├── layouts
-	├── theme
-	├── views
-	│	├── Account
-	│	├── Dashboard
-	│	├── Icons
-	│	├── NotFound
-	│	├── ProductList
-	│	├── Settings
-	│	├── SignIn
-	│	├── SignUp
-	│	├── Typography
-	│	└── UserList
-	├── App.jsx
-	├── index.jsx
-	└── Routes.jsx
+git clone https://github.com/codedthemes/berry-free-react-admin-template.git
 ```
 
-## Resources
+## Documentation
 
-- More freebies like this one: <https://devias.io>
+[Berry documentation](https://codedthemes.gitbook.io/berry/) helps you out in all aspects from Installation to deployment.
 
-## Reporting Issues:
+## Technology Stack
 
-- [Github Issues Page](https://github.com/devias-io/react-material-dashboard/issues?ref=devias-io)
+ - [Material UI V5](https://material-ui.com/)
+ - Built with React Hooks API
+ - Redux & React Context API for State Management
+ - React Router for Navigation Routing
+ - Support of react-script
+ - Code Splitting
+ - CSS-in-JS where CSS is composed using JavaScript instead of defined in external files
+
+## Author
+
+Berry is managed by Team [CodedThemes](https://codedthemes.com).
+
+## Issues
+
+Please generate a [Github issue](https://github.com/codedthemes/berry-free-react-admin-template/issues) if you found a bug in any version. We are trying to be responsive to resolve the issue.
 
 ## License
 
-- Licensed under MIT (https://github.com/devias-io/react-material-dashboard/blob/master/LICENSE.md)
+ - Licensed cover under [MIT](https://github.com/codedthemes/datta-able-bootstrap-dashboard/blob/master/LICENSE)
 
-## Contact Us
+## Berry - Nodejs version by Appseed
 
-- Email Us: support@deviasio.zendesk.com
-- [Follow us on Instagram](https://www.instagram.com/deviasio/)
+- [Free Nodejs](https://appseed.us/product/react-node-js-berry-dashboard)
+- [Premium Berry Nodejs](https://appseed.us/full-stack/react-berry-dashboard)
+
+## More Free React Material Admin Templates
+
+ - [Free Materially](https://codedthemes.com/item/materially-free-reactjs-admin-template/)
+
+## More Premium React Material Admin Templates
+
+ - [Materially](https://codedthemes.com/item/materially-reactjs-admin-dashboard/)
+ 
+## Follow us
+ - Website [https://berrydashboard.io](https://berrydashboard.io)
+ - Blog [https://blog.berrydashboard.io](https://blog.berrydashboard.io)
+ - CodedThemes [https://codedthemes.com](https://codedthemes.com)
+ - Dribbble [https://dribbble.com/codedthemes](https://dribbble.com/codedthemes)
+ - Facebook [https://www.facebook.com/codedthemes](https://www.facebook.com/codedthemes)
+ - Twitter [https://twitter.com/codedthemes](https://twitter.com/codedthemes)

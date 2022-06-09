@@ -1,4 +1,7 @@
-import { SvgIcon } from '@material-ui/core';
+/* eslint-disable prettier/prettier */
+/* eslint-disable arrow-body-style */
+
+import { SvgIcon } from "@mui/material";
 
 const ChangePassword = (props) => {
   return (

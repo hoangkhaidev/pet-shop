@@ -1,5 +1,10 @@
+/* eslint-disable no-lonely-if */
+/* eslint-disable prettier/prettier */
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/no-duplicates */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useEffect, useCallback } from 'react';
+import {useState, useEffect, useCallback } from 'react';
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import APIUtils from './api/APIUtils'

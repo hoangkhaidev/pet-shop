@@ -1,6 +1,9 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable prettier/prettier */
+/* eslint-disable import/no-unresolved */
 /* eslint-disable import/no-anonymous-default-export */
 import axios from 'axios';
-import { store } from "src/stores";
+import { store } from 'stores';
 
 const defaults = {
   baseURL: process.env.REACT_APP_ROOT_API_URL || 'https://sbapi.arrowltd.net',

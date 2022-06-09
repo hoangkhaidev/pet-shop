@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable import/no-unresolved */
 /* eslint-disable no-param-reassign */
 import { createSlice  } from "@reduxjs/toolkit";
 

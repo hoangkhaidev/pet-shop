@@ -1,3 +1,11 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable prefer-template */
+/* eslint-disable object-shorthand */
+/* eslint-disable func-names */
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable spaced-comment */
+/* eslint-disable prettier/prettier */
+/* eslint-disable import/no-duplicates */
 import get from "lodash/get";
 import has from "lodash/get";
 
@@ -27,7 +35,8 @@ class Socket {
           'token': APIUtils.getToken(),
         }, (response, error) => {
         if (!error) {
-          if (this.authed) {//connect ß
+          if (this.authed) {
+            //connect ß
             this.setNotification({
               type: 'reconnect_notification'
             })
