@@ -71,7 +71,15 @@ const SubAccountListFilter = ({
   const roleUser = useSelector((state) => state.roleUser);
 
   useEffect(() => {
-    let mapData = [{id: 0, value: "all", label: "All"}];
+    let mapData = [];
+    if (roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') { 
+      mapData = [
+        {id: 0, value: "all", label: "All"},
+        {id: -1, value: "company", label: "Company"}
+      ];
+    } else {
+      mapData = [{id: 0, value: "all", label: "All"}];
+    }
     let newBrand = cloneDeep(brandsData);
     newBrand?.forEach(data => {
       let optionData = {

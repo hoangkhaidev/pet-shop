@@ -354,6 +354,12 @@ const SubAccountList = () => {
         filter_type: 'all',
         brand_ids: [],
       };
+    } else if (dataSubmit?.brand_ids === 'company') {
+      dataForm = {
+        ...dataForm,
+        filter_type: 'company',
+        brand_ids: [],
+      };
     } else {
       dataForm = {
         ...dataForm,
@@ -388,6 +394,10 @@ const SubAccountList = () => {
       status_search: 'all',
     });
   };
+
+  useEffect(() => {
+    console.log(objFilter);
+  }, [objFilter]);
 
   const onGotoAddSubPage = () => {
     navigate('/sub/create');

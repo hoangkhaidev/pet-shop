@@ -71,19 +71,19 @@ const TransactionRequestResponse = ({roundId}) => {
     }
   ];
 
-  // const handleChangePage = (page) => {
-  //   setPagination(prevState => ({
-  //     ...prevState,
-  //     page
-  //   }));
-  // };
+  const handleChangePage = (page) => {
+    setPagination(prevState => ({
+      ...prevState,
+      page
+    }));
+  };
 
-  // const handleChangeRowsPerPage = (event) => {
-  //   setPagination({
-  //     page: 1,
-  //     page_size: parseInt(event.target.value, 10)
-  //   });
-  // };
+  const handleChangeRowsPerPage = (event) => {
+    setPagination({
+      page: 1,
+      page_size: parseInt(event.target.value, 10)
+    });
+  };
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
@@ -97,6 +97,8 @@ const TransactionRequestResponse = ({roundId}) => {
         types='RoleList'
         page = { Number(pagination.page) }
         page_size = { Number(pagination.page_size) }
+        handleChangePage = {handleChangePage}
+        handleChangeRowsPerPage = {handleChangeRowsPerPage}
       />
     </div>
   );
