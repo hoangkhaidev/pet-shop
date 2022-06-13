@@ -166,7 +166,7 @@ const PlayersBusinessSummary = () => {
     {
       data_field: "player_id",
       column_name: "Player ID",
-      align: "left",
+      align: "right",
       formatter: (cell, row) => {
         return (
           <Link href={`/players/${row.player_id}/information?from_date=${row.from_date}&game_name=&game_type=&id=${row.player_id}&page=1&page_size=30&player_id=${row.player_id}&round_id=&sort_field=start_date&sort_order=DESC&time_zone=${time_zoneReplace}&to_date=${row.to_date}`}>{cell}</Link>

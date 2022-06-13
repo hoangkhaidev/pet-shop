@@ -48,7 +48,7 @@ const TransactionDetailsTable = ({roundId}) => {
     {
       data_field: "reference",
       column_name: "Reference ID",
-      align: "right"
+      align: "left"
     },
     {
       data_field: "transaction_id",

@@ -142,7 +142,7 @@ const GameRTPSummary = () => {
     {
       data_field: "rtp",
       column_name: "Game RTP",
-      align: "left",
+      align: "right",
       formatter: (cell) => {
         let cellFormat = formatNumber(cell);
         if (cell > 100) {

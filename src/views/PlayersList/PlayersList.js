@@ -103,7 +103,7 @@ const PlayersList = () => {
     {
       data_field: "id",
       column_name: "Player ID",
-      align: "left",
+      align: "right",
       formatter: (cell, row) => (
         <Link href={`/players/${row.id}/information`}>{cell}</Link>
       ),
