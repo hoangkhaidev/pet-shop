@@ -61,7 +61,7 @@ const TransactionDetails = ({roundId}) => {
 
   return (
     <>
-      <Button style={{ textTransform: 'none' }} onClick={(onOpenModal)}>{roundId}</Button>
+      <Button style={{ textTransform: 'none', padding: '10px 0' }} onClick={(onOpenModal)}>{roundId}</Button>
       <ModalComponentRateHistory
         open={open}
         onClose={onClose}

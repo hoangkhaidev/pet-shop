@@ -13,7 +13,16 @@ const ButtonGame = ({ title, onChangeTransaction, game_name }) => {
 
   return (
     <>
-      <Button style={{ textTransform: 'none' }} onClick={() => onGame(game_name)}>{title}</Button>
+      <Button 
+        style={{ 
+          textTransform: 'none', 
+          padding: '5px 0', 
+          minWidth: 0, 
+        }} 
+        onClick={() => onGame(game_name)}
+      >
+        {title}
+      </Button>
     </>
   );
 };
