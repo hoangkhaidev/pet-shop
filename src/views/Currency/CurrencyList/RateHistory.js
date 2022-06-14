@@ -7,9 +7,9 @@ import { useCallback, useState } from "react";
 import get from 'lodash/get';
 import api from "utils/api";
 import { cloneDeep } from "lodash";
-import ModalComponentRateHistory from "views/ModalComponent/ModalComponentRateHistory";
 import TitlePage from "views/TitlePage/TitlePage";
 import TableComponent from "views/TableComponent/TableComponent";
+import ModalScrollComponent from "views/ModalComponent/ModalScrollComponent";
 
 const RateHistory = ({ titleCurrency, currencyCode }) => {
 
@@ -78,7 +78,7 @@ const RateHistory = ({ titleCurrency, currencyCode }) => {
   return (
     <>
       <button style={{ cursor: 'pointer', border: 'none', background: 'none', color: 'blue'}} onClick={() => onSubmitData(currencyCode)}>{titleCurrency}</button>
-      <ModalComponentRateHistory
+      <ModalScrollComponent
         open={open}
         onClose={onClose}
         width={ screenWidth > 991 ? '800px' : '100%'}
@@ -96,7 +96,7 @@ const RateHistory = ({ titleCurrency, currencyCode }) => {
             handleChangePage={handleChangePage}
             handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
-      </ModalComponentRateHistory>
+      </ModalScrollComponent>
     </>
   );
 };

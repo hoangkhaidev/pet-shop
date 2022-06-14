@@ -1,7 +1,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable prefer-const */
+/* eslint-disable react/prop-types */
 /* eslint-disable prettier/prettier */
-import { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
 import { node, bool, func } from "prop-types";
 import CancelIcon from '@mui/icons-material/Cancel';
 import { makeStyles } from "@mui/styles";
@@ -10,11 +13,12 @@ import { Modal } from "@mui/material";
 function getModalStyle() {
   const top = 50;
   const left = 50;
-
   return {
-    top: `${top}%`,
+    top: '20px',
     left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
+    transform: `translate(-${top}%, 0)`,
+    height: '100%',
+    overflow:'scroll',
     borderRadius: '12px',
   };
 }
@@ -26,9 +30,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
-      width: '100%',
-    }
   },
   closer: {
     cursor: 'pointer',
@@ -38,9 +39,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ModalComponent = ({ children, open, onClose }) => {
-  const [modalStyle] = useState(getModalStyle);
+const ModalScrollComponent = ({ children, open, onClose, width }) => {
+  const [modalStyle, setModalStyle] = useState(getModalStyle);
   const classes = useStyles();
+
+  useEffect(() => {
+    let style = {...modalStyle};
+    style.width = width;
+    setModalStyle(style)
+  }, [width])
 
   return (
     <Modal
@@ -57,15 +64,15 @@ const ModalComponent = ({ children, open, onClose }) => {
   );
 };
 
-ModalComponent.propTypes = {
+ModalScrollComponent.propTypes = {
   children: node.isRequired,
   open: bool,
   onClose: func
 };
 
-ModalComponent.defaultProps = {
+ModalScrollComponent.defaultProps = {
   open: false,
   onClose: () => {}
 };
 
-export default ModalComponent;
+export default ModalScrollComponent;

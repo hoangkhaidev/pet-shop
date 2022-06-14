@@ -17,8 +17,8 @@ function getModalStyle() {
     top: '20px',
     left: `${left}%`,
     transform: `translate(-${top}%, 0)`,
-    height: '100%',
-    overflow:'scroll',
+    height: 'auto',
+    // overflow:'scroll',
     borderRadius: '12px',
   };
 }
@@ -34,8 +34,8 @@ const useStyles = makeStyles((theme) => ({
   closer: {
     cursor: 'pointer',
     position: 'absolute',
-    top: '3%',
-    right: '3%',
+    top: '5px',
+    right: '5px',
   },
 }));
 
