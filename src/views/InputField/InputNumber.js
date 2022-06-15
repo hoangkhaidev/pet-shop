@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 /* eslint-disable dot-notation */
 /* eslint-disable import/first */
 /* eslint-disable react/jsx-no-duplicate-props */
@@ -80,10 +81,16 @@ const InputNumber = ({
     if (isEmpty(errors)) {
       return '';
     }
+    
     if (errors.type === 'required') {
       return t('required');
     }
+
     if (errors.type === 'pattern') {
+    }
+
+    if (errors.message === 'invalid_recaptcha') {
+      return errors.message = t('invalid_recaptcha');
     }
     return errors.message;
   };

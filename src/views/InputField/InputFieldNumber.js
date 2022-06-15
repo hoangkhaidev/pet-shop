@@ -299,7 +299,8 @@ export const FormattedNumberInputCaptcha = ({
     if (errors.type === 'pattern') {
       // return 'Field is required';
     }
-    if (errors.message === 'invalid_recaptcha') {
+    console.log(errors.message);
+    if (errors.message === 'err:invalid_recaptcha') {
       return errors.message = t('invalid_recaptcha');
     }
     return errors.message;
