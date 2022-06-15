@@ -162,7 +162,7 @@ const CommissionList = () => {
     if (get(response, "success", false)) {
       toast.success('Update Commission Success', {
         onClose: setTimeout(() => {
-          window.location.reload()
+          // window.location.reload()
         }, 0)
       });
     } else {
