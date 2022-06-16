@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 /* eslint-disable dot-notation */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/jsx-boolean-value */
@@ -65,63 +66,7 @@ const InputField = ({
     if (isEmpty(errors)) {
       return '';
     }
-    if (errors.message === 'duplicate_role_name') {
-      return errors.message = t('duplicate_role_name');
-    }
-    if (errors.message === 'invalid_role_name') {
-      return errors.message = t('invalid_role_name');
-    }
-    if (errors.message === 'invalid_password') {
-      return errors.message = t('invalid_password');
-    }
-    if (errors.message === 'invalid_old_password') {
-      return errors.message = t('invalid_old_password');
-    }
-    if (errors.message === 'confirm_password_mismatch') {
-      return errors.message = t('confirm_password_mismatch');
-    }
-    if (errors.message === 'invalid_brand_ids') {
-      return errors.message = t('invalid_brand_ids');
-    }
-    if (errors.message === 'duplicate_username') {
-      return errors.message = t('duplicate_username');
-    }
-    if (errors.message === 'duplicate_operator_name') {
-      return errors.message = t('duplicate_operator_name');
-    }
-    if (errors.message === 'invalid_email') {
-      return errors.message = t('invalid_email');
-    }
-    if (errors.message === 'invalid_product_ids') {
-      return errors.message = t('invalid_product_ids');
-    }
-    if (errors.message === 'duplicate_brand_name') {
-      return errors.message = t('duplicate_brand_name');
-    }
-    if (errors.message === 'incorrect_password') {
-      return errors.message = t('incorrect_password');
-    }
-    if (errors.message === 'username_not_found') {
-      return errors.message = t('username_not_found');
-    }
-    if (errors.message === 'locked_account') {
-      return errors.message = t('locked_account');
-    }
-    if (errors.message === 'banned_account') {
-      return errors.message = t('banned_account');
-    }
-    if (errors.message === 'login_different_device') {
-      return errors.message = t('login_different_device');
-    }
-    if (errors.message === 'inactive_account') {
-      return errors.message = t('inactive_account');
-    }
-    if (errors.message === 'duplicate_finance_emails') {
-      return errors.message = t('duplicate_finance_emails'); 
-    }
-    if (errors.message === 'ip_not_allowed') {
-      return errors.message = t('ip_not_allowed');
-    }
+  
     if (errors.type === 'required') {
       return t(`${label} required`);
     }
@@ -129,10 +74,14 @@ const InputField = ({
     }
 
     if (errors.type === 'pattern') {
-      return errors.message = t('invalid_api_endpoint');
+      if (label === 'API Endpoint') {
+        return t(`Invalid ${label}`);
+      } else {
+        return t(helperText);
+      }
     }
 
-    return errors.message;
+    return t(errors.message);
   };
 
   return (

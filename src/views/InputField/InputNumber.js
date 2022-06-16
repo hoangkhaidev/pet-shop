@@ -89,10 +89,7 @@ const InputNumber = ({
     if (errors.type === 'pattern') {
     }
 
-    if (errors.message === 'invalid_recaptcha') {
-      return errors.message = t('invalid_recaptcha');
-    }
-    return errors.message;
+    return t(errors.message);
   };
 
   const value = control?.["_fields"]?.[namefileld]?.["_f"]?.value;

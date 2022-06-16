@@ -16,7 +16,6 @@
 /* eslint-disable react/jsx-no-duplicate-props */
 import { useEffect, useState } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
 import remove from 'lodash/remove';
 import RemoveIcon from '@mui/icons-material/Remove';
 // import FormattedNumberInput from 'src/components/shared/InputField/InputFieldNumber';
@@ -42,6 +41,7 @@ import IPAddressInput from 'views/IPAddressInput/IPAddressInput';
 import AddIcon from '@mui/icons-material/Add';
 import ButtonGroup, { CancelButton, SubmitButton } from 'views/Button/Button';
 import { Box } from '@mui/system';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
