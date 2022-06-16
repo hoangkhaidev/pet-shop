@@ -129,6 +129,7 @@ const InputField = ({
     }
 
     if (errors.type === 'pattern') {
+      return errors.message = t('invalid_api_endpoint');
     }
 
     return errors.message;

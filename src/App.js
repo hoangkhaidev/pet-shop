@@ -13,7 +13,7 @@ import themes from 'themes';
 // project imports
 import NavigationScroll from 'layout/NavigationScroll';
 import { createContext, useEffect, useMemo, useState, Suspense } from 'react';
-import { useNavigate, useRoutes } from 'react-router-dom';
+import { useRoutes } from 'react-router-dom';
 import useRouter from 'utils/hooks/useRouter';
 import { Helmet } from "react-helmet";
 import SocketComponent from 'SocketComponent';
@@ -55,7 +55,7 @@ const notificationReducer = (state, action) => {
 };
 
 const Routes = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const { isLoggedIn } = useSelector((state) => state.authentication);
 
     const [curPage, setCurPage] = useState({});
@@ -81,14 +81,14 @@ const Routes = () => {
     }, [router.pathname, routerHasUrl]);
   
     useEffect(() => {
-  
       if (firstToken && firstToken !== token) {
-        if (token === "") {
-          navigate("/login");
-        } else {
-          // console.log(firstToken)
-          window.location.reload();
-        }
+        // if (token === "") {
+        //   // navigate("/login");
+        // } else {
+        //   // console.log(firstToken)
+        //   window.location.reload();
+        // }
+        window.location.reload();
       }
     }, [token, firstToken])
   

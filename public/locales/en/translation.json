@@ -52,5 +52,6 @@
   "banned_account": "Oops! your account has been banned",
   "login_different_device": "You are currently logged in from another device",
   "inactive_account": "Your account has been inactivated. Please contact your admin to activate",
-  "invalid_recaptcha": "Invalid captcha"
+  "invalid_recaptcha": "Invalid captcha",
+  "invalid_api_endpoint": "Invalid API Endpoint"
 }

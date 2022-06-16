@@ -82,7 +82,6 @@ const FirebaseLogin = ({ ...others }) => {
         // Reload when login
         window.location.reload();
       }
-      console.log(token);
     }, [token])
   
     useEffect(() => {
