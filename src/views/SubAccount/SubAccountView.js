@@ -12,8 +12,6 @@ import NoPermissionPage from 'views/NoPermissionPage/NoPermissionPage';
 import MainCard from 'ui-component/cards/MainCard';
 import Loading from 'views/Loading/Loading';
 import ButtonGroup, { BackButton, ResetButton } from 'views/Button/Button';
-import ClearAllIcon from '@mui/icons-material/ClearAll';
-import { Button } from '@mui/material';
 
 const useStyles = makeStyles(() => ({
   formStyle: {

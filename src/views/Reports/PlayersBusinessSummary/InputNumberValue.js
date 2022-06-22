@@ -15,9 +15,6 @@ import { makeStyles } from '@mui/styles';
 import { FormControl, FormHelperText, TextField } from '@mui/material';
 
 const useStyles = makeStyles(() => ({
-  inputField: {
-    // margin: '16px 0',
-  },
   formControl: {
     width: '100%',
     paddingLeft: '0 !important',
@@ -90,7 +87,7 @@ const InputNumberValue = ({
   const value = control?.["_fields"]?.[namefileld]?.["_f"]?.value;
 
   return (
-    <div className={classes.inputField}>
+    <div>
       <FormControl
         sx={{ 
           px: 2, 

@@ -1,3 +1,5 @@
+/* eslint-disable arrow-body-style */
+/* eslint-disable import/newline-after-import */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, lazy, Suspense, createContext, useEffect } from "react";
@@ -11,7 +13,6 @@ import Loading from "views/Loading/Loading";
 import PlayerInformation from "views/PlayerInformation/PlayerInformation";
 import { AppBar, Tab, Tabs } from "@mui/material";
 import TabPanel from "views/TabPanel/TabPanel";
-// import TabPanel from "src/components/shared/TabPanel/TabPanel";
 const GameTransactions = lazy(() => import("./GameTransactions/GameTransactions"));
 const GamesList = lazy(() => import("./Games/GamesList"));
 
@@ -23,7 +24,7 @@ export const DateRangeContext = createContext({
   setDateRange: () => {}
 });
 
-function a11yProps(index) {
+const a11yProps = (index) => {
   return {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
@@ -98,7 +99,6 @@ const SearchGameHistory = () => {
           value={value}
           onChange={handleChange}
           aria-label="Search game history"
-          // indicatorColor="error"
           className={classes.aaaaaaaaa}
         >
           <Tab className={classes.labelTab} label="Game Transaction" {...a11yProps(0)} />

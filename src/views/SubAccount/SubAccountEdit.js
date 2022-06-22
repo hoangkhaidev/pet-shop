@@ -15,17 +15,11 @@ import { useForm } from 'react-hook-form';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import remove from 'lodash/remove';
-// import IPAddressInput from 'src/components/shared/IPAddressInput/IPAddressInput';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-// import ContentCardPage from 'src/components/ContentCardPage/ContentCardPage';
-
-// import SelectField from 'src/components/shared/InputField/SelectField';
 import { useEffect, useState } from 'react';
 import get from 'lodash/get';
-// import SelectFieldMutiple from '../shared/InputField/SelectFieldMutiple';
 import { useTranslation } from 'react-i18next';
-import ClearAllIcon from '@mui/icons-material/ClearAll';
 import { makeStyles } from '@mui/styles';
 import useRouter from 'utils/hooks/useRouter';
 import useFetchData from 'utils/hooks/useFetchData';
@@ -236,19 +230,19 @@ const SubAccountEdit = () => {
 
   const onChangeWhitelistIp = (e, index, rowIndex) => {
     const { formattedValue } = e;
-    const cloneArr = whitelistIP.slice();
+    const cloneArr = cloneDeep(whitelistIP);
     cloneArr[rowIndex][index] = formattedValue;
     setWhitelistIP(cloneArr);
   };
 
   const onAddingWLIPAddress = () => {
-    const cloneArr = whitelistIP.slice();
+    const cloneArr =cloneDeep(whitelistIP);
     const newArray = [...cloneArr, ['', '', '', '']];
     if (newArray.length <= 20 ) setWhitelistIP(newArray);
   };
 
   const onRemoveWLIPAddress = (rowIndex) => {
-    const cloneArr = whitelistIP.slice();
+    const cloneArr = cloneDeep(whitelistIP);
     remove(cloneArr, (item, index) => rowIndex === index);
     setWhitelistIP(cloneArr);
   };
@@ -391,7 +385,6 @@ const SubAccountEdit = () => {
         }
         <ButtonGroup>
           <SubmitButton />
-          {/* <ResetButton text="Cancel" onAction={onCancel} /> */}
           <CancelButton onAction={onCancel} text='Cancel'/>
         </ButtonGroup>
       </form>

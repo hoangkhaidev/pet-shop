@@ -8,7 +8,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useCallback } from 'react';
-// import { useTranslation } from 'react-i18next';
 import { FormProvider, useForm } from 'react-hook-form';
 import get from 'lodash/get';
 import CommissionListFilter from './CommissionListFilter';
@@ -48,10 +47,14 @@ const CommissionList = () => {
   let arrPermissionCommission = {};
   permission_groups?.map((item) => {
     if (item.name === 'Configuration') {
-      arrPermissionCommission = (item.permissions[1]);
+      item.permissions?.map((itemPermission) => {
+        if (itemPermission.name === 'Commission') arrPermissionCommission = itemPermission;
+        return itemPermission;
+      });
     }
     return item.name === 'Configuration'
   });
+
   const [objFilter , setObjFilter] = useState({
     name_search: "",
     page: 1,

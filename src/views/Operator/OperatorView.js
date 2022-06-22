@@ -4,9 +4,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import ClearAllIcon from '@mui/icons-material/ClearAll';
 import { useDispatch, useSelector } from 'react-redux';
-// import { Button } from '@mui/material';
 import useRouter from 'utils/hooks/useRouter';
 import useFetchData from 'utils/hooks/useFetchData';
 import { clearPage, setPageName } from 'features/parentParam/parentParam';
@@ -90,7 +88,6 @@ const OperatorView = () => {
 
   return (
     <MainCard title="Operator Detail">
-        {/* <div className={classes.titlePage}>Operator Detail</div> */}
         <div className={classes.playerInfoName}>
             <span className={classes.playerNameDisplay}>
                 Name:

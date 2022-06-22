@@ -9,17 +9,14 @@
 import map from "lodash/map";
 import { array, object, number } from "prop-types";
 import { useTranslation } from "react-i18next";
-
 import TablePagination from "./TablePagination";
 import moment from "moment";
 import { makeStyles, withStyles } from "@mui/styles";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-// import { minWidth } from "@mui/system";
 
 const useStyles = makeStyles({
   table: {
     minWidth: 700,
-    // tableLayout: 'fixed',
   },
   tableHeader: {
     backgroundColor: "#3245b9",
@@ -33,16 +30,12 @@ const useStyles = makeStyles({
   tableCellBody: {
     minWidth: 80,
     padding: '5px 16px !important',
-    // wordWrap: 'break-word !important',
-    // borderRight: '1px solid rgba(224, 224, 224, 1)',
   },
   tableCellBodyNowrap: {
     minWidth: 100,
     whiteSpace: 'nowrap',
     padding: '5px 16px !important',
-    // borderRight: '1px solid rgba(224, 224, 224, 1)',
   }
-
 });
 
 const StyledTableRow = withStyles((theme) => ({
@@ -94,10 +87,6 @@ const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
       {cellInfo.map((info, index) => {
         return (
           <TableCell
-            // sx={ info.data_field === 'indexRow' ? {
-            //   padding: 1,
-            //   width: '50px'
-            // } : { padding: 1, }}
             sx={ 
               info.data_field === 'ip' 
                 ? { 

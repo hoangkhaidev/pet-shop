@@ -55,7 +55,7 @@ const GamesSummary = () => {
 
   const getColumns = useCallback(async () => {
     if (listCurrency && arrayCurrencyColumn.length <= 0) {
-      let a = [];
+      let arr = [];
       listCurrency[0]?.currency_entry_list?.map((item) => {
 
         let items = [
@@ -91,14 +91,14 @@ const GamesSummary = () => {
           }
         ];
 
-        a = [
-          ...a,
+        arr = [
+          ...arr,
           ...items
         ]
 
         return item;
       });
-      setArrayCurrencyColumn(a);
+      setArrayCurrencyColumn(arr);
     }
   }, [listCurrency]);
 

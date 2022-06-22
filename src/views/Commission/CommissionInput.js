@@ -6,9 +6,6 @@
 /* eslint-disable no-unused-vars */
 import { makeStyles } from '@mui/styles';
 import React from 'react';
-import {
-  Input,
-} from 'reactstrap';
 
 const useStyles = makeStyles((theme) => ({
     input_text: {
@@ -91,7 +88,14 @@ const CommissionInput = props => {
           autoComplete="off" 
           className="text-right"
           placeholder={placeholder}
-          style={{ fontSize: '16px', width: '100%', padding: '20px 25px', height: '1.4375em', border: '1px solid #ddd', borderRadius: '5px' }}
+          style={{ 
+            fontSize: '16px', 
+            width: '100%', 
+            padding: '20px 25px', 
+            height: '1.4375em', 
+            border: '1px solid #ddd', 
+            borderRadius: '5px'
+          }}
         />
         <div>
           <span className={classes.input_text}>%</span>

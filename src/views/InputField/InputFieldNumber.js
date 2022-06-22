@@ -86,7 +86,7 @@ const FormattedNumberInput = ({
     }
     if (errors.type === 'pattern') {
     }
-    return errors.message;
+    return t(errors.message);
   };
 
   return (

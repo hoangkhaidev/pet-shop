@@ -22,13 +22,6 @@ import SelectField from "views/InputField/SelectField";
 import ButtonGroup, { ResetButton, SubmitButton } from "views/Button/Button";
 
 const useStyles = makeStyles(() => ({
-  inputSameLineWithDaterange: {
-    // marginTop: "16px !important",
-    // paddingTop: "0px !important"
-  },
-  dateRangeInput: {
-    // paddingTop: "0px !important"
-  },
   formControlDateTimePicker: {
     width: "100%"
   },
@@ -105,7 +98,7 @@ const GameFilter = ({
   useEffect(() => {
     let mapData = [];
     let newTimezone = cloneDeep(dataTimezone);
-    newTimezone?.forEach(data => {
+    (newTimezone || []).forEach(data => {
       let optionData = {
         id: data.offset,
         value: data.offset,
@@ -200,7 +193,7 @@ const GameFilter = ({
                 dateRangeRef={dateRangeRef}
               />
             </Grid>
-            <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4}>
+            <Grid item xs={12} xl={3} md={4}>
               <InputField
                 control={control}
                 namefileld="round_id"
@@ -219,7 +212,7 @@ const GameFilter = ({
                 defaultValue="all"
               />
             </Grid>
-            <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={4} >
+            <Grid item xs={12} xl={3} md={4} >
               <SelectField
                 control={control}
                 namefileld="time_zone"

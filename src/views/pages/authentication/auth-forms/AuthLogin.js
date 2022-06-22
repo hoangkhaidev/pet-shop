@@ -12,19 +12,11 @@ import { useTheme } from '@mui/material/styles';
 import {
     Box,
     Button,
-    FormControl,
-    FormHelperText,
     IconButton,
     InputAdornment,
-    InputLabel,
-    OutlinedInput,
     Stack
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
-
-// third party
-import * as Yup from 'yup';
-import { Formik } from 'formik';
 
 // project imports
 import useScriptRef from 'hooks/useScriptRef';
@@ -48,7 +40,6 @@ import InputNumber from 'views/InputField/InputNumber';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
-
 const useStyles = makeStyles(() => ({
     labelStyle: {
       color: 'red',
@@ -56,14 +47,11 @@ const useStyles = makeStyles(() => ({
   }));
 
 const FirebaseLogin = ({ ...others }) => {
-    const theme = useTheme();
     const navigate = useNavigate();
-    const scriptedRef = useScriptRef();
     const [captchaId, setCaptchaId] = useState('');
     const [captchaLoad, setCaptchaLoad] = useState(null);
     const { t } = useTranslation(['translation','err',]);
     const dispatch = useDispatch();
-    const classes = useStyles();
     const token = useSelector(state => state.authentication.token);
     const { control, handleSubmit, setError, formState: { errors } } = useForm();
     const [logOutReason, setLogOutReason] = useState(APIUtils.getLogOutReason());

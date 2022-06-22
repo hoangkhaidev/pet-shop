@@ -203,19 +203,19 @@ const SubAccountCreate = () => {
   const onChangeWhitelistIp = (e, index, rowIndex) => {
     console.log(index, rowIndex);
     const { formattedValue } = e;
-    const cloneArr = whitelistIP.slice();
+    const cloneArr = cloneDeep(whitelistIP);
     cloneArr[rowIndex][index] = formattedValue;
     setWhitelistIP(cloneArr);
   };
 
   const onAddingWLIPAddress = () => {
-    const cloneArr = whitelistIP.slice();
+    const cloneArr = cloneDeep(whitelistIP);
     const newArray = [...cloneArr, ['', '', '', '']];
     if (newArray.length <= 20 ) setWhitelistIP(newArray);
   };
 
   const onRemoveWLIPAddress = (rowIndex) => {
-    const cloneArr = whitelistIP.slice();
+    const cloneArr = cloneDeep(whitelistIP);
     remove(cloneArr, (item, index) => rowIndex === index);
     setWhitelistIP(cloneArr);
   };

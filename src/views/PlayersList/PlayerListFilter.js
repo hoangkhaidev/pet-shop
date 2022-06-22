@@ -13,7 +13,6 @@ import { useForm } from "react-hook-form";
 import moment from 'moment';
 import { useTranslation } from "react-i18next";
 import cloneDeep from 'lodash/cloneDeep';
-// import DateRangePickerComponent from "src/components/shared/DateRangePickerComponent/DateRangePickerComponent";
 import { func } from "prop-types";
 import { useSelector } from "react-redux";
 import get from 'lodash/get';
@@ -29,8 +28,6 @@ import ButtonGroup, { ResetButton, SubmitButton } from "views/Button/Button";
 import DateRangePickerComponent from "views/DateRangePickerComponent/DateRangePickerComponent";
 import InputField from "views/InputField/InputField";
 import InputNumber from "views/InputField/InputNumber";
-import CalendarDateRangePicker from "views/DateRangePickerComponent/CalendarDateRangePicker";
-// import InputNumber from "../shared/InputField/InputNumber";
 
 const SORT_ODER = [
   {
@@ -82,6 +79,7 @@ const PLayerListFilter = ({
   if (router?.query?.from_date) {
     from_dateFilter = router?.query?.from_date;
   }
+
   let to_dateFilter = moment().format("DD/MM/YYYY");
   if (router?.query?.to_date) {
     to_dateFilter = router?.query?.to_date;
@@ -92,7 +90,6 @@ const PLayerListFilter = ({
     end: to_dateFilter
   });
   const dateRangeRef = useRef(null);
-  const [loadCalendar, setLoadCalendar] = useState(false);
   const classes = useStyles();
 
   const { dataResponse: dataCurrency} = useFetchData("/api/currency/public_list");
@@ -106,7 +103,7 @@ const PLayerListFilter = ({
   useEffect(() => {
     let mapData = [{id: 0, value: 'all', label: "All"}];
     let newLanguage = cloneDeep(dataLanguage);
-    (newLanguage || []).forEach((data, index) => {
+    (newLanguage || []).forEach((data) => {
       let optionData = {
         id: data.code,
         value: data.code,
@@ -120,7 +117,7 @@ const PLayerListFilter = ({
   useEffect(() => {
     let mapData = [{id: 0, value: 'all', label: "All"}];
     let newCurrency = cloneDeep(dataCurrency);
-    (newCurrency || []).forEach((data, index) => {
+    (newCurrency || []).forEach((data) => {
       let optionData = {
         id: data.code,
         value: data.code,
@@ -200,7 +197,6 @@ const PLayerListFilter = ({
       start: moment().format("DD/MM/YYYY"),
       end: moment().format("DD/MM/YYYY")
     });
-    setLoadCalendar(true);
     setObjFilter({
       player_id: 0,
       nick_name: "",

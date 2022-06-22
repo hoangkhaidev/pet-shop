@@ -21,6 +21,7 @@ import InputField from "views/InputField/InputField";
 import SelectField from "views/InputField/SelectField";
 import ButtonGroup, { ResetButton, SubmitButton } from "views/Button/Button";
 import { makeStyles } from "@mui/styles";
+import { cloneDeep } from "lodash";
 
 const SORT_ODER = [
   {
@@ -93,11 +94,8 @@ const GameTransactionFilter = ({
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
-    let newGameType;
-    newGameType = dataGame.game_type_list;
-    if (!newGameType) return;
-    if (newGameType.length <= 0) return;
-    newGameType.map((data) => {
+    let newGameType = cloneDeep(dataGame.game_type_list);
+    (newGameType || []).map((data) => {
       let optionData = {
         id: data,
         value: data,
@@ -111,11 +109,8 @@ const GameTransactionFilter = ({
 
   useEffect(() => {
     let mapData = [{id: 0, value: "all", label: "All"}];
-    let newGameName;
-    newGameName = dataGame?.games;
-    if (!newGameName) return;
-    if (newGameName.length <= 0) return;
-    newGameName.map((data) => {
+    let newGameName = cloneDeep(dataGame.games);
+    (newGameName || []).map((data) => {
       let optionData = {
         id: data.game_name,
         value: data.game_name,
@@ -129,13 +124,8 @@ const GameTransactionFilter = ({
 
   useEffect(() => {
     let mapData = [];
-    let newTimezone;
-    if(dataTimezone) {
-      newTimezone = [...dataTimezone];
-    }
-    if (!newTimezone) return;
-    if (newTimezone.length <= 0) return;
-    newTimezone.forEach(data => {
+    let newTimezone = cloneDeep(dataTimezone);
+    (newTimezone || []).forEach(data => {
       let optionData = {
         id: data.offset,
         value: data.offset,

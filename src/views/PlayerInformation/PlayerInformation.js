@@ -3,7 +3,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
-// import ClearAllIcon from '@mui/icons-material/ClearAll';
 import { Navigate, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";

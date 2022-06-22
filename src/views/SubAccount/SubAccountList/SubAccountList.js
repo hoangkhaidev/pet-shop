@@ -395,10 +395,6 @@ const SubAccountList = () => {
     });
   };
 
-  useEffect(() => {
-    console.log(objFilter);
-  }, [objFilter]);
-
   const onGotoAddSubPage = () => {
     navigate('/sub/create');
   };

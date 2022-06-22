@@ -21,6 +21,69 @@ const SORT_ODER = [
   }
 ];
 
+const SORT_FIELD_PLAYER_SUMMARY = [
+  {
+    id: 1,
+    value: "period",
+    label: "Period"
+  },
+  {
+    id: 2,
+    value: "player_id",
+    label: "Player ID"
+  },
+  {
+    id: 3,
+    value: "nick_name",
+    label: "Nickname"
+  },
+  {
+    id: 4,
+    value: "sign_up_language",
+    label: "Sign Up Language"
+  },
+  {
+    id: 5,
+    value: "brand_name",
+    label: "Brand"
+  },
+  {
+    id: 6,
+    value: "bet_native",
+    label: "Bets"
+  },
+  {
+    id: 7,
+    value: "win_native",
+    label: "Wins"
+  },
+  {
+    id: 7,
+    value: "margin_native",
+    label: "Margins"
+  },
+  {
+    id: 7,
+    value: "currency_code",
+    label: "Currency"
+  },
+  {
+    id: 8,
+    value: "bet",
+    label: "Bet ($)"
+  },
+  {
+    id: 9,
+    value: "win",
+    label: "Win ($)"
+  },
+  {
+    id: 10,
+    value: "margin",
+    label: "Margin ($)"
+  },
+];
+
 const PlayerSummaryFilter = ({
   onSubmitProps
 }) => {
@@ -50,70 +113,7 @@ const PlayerSummaryFilter = ({
                 id="sort_field"
                 label="Sort field"
                 fullWidth={false}
-                options={
-                  [
-                    {
-                      id: 1,
-                      value: "period",
-                      label: "Period"
-                    },
-                    {
-                      id: 2,
-                      value: "player_id",
-                      label: "Player ID"
-                    },
-                    {
-                      id: 3,
-                      value: "nick_name",
-                      label: "Nickname"
-                    },
-                    {
-                      id: 4,
-                      value: "sign_up_language",
-                      label: "Sign Up Language"
-                    },
-                    {
-                      id: 5,
-                      value: "brand_name",
-                      label: "Brand"
-                    },
-                    {
-                      id: 6,
-                      value: "bet_native",
-                      label: "Bets"
-                    },
-                    {
-                      id: 7,
-                      value: "win_native",
-                      label: "Wins"
-                    },
-                    {
-                      id: 7,
-                      value: "margin_native",
-                      label: "Margins"
-                    },
-                    {
-                      id: 7,
-                      value: "currency_code",
-                      label: "Currency"
-                    },
-                    {
-                      id: 8,
-                      value: "bet",
-                      label: "Bet ($)"
-                    },
-                    {
-                      id: 9,
-                      value: "win",
-                      label: "Win ($)"
-                    },
-                    {
-                      id: 10,
-                      value: "margin",
-                      label: "Margin ($)"
-                    },
-                  ]
-                }
+                options={SORT_FIELD_PLAYER_SUMMARY}
                 defaultValue="margin_native"
               />
             </Grid>

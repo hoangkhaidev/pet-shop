@@ -17,7 +17,6 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import remove from 'lodash/remove';
 import get from 'lodash/get';
 import AddIcon from '@mui/icons-material/Add';
-// import ClearAllIcon from '@mui/icons-material/ClearAll';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { toast } from 'react-toastify';
 import cloneDeep from 'lodash/cloneDeep';
@@ -503,7 +502,7 @@ const OperatorEdit = () => {
             )
           }
           <Box 
-            style={{
+            sx={{
               display: 'flex',
               width: '100%',
               flexWrap: 'wrap',

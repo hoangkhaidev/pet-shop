@@ -10,8 +10,6 @@
 /* eslint-disable prettier/prettier */
 import { saveAs } from "file-saver";
 import XlsxPopulate from "xlsx-populate";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -96,7 +94,6 @@ export const ExportExcelPlayerSummary = ({ excelData }) => {
             />
             <span style={{marginLeft: '5px'}}>Export</span>
           </Button>
-          
         </div>
       </>
   )

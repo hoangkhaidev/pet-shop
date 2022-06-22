@@ -211,7 +211,6 @@ const RoleAdd = () => {
   return (
     <MainCard title="Add Role">
       {isLoading && <Loading />}
-      {/* <TitlePage title="Add Role" /> */}
       <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle}>
         <InputField
           autoFocus
@@ -346,7 +345,6 @@ const RoleAdd = () => {
         </TableContainer>
         <ButtonGroup>
           <SubmitButton />
-          {/* <ResetButton text="Cancel" onAction={onCancel} /> */}
           <CancelButton onAction={onCancel} text='Cancel'/>
         </ButtonGroup>
       </form>

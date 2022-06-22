@@ -2,11 +2,9 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable react/prop-types */
 /* eslint-disable prettier/prettier */
-// import ClearAllIcon from '@mui/icons-material/ClearAll';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import SendIcon from '@mui/icons-material/Send';
-// import AdjustIcon from '@mui/icons-material/Adjust';
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { func, string } from 'prop-types';

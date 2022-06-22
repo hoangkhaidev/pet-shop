@@ -64,7 +64,8 @@ const GameHistory = () => {
     if (item.name === 'Players') {
       arrPermissionPlayers = item.permissions;
     }
-    return item.name === 'Players'
+    
+    return item.name;
   });
 
   const [isHasAccessPermission, setIsHasPermission] = useState(true);

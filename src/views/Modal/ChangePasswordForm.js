@@ -14,7 +14,6 @@ import ModalComponent from 'views/ModalComponent/ModalComponent';
 import TitlePage from 'views/TitlePage/TitlePage';
 import InputField from 'views/InputField/InputField';
 import { CancelButton, SubmitButton } from 'views/Button/Button';
-// import { Button } from '@mui/material';
 import ChangePassword from 'icons/ChangePassword';
 
 const ChangePasswordForm = ({ linkApi, username }) => {

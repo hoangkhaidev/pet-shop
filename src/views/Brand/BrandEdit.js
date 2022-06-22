@@ -13,8 +13,8 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { useState, useEffect, useMemo } from 'react';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import remove from 'lodash/remove';
 import get from 'lodash/get';
@@ -22,12 +22,8 @@ import map from 'lodash/map';
 import cloneDeep from 'lodash/cloneDeep';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import ClearAllIcon from '@mui/icons-material/ClearAll';
-import clsx from 'clsx';
 import { toast } from 'react-toastify';
-import isEmpty from 'lodash/isEmpty';
 import { Navigate, useNavigate } from 'react-router-dom';
-// import ProductCommission from '../Operator/ProductCommission';
 import { validate } from 'validate.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@mui/styles';
@@ -154,8 +150,6 @@ const BrandEdit = () => {
     formState: { errors },
     watch,
     setValue,
-    getValues,
-    register,
     setError,
     clearErrors
   } = useForm();
@@ -219,19 +213,19 @@ const BrandEdit = () => {
 
   useEffect(() => {
     if (data) {
-        setValue('operator', data?.operator_name);
-        setValue('name', data?.brand_name);
-        setValue('support_email', data?.support_email);
-        setValue('username', data?.username);
-        setValue('api_endpoint', data?.api_endpoint);
-        setValue('password', data?.password);
-        setValue('password_confirmation', data?.password_confirmation);
+      setValue('operator', data?.operator_name);
+      setValue('name', data?.brand_name);
+      setValue('support_email', data?.support_email);
+      setValue('username', data?.username);
+      setValue('api_endpoint', data?.api_endpoint);
+      setValue('password', data?.password);
+      setValue('password_confirmation', data?.password_confirmation);
     }
   }, [data, setValue]);
 
   useEffect(() => {
     let dataProCon = [];
-    const dataProductCommission = dataProduct.map((item) => {
+    dataProduct.map((item) => {
       let index = (dataResponse?.product_commission || []).findIndex((itemEdit) => {
         return itemEdit.product_id === item.id;
       });
@@ -341,11 +335,11 @@ const BrandEdit = () => {
         console.log("e", e);
       }
     } else {
-      let abc = {};
+      let obj = {};
       productCommission.values.map((item) => {
         if (item.checked) {
-          abc = {
-            ...abc,
+          obj = {
+            ...obj,
             [`commission-${item.product_id}`]:true,
           }
         }
@@ -356,7 +350,7 @@ const BrandEdit = () => {
         ...productCommission,
         values: cloneDeep(productCommission.values),
         touched: {
-          ...abc
+          ...obj
         }
       }));
     }
@@ -525,8 +519,8 @@ const BrandEdit = () => {
         </div>
         {(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') && (
           <>
-            <FormLabel style={{paddingTop: '10px'}} component="legend">Product <span style={{color: 'red'}}>*</span></FormLabel>
-            <FormControl style={{width: '100%'}}>
+            <FormLabel sx={{paddingTop: '10px'}} component="legend">Product <span style={{color: 'red'}}>*</span></FormLabel>
+            <FormControl sx={{width: '100%'}}>
               {
                 errors?.product_commission && (
                   <FormLabel 
@@ -538,7 +532,7 @@ const BrandEdit = () => {
                 )
               }
               <Box 
-                style={{
+                sx={{
                   display: 'flex',
                   width: '100%',
                   flexWrap: 'wrap',

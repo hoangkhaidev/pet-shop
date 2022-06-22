@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
-
   title__text: {
     marginBottom: "1rem",
   },

@@ -18,7 +18,6 @@ function getModalStyle() {
     left: `${left}%`,
     transform: `translate(-${top}%, 0)`,
     height: 'auto',
-    // overflow:'scroll',
     borderRadius: '12px',
   };
 }

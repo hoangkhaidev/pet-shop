@@ -8,7 +8,6 @@ import { useState, useEffect} from "react";
 import { useFormContext } from "react-hook-form";
 import { func } from "prop-types";
 import get from 'lodash/get';
-// import SelectField from "src/components/shared/InputField/SelectField";
 import { useSelector } from "react-redux";
 import { cloneDeep } from "lodash";
 import api from "utils/api";
