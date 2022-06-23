@@ -11,7 +11,6 @@
 import { Navigate, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import get from 'lodash/get';
-// import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { ExportExcelPlayerSummary } from "./ExportExcelPlayerSummary";
 import PlayerSummaryFilter from "./PlayerSummaryFilter";
@@ -161,9 +160,6 @@ const PlayerSummary = () => {
 
   useEffect(() => {
     document.title = 'Player Summary';
-    return () => {
-      document.title = '';
-    }
   }, [router]);
 
   useEffect(() => {
@@ -322,7 +318,6 @@ const PlayerSummary = () => {
   ];
 
   const onSubmit = async (data) => {
-    
     setObjFilter(prevState => ({
       ...prevState,
       ...data,
@@ -370,21 +365,7 @@ const PlayerSummary = () => {
         </Typography>
         <span>
           {des}
-          {/* {router.query.option === 'day' ? `Total by day over: ${router.query.id}` : '' }
-          {router.query.option === 'week' ? `Total by week from: ${router.query.from_date_row} to: ${router.query.to_date_row}` : '' }
-          {router.query.option === 'month' ? `Total by month from: ${router.query.from_date_row} to: ${router.query.to_date_row}` : '' }
-          {router.query.option === 'year' ? `Total by year from: ${router.query.from_date_row} to: ${router.query.to_date_row}` : '' } */}
         </span>
-        {/* <Button
-          startIcon={<ClearAllIcon fontSize="small" />}
-          variant="contained"
-          type="button"
-          color="error"
-          style={{ marginTop: '20px', marginBottom: '20px', display: 'flex' }}
-          onClick={() => onCancel()}
-        >
-          Back
-        </Button> */}
         <BackButton
           text="Back"
           onAction={() => onCancel()}

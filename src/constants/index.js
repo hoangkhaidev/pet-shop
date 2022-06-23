@@ -108,7 +108,6 @@ export const LIST_PERMISSIONS = [
     value: "edit"
   }
 ];
-
 // Redux key
 export const SET_TOKEN = 'SET_TOKEN';
 export const DELETE_TOKEN = 'DELETE_TOKEN';

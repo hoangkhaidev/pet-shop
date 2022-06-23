@@ -512,6 +512,10 @@ const OperatorList = () => {
     });
   }
 
+  useEffect(() => {
+    document.title = 'Operator List';
+  }, []);
+
   if (!isHasPermission) {
     return <NoPermissionPage />;
   }

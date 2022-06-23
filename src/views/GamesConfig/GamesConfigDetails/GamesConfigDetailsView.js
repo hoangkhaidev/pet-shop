@@ -100,10 +100,7 @@ const GamesConfigDetailsView = () => {
   };
 
   useEffect(() => {
-    document.title = 'Game Details';
-    return () => {
-      document.title = '';
-    }
+    document.title = 'Games Details View';
   }, []);
 
   useEffect(() => {

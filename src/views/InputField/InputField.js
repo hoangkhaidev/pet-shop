@@ -23,14 +23,10 @@ const useStyles = makeStyles(() => ({
 }));
 
 import {
-    Box,
-    Button,
     FormControl,
     FormHelperText,
     IconButton,
     InputAdornment,
-    InputLabel,
-    Stack
 } from '@mui/material';
 
 const InputField = ({
@@ -118,7 +114,7 @@ const InputField = ({
                         error={!isEmpty(errors)}
                         autoComplete="off"
                         name={name}
-                        value={value}
+                        value={value ?? ''}
                         readOnly={readOnly}
                         inputRef={ref}
                         onBlur={onBlur}

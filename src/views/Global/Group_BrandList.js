@@ -34,7 +34,10 @@ const Group_BrandList = () => {
   let arrPermissionGlobalBrand = {};
   permission_groups.map((item) => {
     if (item.name === 'Global') {
-      arrPermissionGlobalBrand = item.permissions[0];
+      item.permissions?.map((itemPermission) => {
+        if (itemPermission.name === 'Global / Brand') arrPermissionGlobalBrand = itemPermission;
+        return itemPermission;
+      });
     }
     return item.name === 'Global'
   });
@@ -64,6 +67,10 @@ const Group_BrandList = () => {
   useEffect(() => {
     dispatch(setParentParam(`${router.location.pathname}${router.location.search}`));
   }, [router]);
+
+  useEffect(() => {
+    document.title = 'Group/Brand List';
+  }, []);
 
   if (!isHasPermission) {
     return <NoPermissionPage />;

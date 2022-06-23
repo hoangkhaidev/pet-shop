@@ -27,7 +27,10 @@ const BrandListBelow = () => {
   let arrPermissionGlobalBrand = {};
   permission_groups.map((item) => {
     if (item.name === 'Global') {
-      arrPermissionGlobalBrand = item.permissions[0];
+      item.permissions?.map((itemPermission) => {
+        if (itemPermission.name === 'Global / Brand') arrPermissionGlobalBrand = itemPermission;
+        return itemPermission;
+      });
     }
     return item.name === 'Global'
   });
@@ -49,10 +52,7 @@ const BrandListBelow = () => {
   }, [dataResponse]);
 
   useEffect(() => {
-    document.title = 'Brand List';
-    return () => {
-      document.title = '';
-    }
+    document.title = 'Brand List Below';
   }, []);
 
   const columns = [

@@ -2,22 +2,8 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { useState, useEffect, useMemo } from 'react';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import remove from 'lodash/remove';
-import get from 'lodash/get';
-import map from 'lodash/map';
-import cloneDeep from 'lodash/cloneDeep';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
-import ClearAllIcon from '@mui/icons-material/ClearAll';
-
-import clsx from 'clsx';
-import { toast } from 'react-toastify';
-import isEmpty from 'lodash/isEmpty';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { validate } from 'validate.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 import useRouter from 'utils/hooks/useRouter';
@@ -26,7 +12,6 @@ import { clearPage, setPageName } from 'features/parentParam/parentParam';
 import NoPermissionPage from 'views/NoPermissionPage/NoPermissionPage';
 import MainCard from 'ui-component/cards/MainCard';
 import ButtonGroup, { BackButton } from 'views/Button/Button';
-import { Button } from '@mui/material';
 import Loading from 'views/Loading/Loading';
 
 const useStyles = makeStyles((theme) => ({
@@ -79,17 +64,7 @@ const BrandView = () => {
 
   useEffect(() => {
     document.title = 'Brand Detail';
-    return () => {
-      document.title = '';
-    }
   }, [router]);
-
-  useEffect(() => {
-    dispatch(setPageName("brand_view"));
-    return () => {
-      dispatch(clearPage());
-    }
-  }, []);
 
   const onCancel = () => {
     navigate('/brand/list');
@@ -101,7 +76,6 @@ const BrandView = () => {
 
   return (
     <MainCard title="Brand Detail">
-      {/* <div className={classes.titlePage}>Brand Detail</div> */}
         <div className={classes.playerInfoName}>
             <span className={classes.playerNameDisplay}>
               Operator:

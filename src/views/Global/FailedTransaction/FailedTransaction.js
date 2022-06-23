@@ -35,9 +35,12 @@ const FailedTransaction = () => {
   let arrPermissionFailed = {};
   permission_groups?.map((item) => {
     if (item.name === 'Global') {
-      arrPermissionFailed = (item.permissions[1]);
+      item.permissions?.map((itemPermission) => {
+        if (itemPermission.name === 'Failed Transaction') arrPermissionFailed = itemPermission;
+        return itemPermission;
+      });
     }
-    return item.name === 'Global'
+    return item.name;
   });
 
   const pad = (number, length) => {
@@ -84,10 +87,7 @@ const FailedTransaction = () => {
   }, [dataResponse]);
 
   useEffect(() => {
-    dispatch(setPageName("failedTransaction"));
-    return () => {
-      dispatch(clearPage());
-    }
+    document.title = 'Failed Transaction';
   }, []);
 
   const columns = [

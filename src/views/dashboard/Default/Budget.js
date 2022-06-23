@@ -22,7 +22,6 @@ import { clearParentParam, setParentParam } from 'features/parentParam/parentPar
 import { cloneDeep } from 'lodash';
 import { useEffect, useState } from 'react';
 import { Bar, Line } from 'react-chartjs-2';
-//   import TitleDashboard from './TitleDashboard';
 import { useDispatch, useSelector } from 'react-redux';
 import useFetchData from 'utils/hooks/useFetchData';
 import NoPermissionPage from 'views/NoPermissionPage/NoPermissionPage';
@@ -261,7 +260,6 @@ const Budget = (props) => {
                                                             <span >{`Margin: ${prevChart2.marginPrevChart2[index]}`}</span>
                                                         </>
                                                     }
-                                                    // title={`Bet: ${item} Margin: ${prevChart2.marginPrevChart2[index]}`}
                                                 >
                                                     <button className={classes.marin}></button>
                                                 </Tooltip>

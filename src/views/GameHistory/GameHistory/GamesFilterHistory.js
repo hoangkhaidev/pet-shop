@@ -239,7 +239,7 @@ const GamesFilterHistory = ({
       <MainCard sx={{mb: '15px'}}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
-            <Grid className={classes.inputDataPicked} item xs={12} xl={3.5} md={3.5} sx={{mt: '16px'}}>
+            <Grid className={classes.inputDataPicked} item xs={12} md={3.5} sx={{mt: '16px'}}>
               <SelectField
                 selectDisabled= {roleUser.account_type === 'brand' ? true : false}
                 control={control}
@@ -261,7 +261,7 @@ const GamesFilterHistory = ({
                 dateRangeRef={dateRangeRef}
               />
             </Grid>
-            <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
+            <Grid className={classes.inputSameLineWithDaterange} item xs={12} md={3}>
               <InputNumber
                 namefileld="player_id"
                 label="Player ID"
@@ -277,7 +277,7 @@ const GamesFilterHistory = ({
                 options={gameTypeData}
               />
             </Grid>
-            <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
+            <Grid className={classes.inputSameLineWithDaterange} item xs={12} md={3}>
               <InputField
                 control={control}
                 namefileld="nick_name"
@@ -295,7 +295,7 @@ const GamesFilterHistory = ({
                 options={gameNameData}
               />
             </Grid>
-            <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={2.5} md={2.5}>
+            <Grid className={classes.inputSameLineWithDaterange} item xs={12} md={2.5}>
               <InputField
                 control={control}
                 namefileld="round_id"

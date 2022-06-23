@@ -28,7 +28,10 @@ const GamesListConfig = () => {
   let arrPermissionGames = {};
   permission_groups.map((item) => {
     if (item.name === 'Configuration') {
-      arrPermissionGames = item.permissions[0];
+      item.permissions?.map((itemPermission) => {
+        if (itemPermission.name === 'Games') arrPermissionGames = itemPermission;
+        return itemPermission;
+      });
     }
     return item.name === 'Configuration'
   });
@@ -268,6 +271,10 @@ const GamesListConfig = () => {
       ...data,
     }));
   };
+
+  useEffect(() => {
+    document.title = 'Games';
+  }, []);
 
   // if (!isHasPermission) {
   //   return <NoPermissionPage />;

@@ -100,32 +100,29 @@ const RoleEdit = () => {
     let name;
     if (permissionGroup) {
 
-      let testArr = [];
+      let resultArr = [];
       LIST_PERMISSIONS.forEach(permission => {
         const arr = map(permissionGroup, item => item.permissions.every(itemPermission => itemPermission[permission.value]));
         const ticked = arr.find((item) => item === false );
         if (ticked === false) {
-          testArr.push({
+          resultArr.push({
             ...permission,
             checked: false
           });
         } else {
-          testArr.push({
+          resultArr.push({
             ...permission,
             checked: true
           });
         }
       });
-      setHeaderPermission(testArr);
+      setHeaderPermission(resultArr);
       setSelectedColumn(name);
     }
   }, [permissionGroup]);
 
   useEffect(() => {
-    document.title = 'Role Edit';
-    return () => {
-      document.title = '';
-    }
+    document.title = 'Edit Role';
   }, [router]);
 
   useEffect(() => {
@@ -226,7 +223,6 @@ const RoleEdit = () => {
   return (
     <MainCard title="Edit Role">
       {isLoading && <Loading />}
-      {/* <TitlePage title="Edit Role" /> */}
       <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle}>
         <InputField
           autoFocus
@@ -382,7 +378,6 @@ const RoleEdit = () => {
         )}
         <ButtonGroup>
           <SubmitButton />
-          {/* <ResetButton text="Cancel" onAction={onCancel} /> */}
           <CancelButton onAction={onCancel} text='Cancel'/>
         </ButtonGroup>
       </form>

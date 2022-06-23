@@ -94,6 +94,10 @@ const PlayersList = () => {
     }
   }, []);
 
+  useEffect(() => {
+    document.title = 'Players List';
+  }, []);
+
   const columns = [
     {
       data_field: 'indexRow',

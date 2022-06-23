@@ -66,9 +66,12 @@ const BrandDetail = () => {
   let arrPermissionGlobalBrand = {};
   permission_groups.map((item) => {
     if (item.name === 'Global') {
-      arrPermissionGlobalBrand = item.permissions[0];
+      item.permissions?.map((itemPermission) => {
+        if (itemPermission.name === 'Global / Brand') arrPermissionGlobalBrand = itemPermission;
+        return itemPermission;
+      });
     }
-    return item.name === 'Global'
+    return item.name;
   });
 
   const [dateRange, setDateRange] = useState({
@@ -90,9 +93,6 @@ const BrandDetail = () => {
 
   useEffect(() => {
     document.title = 'Brand Detail';
-    return () => {
-      document.title = '';
-    }
   }, []);
 
   if (!isHasPermission) {

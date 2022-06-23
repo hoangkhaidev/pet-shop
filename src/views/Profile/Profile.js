@@ -14,7 +14,6 @@ import { useForm } from 'react-hook-form';
 import remove from 'lodash/remove';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-// import TitlePage from 'src/components/shared/TitlePage/TitlePage';
 import { useEffect, useState } from 'react';
 import get from 'lodash/get';
 import Loading from '../Loading/Loading';
@@ -22,12 +21,10 @@ import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
 import { useTranslation } from 'react-i18next';
 import InputField from 'views/InputField/InputField';
 import { makeStyles } from '@mui/styles';
-import { Button, Chip, IconButton, InputAdornment } from '@mui/material';
+import { Chip, IconButton, InputAdornment } from '@mui/material';
 import api from 'utils/api';
 import useFetchData from 'utils/hooks/useFetchData';
 import useRouter from 'utils/hooks/useRouter';
-import ClearAllIcon from '@mui/icons-material/ClearAll';
-import AdjustIcon from '@mui/icons-material/Adjust';
 import MainCard from 'ui-component/cards/MainCard';
 import AddIcon from '@mui/icons-material/Add';
 import ButtonGroup, { CancelButton, SubmitButton } from 'views/Button/Button';
@@ -161,6 +158,10 @@ const Profile = () => {
     remove(cloneArr, (item) => item === email);
     setFinanceEmail(cloneArr);
   };
+
+  useEffect(() => {
+    document.title = 'Profile';
+  }, []);
 
   const onCancel = () => {
     navigate('/');

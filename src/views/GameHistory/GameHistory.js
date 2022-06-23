@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable spaced-comment */
 /* eslint-disable prettier/prettier */
-import { useState, lazy, Suspense, createContext } from "react";
+import { useState, lazy, Suspense, createContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import moment from 'moment';
 import NoPermissionPage from "../NoPermissionPage/NoPermissionPage";
@@ -64,8 +64,14 @@ const GameHistory = () => {
     if (item.name === 'Players') {
       arrPermissionPlayers = item.permissions;
     }
-    return item.name === 'Players'
+    
+    return item.name;
   });
+
+  useEffect(() => {
+    document.title = 'Game History';
+    
+  }, []);
 
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
 

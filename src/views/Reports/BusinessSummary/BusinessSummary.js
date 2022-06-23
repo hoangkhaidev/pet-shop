@@ -126,6 +126,10 @@ const BusinessSummary = () => {
     setDataAverage(mapDataAverage)
   }, [dataResponse, roleUser]);
 
+  useEffect(() => {
+    document.title = 'Business Summary';
+  }, []);
+
   const columns = [
     {
       data_field: "identifier",

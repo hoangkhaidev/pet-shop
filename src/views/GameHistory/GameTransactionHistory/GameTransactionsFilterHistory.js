@@ -257,7 +257,7 @@ const GameTransactionFilterHistory = ({
       <MainCard sx={{mb: '15px'}}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
-            <Grid className={classes.inputDataPicked} item xs={12} xl={3.5} md={3.5} sx={{mt: '16px'}}>
+            <Grid className={classes.inputDataPicked} item xs={12} md={3.5} sx={{mt: '16px'}}>
                 <SelectField
                   control={control}
                   errors={errors?.brand_id}
@@ -284,7 +284,7 @@ const GameTransactionFilterHistory = ({
                 />
                 
             </Grid>
-            <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
+            <Grid className={classes.inputSameLineWithDaterange} item xs={12} md={3}>
               <InputNumber
                 namefileld="player_id"
                 label="Player ID"
@@ -301,7 +301,7 @@ const GameTransactionFilterHistory = ({
                 defaultValue="all"
               />
             </Grid>
-            <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={3} md={3}>
+            <Grid className={classes.inputSameLineWithDaterange} item xs={12} md={3}>
               <InputField
                 control={control}
                 namefileld="nick_name"
@@ -320,7 +320,7 @@ const GameTransactionFilterHistory = ({
                 defaultValue="all"
               />
             </Grid>
-            <Grid className={classes.inputSameLineWithDaterange} item xs={12} xl={2.5} md={2.5}>
+            <Grid className={classes.inputSameLineWithDaterange} item xs={12} md={2.5}>
               <InputField
                 control={control}
                 namefileld="round_id"
@@ -342,7 +342,7 @@ const GameTransactionFilterHistory = ({
             
           </Grid>
           <Grid container spacing={2}>
-            <Grid item xs={12} xl={3.5} md={3.5}>
+            <Grid item xs={12} md={3.5}>
               <SelectField
                 control={control}
                 namefileld="sort_field"
@@ -371,7 +371,7 @@ const GameTransactionFilterHistory = ({
                 defaultValue="end_date"
               />
             </Grid>
-            <Grid item xs={12} xl={3} md={3}>
+            <Grid item xs={12} md={3}>
               <SelectField
                 control={control}
                 namefileld="sort_order"

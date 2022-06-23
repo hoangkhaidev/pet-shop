@@ -53,6 +53,10 @@ const BrandLogs = () => {
     setData(mapData);
   }, [dataResponse]);
 
+  useEffect(() => {
+    document.title = 'Brand Logs';
+  }, []);
+
   const columns = [
     {
       data_field: "indexRow",

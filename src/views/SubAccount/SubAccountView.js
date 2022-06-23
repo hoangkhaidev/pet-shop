@@ -12,8 +12,6 @@ import NoPermissionPage from 'views/NoPermissionPage/NoPermissionPage';
 import MainCard from 'ui-component/cards/MainCard';
 import Loading from 'views/Loading/Loading';
 import ButtonGroup, { BackButton, ResetButton } from 'views/Button/Button';
-import ClearAllIcon from '@mui/icons-material/ClearAll';
-import { Button } from '@mui/material';
 
 const useStyles = makeStyles(() => ({
   formStyle: {
@@ -59,16 +57,10 @@ const SubAccountView = () => {
 
   useEffect(() => {
     document.title = 'Sub Account Detail';
-    return () => {
-      document.title = '';
-    }
   }, [router]);
 
   useEffect(() => {
-    dispatch(setPageName("sub_view"));
-    return () => {
-      dispatch(clearPage());
-    }
+    document.title = 'Sub Account Detail';
   }, []);
 
   useEffect(() => {

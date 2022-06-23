@@ -10,8 +10,6 @@
 /* eslint-disable prettier/prettier */
 import { saveAs } from "file-saver";
 import XlsxPopulate from "xlsx-populate";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 import { Button } from "@mui/material";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
@@ -76,7 +74,12 @@ export const ExportExcelPlayersBusinessSummary = ({ excelData }) => {
           
   return (
     <>
-      <div style={{ textAlign: 'right', marginBottom: '10px' }}>
+      <div 
+        style={{ 
+          textAlign: 'right', 
+          marginBottom: '10px' 
+        }}
+      >
         <Button 
           sx={{ 
             background: '#68a9e8',
@@ -86,15 +89,11 @@ export const ExportExcelPlayersBusinessSummary = ({ excelData }) => {
           }} 
           onClick={e => exportToExcel()}
         >
-          {/* <FontAwesomeIcon 
-            icon={faFileExcel} 
-            size={'2x'} 
-            color={'#fff'} 
-            title={'Download Excel'} 
-            style={{cursor: 'pointer'}}
-          /> */}
           <FileDownloadIcon 
-              style={{cursor: 'pointer', fontSize: '20px'}}
+              style={{
+                cursor: 'pointer',
+                fontSize: '20px'
+              }}
             />
           <span style={{marginLeft: '5px'}}>Export</span>
         </Button>

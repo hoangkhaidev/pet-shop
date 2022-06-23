@@ -18,12 +18,10 @@ import { useEffect, useState } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import remove from 'lodash/remove';
 import RemoveIcon from '@mui/icons-material/Remove';
-// import FormattedNumberInput from 'src/components/shared/InputField/InputFieldNumber';
 import clsx from 'clsx';
 import get from 'lodash/get';
 import { toast } from 'react-toastify';
 import { Navigate, useNavigate } from 'react-router-dom';
-import ClearAllIcon from '@mui/icons-material/ClearAll';
 import { useSelector } from 'react-redux';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
 import { makeStyles } from '@mui/styles';
@@ -185,6 +183,10 @@ const BrandCreate = () => {
     setOperatorDatas([...mapData]);
   }, [operatorData]);
 
+  useEffect(() => {
+    document.title = 'Create Brand';
+  }, []);
+
   const onDataBrand = async () => {
     const response = await api.post('/api/operators/public_list', null);
     if (get(response, "success", false)) {
@@ -228,76 +230,74 @@ const BrandCreate = () => {
   };
 
   const onSubmit = async (dataForm) => {
-      let dataFinanceEmail = [];
-        
-      if (finance_email) {
-        dataFinanceEmail = [...financeEmail, finance_email];
+    let dataFinanceEmail = [];
+      
+    if (finance_email) {
+      dataFinanceEmail = [...financeEmail, finance_email];
+    } else {
+      dataFinanceEmail = financeEmail;
+    }
+
+    const product_form = dataForm.commission.filter((item) => item.checked === true );
+    const product_commission = product_form.map((item) => {
+      let arr = {
+        product_id: Number(item.product_id),
+        commission: String(item.value)
+      }
+      return arr;
+    });
+
+    const formatWLIPEndpoint = cloneDeep(apiWLIP).map((item) => {
+      item = item.join('.');
+      if (item === '...') return null;
+      return item;
+    }).filter((item) => item);
+
+    const formatWLIPs = whitelistIP.map((item) => {
+      item = item.join('.');
+      if (item === '...') return null;
+      return item;
+    }).filter((item) => item);
+
+    delete dataForm.commission;
+    const form = {
+      ...dataForm,
+      api_whitelist_ip: formatWLIPEndpoint,
+      whitelist_ips: formatWLIPs,
+      finance_emails: dataFinanceEmail,
+      product_commission: product_commission,
+    };
+
+    try {
+      const response = await api.post('/api/brand/create', form);
+      if (get(response, 'success', false)) {
+        toast.success('Create brand Success', {
+          onClose: navigate('brand/list'),
+        });
       } else {
-        dataFinanceEmail = financeEmail;
-      }
-
-      const product_form = dataForm.commission.filter((item) => item.checked === true );
-      const product_commission = product_form.map((item) => {
-        let arr = {
-          product_id: Number(item.product_id),
-          commission: String(item.value)
+        if (response?.err === "err:no_permission") {
+          setIsHasPermission(false);
+          toast.warn(t('no_permission'));
         }
-        return arr;
-      });
-
-      const formatWLIPEndpoint = cloneDeep(apiWLIP).map((item) => {
-        item = item.join('.');
-        if (item === '...') return null;
-        return item;
-      }).filter((item) => item);
-
-      const formatWLIPs = whitelistIP.map((item) => {
-        item = item.join('.');
-        if (item === '...') return null;
-        return item;
-      }).filter((item) => item);
-
-      delete dataForm.commission;
-      const form = {
-        ...dataForm,
-        api_whitelist_ip: formatWLIPEndpoint,
-        whitelist_ips: formatWLIPs,
-        finance_emails: dataFinanceEmail,
-        product_commission: product_commission,
-      };
-
-      try {
-        const response = await api.post('/api/brand/create', form);
-        if (get(response, 'success', false)) {
-          toast.success('Create brand Success', {
-            onClose: navigate('brand/list'),
-          });
-        } else {
-          if (response?.err === "err:no_permission") {
-            setIsHasPermission(false);
-
-            toast.warn(t('no_permission'));
-          }
-          if (response?.err === 'err:suspended_account') {
-            toast.warn(t('suspended_account'));
-          }
-          if (response?.err === 'err:form_validation_failed') {
-            for (const field in response?.data) {
-              setError(field, {
-                type: 'validate',
-                message: t(response?.data[field]),
-              });
-            }
+        if (response?.err === 'err:suspended_account') {
+          toast.warn(t('suspended_account'));
+        }
+        if (response?.err === 'err:form_validation_failed') {
+          for (const field in response?.data) {
+            setError(field, {
+              type: 'validate',
+              message: t(response?.data[field]),
+            });
           }
         }
-      } catch (e) {
-        console.log('e', e);
       }
+    } catch (e) {
+      console.log('e', e);
+    }
   };
 
   const onChangeAPIEndpointIP = (e, index, rowIndex) => {
     const { formattedValue } = e;
-    // const cloneArr = apiWLIP.slice();
     const cloneArr = cloneDeep(apiWLIP);
     cloneArr[rowIndex][index] = formattedValue;
     setAPIWLIP(cloneArr);

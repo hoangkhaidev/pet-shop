@@ -91,10 +91,7 @@ const BrandDetailView = () => {
   };
 
   useEffect(() => {
-    document.title = 'Brand Detail';
-    return () => {
-      document.title = '';
-    }
+    document.title = 'Brand View';
   }, []);
 
   const onCancel = () => {

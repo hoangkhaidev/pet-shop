@@ -6,7 +6,7 @@ import { createSlice  } from "@reduxjs/toolkit";
 
 const initialState = {
     isOpen: [], // for active default menu
-    titlePage: [],
+    // titlePage: [],
     fontFamily: "'Roboto', sans-serif",
     borderRadius: 12,
     opened: true
@@ -19,9 +19,9 @@ export const customizationSlice = createSlice({
     menuOpen: (state, action) => {
       state.isOpen = [action.payload];
     },
-    setTitlePage: (state, action) => {
-      state.titlePage = [action.payload];
-    },
+    // setTitlePage: (state, action) => {
+    //   state.titlePage = [action.payload];
+    // },
     setMenu: (state, action) => {
       state.opened = action.payload;
     },

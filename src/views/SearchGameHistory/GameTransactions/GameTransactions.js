@@ -21,7 +21,6 @@ import Loading from "views/Loading/Loading";
 import TableComponent from "views/TableComponent/TableComponent";
 import TransactionDetails from "views/TransactionDetails/TransactionDetails";
 import TitlePage from "views/TitlePage/TitlePage";
-// import TransactionDetails from "src/components/TransactionDetails/TransactionDetails";
 
 const GameTransactions = ({ gameName }) => {
   const router = useRouter();

@@ -87,7 +87,6 @@ const ChangeStatusCurrency = ({ types, currentStatus, current_code, newlabel, se
   return (
     <div style={{ marginRight: '0px' }}>
       { types === 'statusView' ? <StatusBadge label={labelShow} /> : '' }
-
       {
         types !== 'statusView' && (
           label === 'inactive' ?

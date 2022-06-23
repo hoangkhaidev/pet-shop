@@ -4,12 +4,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import ClearAllIcon from '@mui/icons-material/ClearAll';
-import { useDispatch, useSelector } from 'react-redux';
-// import { Button } from '@mui/material';
+import { useSelector } from 'react-redux';
 import useRouter from 'utils/hooks/useRouter';
 import useFetchData from 'utils/hooks/useFetchData';
-import { clearPage, setPageName } from 'features/parentParam/parentParam';
 import NoPermissionPage from 'views/NoPermissionPage/NoPermissionPage';
 import MainCard from 'ui-component/cards/MainCard';
 import ButtonGroup, { BackButton } from 'views/Button/Button';
@@ -52,7 +49,6 @@ const OperatorView = () => {
   const classes = useStyles();
   const router = useRouter();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const parentParam = useSelector((state) => state.parentParam.parentParam);
 
   const { dataResponse, isLoading, isHasPermission } = useFetchData(
@@ -68,17 +64,7 @@ const OperatorView = () => {
 
   useEffect(() => {
     document.title = 'Operator Detail';
-    return () => {
-      document.title = '';
-    }
   }, [router]);
-
-  useEffect(() => {
-    dispatch(setPageName("operator_view"));
-    return () => {
-      dispatch(clearPage());
-    }
-  }, []);
 
   const onCancel = () => {
     navigate(parentParam);
@@ -90,7 +76,6 @@ const OperatorView = () => {
 
   return (
     <MainCard title="Operator Detail">
-        {/* <div className={classes.titlePage}>Operator Detail</div> */}
         <div className={classes.playerInfoName}>
             <span className={classes.playerNameDisplay}>
                 Name:

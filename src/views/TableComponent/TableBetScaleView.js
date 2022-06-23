@@ -66,7 +66,6 @@ export default function TableBetScaleView({ dataDetail, setFormState, default_be
 
   const [newScale, setNewScale] = useState(initNewScale);
 
-
   useEffect(() => {
     setCheckedRadio(default_bet_scale);
   }, [default_bet_scale]);

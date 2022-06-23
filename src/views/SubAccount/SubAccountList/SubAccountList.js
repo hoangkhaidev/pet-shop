@@ -164,6 +164,10 @@ const SubAccountList = () => {
     setData(get(dataResponse, 'list', []));
   }, [dataResponse]);
 
+  useEffect(() => {
+    document.title = 'Sub Account List';
+  }, []);
+
   const columns = [
     {
       data_field: 'indexRow',
@@ -394,10 +398,6 @@ const SubAccountList = () => {
       status_search: 'all',
     });
   };
-
-  useEffect(() => {
-    console.log(objFilter);
-  }, [objFilter]);
 
   const onGotoAddSubPage = () => {
     navigate('/sub/create');

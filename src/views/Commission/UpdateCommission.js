@@ -5,7 +5,6 @@
 import { Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useState, useCallback } from "react";
-// import SendIcon from '@mui/icons-material/Send';
 import ModalComponent from "views/ModalComponent/ModalComponent";
 import TitlePage from "views/TitlePage/TitlePage";
 
@@ -46,7 +45,6 @@ const UpdateCommission = ({onHandleUpdate, name, brand_id, row }) => {
   return (
     <div>
       <Button
-        // startIcon={<SendIcon fontSize="small" />}
         variant="contained"
         onClick={onOpenModal}
         color="primary"

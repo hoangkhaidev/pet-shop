@@ -67,8 +67,6 @@ const ChangeCheckboxCurrency = ({status, newlabel, current_code, currentStatus})
     return item.name === 'Configuration'
   });
 
-
-
   const handleChange = (event) => {
     if (arrPermissionGames?.full) {
         onOpenModal();

@@ -50,7 +50,6 @@ const SelectField = ({
       <FormControl
         disabled={selectDisabled}
         variant="outlined"
-        id="1232132132132132132132132"
         error={!isEmpty(errors)}
         className={classes.formControlSelect}
         sx={{ 

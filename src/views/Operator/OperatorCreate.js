@@ -19,7 +19,6 @@ import { useTranslation } from 'react-i18next';
 import { Navigate, useNavigate } from 'react-router-dom';
 import remove from 'lodash/remove';
 import AddIcon from '@mui/icons-material/Add';
-import ClearAllIcon from '@mui/icons-material/ClearAll';
 import RemoveIcon from '@mui/icons-material/Remove';
 import get from 'lodash/get';
 import { toast } from 'react-toastify';
@@ -141,6 +140,10 @@ const OperatorCreate = () => {
   useEffect(() => {
     clearErrors('product_commission');
   }, [checkboxListCheck]);
+
+  useEffect(() => {
+    document.title = 'Create Operator';
+  }, []);
 
   const onSubmit = async (data) => {
     let dataFinanceEmail = [];

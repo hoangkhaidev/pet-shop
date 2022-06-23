@@ -28,7 +28,10 @@ const CurrencyList = () => {
   let arrPermissionCurrency = {};
   permission_groups?.map((item) => {
     if (item.name === 'Configuration') {
-      arrPermissionCurrency = (item.permissions[0]);
+      item.permissions?.map((itemPermission) => {
+        if (itemPermission.name === 'Currency') arrPermissionCurrency = itemPermission;
+        return itemPermission;
+      });
     }
     return item.name === 'Configuration'
   });
@@ -82,21 +85,6 @@ const CurrencyList = () => {
         );
       }
     },
-    // {
-    //   data_field: 'status',
-    //   column_name: 'Status',
-    //   align: 'center',
-    //   formatter: (cell, row) => {
-    //     const newlabel = row.status === true ? 'active' : 'inactive';
-    //     return (
-    //       <ChangeStatusCurrency
-    //         types='statusView'
-    //         newlabel={newlabel}
-    //         current_code={row.code}
-    //       />
-    //     );
-    //   },
-    // },
     arrPermissionCurrency?.full ? (
       {
         data_field: "action",
@@ -138,6 +126,10 @@ const CurrencyList = () => {
     ) : {}
     
   ];
+
+  useEffect(() => {
+    document.title = 'Currency List';
+  }, []);
 
   if (!isHasPermission) {
     return <NoPermissionPage />;

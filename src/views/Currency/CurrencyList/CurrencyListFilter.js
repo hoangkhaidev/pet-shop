@@ -119,7 +119,6 @@ const CurrencyListFilter = () => {
     }
   }
  
-
   return (
     <MainCard title="Currency">
       <Grid container spacing={2}>
