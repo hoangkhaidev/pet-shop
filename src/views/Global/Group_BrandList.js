@@ -68,6 +68,10 @@ const Group_BrandList = () => {
     dispatch(setParentParam(`${router.location.pathname}${router.location.search}`));
   }, [router]);
 
+  useEffect(() => {
+    document.title = 'Group/Brand List';
+  }, []);
+
   if (!isHasPermission) {
     return <NoPermissionPage />;
   }

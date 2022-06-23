@@ -103,6 +103,10 @@ const RoleList = () => {
     }));
   };
 
+  useEffect(() => {
+    document.title = 'Role Management';
+  }, []);
+
   const onGotoAddRolePage = () => {
     navigate("/role/add");
   };

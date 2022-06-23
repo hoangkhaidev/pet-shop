@@ -114,6 +114,10 @@ const PlayersBusinessSummary = () => {
   }, []);
 
   useEffect(() => {
+    document.title = 'Players Business Summary';
+  }, []);
+
+  useEffect(() => {
     const mapData = get(dataResponse, 'list', []);
     const mapDataSum = dataResponse?.sum;
     let forExcel = [];

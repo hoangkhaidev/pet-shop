@@ -13,7 +13,7 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import remove from 'lodash/remove';
@@ -32,7 +32,6 @@ import Loading from 'views/Loading/Loading';
 import SelectField from 'views/InputField/SelectField';
 import SelectFieldMultiple from 'views/InputField/SelectFieldMutiple';
 import IPAddressInput from 'views/IPAddressInput/IPAddressInput';
-import { clearPage, setPageName } from 'features/parentParam/parentParam';
 
 const useStyles = makeStyles(() => ({
   whitelistIPLine: {
@@ -57,7 +56,6 @@ const useStyles = makeStyles(() => ({
 const SubAccountCreate = () => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [roleData, setRoleData] = useState([]);
   const [brandData, setBrandData] = useState([]);
@@ -190,10 +188,7 @@ const SubAccountCreate = () => {
   };
 
   useEffect(() => {
-    dispatch(setPageName("sub_create"));
-    return () => {
-      dispatch(clearPage());
-    }
+    document.title = 'Create Sub Account';
   }, []);
 
   useEffect(() => {

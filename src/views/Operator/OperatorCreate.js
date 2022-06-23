@@ -141,6 +141,10 @@ const OperatorCreate = () => {
     clearErrors('product_commission');
   }, [checkboxListCheck]);
 
+  useEffect(() => {
+    document.title = 'Create Operator';
+  }, []);
+
   const onSubmit = async (data) => {
     let dataFinanceEmail = [];
       

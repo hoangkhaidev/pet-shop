@@ -93,9 +93,6 @@ const BrandDetail = () => {
 
   useEffect(() => {
     document.title = 'Brand Detail';
-    return () => {
-      document.title = '';
-    }
   }, []);
 
   if (!isHasPermission) {

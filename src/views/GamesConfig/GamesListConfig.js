@@ -272,6 +272,10 @@ const GamesListConfig = () => {
     }));
   };
 
+  useEffect(() => {
+    document.title = 'Games';
+  }, []);
+
   // if (!isHasPermission) {
   //   return <NoPermissionPage />;
   // }

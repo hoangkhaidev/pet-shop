@@ -199,17 +199,7 @@ const BrandEdit = () => {
 
   useEffect(() => {
     document.title = 'Edit Brand';
-    return () => {
-      document.title = '';
-    }
   }, [router]);
-
-  useEffect(() => {
-    dispatch(setPageName("brand_edit"));
-    return () => {
-      dispatch(clearPage());
-    }
-  }, []);
 
   useEffect(() => {
     if (data) {

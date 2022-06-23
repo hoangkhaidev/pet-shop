@@ -183,6 +183,10 @@ const BrandCreate = () => {
     setOperatorDatas([...mapData]);
   }, [operatorData]);
 
+  useEffect(() => {
+    document.title = 'Create Brand';
+  }, []);
+
   const onDataBrand = async () => {
     const response = await api.post('/api/operators/public_list', null);
     if (get(response, "success", false)) {

@@ -120,6 +120,10 @@ const GamesSummary = () => {
     setDataSum(mapDataSum)
   }, [dataResponse]);
 
+  useEffect(() => {
+    document.title = 'Games Summary';
+  }, []);
+
   const columns = [
     {
       data_field: "period",

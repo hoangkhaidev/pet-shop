@@ -127,6 +127,10 @@ const CurrencyList = () => {
     
   ];
 
+  useEffect(() => {
+    document.title = 'Currency List';
+  }, []);
+
   if (!isHasPermission) {
     return <NoPermissionPage />;
   }

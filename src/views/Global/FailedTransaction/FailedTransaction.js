@@ -87,10 +87,7 @@ const FailedTransaction = () => {
   }, [dataResponse]);
 
   useEffect(() => {
-    dispatch(setPageName("failedTransaction"));
-    return () => {
-      dispatch(clearPage());
-    }
+    document.title = 'Failed Transaction';
   }, []);
 
   const columns = [

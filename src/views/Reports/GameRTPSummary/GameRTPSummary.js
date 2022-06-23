@@ -111,9 +111,6 @@ const GameRTPSummary = () => {
 
   useEffect(() => {
     document.title = 'Games RTP Summary';
-    return () => {
-      document.title = '';
-    }
   }, [router]);
 
   useEffect(()=> {

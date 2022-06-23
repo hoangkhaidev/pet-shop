@@ -57,16 +57,10 @@ const SubAccountView = () => {
 
   useEffect(() => {
     document.title = 'Sub Account Detail';
-    return () => {
-      document.title = '';
-    }
   }, [router]);
 
   useEffect(() => {
-    dispatch(setPageName("sub_view"));
-    return () => {
-      dispatch(clearPage());
-    }
+    document.title = 'Sub Account Detail';
   }, []);
 
   useEffect(() => {

@@ -53,6 +53,10 @@ const AdminLogs = () => {
     setData(mapData);
   }, [dataResponse]);
 
+  useEffect(() => {
+    document.title = 'Admin Logs';
+  }, []);
+
   const columns = [
     {
       data_field: "indexRow",

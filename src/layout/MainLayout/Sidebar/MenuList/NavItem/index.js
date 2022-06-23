@@ -20,7 +20,7 @@ import config from 'config';
 
 // assets
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { menuOpen, setMenu, setTitlePage } from 'features/customization/customization';
+import { menuOpen, setMenu } from 'features/customization/customization';
 
 // ==============================|| SIDEBAR MENU LIST ITEMS ||============================== //
 
@@ -29,7 +29,6 @@ const NavItem = ({ item, level }) => {
     const dispatch = useDispatch();
     const router = useRouter();
     const customization = useSelector((state) => state.customization);
-    const pageName = useSelector((state) => state.parentParam.pageName);
     const matchesSM = useMediaQuery(theme.breakpoints.down('lg'));
 
     let itemTarget = '_self';
@@ -44,10 +43,10 @@ const NavItem = ({ item, level }) => {
         listItemProps = { component: 'a', href: item.url, target: itemTarget };
     }
 
-    const itemHandler = (id, titlePage) => {
+    const itemHandler = (id) => {
         // dispatch({ type: MENU_OPEN, id });
         dispatch(menuOpen(id));
-        dispatch(setTitlePage(titlePage));
+        // dispatch(setTitlePage(titlePage));
         if (matchesSM) dispatch(setMenu(false));
     };
 
@@ -61,81 +60,14 @@ const NavItem = ({ item, level }) => {
         if (currentIndex > -1) {
             // dispatch({ type: MENU_OPEN, id: item.id });
             dispatch(menuOpen(item.url));
-            dispatch(setTitlePage(item.name));
+            // dispatch(setTitlePage(item.name));
         }
         // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
-        switch (router.pathname) {
-            case '/brand/list':
-                dispatch(setTitlePage('Brand List'));
-                break;
-            case '/home/dashboard':
-                dispatch(setTitlePage('Dashboard'));
-                break;
-            case '/players/players':
-                dispatch(setTitlePage('Players List'));
-                break;
-            case '/global/failed_transaction':
-                dispatch(setTitlePage('Failed Transaction'));
-                break;
-            case '/configuration/games':
-                dispatch(setTitlePage('Games'));
-                break;
-            default: 
-                break;
-        }
         dispatch(menuOpen(router.pathname));
     }, [router.pathname]);
-
-    useEffect(() => {
-        switch (pageName) {
-            case 'role_add':
-                document.title = 'Add Role';
-                break;
-            case 'role_edit':
-                document.title = 'Edit Role';
-                break;
-            case 'sub_create':
-                document.title = 'Create Sub Account';
-                break;
-            case 'sub_edit':
-                document.title = 'Edit Sub Account';
-                break;
-            case 'sub_view':
-                document.title = 'Sub Account Detail';
-                break;
-            case 'player_summary':
-                document.title = 'Player Summary';
-                break;
-            case 'game_details':
-                document.title = 'Games Details';
-                break;
-            case 'player_info':
-                document.title = 'Player Information';
-                break; 
-            case 'brand_edit':
-                document.title = 'Brand Edit';
-                break; 
-            case 'brand_view':
-                document.title = 'Brand View';
-                break; 
-            case 'operator_edit':
-                document.title = 'Edit Operator';
-                break;
-            case 'operator_view':
-                document.title = 'Operator Detail';
-                break;   
-            default: 
-                document.title = customization.titlePage[0];
-                break;
-        }
-        
-        return () => {
-            document.title = '';
-        }
-    }, [customization.titlePage, pageName]);
 
     return (
         <ListItemButton

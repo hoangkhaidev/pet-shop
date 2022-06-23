@@ -76,9 +76,6 @@ const PlayerInformation = ({ data }) => {
 
   useEffect(() => {
     document.title = 'Player Information';
-    return () => {
-      document.title = '';
-    }
   }, []);
 
   useEffect(() => {

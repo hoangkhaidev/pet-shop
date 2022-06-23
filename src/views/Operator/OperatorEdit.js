@@ -21,11 +21,10 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { toast } from 'react-toastify';
 import cloneDeep from 'lodash/cloneDeep';
 import { validate } from 'validate.js';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 import useRouter from 'utils/hooks/useRouter';
 import useFetchData from 'utils/hooks/useFetchData';
-import { clearPage, setPageName } from 'features/parentParam/parentParam';
 import api from 'utils/api';
 import NoPermissionPage from 'views/NoPermissionPage/NoPermissionPage';
 import MainCard from 'ui-component/cards/MainCard';
@@ -95,7 +94,6 @@ const OperatorEdit = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const parentParam = useSelector((state) => state.parentParam.parentParam);
   ///handle permission
   const roleUser = useSelector((state) => state.roleUser);
@@ -256,17 +254,7 @@ const OperatorEdit = () => {
 
   useEffect(() => {
     document.title = 'Edit Operator';
-    return () => {
-      document.title = '';
-    }
   }, [router]);
-
-  useEffect(() => {
-    dispatch(setPageName("operator_edit"));
-    return () => {
-      dispatch(clearPage());
-    }
-  }, []);
 
   const onSubmit = async (dataForm) => {
     if (productCommission.isValid === true) {

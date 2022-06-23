@@ -83,9 +83,6 @@ const FirebaseLogin = ({ ...others }) => {
       
     useEffect(() => {
       document.title = 'Login';
-      return () => {
-        document.title = '';
-      }
     }, []);
 
     const onSubmit = async (data) => {

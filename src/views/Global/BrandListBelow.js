@@ -52,10 +52,7 @@ const BrandListBelow = () => {
   }, [dataResponse]);
 
   useEffect(() => {
-    document.title = 'Brand List';
-    return () => {
-      document.title = '';
-    }
+    document.title = 'Brand List Below';
   }, []);
 
   const columns = [

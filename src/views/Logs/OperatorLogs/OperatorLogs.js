@@ -53,6 +53,10 @@ const OperatorLogs = () => {
     setData(mapData);
   }, [dataResponse]);
 
+  useEffect(() => {
+    document.title = 'Operator Logs';
+  }, []);
+
   const columns = [
     {
       data_field: "indexRow",

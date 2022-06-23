@@ -64,17 +64,7 @@ const BrandView = () => {
 
   useEffect(() => {
     document.title = 'Brand Detail';
-    return () => {
-      document.title = '';
-    }
   }, [router]);
-
-  useEffect(() => {
-    dispatch(setPageName("brand_view"));
-    return () => {
-      dispatch(clearPage());
-    }
-  }, []);
 
   const onCancel = () => {
     navigate('/brand/list');

@@ -122,10 +122,7 @@ const RoleEdit = () => {
   }, [permissionGroup]);
 
   useEffect(() => {
-    document.title = 'Role Edit';
-    return () => {
-      document.title = '';
-    }
+    document.title = 'Edit Role';
   }, [router]);
 
   useEffect(() => {

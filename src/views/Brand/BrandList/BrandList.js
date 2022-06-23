@@ -521,6 +521,10 @@ const BrandList = () => {
     }));
   };
 
+  useEffect(() => {
+    document.title = 'Brand List';
+  }, []);
+
   if (!isHasPermission) {
     return <NoPermissionPage />;
   }

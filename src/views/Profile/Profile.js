@@ -159,6 +159,10 @@ const Profile = () => {
     setFinanceEmail(cloneArr);
   };
 
+  useEffect(() => {
+    document.title = 'Profile';
+  }, []);
+
   const onCancel = () => {
     navigate('/');
   };

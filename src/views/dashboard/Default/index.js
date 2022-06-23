@@ -3,6 +3,7 @@
 /* eslint-disable prettier/prettier */
 // material-ui
 import { Grid } from '@mui/material';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 // project imports
@@ -26,6 +27,10 @@ const Dashboard = () => {
         }
         return item.name === 'Dashboard'
     });
+
+    useEffect(() => {
+        document.title = 'Dashboard';
+    }, []);
 
     return (
         <Grid container spacing={gridSpacing} sx={arrPermissionDashboard.none ? {marginTop: '0px', justifyContent: 'center'} : {marginTop: '0px'}}>

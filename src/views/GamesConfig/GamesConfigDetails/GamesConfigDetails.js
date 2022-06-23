@@ -112,9 +112,6 @@ const GamesConfigDetails = () => {
 
   useEffect(() => {
     document.title = 'Game Details';
-    return () => {
-      document.title = '';
-    }
   }, []);
 
   useEffect(() => {

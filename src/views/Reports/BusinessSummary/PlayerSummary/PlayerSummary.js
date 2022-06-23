@@ -160,9 +160,6 @@ const PlayerSummary = () => {
 
   useEffect(() => {
     document.title = 'Player Summary';
-    return () => {
-      document.title = '';
-    }
   }, [router]);
 
   useEffect(() => {

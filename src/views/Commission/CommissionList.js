@@ -267,6 +267,10 @@ const CommissionList = () => {
     });
   };
 
+  useEffect(() => {
+    document.title = 'Commission List';
+  }, []);
+
   if (!isHasPermission) {
     return <NoPermissionPage />;
   }

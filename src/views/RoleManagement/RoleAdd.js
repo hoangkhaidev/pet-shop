@@ -103,10 +103,7 @@ const RoleAdd = () => {
   }, [dataResponse]);
 
   useEffect(() => {
-    dispatch(setPageName("role_add"));
-    return () => {
-      dispatch(clearPage());
-    }
+    document.title = 'Add Role';
   }, []);
 
   const onSubmit = async (data) => {

@@ -115,16 +115,10 @@ const SubAccountEdit = () => {
 
   useEffect(() => {
     document.title = 'Edit Sub Account';
-    return () => {
-      document.title = '';
-    }
   }, [router]);
 
   useEffect(() => {
-    dispatch(setPageName("sub_edit"));
-    return () => {
-      dispatch(clearPage());
-    }
+    document.title = 'Edit Sub Account';
   }, []);
 
   const onDataBrand = async () => {
