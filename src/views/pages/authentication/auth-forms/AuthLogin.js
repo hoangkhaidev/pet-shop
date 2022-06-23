@@ -110,7 +110,7 @@ const FirebaseLogin = ({ ...others }) => {
           const token = get(response, "data.token", "");
           dispatch(checkIsAuthen(true));
           dispatch(getToken(token));
-          navigate("/home/dashboard");
+          // navigate("/home/dashboard");
         } else {
           if (response?.err === 'err:ip_not_allowed') {
             toast.warn(t('ip_not_allowed'));

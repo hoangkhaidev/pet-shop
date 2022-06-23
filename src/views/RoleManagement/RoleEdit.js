@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable spaced-comment */
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
@@ -8,13 +10,13 @@
 import { useState, useEffect } from "react";
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import forEach from "lodash/forEach";
 import findIndex from "lodash/findIndex";
 import get from "lodash/get";
 import map from "lodash/map";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@mui/styles";
 import useRouter from "utils/hooks/useRouter";
 import useFetchData from "utils/hooks/useFetchData";
@@ -87,6 +89,16 @@ const RoleEdit = () => {
     setValue,
     setError,
   } = useForm();
+
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionSubAccount = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Sub Account') {
+      arrPermissionSubAccount = item.permissions;
+    }
+    return item.name === 'Sub Account'
+  });
 
   const { dataResponse, isLoading, isHasPermission } = useFetchData(`/api/role/${router.query?.id}`);
   
@@ -219,6 +231,12 @@ const RoleEdit = () => {
     });
     setPermissionGroup(cloneArr);
   };
+
+  if (!arrPermissionSubAccount[0].full) {
+    if(arrPermissionSubAccount[0].create || arrPermissionSubAccount[0].view) {
+      return <Navigate to="/home/dashboard" />;
+    }
+  }
 
   return (
     <MainCard title="Edit Role">
