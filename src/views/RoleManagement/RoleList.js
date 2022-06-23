@@ -110,17 +110,25 @@ const RoleList = () => {
           formatter: (cell, row) => {
             return (
               <ButtonGroupTable className={classes.root}>
-                <TooltipIcon
-                  IconComponent={<EditIcon />}
-                  title="Edit Role"
-                  onClick={() => navigate(`${row.id}/edit`)}
-                />
-                <DeleteItem 
-                  username={row.role_name}
-                  title={`Confirmation`} 
-                  linkApi={`/api/role/${row.id}/delete`} 
-                  types='role' 
-                />
+                {
+                  arrPermissionSubAccount[0]?.edit ? (
+                    <TooltipIcon
+                      IconComponent={<EditIcon />}
+                      title="Edit Role"
+                      onClick={() => navigate(`${row.id}/edit`)}
+                    />
+                  ) : ''
+                }
+                {
+                  arrPermissionSubAccount[0]?.create ? (
+                    <DeleteItem 
+                      username={row.role_name}
+                      title={`Confirmation`} 
+                      linkApi={`/api/role/${row.id}/delete`} 
+                      types='role' 
+                    />
+                  ) : ''
+                }
               </ButtonGroupTable>
             )
           }
