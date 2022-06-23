@@ -105,6 +105,8 @@ const BrandDetail = () => {
     }
   }
 
+  
+
   return (
     <div className={classes.root}>
       <AppBar 
@@ -128,8 +130,11 @@ const BrandDetail = () => {
           {roleUser.account_type !== 'brand' && (
             <Tab className={classes.labelTab} label={t("Game Param Cloning")} {...a11yProps(1)} />
           )}
-          <Tab className={classes.labelTab} label={t("Run Development Test")} {...a11yProps(2)} />
-          <Tab className={classes.labelTab} label={t("Development Variables")} {...a11yProps(3)} />
+
+          {process.env.REACT_APP_ENV !== 'prod' && (<>
+            <Tab className={classes.labelTab} label={t("Run Development Test")} {...a11yProps(2)} />
+            <Tab className={classes.labelTab} label={t("Development Variables")} {...a11yProps(3)} />
+          </>)}
         </Tabs>
       </AppBar>
       <DateRangeContext.Provider value={valueContext}>
