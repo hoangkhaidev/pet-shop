@@ -134,6 +134,9 @@ const RoleAdd = () => {
         if (response?.err === 'err:suspended_account') {
           toast.warn(t('suspended_account'));
         }
+        if (response.err === "err:no_permission") {
+          toast.warn(t('no_permission'));
+        }
         if (response?.err === 'err:form_validation_failed') {
           for (const field in response?.data) {
             setError(field, {
