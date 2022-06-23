@@ -82,13 +82,11 @@ const Routes = () => {
   
     useEffect(() => {
       if (firstToken && firstToken !== token) {
-        // if (token === "") {
-        //   // navigate("/login");
-        // } else {
-        //   // console.log(firstToken)
-        //   window.location.reload();
-        // }
-        window.location.reload();
+        if (token === "") {
+          // navigate("/login");
+        } else {
+          window.location.reload();
+        }
       }
     }, [token, firstToken])
   

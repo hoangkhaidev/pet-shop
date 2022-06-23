@@ -1,3 +1,5 @@
+/* eslint-disable spaced-comment */
+/* eslint-disable camelcase */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-restricted-syntax */
@@ -7,7 +9,7 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import forEach from 'lodash/forEach';
 import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
@@ -22,7 +24,7 @@ import Loading from 'views/Loading/Loading';
 import InputField from 'views/InputField/InputField';
 import { FormLabel, Paper, Radio, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import ButtonGroup, { CancelButton, ResetButton, SubmitButton } from 'views/Button/Button';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { clearPage, setPageName } from 'features/parentParam/parentParam';
 
 const LIST_PERMISSIONS = [
@@ -74,6 +76,16 @@ const RoleAdd = () => {
   const navigate = useNavigate();
   const [permissionGroup, setPermissionGroup] = useState([]);
   const [selectedColumn, setSelectedColumn] = useState(null);
+
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionSubAccount = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Sub Account') {
+      arrPermissionSubAccount = item.permissions;
+    }
+    return item.name === 'Sub Account'
+  });
 
   const dispatch = useDispatch();
 
@@ -203,6 +215,16 @@ const RoleAdd = () => {
 
   if (!isHasPermission) {
     return <NoPermissionPage />;
+  }
+
+  if (arrPermissionSubAccount[0].none) {
+    return <Navigate to="/home/dashboard" />;
+  }
+
+  if (!arrPermissionSubAccount[0].full) {
+    if(arrPermissionSubAccount[0].view || arrPermissionSubAccount[0].edit) {
+      return <Navigate to="/home/dashboard" />;
+    }
   }
 
   return (

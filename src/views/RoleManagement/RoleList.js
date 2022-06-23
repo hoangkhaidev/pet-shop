@@ -45,8 +45,6 @@ const RoleList = () => {
     return item.name === 'Sub Account'
   });
 
-  console.log(arrPermissionSubAccount);
-
   const [data, setData] = useState([]);
   const [objFilter, setObjFilter] = useState({
     name_search: "",
