@@ -1,3 +1,7 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable camelcase */
+/* eslint-disable no-unused-vars */
+/* eslint-disable spaced-comment */
 /* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable prettier/prettier */
 /* eslint-disable arrow-body-style */
@@ -6,7 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import { makeStyles } from "@mui/styles";
 import useRouter from "utils/hooks/useRouter";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import useFetchData from "utils/hooks/useFetchData";
 import { ButtonGroupTable } from "views/Button/Button";
 import TooltipIcon from "views/TooltipIcon/TooltipIcon";
@@ -16,6 +20,7 @@ import Loading from "views/Loading/Loading";
 import MainCard from "ui-component/cards/MainCard";
 import { Button } from "@mui/material";
 import TableComponent from "views/TableComponent/TableComponent";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +35,17 @@ const RoleList = () => {
   const classes = useStyles();
   const router = useRouter();
   const navigate = useNavigate();
+  ///handle permission
+  const permission_groups = useSelector((state) => state.roleUser.permission_groups);
+  let arrPermissionSubAccount = {};
+  permission_groups.map((item) => {
+    if (item.name === 'Sub Account') {
+      arrPermissionSubAccount = item.permissions;
+    }
+    return item.name === 'Sub Account'
+  });
+
+  console.log(arrPermissionSubAccount);
 
   const [data, setData] = useState([]);
   const [objFilter, setObjFilter] = useState({
@@ -64,28 +80,54 @@ const RoleList = () => {
       column_name: "Description",
       align: "left"
     },
-    {
-      data_field: "action",
-      column_name: "Action",
-      align: "center",
-      formatter: (cell, row) => {
-        return (
-          <ButtonGroupTable className={classes.root}>
-            <TooltipIcon
-              IconComponent={<EditIcon />}
-              title="Edit Role"
-              onClick={() => navigate(`${row.id}/edit`)}
-            />
-            <DeleteItem 
-              username={row.role_name}
-              title={`Confirmation`} 
-              linkApi={`/api/role/${row.id}/delete`} 
-              types='role' 
-            />
-          </ButtonGroupTable>
-        )
+    arrPermissionSubAccount[0]?.full ? (
+      {
+        data_field: "action",
+        column_name: "Action",
+        align: "center",
+        formatter: (cell, row) => {
+          return (
+            <ButtonGroupTable className={classes.root}>
+              <TooltipIcon
+                IconComponent={<EditIcon />}
+                title="Edit Role"
+                onClick={() => navigate(`${row.id}/edit`)}
+              />
+              <DeleteItem 
+                username={row.role_name}
+                title={`Confirmation`} 
+                linkApi={`/api/role/${row.id}/delete`} 
+                types='role' 
+              />
+            </ButtonGroupTable>
+          )
+        }
       }
-    }
+    ) :
+      arrPermissionSubAccount[0]?.edit || arrPermissionSubAccount[0]?.create ? (
+        {
+          data_field: "action",
+          column_name: "Action",
+          align: "center",
+          formatter: (cell, row) => {
+            return (
+              <ButtonGroupTable className={classes.root}>
+                <TooltipIcon
+                  IconComponent={<EditIcon />}
+                  title="Edit Role"
+                  onClick={() => navigate(`${row.id}/edit`)}
+                />
+                <DeleteItem 
+                  username={row.role_name}
+                  title={`Confirmation`} 
+                  linkApi={`/api/role/${row.id}/delete`} 
+                  types='role' 
+                />
+              </ButtonGroupTable>
+            )
+          }
+        }
+      ) : {}
   ];
 
   const handleChangePage = (page) => {
@@ -115,19 +157,38 @@ const RoleList = () => {
     return <NoPermissionPage />;
   }
 
+  if (arrPermissionSubAccount[0].none) {
+    return <Navigate to="/404" />;
+  }
+
   return (
     <>
       {isLoading && <Loading />}
       <MainCard title="Role List">
-        <Button
-          className={classes.addRoleButton}
-          variant="contained"
-          style={{ backgroundColor: '#1cb13c', marginBottom: '10px', marginLeft: 'auto', display: 'flex' }}
-          startIcon={<AddIcon />}
-          onClick={onGotoAddRolePage}
-        >
-          Add Role
-        </Button>
+        {
+          arrPermissionSubAccount[0]?.full ? (
+            <Button
+              className={classes.addRoleButton}
+              variant="contained"
+              style={{ backgroundColor: '#1cb13c', marginBottom: '10px', marginLeft: 'auto', display: 'flex' }}
+              startIcon={<AddIcon />}
+              onClick={onGotoAddRolePage}
+            >
+              Add Role
+            </Button>
+          ) : 
+          arrPermissionSubAccount[0]?.create ? (
+            <Button
+              className={classes.addRoleButton}
+              variant="contained"
+              style={{ backgroundColor: '#1cb13c', marginBottom: '10px', marginLeft: 'auto', display: 'flex' }}
+              startIcon={<AddIcon />}
+              onClick={onGotoAddRolePage}
+            >
+              Add Role
+            </Button>
+          ) : ''
+        }
         <TableComponent
           data={data}
           columns={columns}
