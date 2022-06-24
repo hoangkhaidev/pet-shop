@@ -35,7 +35,7 @@ const RunDevelopmentTestFilter = ({onSubmitFilter}) => {
                   id="token"
                   fullWidth={false}
               />
-              <div style={{ fontWeight: '600' }}>(Operator's player token, with balance 100 USD)</div>
+              <div style={{ fontWeight: '600' }}>(Operator's player token, with balance = 100)</div>
           </Grid>
           <Grid item xs={12} xl={3} md={6} style={{ alignItems: 'center', display: 'flex', justifyContent: 'center' }}>
             <Button

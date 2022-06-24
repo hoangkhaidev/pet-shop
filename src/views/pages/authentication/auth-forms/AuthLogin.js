@@ -65,12 +65,12 @@ const FirebaseLogin = ({ ...others }) => {
         event.preventDefault();
     };
 
-    // useEffect(() => {
-    //   if (!!token) {
-    //     // Reload when login
-    //     window.location.reload();
-    //   }
-    // }, [token])
+    useEffect(() => {
+      if (!!token) {
+        // Reload when login
+        window.location.reload();
+      }
+    }, [token])
   
     useEffect(() => {
       if (logOutReason) {

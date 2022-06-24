@@ -64,7 +64,7 @@ const Routes = () => {
   
     const token = useSelector(state => state.authentication.token);
     console.log(isLoggedIn);
-    // const [firstToken, setFirstToken] = useState(token);
+    const [firstToken, setFirstToken] = useState(token);
   
     const routerHasUrl = useMemo(() => {
       let listUrl = [];
@@ -81,19 +81,21 @@ const Routes = () => {
       
     }, [router.pathname, routerHasUrl]);
   
-    // useEffect(() => {
-    //   if (firstToken && firstToken !== token) {
-    //     console.log(firstToken);
-    //     console.log(token);
-    //     window.location.reload();
-    //   }
-    // }, [token, firstToken])
+    useEffect(() => {
+      if (firstToken && firstToken !== token) {
+        if (token === "") {
+          window.location.href = '/login'
+        } else {
+          window.location.reload();
+        }
+      }
+    }, [token, firstToken])
   
-    // useEffect(() => {
-    //   if (!firstToken) {
-    //     setFirstToken(token)
-    //   }
-    // }, [token, setFirstToken])
+    useEffect(() => {
+      if (!firstToken) {
+        setFirstToken(token)
+      }
+    }, [token, setFirstToken])
   
     const currentMenu = find(routes(), item => router.pathname.includes(`/${item.path}/`));
   
