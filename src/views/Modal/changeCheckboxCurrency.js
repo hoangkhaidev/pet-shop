@@ -55,7 +55,7 @@ const ChangeCheckboxCurrency = ({status, newlabel, current_code, currentStatus})
   ///handle permission
   const permission_groups = useSelector((state) => state.roleUser.permission_groups);
   let arrPermissionGames = {};
-  permission_groups.map((item) => {
+  permission_groups?.map((item) => {
     if (item.name === 'Configuration') {
       item.permissions.map((itemGame) => {
         if (itemGame.name === 'Games') {

@@ -80,11 +80,11 @@ const Routes = () => {
       
     }, [router.pathname, routerHasUrl]);
   
-    useEffect(() => {
-      if (firstToken && firstToken !== token) {
-        window.location.reload();
-      }
-    }, [token, firstToken])
+    // useEffect(() => {
+    //   if (firstToken && firstToken !== token) {
+    //     window.location.reload();
+    //   }
+    // }, [token, firstToken])
   
     useEffect(() => {
       if (!firstToken) {

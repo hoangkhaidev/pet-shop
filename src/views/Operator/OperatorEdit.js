@@ -99,7 +99,7 @@ const OperatorEdit = () => {
   const roleUser = useSelector((state) => state.roleUser);
   const permission_groups = useSelector((state) => state.roleUser.permission_groups);
   let arrPermissionOperator = {};
-  permission_groups.map((item) => {
+  permission_groups?.map((item) => {
     if (item.name === 'Operator') {
       arrPermissionOperator = item.permissions[0];
     }

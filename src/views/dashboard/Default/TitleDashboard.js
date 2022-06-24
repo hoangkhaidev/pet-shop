@@ -86,7 +86,7 @@ function TitleDashboard({dataResponse}) {
   let arrPermissionPlayers = {};
   let arrPermissionGames = {};
   let checkPermissionFail = false;
-  permission_groups.map((item) => {
+  permission_groups?.map((item) => {
     if (item.name === 'Brand') {
       arrPermissionBrand = item.permissions[0];
     }
