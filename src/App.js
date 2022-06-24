@@ -63,6 +63,7 @@ const Routes = () => {
     const router = useRouter();
   
     const token = useSelector(state => state.authentication.token);
+    console.log(isLoggedIn);
     const [firstToken, setFirstToken] = useState(token);
   
     const routerHasUrl = useMemo(() => {
@@ -82,7 +83,11 @@ const Routes = () => {
   
     useEffect(() => {
       if (firstToken && firstToken !== token) {
-        window.location.reload();
+        if (token === "") {
+          window.location.href = '/login'
+        } else {
+          window.location.reload();
+        }
       }
     }, [token, firstToken])
   

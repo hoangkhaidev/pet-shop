@@ -32,7 +32,7 @@ const Group_BrandList = () => {
   const roleUser = useSelector((state) => state.roleUser);
   const permission_groups = useSelector((state) => state.roleUser.permission_groups);
   let arrPermissionGlobalBrand = {};
-  permission_groups.map((item) => {
+  permission_groups?.map((item) => {
     if (item.name === 'Global') {
       item.permissions?.map((itemPermission) => {
         if (itemPermission.name === 'Global / Brand') arrPermissionGlobalBrand = itemPermission;
@@ -43,7 +43,7 @@ const Group_BrandList = () => {
   });
 
   let arrPermissionOperator = {};
-  permission_groups.map((item) => {
+  permission_groups?.map((item) => {
     if (item.name === 'Operator') {
       arrPermissionOperator = item.permissions[0];
     }

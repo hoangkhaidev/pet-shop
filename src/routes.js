@@ -368,7 +368,7 @@ const routes = (isLoggedIn) => [
   },
   {
     path: '/',
-    element: !isLoggedIn ? <Login /> : <Navigate to="/home/dashboard" />,
+    element: isLoggedIn ? <Navigate to="/home/dashboard" /> : <Login />,
     children: [
       { path: 'login', element: <Login /> },
       { path: '/', element: <Navigate to="/login" /> },

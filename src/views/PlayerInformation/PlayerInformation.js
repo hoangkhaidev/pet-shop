@@ -59,7 +59,7 @@ const PlayerInformation = ({ data }) => {
   ///handle permission
   const permission_groups = useSelector((state) => state.roleUser.permission_groups);
   let arrPermissionPlayers = {};
-  permission_groups.map((item) => {
+  permission_groups?.map((item) => {
     if (item.name === 'Players') {
       arrPermissionPlayers = item.permissions;
     }

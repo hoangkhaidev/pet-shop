@@ -38,11 +38,11 @@ const RoleList = () => {
   ///handle permission
   const permission_groups = useSelector((state) => state.roleUser.permission_groups);
   let arrPermissionSubAccount = {};
-  permission_groups.map((item) => {
-    if (item.name === 'Sub Account') {
-      arrPermissionSubAccount = item.permissions;
+  permission_groups?.map((item) => {
+    if (item?.name === 'Sub Account') {
+      arrPermissionSubAccount = item?.permissions;
     }
-    return item.name === 'Sub Account'
+    return item?.name
   });
 
   const [data, setData] = useState([]);
@@ -163,7 +163,7 @@ const RoleList = () => {
     return <NoPermissionPage />;
   }
 
-  if (arrPermissionSubAccount[0].none) {
+  if (arrPermissionSubAccount[0]?.none) {
     return <Navigate to="/404" />;
   }
 

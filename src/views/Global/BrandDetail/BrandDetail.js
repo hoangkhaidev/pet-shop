@@ -64,7 +64,7 @@ const BrandDetail = () => {
   ///handle permission
   const permission_groups = useSelector((state) => state.roleUser.permission_groups);
   let arrPermissionGlobalBrand = {};
-  permission_groups.map((item) => {
+  permission_groups?.map((item) => {
     if (item.name === 'Global') {
       item.permissions?.map((itemPermission) => {
         if (itemPermission.name === 'Global / Brand') arrPermissionGlobalBrand = itemPermission;

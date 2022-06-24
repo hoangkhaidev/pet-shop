@@ -41,7 +41,7 @@ const SocketComponent = () => {
   const handleMessage = (method, data)=> {
       if (method === 'logout') {
         APIUtils.logOut(data.reason)
-        window.location.reload()
+        // window.location.reload()
       }
       if (method === 'top_bar_menu_dw_notify') {
         setNotification({
