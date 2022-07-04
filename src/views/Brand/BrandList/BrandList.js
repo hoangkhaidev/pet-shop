@@ -28,6 +28,7 @@ import { Box } from '@mui/system';
 import { cloneDeep } from 'lodash';
 import { ButtonGroupTable } from 'views/Button/Button';
 import StatusBadge from 'views/StatusBadge/StatusBadge';
+import BiotechIcon from '@mui/icons-material/Biotech';
 
 const ChangePasswordForm = lazy(() =>
   import('../../Modal/ChangePasswordForm')
@@ -221,6 +222,7 @@ const BrandList = () => {
   };
 
   useEffect(() => {
+    console.log(dataResponse);
     const mapData = get(dataResponse, 'list', []);
     mapData.map((data) => (data.id = data.account_id));
     setData(mapData);
@@ -281,14 +283,34 @@ const BrandList = () => {
         });
         if (!checkInactive) {
           if (arrPermissionBrand[0]?.full) {
-            return <Link href={`/brand/list/${row.id}/edit`}>{cell}</Link>;
+            return (
+              <Box>
+                <Link href={`/brand/list/${row.id}/edit`}>{cell}</Link>
+                {row.is_test ? <BiotechIcon /> : ''}
+              </Box>
+            );
           } else if (arrPermissionBrand[0]?.view || arrPermissionBrand[0]?.create) {
-            return <Link href={`/brand/list/${row.id}/view`}>{cell}</Link>;
+            return (
+              <Box>
+                <Link href={`/brand/list/${row.id}/view`}>{cell}</Link>
+                {row.is_test ? <BiotechIcon /> : ''}
+              </Box>
+            );
           } else {
-            return <Link href={`/brand/list/${row.id}/edit`}>{cell}</Link>;
+            return (
+              <Box>
+                <Link href={`/brand/list/${row.id}/edit`}>{cell}</Link>
+                {row.is_test ? <BiotechIcon /> : ''}
+              </Box>
+            );
           }
         } else {
-          return cell;
+          return (
+            <Box>
+              {cell}
+              {row.is_test ? <BiotechIcon /> : ''}
+            </Box>
+          );
         }
       }
     },

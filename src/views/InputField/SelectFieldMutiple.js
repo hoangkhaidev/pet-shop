@@ -1,3 +1,6 @@
+/* eslint-disable no-lonely-if */
+/* eslint-disable no-else-return */
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable arrow-body-style */
 /* eslint-disable prefer-const */
@@ -6,6 +9,7 @@
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/system';
+import BiotechIcon from '@mui/icons-material/Biotech';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -52,25 +56,33 @@ export default function SelectFieldMultiple({ options, label, required, id, setB
   const theme = useTheme();
 
   const handleChange = (event) => {
+
     let index = event.target.value.findIndex((item) => item === 'all');
+
     let arrOptions = options.map((item) => {
       return item.value;
     });
 
-    if (index !== -1) {
-      if (index === 0) { 
-        event.target.value.splice(index, 1);
-      } else {
-        event.target.value = ['all'];
+    if (event.target.value.length > 0) {
+      if (index !== -1) {
+        if (index === 0) { 
+          
+          event.target.value.splice(index, 1);
+        } else {
+          event.target.value = ['all'];
+        }
+        if (arrOptions?.length === event.target.value?.length)  {
+          event.target.value = ['all'];
+        }
       }
-      if (arrOptions?.length === event.target.value?.length)  {
-        event.target.value = ['all'];
-      }
+    } else {
+      event.target.value = ['all'];
     }
     
     arrOptions.splice(0, 1);
 
     setBrandMultiple(event.target.value);
+
   };
 
   return (
@@ -105,13 +117,42 @@ export default function SelectFieldMultiple({ options, label, required, id, setB
               background: '#fafafa',
             }
           }}
+          renderValue={value => {
+            let arrLabel = [];
+            options.map((option) => {
+              value.forEach((itemVal) => {
+                if (itemVal === option.value) {
+                  arrLabel.push(option.label);
+                }
+              });
+              return option.value
+            }); 
+
+            if (arrLabel.length > 0) {
+              return arrLabel.join(',');
+            } else {
+              return 'All';
+            }
+          }}
           defaultValue={defaultValue}
         >
-          {(options || []).map((option, index) => (
-            <MenuItem key={index} value={option.value} style={getStyles(option.label, brandMultiple, theme)}>
-              {option.label}
-            </MenuItem>
-          ))}
+          {(options || []).map((option, index) => {
+            if (option.is_test) {
+              return (
+                <MenuItem key={index} value={option.value} style={getStyles(option.label, brandMultiple, theme)}>
+                  {option.label}
+                  <BiotechIcon />
+                </MenuItem>
+              );
+            }
+            return (
+              <MenuItem key={index} value={option.value} style={getStyles(option.label, brandMultiple, theme)}>
+                {option.label}
+              </MenuItem>
+            );
+          }
+
+          )}
         </Select>
         {errorBrandMul ? (<FormHelperText>{errorBrandMul}</FormHelperText>) : ''}
       </FormControl>
