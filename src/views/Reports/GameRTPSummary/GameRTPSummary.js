@@ -151,7 +151,7 @@ const GameRTPSummary = () => {
     },
     {
       data_field: "rounds",
-      column_name: "Rounds",
+      column_name: "Round",
       align: "right",
       formatter: (cell, row) => {
         let cellFormat = formatNumber(cell);
