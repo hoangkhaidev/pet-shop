@@ -137,19 +137,6 @@ const GameRTPSummary = () => {
       align: "left",
     },
     {
-      data_field: "rtp",
-      column_name: "Game RTP",
-      align: "right",
-      formatter: (cell) => {
-        let cellFormat = formatNumber(cell);
-        if (cell > 100) {
-          return <b style={{color: 'red'}}>{cellFormat}%</b>;
-        } else {
-          return cellFormat + '%';
-        }
-      }
-    },
-    {
       data_field: "rounds",
       column_name: "Round",
       align: "right",
@@ -159,6 +146,19 @@ const GameRTPSummary = () => {
           return <b style={{color: 'red'}}>{cellFormat}</b>;
         } else {
           return cellFormat;
+        }
+      }
+    },
+    {
+      data_field: "rtp",
+      column_name: "Game RTP",
+      align: "right",
+      formatter: (cell) => {
+        let cellFormat = formatNumber(cell);
+        if (cell > 100) {
+          return <b style={{color: 'red'}}>{cellFormat}%</b>;
+        } else {
+          return cellFormat + '%';
         }
       }
     },
