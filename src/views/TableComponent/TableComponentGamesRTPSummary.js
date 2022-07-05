@@ -54,6 +54,7 @@ const TableHeader = ({ headers, listCurrency, listCurrencyFetch }) => {
           <TableCell align="center"></TableCell>
           <TableCell align="center"></TableCell>
           <TableCell align="center"></TableCell>
+          <TableCell align="center"></TableCell>
           <TableCell 
               align="center" 
               colSpan={3} 
@@ -249,9 +250,20 @@ const TableComponentGamesRTPSummary = ({
                   style={{ fontWeight: '600' }} 
                   className={classes.tableCellBody}
                 >
+                </TableCell>
+                <TableCell 
+                  component="th" 
+                  scope="row" 
+                  sx={{
+                    padding: 1,
+                    // color: '#fff'
+                  }}
+                  align="right"
+                  style={{ fontWeight: '600' }} 
+                  className={classes.tableCellBody}
+                >
                   Total:
                 </TableCell>
-
                 <TableCell 
                   sx={{
                     padding: 1,

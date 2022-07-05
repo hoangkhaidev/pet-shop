@@ -150,6 +150,19 @@ const GameRTPSummary = () => {
       }
     },
     {
+      data_field: "rounds",
+      column_name: "Rounds",
+      align: "right",
+      formatter: (cell, row) => {
+        let cellFormat = formatNumber(cell);
+        if (row.rtp > 100) {
+          return <b style={{color: 'red'}}>{cellFormat}</b>;
+        } else {
+          return cellFormat;
+        }
+      }
+    },
+    {
       data_field: "bets",
       column_name: "Bet",
       align: "right",
