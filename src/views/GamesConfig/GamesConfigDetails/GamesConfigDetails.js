@@ -111,7 +111,7 @@ const GamesConfigDetails = () => {
   }, []);
 
   useEffect(() => {
-    document.title = 'Game Details';
+    document.title = 'Game Detail';
   }, []);
 
   useEffect(() => {
@@ -160,7 +160,7 @@ const GamesConfigDetails = () => {
   }
 
   return (
-    <MainCard title="Game Details">
+    <MainCard title="Game Detail">
       {/* <Button
         startIcon={<ClearAllIcon fontSize="small" />}
         variant="contained"
