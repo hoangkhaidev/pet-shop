@@ -64,7 +64,7 @@ const GameRTPSummary = () => {
             currency_code: item.currency_code,
             data_field: "bet",
             column_name: "Bet",
-            width: '10%',
+            width: '12%',
             align: "right",
             formatter: (cell) => {
               let cellFormat = formatNumber(cell);
@@ -75,7 +75,7 @@ const GameRTPSummary = () => {
             currency_code: item.currency_code,
             data_field: "win",
             column_name: "Win",
-            width: '10%',
+            width: '12%',
             align: "right",
             formatter: (cell) => {
               let cellFormat = formatNumber(cell);
@@ -86,7 +86,7 @@ const GameRTPSummary = () => {
             currency_code: item.currency_code,
             data_field: "margin",
             column_name: "Margin",
-            width: '10%',
+            width: '12%',
             align: "right",
             formatter: (cell) => {
               let cellFormat = formatNumber(cell);
@@ -132,19 +132,19 @@ const GameRTPSummary = () => {
     {
       data_field: "game_code",
       column_name: "Game Code",
-      width: "25%",
+      width: "20%",
       align: "left",
     },
     {
       data_field: "game_name",
       column_name: "Game Name",
-      width: "25%",
+      width: "20%",
       align: "left",
     },
     {
       data_field: "rounds",
       column_name: "Round",
-      width: "10%",
+      width: "12%",
       align: "right",
       formatter: (cell, row) => {
         if (row.rtp > 100) {
@@ -157,7 +157,7 @@ const GameRTPSummary = () => {
     {
       data_field: "rtp",
       column_name: "Game RTP",
-      width: "10%",
+      width: "12%",
       align: "right",
       formatter: (cell) => {
         let cellFormat = formatNumber(cell);
@@ -171,7 +171,7 @@ const GameRTPSummary = () => {
     {
       data_field: "bets",
       column_name: "Bet",
-      width: "10%",
+      width: "12%",
       align: "right",
       formatter: (cell, row) => {
         let cellFormat = formatNumber(cell);
@@ -186,7 +186,7 @@ const GameRTPSummary = () => {
       data_field: "wins",
       column_name: "Win",
       align: "right",
-      width: "10%",
+      width: "12%",
       formatter: (cell, row) => {
         let cellFormat = formatNumber(cell);
         if (row.rtp > 100) {
@@ -200,7 +200,7 @@ const GameRTPSummary = () => {
       data_field: "margins",
       column_name: "Margin",
       align: "right",
-      width: "10%",
+      width: "12%",
       formatter: (cell, row) => {
         let cellFormat = formatNumber(cell);
         if (row.rtp > 100) {

@@ -51,17 +51,17 @@ const TableHeader = ({ headers, listCurrency, listCurrencyFetch }) => {
   return (
     <TableHead className={classes.tableHeader}>
       <TableRow>
-          <TableCell align="center" style={{width: '25%'}}></TableCell>
-          <TableCell align="center" style={{width: '25%'}}></TableCell>
-          <TableCell align="center" style={{width: '10%'}}></TableCell>
-          <TableCell align="center" style={{width: '10%'}}></TableCell>
+          <TableCell align="center" style={{width: '20%'}}></TableCell>
+          <TableCell align="center" style={{width: '20%'}}></TableCell>
+          <TableCell align="center" style={{width: '12%'}}></TableCell>
+          <TableCell align="center" style={{width: '12%'}}></TableCell>
           <TableCell 
               align="center" 
               colSpan={3} 
               classes={{
                   root: classes.tableCellHeader
               }}
-              style={{width: '30%'}}
+              style={{width: '36%'}}
           >
             Total (USD)
           </TableCell>
@@ -76,7 +76,7 @@ const TableHeader = ({ headers, listCurrency, listCurrencyFetch }) => {
                   classes={{
                       root: classes.tableCellHeader
                   }}
-                  style={{width: '30%'}}
+                  style={{width: '36%'}}
                 >
                   {item.currency_code}
                 </TableCell>
@@ -88,7 +88,7 @@ const TableHeader = ({ headers, listCurrency, listCurrencyFetch }) => {
                   classes={{
                       root: classes.tableCellHeader
                   }}
-                  style={{width: '30%'}}
+                  style={{width: '36%'}}
                 >
                   {item.currency_code}
                 </TableCell>
@@ -116,7 +116,7 @@ const TableHeader = ({ headers, listCurrency, listCurrencyFetch }) => {
                   classes={{
                     root: classes.tableCellHeader
                   }}
-                  style={{width: '10%'}}
+                  style={{width: '12%'}}
                 >
                   {'Bet'}
                 </TableCell>
@@ -125,7 +125,7 @@ const TableHeader = ({ headers, listCurrency, listCurrencyFetch }) => {
                   classes={{
                     root: classes.tableCellHeader
                   }}
-                  style={{width: '10%'}}
+                  style={{width: '12%'}}
                 >
                   {'Win'}
                 </TableCell>
@@ -134,7 +134,7 @@ const TableHeader = ({ headers, listCurrency, listCurrencyFetch }) => {
                   classes={{
                     root: classes.tableCellHeader
                   }}
-                  style={{width: '10%'}}
+                  style={{width: '12%'}}
                 >
                   {'Margin'}
                 </TableCell>
