@@ -51,16 +51,17 @@ const TableHeader = ({ headers, listCurrency, listCurrencyFetch }) => {
   return (
     <TableHead className={classes.tableHeader}>
       <TableRow>
-          <TableCell align="center"></TableCell>
-          <TableCell align="center"></TableCell>
-          <TableCell align="center"></TableCell>
-          <TableCell align="center"></TableCell>
+          <TableCell align="center" style={{width: '25%'}}></TableCell>
+          <TableCell align="center" style={{width: '25%'}}></TableCell>
+          <TableCell align="center" style={{width: '10%'}}></TableCell>
+          <TableCell align="center" style={{width: '10%'}}></TableCell>
           <TableCell 
               align="center" 
               colSpan={3} 
               classes={{
                   root: classes.tableCellHeader
               }}
+              style={{width: '30%'}}
           >
             Total (USD)
           </TableCell>
@@ -75,6 +76,7 @@ const TableHeader = ({ headers, listCurrency, listCurrencyFetch }) => {
                   classes={{
                       root: classes.tableCellHeader
                   }}
+                  style={{width: '30%'}}
                 >
                   {item.currency_code}
                 </TableCell>
@@ -86,6 +88,7 @@ const TableHeader = ({ headers, listCurrency, listCurrencyFetch }) => {
                   classes={{
                       root: classes.tableCellHeader
                   }}
+                  style={{width: '30%'}}
                 >
                   {item.currency_code}
                 </TableCell>
@@ -113,6 +116,7 @@ const TableHeader = ({ headers, listCurrency, listCurrencyFetch }) => {
                   classes={{
                     root: classes.tableCellHeader
                   }}
+                  style={{width: '10%'}}
                 >
                   {'Bet'}
                 </TableCell>
@@ -121,6 +125,7 @@ const TableHeader = ({ headers, listCurrency, listCurrencyFetch }) => {
                   classes={{
                     root: classes.tableCellHeader
                   }}
+                  style={{width: '10%'}}
                 >
                   {'Win'}
                 </TableCell>
@@ -129,6 +134,7 @@ const TableHeader = ({ headers, listCurrency, listCurrencyFetch }) => {
                   classes={{
                     root: classes.tableCellHeader
                   }}
+                  style={{width: '10%'}}
                 >
                   {'Margin'}
                 </TableCell>
@@ -155,6 +161,7 @@ const TableRowComponent = ({ rowData, cellInfo, indexRow }) => {
             sx={{
               padding: 1,
             }}
+            style={{width: info.width}}
             className={classes.tableCellBody}
             key={index}
             align={info.align ? info.align : "left"}
@@ -194,7 +201,7 @@ const TableComponentGamesRTPSummary = ({
     return formatNum;
   }
   const classes = useStyles();
-  const cellInfo = map(columns, ({ data_field, currency_code, align, formatter, fontWeight }) => ({ data_field, currency_code, align, formatter, fontWeight
+  const cellInfo = map(columns, ({ data_field, currency_code, align, formatter, fontWeight, width }) => ({ data_field, currency_code, align, formatter, fontWeight, width
    }));
 
   return (
@@ -220,10 +227,11 @@ const TableComponentGamesRTPSummary = ({
                   scope="row" 
                   sx={{
                     padding: 1,
+                    
                     // color: '#fff'
                   }}
                   align="right"
-                  style={{ fontWeight: '600' }} 
+                  style={{ fontWeight: '600', width:'25%' }} 
                   className={classes.tableCellBody}
                 >
                 </TableCell>
@@ -235,7 +243,7 @@ const TableComponentGamesRTPSummary = ({
                     // color: '#fff'
                   }}
                   align="right"
-                  style={{ fontWeight: '600' }} 
+                  style={{ fontWeight: '600', width:'25%' }} 
                   className={classes.tableCellBody}
                 >
                 </TableCell>
@@ -247,7 +255,7 @@ const TableComponentGamesRTPSummary = ({
                     // color: '#fff'
                   }}
                   align="right"
-                  style={{ fontWeight: '600' }} 
+                  style={{ fontWeight: '600', width:'10%' }} 
                   className={classes.tableCellBody}
                 >
                 </TableCell>
@@ -259,7 +267,7 @@ const TableComponentGamesRTPSummary = ({
                     // color: '#fff'
                   }}
                   align="right"
-                  style={{ fontWeight: '600' }} 
+                  style={{ fontWeight: '600', width:'10%' }} 
                   className={classes.tableCellBody}
                 >
                   Total:
@@ -270,7 +278,7 @@ const TableComponentGamesRTPSummary = ({
                     // color: '#fff'
                   }} 
                   align="right"
-                  style={{ fontWeight: '600' }} 
+                  style={{ fontWeight: '600', width:'10%' }} 
                   className={classes.tableCellBody}>
                   {formatNumber(dataSum?.bets)}
                 </TableCell>
@@ -280,7 +288,7 @@ const TableComponentGamesRTPSummary = ({
                     // color: '#fff'
                   }} 
                   align="right"
-                  style={{ fontWeight: '600' }} 
+                  style={{ fontWeight: '600', width:'10%' }} 
                   className={classes.tableCellBody}>
                   {formatNumber(dataSum?.wins)}
                 </TableCell>
@@ -290,7 +298,7 @@ const TableComponentGamesRTPSummary = ({
                     // color: '#fff'
                   }} 
                   align="right"
-                  style={{ fontWeight: '600' }} 
+                  style={{ fontWeight: '600', width:'10%' }} 
                   className={classes.tableCellBody}>
                   {formatNumber(dataSum?.margins)}
                 </TableCell>
