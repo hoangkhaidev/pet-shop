@@ -1,3 +1,5 @@
+/* eslint-disable arrow-body-style */
+/* eslint-disable camelcase */
 /* eslint-disable import/no-duplicates */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/jsx-curly-brace-presence */
@@ -25,6 +27,7 @@ import SelectFieldMutipleCustom from "views/InputField/SelectFieldMutipleCustome
 import ButtonGroup, { ResetButton, SubmitButton } from "views/Button/Button";
 import { FormControl } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import useRouter from "utils/hooks/useRouter";
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -40,14 +43,50 @@ const GamesSummaryFilter = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
   const roleUser = useSelector((state) => state.roleUser);
+  const router = useRouter();
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       option: "day",
     }
   });
 
-  const [brandMultiple, setBrandMultiple] = useState(['all']);
-  const [productMultiple, setProductMultiple] = useState(['all']);
+  let brand_router = [];
+
+  if (router?.query?.brand_ids === 0) {
+    brand_router = [];
+  }
+
+  if (router?.query?.brand_ids) {
+    if (Array.isArray(router?.query?.brand_ids)) {
+      brand_router = (router.query.brand_ids || [router.query.brand_ids]).map((item) => {
+        return Number(item);
+      });
+    } else {
+      brand_router = [Number(router.query.brand_ids)];
+    }
+  };
+
+  let product_ids_router = [];
+
+  if (router?.query?.product_ids === 0) {
+    product_ids_router = [];
+  }
+
+  if (router?.query?.product_ids) {
+    if (Array.isArray(router?.query?.product_ids)) {
+      product_ids_router = (router.query.product_ids || [router.query.product_ids]).map((item) => {
+        return Number(item);
+      });
+    } else {
+      product_ids_router = [Number(router.query.product_ids)];
+    }
+  };
+
+  let brandStart = router?.query.brand_ids ? brand_router : ['all'];
+  let productStart = router?.query.product_ids ? product_ids_router : ['all'];
+
+  const [brandMultiple, setBrandMultiple] = useState(brandStart);
+  const [productMultiple, setProductMultiple] = useState(productStart);
 
   const [dateRange, setDateRange] = useState({
     start: moment().startOf('month').format("DD/MM/YYYY"),

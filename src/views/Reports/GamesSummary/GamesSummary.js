@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 /* eslint-disable no-use-before-define */
 /* eslint-disable prefer-const */
 /* eslint-disable camelcase */
@@ -28,13 +29,49 @@ const GamesSummary = () => {
     }
     return item.name === 'Reports'
   });
+
+  let brand_router = [];
+
+  if (router?.query?.brand_ids === 0) {
+    brand_router = [];
+  }
+
+  if (router?.query?.brand_ids) {
+    if (Array.isArray(router?.query?.brand_ids)) {
+      brand_router = (router.query.brand_ids || [router.query.brand_ids]).map((item) => {
+        return Number(item);
+      });
+    } else {
+      brand_router = [Number(router.query.brand_ids)];
+    }
+  };
+
+  let product_ids_router = [];
+
+  if (router?.query?.product_ids === 0) {
+    product_ids_router = [];
+  }
+
+  if (router?.query?.product_ids) {
+    if (Array.isArray(router?.query?.product_ids)) {
+      product_ids_router = (router.query.product_ids || [router.query.product_ids]).map((item) => {
+        return Number(item);
+      });
+    } else {
+      product_ids_router = [Number(router.query.product_ids)];
+    }
+  };
+
   const [objFilter, setObjFilter] = useState({
-    brand_ids: [],
     product_ids: [],
     from_date: moment().startOf('month').format("DD/MM/YYYY"),
     to_date: moment().endOf('month').format("DD/MM/YYYY"),
     option: "day",
-    ...router.query,
+    ...{
+      ...router.query,
+      brand_ids: router.query.brand_ids ? brand_router : [],
+      product_ids: router.query.product_ids ? product_ids_router : [],
+    }
   });
 
   const [data, setData] = useState([]);
@@ -48,58 +85,59 @@ const GamesSummary = () => {
   );
 
   useEffect(() => {
-    const mapData = get(dataResponse, 'list', []);
-    setListCurrency(mapData);
-   
+    const mapData = get(dataResponse, 'sum', []);
+    setListCurrency(mapData?.currency_entry_list);
   }, [dataResponse]);
 
   const getColumns = useCallback(async () => {
-    if (listCurrency && arrayCurrencyColumn.length <= 0) {
+    // if (listCurrency && arrayCurrencyColumn.length <= 0) {
       let arr = [];
-      listCurrency[0]?.currency_entry_list?.map((item) => {
-
-        let items = [
-          {
-            currency_code: item.currency_code,
-            data_field: "bet",
-            column_name: "Bet",
-            align: "right",
-            formatter: (cell) => {
-              let cellFormat = formatNumber(cell);
-              return cellFormat;
+      if (listCurrency?.length > 0) {
+        listCurrency?.map((item) => {
+          let items = [
+            {
+              currency_code: item.currency_code,
+              data_field: "bet",
+              column_name: "Bet",
+              align: "right",
+              formatter: (cell) => {
+                let cellFormat = formatNumber(cell);
+                return cellFormat;
+              }
+            },
+            {
+              currency_code: item.currency_code,
+              data_field: "win",
+              column_name: "Win",
+              align: "right",
+              formatter: (cell) => {
+                let cellFormat = formatNumber(cell);
+                return cellFormat;
+              }
+            },
+            {
+              currency_code: item.currency_code,
+              data_field: "margin",
+              column_name: "Margin",
+              align: "right",
+              formatter: (cell) => {
+                let cellFormat = formatNumber(cell);
+                return cellFormat;
+              }
             }
-          },
-          {
-            currency_code: item.currency_code,
-            data_field: "win",
-            column_name: "Win",
-            align: "right",
-            formatter: (cell) => {
-              let cellFormat = formatNumber(cell);
-              return cellFormat;
-            }
-          },
-          {
-            currency_code: item.currency_code,
-            data_field: "margin",
-            column_name: "Margin",
-            align: "right",
-            formatter: (cell) => {
-              let cellFormat = formatNumber(cell);
-              return cellFormat;
-            }
-          }
-        ];
-
-        arr = [
-          ...arr,
-          ...items
-        ]
-
-        return item;
-      });
+          ];
+  
+          arr = [
+            ...arr,
+            ...items
+          ]
+  
+          return item;
+        });
+      }
+      
       setArrayCurrencyColumn(arr);
-    }
+    // }
   }, [listCurrency]);
 
   const formatNumber = (num) => {
@@ -199,7 +237,7 @@ const GamesSummary = () => {
       <MainCard sx={{mt: '15px'}}>
         <TableComponentGamesSummary
           data={data}
-          listCurrency={listCurrency[0]?.currency_entry_list}
+          listCurrency={listCurrency}
           dataType='GamesSummary'
           dataSum={dataSum}
           columns={columns}

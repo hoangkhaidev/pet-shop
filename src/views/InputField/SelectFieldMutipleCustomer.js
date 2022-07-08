@@ -64,23 +64,30 @@ export default function SelectFieldMutipleCustom({
   const theme = useTheme();
 
   const handleChange = (event) => {
+    
     let index = event.target.value.findIndex((item) => item === 'all');
-    if (index !== -1) {
-      if (index === 0) { 
-        event.target.value.splice(index, 1);
-      } else {
-        event.target.value = ['all'];
-      }
-    }
 
     let arrOptions = options.map((item) => {
       return item.value;
     });
-    arrOptions.splice(0, 1);
-   
-    if (arrOptions?.length === event.target.value?.length)  {
+
+    if (event.target.value.length > 0) {
+      if (index !== -1) {
+        if (index === 0) { 
+          
+          event.target.value.splice(index, 1);
+        } else {
+          event.target.value = ['all'];
+        }
+        if (arrOptions?.length === event.target.value?.length)  {
+          event.target.value = ['all'];
+        }
+      }
+    } else {
       event.target.value = ['all'];
     }
+    
+    arrOptions.splice(0, 1);
     
     setStateMultiple(event.target.value);
   };
