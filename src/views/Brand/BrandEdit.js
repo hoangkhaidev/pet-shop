@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-boolean-value */
 /* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable import/no-duplicates */
 /* eslint-disable no-nested-ternary */
@@ -38,7 +39,7 @@ import IPAddressInput from 'views/IPAddressInput/IPAddressInput';
 import ButtonGroup, { CancelButton, SubmitButton } from 'views/Button/Button';
 import Loading from 'views/Loading/Loading';
 import ProductCommission from 'views/InputField/ProductCommission';
-import { Box, Button, Chip, FormControl, Typography } from '@mui/material';
+import { Box, Button, Checkbox, Chip, FormControl, Typography } from '@mui/material';
 import { FormLabel } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
@@ -134,6 +135,7 @@ const BrandEdit = () => {
   const [financeEmail, setFinanceEmail] = useState([]);
   const [whitelistIP, setWhitelistIP] = useState([['', '', '', '']]);
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
+  const [brandTest, setBrandTest] = useState(false);
 
   const initFormState = {
     isValid: false,
@@ -202,6 +204,10 @@ const BrandEdit = () => {
   }, [router]);
 
   useEffect(() => {
+    console.log(brandTest);
+  }, [brandTest]);
+
+  useEffect(() => {
     if (data) {
       setValue('operator', data?.operator_name);
       setValue('name', data?.brand_name);
@@ -211,6 +217,7 @@ const BrandEdit = () => {
       setValue('password', data?.password);
       setValue('password_confirmation', data?.password_confirmation);
     }
+    setBrandTest(data?.is_test);
   }, [data, setValue]);
 
   useEffect(() => {
@@ -286,6 +293,7 @@ const BrandEdit = () => {
         finance_emails: dataFinanceEmail,
         operator_id: 0,
         product_commission: product_commission,
+        is_test: brandTest,
       };
 
       delete form.commission;
@@ -695,6 +703,18 @@ const BrandEdit = () => {
             </FormLabel>
           )
         }
+        {(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') && (
+          <Box sx={{ display: 'flex', marginTop: '1rem' }}>
+            <FormLabel style={{paddingTop: '10px'}} component="legend">Brand Test</FormLabel>
+            <Checkbox
+              sx={{ marginLeft: '2rem' }}
+              checked={brandTest ? true : false}
+              onChange={(e) => {
+                setBrandTest(e.target.checked);
+              }}
+            />
+          </Box>
+        )}
         <ButtonGroup>
           <SubmitButton />
           <CancelButton onAction={() => onCancel()} text={'Cancel'}/>

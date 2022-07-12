@@ -25,6 +25,7 @@ import SelectFieldMutipleCustom from "views/InputField/SelectFieldMutipleCustome
 import ButtonGroup, { ResetButton, SubmitButton } from "views/Button/Button";
 import { FormControl } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import useRouter from "utils/hooks/useRouter";
 
 const useStyles = makeStyles(() => ({
   inputSameLineWithDaterange: {
@@ -40,13 +41,20 @@ const GamesSummaryFilter = ({
   onResetFilter, onSubmitProps, setObjFilter
 }) => {
   const roleUser = useSelector((state) => state.roleUser);
+  const router = useRouter();
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       option: "day",
     }
   });
 
-  const [brandMultiple, setBrandMultiple] = useState(['all']);
+  let brandRouter = ['all'];
+
+  if (router?.query?.brand_ids) {
+    brandRouter = router.query.brand_ids.map((item) => Number(item));
+  };
+
+  const [brandMultiple, setBrandMultiple] = useState(brandRouter);
   const [productMultiple, setProductMultiple] = useState(['all']);
 
   const [dateRange, setDateRange] = useState({
@@ -90,6 +98,7 @@ const GamesSummaryFilter = ({
         id: data.brand_id,
         value: data.brand_id,
         label: data.username,
+        is_test: data.is_test
       };
       mapData.push(optionData)
     });

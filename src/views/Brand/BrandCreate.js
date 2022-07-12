@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable import/no-duplicates */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
@@ -128,6 +129,7 @@ const BrandCreate = () => {
   const [operatorData, setOperatorData] = useState([]);
   const [operatorDatas, setOperatorDatas] = useState([]);
   const [productData, setProductData] = useState([]);
+  const [brandTest, setBrandTest] = useState(false);
   
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
@@ -260,12 +262,14 @@ const BrandCreate = () => {
     }).filter((item) => item);
 
     delete dataForm.commission;
+    
     const form = {
       ...dataForm,
       api_whitelist_ip: formatWLIPEndpoint,
       whitelist_ips: formatWLIPs,
       finance_emails: dataFinanceEmail,
       product_commission: product_commission,
+      is_test: brandTest,
     };
 
     try {
@@ -665,6 +669,19 @@ const BrandCreate = () => {
             </FormLabel>
           )
         }
+        {(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') && (
+          <Box sx={{ display: 'flex', marginTop: '1rem' }}>
+            <FormLabel style={{paddingTop: '10px'}} component="legend">Brand Test</FormLabel>
+            <Checkbox
+              sx={{ marginLeft: '2rem' }}
+              checked={brandTest}
+              value={brandTest}
+              onChange={(e) => {
+                setBrandTest(e.target.checked);
+              }}
+            />
+          </Box>
+        )}
         <ButtonGroup>
           <SubmitButton />
           <CancelButton onAction={() => onCancel()} text='Cancel'/>

@@ -28,13 +28,23 @@ const GamesSummary = () => {
     }
     return item.name === 'Reports'
   });
+
+  let brand_router = [];
+
+  if (router?.query?.brand_ids) {
+    brand_router = router.query.brand_ids.map((item) => Number(item));
+  };
+
   const [objFilter, setObjFilter] = useState({
-    brand_ids: [],
+    brand_ids: brand_router,
     product_ids: [],
     from_date: moment().startOf('month').format("DD/MM/YYYY"),
     to_date: moment().endOf('month').format("DD/MM/YYYY"),
     option: "day",
-    ...router.query,
+    ...{
+      ...router.query,
+      brand_ids: router.query.brand_ids ? brand_router : [],
+    },
   });
 
   const [data, setData] = useState([]);
@@ -123,6 +133,10 @@ const GamesSummary = () => {
   useEffect(() => {
     document.title = 'Games Summary';
   }, []);
+
+  useEffect(() => {
+    console.log(objFilter);
+  }, [objFilter]);
 
   const columns = [
     {
