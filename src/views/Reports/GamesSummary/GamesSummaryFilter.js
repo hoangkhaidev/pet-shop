@@ -1,3 +1,5 @@
+/* eslint-disable arrow-body-style */
+/* eslint-disable camelcase */
 /* eslint-disable import/no-duplicates */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/jsx-curly-brace-presence */
@@ -48,14 +50,43 @@ const GamesSummaryFilter = ({
     }
   });
 
-  let brandRouter = ['all'];
+  let brand_router = [];
+
+  if (router?.query?.brand_ids === 0) {
+    brand_router = [];
+  }
 
   if (router?.query?.brand_ids) {
-    brandRouter = router.query.brand_ids.map((item) => Number(item));
+    if (Array.isArray(router?.query?.brand_ids)) {
+      brand_router = (router.query.brand_ids || [router.query.brand_ids]).map((item) => {
+        return Number(item);
+      });
+    } else {
+      brand_router = [Number(router.query.brand_ids)];
+    }
   };
 
-  const [brandMultiple, setBrandMultiple] = useState(brandRouter);
-  const [productMultiple, setProductMultiple] = useState(['all']);
+  let product_ids_router = [];
+
+  if (router?.query?.product_ids === 0) {
+    product_ids_router = [];
+  }
+
+  if (router?.query?.product_ids) {
+    if (Array.isArray(router?.query?.product_ids)) {
+      product_ids_router = (router.query.product_ids || [router.query.product_ids]).map((item) => {
+        return Number(item);
+      });
+    } else {
+      product_ids_router = [Number(router.query.product_ids)];
+    }
+  };
+
+  let brandStart = router?.query.brand_ids ? brand_router : ['all'];
+  let productStart = router?.query.product_ids ? product_ids_router : ['all'];
+
+  const [brandMultiple, setBrandMultiple] = useState(brandStart);
+  const [productMultiple, setProductMultiple] = useState(productStart);
 
   const [dateRange, setDateRange] = useState({
     start: moment().startOf('month').format("DD/MM/YYYY"),

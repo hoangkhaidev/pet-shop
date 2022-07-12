@@ -149,7 +149,7 @@ const GamesConfigDetailsView = () => {
   }
 
   return (
-    <MainCard title="Game Details">
+    <MainCard title="Game Detail">
       {/* <Button
         startIcon={<ClearAllIcon fontSize="small" />}
         variant="contained"

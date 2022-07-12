@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 /* eslint-disable import/no-duplicates */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable camelcase */
@@ -46,6 +47,8 @@ const StyledTableRow = withStyles((theme) => ({
 
 const TableHeader = ({ headers, listCurrency, listCurrencyFetch }) => {
   const { t } = useTranslation();
+  // console.log(headers)
+
   const classes = useStyles();
   return (
     <TableHead className={classes.tableHeader}>
@@ -89,8 +92,9 @@ const TableHeader = ({ headers, listCurrency, listCurrencyFetch }) => {
           }
       </TableRow>
       <TableRow>
-        {(headers || []).map((header, index) => (
-          <TableCell
+        {(headers || []).map((header, index) => {
+          return (
+            <TableCell
             align="center"
             key={index}
             classes={{
@@ -99,7 +103,8 @@ const TableHeader = ({ headers, listCurrency, listCurrencyFetch }) => {
           >
             {t(header)}
           </TableCell>
-        ))}
+          );
+        })}
         {
           listCurrency?.length > 0 ?
             '' : listCurrencyFetch?.map((item, index) => (
