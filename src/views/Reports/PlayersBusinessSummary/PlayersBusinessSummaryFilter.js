@@ -153,7 +153,7 @@ const PlayersBusinessSummaryFilter = ({
       let optionData = {
         id: data.game_name,
         value: data.game_name,
-        label: data.game_name,
+        label: data.game_name
       };
       mapData.push(optionData);
       return data;
@@ -185,6 +185,7 @@ const PlayersBusinessSummaryFilter = ({
         id: data.brand_id,
         value: data.brand_id,
         label: data.username,
+        is_test: data.is_test
       };
       mapData.push(optionData)
     });

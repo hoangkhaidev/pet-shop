@@ -121,6 +121,7 @@ const BusinessSummaryFilter = ({
         id: data.brand_id,
         value: data.brand_id,
         label: data.username,
+        is_test: data.is_test
       };
       mapData.push(optionData)
     });
