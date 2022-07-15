@@ -93,15 +93,21 @@ const PlayerSummary = () => {
     brand_router = [];
   }
 
-  if (router?.query?.brand_ids) {
-    if (Array.isArray(router?.query?.brand_ids)) {
-      brand_router = (router.query.brand_ids || [router.query.brand_ids]).map((item) => {
-        return Number(item);
-      });
-    } else {
-      brand_router = [Number(router.query.brand_ids)];
-    }
-  };
+  if (router.query.brand_id_router.length > 0) {
+    brand_router = (router.query.brand_id_router || [router.query.brand_id_router]).map((item) => {
+      return Number(item);
+    });
+  } else {
+    if (router?.query?.brand_ids) {
+      if (Array.isArray(router?.query?.brand_ids)) {
+        brand_router = (router.query.brand_ids || [router.query.brand_ids]).map((item) => {
+          return Number(item);
+        });
+      } else {
+        brand_router = [Number(router.query.brand_ids)];
+      }
+    };
+  }
 
   const [objFilter, setObjFilter] = useState({
     from_date: router.query.from_date,
