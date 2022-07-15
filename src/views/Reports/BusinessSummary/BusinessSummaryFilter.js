@@ -113,7 +113,7 @@ const BusinessSummaryFilter = ({
   }, [dataProduct, setProductData]);
   
   useEffect(() => {
-    let mapData = [{id: 0, value: "all", label: "All"}];
+    let mapData = [{id: 0, value: "all", label: "All without Test"}];
     let newBrand = cloneDeep(brandsData);
 
     (newBrand || []).forEach(data => {
