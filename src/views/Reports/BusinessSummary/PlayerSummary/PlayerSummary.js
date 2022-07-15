@@ -93,8 +93,8 @@ const PlayerSummary = () => {
     brand_router = [];
   }
 
-  if (router.query.brand_id_router.length > 0) {
-    brand_router = (router.query.brand_id_router || [router.query.brand_id_router]).map((item) => {
+  if (router.query?.brand_id_router?.length > 0) {
+    brand_router = (router.query?.brand_id_router || [router.query?.brand_id_router]).map((item) => {
       return Number(item);
     });
   } else {
