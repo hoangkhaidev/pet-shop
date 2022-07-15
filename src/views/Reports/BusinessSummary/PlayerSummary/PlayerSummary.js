@@ -94,9 +94,15 @@ const PlayerSummary = () => {
   }
 
   if (router.query?.brand_id_router?.length > 0) {
-    brand_router = (router.query?.brand_id_router || [router.query?.brand_id_router]).map((item) => {
-      return Number(item);
-    });
+    if (router?.query?.brand_id_router) {
+      if (Array.isArray(router?.query?.brand_id_router)) {
+        brand_router = (router.query.brand_id_router || [router.query.brand_ids]).map((item) => {
+          return Number(item);
+        });
+      } else {
+        brand_router = [Number(router.query.brand_id_router)];
+      }
+    }; 
   } else {
     if (router?.query?.brand_ids) {
       if (Array.isArray(router?.query?.brand_ids)) {
