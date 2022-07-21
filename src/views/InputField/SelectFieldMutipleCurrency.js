@@ -127,7 +127,7 @@ export default function SelectFieldMultipleCurrency({ options, label, required, 
             }); 
 
             if (arrLabel.length > 0) {
-              return arrLabel.join(',');
+              return arrLabel.join(', ');
             } else {
               return 'All';
             }

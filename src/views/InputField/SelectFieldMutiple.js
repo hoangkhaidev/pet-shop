@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 /* eslint-disable no-lonely-if */
 /* eslint-disable no-else-return */
 /* eslint-disable react/no-unescaped-entities */
@@ -129,7 +130,7 @@ export default function SelectFieldMultiple({ options, label, required, id, setB
             }); 
 
             if (arrLabel.length > 0) {
-              return arrLabel.join(',');
+              return arrLabel.join(', ');
             } else {
               return 'All';
             }
