@@ -85,7 +85,6 @@ const CurrencyComfirm = ({include_all_currencies, onSubmit}) => {
             onSubmit(currency_codes);
             onClose();
         } else {
-            onSubmit([]);
             setErrorCurrency('Currency codes is required')
         }
         
@@ -127,7 +126,6 @@ const CurrencyComfirm = ({include_all_currencies, onSubmit}) => {
                 open={open}
                 onClose={onClose}
             >
-                <form onSubmit={handleSubmit(onSubmit)}>
                     <div>
                         <TitlePage title={'Confirmation'} />
                         <div className={classes.title__text}>
@@ -164,7 +162,6 @@ const CurrencyComfirm = ({include_all_currencies, onSubmit}) => {
                             </Button>
                         </div>
                     </div>
-                </form>
             </ModalComponent>
         </>
     );

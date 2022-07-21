@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable import/no-duplicates */
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable prefer-const */
@@ -163,9 +164,7 @@ const GameParamCloning = ({ setValue }) => {
 
   const onSubmit = async (currency_codes) => {
 
-    
     if (formState.isValid === true) {
-      if (currency_codes.length > 0) {
         const form = {
           ...formState.values,
           copy_brand_id: Number(formState.values.copy_brand_id),
@@ -187,12 +186,13 @@ const GameParamCloning = ({ setValue }) => {
             if (response?.err === 'err:suspended_account') {
               toast.warn(t('suspended_account'));
             }
+            if (response?.err === 'err:invalid_currency_code') {
+              toast.warn(t('invalid_currency_code'));
+            }
           }
         } catch (e) {
           console.log('e', e);
         }
-      }
-      
     } else{
       setFormState({
         ...formState,
