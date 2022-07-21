@@ -17,6 +17,9 @@ import { Button, FormLabel, InputLabel, Select } from '@mui/material';
 import ModalComponent from 'views/ModalComponent/ModalComponent';
 import TitlePage from 'views/TitlePage/TitlePage';
 import { FormControl } from '@mui/material';
+import SelectFieldMultiple from 'views/InputField/SelectFieldMutiple';
+import SelectFieldMultipleCurrency from 'views/InputField/SelectFieldMutipleCurrency';
+import { useForm } from 'react-hook-form';
 
 const useStyles = makeStyles((theme) => ({
     rootChip: {
@@ -56,47 +59,18 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const schema = {
-    currency_codes: {
-      presence: { allowEmpty: false, message: 'is required' },
-    },
-}
-
 const CurrencyComfirm = ({include_all_currencies, onSubmit}) => {
     const classes = useStyles();
 
     const { dataResponse: dataCurrency } = useFetchData("/api/currency/public_list");
 
     const [currencyData, setCurrencyData] = useState([]);
-
-    const initFormState = {
-        isValid: false,
-        values: {
-          currency_codes: '',
-        },
-        errors: {},
-        touched: {}
-    };
+    const [ currencyMultiple, setCurrencyMultiple] = useState([]);
+    const [ errorCurrency, setErrorCurrency] = useState('');
 
     const [open, setOpen] = useState(false);
-    const [formStateCurrency, setFormStateCurrency] = useState(initFormState);
 
-    const handleChangeCurrency = (event) => {
-        setFormStateCurrency({
-            ...formStateCurrency,
-            values: {
-                ...formStateCurrency.values,
-                [event.target.name]:
-                event.target.type === 'checkbox'
-                    ? event.target.checked
-                    : event.target.value
-            },
-            touched: {
-                ...formStateCurrency.touched,
-                [event.target.name]: true
-            }
-        });
-    }
+    const { control, handleSubmit, reset } = useForm();
 
     const onOpenModal = useCallback(() => {
         setOpen(true);
@@ -107,19 +81,19 @@ const CurrencyComfirm = ({include_all_currencies, onSubmit}) => {
     };
 
     const onSubmitCurrecy = (currency_codes) => {
-        if (formStateCurrency.isValid === true) {
+        if (currency_codes.length > 0) {
             onSubmit(currency_codes);
             onClose();
-        } else{
-            setFormStateCurrency({
-              ...formStateCurrency,
-              touched: {
-                ...formStateCurrency.touched,
-                currency_codes: true
-              }
-            });
+        } else {
+            onSubmit([]);
+            setErrorCurrency('Currency codes is required')
         }
+        
     }
+
+    useEffect(() => {
+        setErrorCurrency('');
+    }, [currencyMultiple]);
 
     useEffect(() => {
         let mapData = [];
@@ -136,19 +110,8 @@ const CurrencyComfirm = ({include_all_currencies, onSubmit}) => {
     }, [dataCurrency, setCurrencyData]);
 
     useEffect(() => {
-        setFormStateCurrency(initFormState);
+        setCurrencyMultiple([]);
     }, [include_all_currencies, open]);
-
-    useEffect(() => {
-        const errors = validate(formStateCurrency.values, schema);
-        setFormStateCurrency((formStateCurrency) => ({
-          ...formStateCurrency,
-          isValid: errors ? false : true,
-          errors: errors || {}
-        }));
-    }, [formStateCurrency.values]);
-    
-    const hasError = (field) => formStateCurrency.touched[field] && formStateCurrency.errors[field] ? true : false;
 
     return (
         <>
@@ -164,61 +127,44 @@ const CurrencyComfirm = ({include_all_currencies, onSubmit}) => {
                 open={open}
                 onClose={onClose}
             >
-                <div>
-                    <TitlePage title={'Confirmation'} />
-                    <div className={classes.title__text}>
-                        {`What currency do you want to copy ?`}
-                    </div>
-                    <FormControl
-                        style={{ marginTop: '20px' }}
-                        variant="outlined"
-                        className={classes.formControl}
-                    >
-                        <InputLabel htmlFor="outlined-age-native-simple">
-                            Currency
-                            <span className={classes.labelStyle}>*</span>
-                        </InputLabel>
-                        <Select
-                            native
-                            value={formStateCurrency?.values?.currency_codes}
-                            onChange={handleChangeCurrency}
-                            label="Currency"
-                            name="currency_codes"
-                            sx={{
-                                background: '#ffffff',
-                                '& .MuiNativeSelect-select': {
-                                  background: '#ffffff',
-                                }
-                            }}
-                            error={hasError('currency_codes')}
-                            inputProps={{
-                                name: 'currency_codes',
-                            }}
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div>
+                        <TitlePage title={'Confirmation'} />
+                        <div className={classes.title__text}>
+                            {`What currency do you want to copy ?`}
+                        </div>
+                        <FormControl
+                            style={{ marginTop: '20px' }}
+                            variant="outlined"
+                            className={classes.formControl}
                         >
-                            <option aria-label="None" value="" />
-                            {currencyData?.map((item) => (
-                                <option key={item.id} value={item.value}>{item.label}</option>
-                            ))}
-                        </Select>
-                        <FormLabel component="legend" className={classes.checkHelperError}>
-                            { hasError('currency_codes') ? formStateCurrency.errors.currency_codes[0] : null }
-                        </FormLabel>
-                    </FormControl>
-                    <div className={classes.title__groupButton} style={{ justifyContent: 'flex-end' }}>
-                        <Button
-                            style={{ marginRight: '10px' }}
-                            variant="contained"
-                            color="primary"
-                            type="submit"
-                            onClick={() => onSubmitCurrecy(formStateCurrency?.values?.currency_codes)}
-                        >
-                            OK
-                        </Button>
-                        <Button variant="contained" color="error" onClick={() => onClose()}>
-                            Cancel
-                        </Button>
+                            <SelectFieldMultipleCurrency
+                                required
+                                options={currencyData} 
+                                label={'Currency'} 
+                                id={'currency_codes'}
+                                setBrandMultiple={setCurrencyMultiple}
+                                brandMultiple={currencyMultiple}
+                                errorBrandMul={errorCurrency}
+                                defaultValue={''}
+                            />
+                        </FormControl>
+                        <div className={classes.title__groupButton} style={{ justifyContent: 'flex-end' }}>
+                            <Button
+                                style={{ marginRight: '10px' }}
+                                variant="contained"
+                                color="primary"
+                                type="submit"
+                                onClick={() => onSubmitCurrecy(currencyMultiple)}
+                            >
+                                OK
+                            </Button>
+                            <Button variant="contained" color="error" onClick={() => onClose()}>
+                                Cancel
+                            </Button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </ModalComponent>
         </>
     );

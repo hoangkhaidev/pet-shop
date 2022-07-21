@@ -162,33 +162,37 @@ const GameParamCloning = ({ setValue }) => {
   }
 
   const onSubmit = async (currency_codes) => {
+
     
     if (formState.isValid === true) {
-      const form = {
-        ...formState.values,
-        copy_brand_id: Number(formState.values.copy_brand_id),
-        currency_codes: currency_codes ? [currency_codes] : [],
-      };
-      try {
-        let response = await api.post('/api/global/brand_detail/clone', form);
-        if (get(response, 'success', false)) {
-          toast.success('Game Param Cloning Success', {
-            onClose: navigate('/global/group_brand?'),
-          });
-        } else {
-          if (response?.err === 'err:brand_not_found') {
-            toast.warn(t('brand_not_found'));
+      if (currency_codes.length > 0) {
+        const form = {
+          ...formState.values,
+          copy_brand_id: Number(formState.values.copy_brand_id),
+          currency_codes: currency_codes ? currency_codes : [],
+        };
+        try {
+          let response = await api.post('/api/global/brand_detail/clone', form);
+          if (get(response, 'success', false)) {
+            toast.success('Game Param Cloning Success', {
+              onClose: navigate('/global/group_brand?'),
+            });
+          } else {
+            if (response?.err === 'err:brand_not_found') {
+              toast.warn(t('brand_not_found'));
+            }
+            if (response?.err === 'err:account_not_found') {
+              toast.warn(t('brand_not_found'));
+            }
+            if (response?.err === 'err:suspended_account') {
+              toast.warn(t('suspended_account'));
+            }
           }
-          if (response?.err === 'err:account_not_found') {
-            toast.warn(t('brand_not_found'));
-          }
-          if (response?.err === 'err:suspended_account') {
-            toast.warn(t('suspended_account'));
-          }
+        } catch (e) {
+          console.log('e', e);
         }
-      } catch (e) {
-        console.log('e', e);
       }
+      
     } else{
       setFormState({
         ...formState,
