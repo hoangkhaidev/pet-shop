@@ -173,9 +173,7 @@ const GameParamCloning = ({ setValue }) => {
         try {
           let response = await api.post('/api/global/brand_detail/clone', form);
           if (get(response, 'success', false)) {
-            toast.success('Game Param Cloning Success', {
-              onClose: navigate('/global/group_brand?'),
-            });
+            toast.success('Game Param Cloning Success');
           } else {
             if (response?.err === 'err:brand_not_found') {
               toast.warn(t('brand_not_found'));

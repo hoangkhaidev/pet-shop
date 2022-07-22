@@ -162,9 +162,7 @@ const Endpoint_Settings = ({ dataResponse, setValueTab }) => {
     try {
       let response = await api.post(`/api/global/brand_detail/${router.query?.id}/update`, form);
       if (get(response, 'success', false)) {
-        toast.success('Update Brand Setting Success', {
-          onClose: navigate('/global/group_brand'),
-        });
+        toast.success('Update Brand Setting Success');
       } else {
         if (response?.err === 'err:no_permission') {
           toast.warn(t('no_permission'));
