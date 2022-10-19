@@ -27,12 +27,12 @@ import { useSelector } from 'react-redux';
 import NoPermissionPage from '../NoPermissionPage/NoPermissionPage';
 import { makeStyles } from '@mui/styles';
 import useFetchData from 'utils/hooks/useFetchData';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash';
 import api from 'utils/api';
 import MainCard from 'ui-component/cards/MainCard';
 import SelectField from 'views/InputField/SelectField';
 import InputField from 'views/InputField/InputField';
-import { Button, Chip, FormControlLabel, FormGroup, FormLabel, IconButton, InputAdornment, Typography } from '@mui/material';
+import { Autocomplete, Button, Chip, FormControlLabel, FormGroup, FormHelperText, FormLabel, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import { FormControl } from '@mui/material';
 import { Checkbox } from '@mui/material';
 import FormattedNumberInput from 'views/InputField/InputFieldNumber';
@@ -41,6 +41,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ButtonGroup, { CancelButton, SubmitButton } from 'views/Button/Button';
 import { Box } from '@mui/system';
 import { useTranslation } from 'react-i18next';
+import { ConstructionOutlined, ContentPasteOutlined } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme) => ({
   rootChip: {
@@ -84,7 +85,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '12px !important',
     marginLeft: '15px',
     paddingTop: '5px !important'
-  }
+  },
+  labelStyle: {
+    color: 'red',
+  },
   
 }));
 
@@ -130,7 +134,7 @@ const BrandCreate = () => {
   const [operatorDatas, setOperatorDatas] = useState([]);
   const [productData, setProductData] = useState([]);
   const [brandTest, setBrandTest] = useState(false);
-  
+
   const [isHasAccessPermission, setIsHasPermission] = useState(true);
 
   const [checkboxListCheck, setCheckboxListCheck] = useState(productData.map((item) => false ));
@@ -262,7 +266,7 @@ const BrandCreate = () => {
     }).filter((item) => item);
 
     delete dataForm.commission;
-    
+
     const form = {
       ...dataForm,
       api_whitelist_ip: formatWLIPEndpoint,
@@ -270,13 +274,14 @@ const BrandCreate = () => {
       finance_emails: dataFinanceEmail,
       product_commission: product_commission,
       is_test: brandTest,
+      operator_id: dataForm?.operator_id?.value,
     };
 
     try {
       const response = await api.post('/api/brand/create', form);
       if (get(response, 'success', false)) {
         toast.success('Create brand Success', {
-          onClose: navigate('brand/list'),
+          onClose: navigate('/brand/list'),
         });
       } else {
         if (response?.err === "err:no_permission") {
@@ -322,7 +327,19 @@ const BrandCreate = () => {
   const onCancel = () => {
     navigate('/brand/list');
   }
-  
+
+  const renderOperatorErrors = () => {
+    if (isEmpty(errors?.operator_id)) {
+      return '';
+    }
+    
+    if (errors?.operator_id.type === 'required') {
+      return t(`Operator required`);
+    }
+
+    return t(errors?.operator_id.message);
+  };
+
   if (!isHasAccessPermission) {
     return <NoPermissionPage />;
   }
@@ -338,17 +355,67 @@ const BrandCreate = () => {
       <form onSubmit={handleSubmit(onSubmit)} className={classes.formStyle}>
         
         {(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') && (
-          <SelectField
-            namefileld="operator_id"
-            id="operator_id"
-            label="Operator "
-            required
-            fullWidth={false}
-            control={control}
-            errors={errors?.operator_id}
-            options={operatorDatas}
-            defaultValue=""
-          />
+          <FormControl 
+            fullWidth 
+            className={ classes.textField } 
+            variant="outlined"
+          >
+            <Controller
+              control={control}
+              name={'operator_id'}
+              render={({ field: { onChange, value }  }) => {
+                return (
+                  <Autocomplete
+                    onChange={(event, item) => {
+                      onChange(item);
+                    }}
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        background: '#ffffff',
+                      },
+                      input: {
+                        background: '#ffffff',
+                      }
+                    }}
+                    value={value || null}
+                    isOptionEqualToValue={(option, value) =>
+                      value === undefined || value === "" || option.id === value.id
+                    }
+                    getOptionLabel={(option) => option.label}
+                    options={operatorDatas}
+                    renderInput={(params) => (
+                      <TextField 
+                        {...params} 
+                        label={
+                          <div>
+                            {"Operator "}
+                            <span className={classes.labelStyle}>
+                              {' *'}
+                            </span>
+                          </div>
+                        }
+                        error={!isEmpty(errors?.operator_id)}
+                        margin="normal" 
+                        variant="outlined" 
+                        inputProps={{
+                          ...params.inputProps,
+                          autoComplete: "disabled"
+                        }}
+                      />
+                    )}
+                  />
+                )  
+              }}
+              rules={{
+                required: true
+              }}
+            />
+            {!isEmpty(errors?.operator_id) && (
+                <FormHelperText sx={{ mt: '-5px' }} error id="standard-weight-helper-text-email-login">
+                    {renderOperatorErrors()}
+                </FormHelperText>
+            )}
+          </FormControl>
         )}
         {(roleUser.account_type === 'operatorsub' && roleUser.account_type === 'operator') && (
           <InputField
