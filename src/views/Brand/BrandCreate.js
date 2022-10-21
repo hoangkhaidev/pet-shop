@@ -357,13 +357,14 @@ const BrandCreate = () => {
         {(roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') && (
           <FormControl 
             fullWidth 
+            error={!isEmpty(errors?.operator_id)}
             className={ classes.textField } 
             variant="outlined"
           >
             <Controller
               control={control}
               name={'operator_id'}
-              render={({ field: { onChange, value }  }) => {
+              render={({ field: { onChange, value, ref, onBlur}  }) => {
                 return (
                   <Autocomplete
                     onChange={(event, item) => {
@@ -394,6 +395,8 @@ const BrandCreate = () => {
                             </span>
                           </div>
                         }
+                        onBlur={onBlur}
+                        inputRef={ref}
                         error={!isEmpty(errors?.operator_id)}
                         margin="normal" 
                         variant="outlined" 
