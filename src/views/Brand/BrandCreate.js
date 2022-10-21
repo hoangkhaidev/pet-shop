@@ -117,7 +117,8 @@ const BrandCreate = () => {
     setValue,
     register,
     setError,
-    clearErrors
+    clearErrors,
+    setFocus
   } = useForm();
 
   const finance_email = watch('finance_emails');
@@ -174,6 +175,10 @@ const BrandCreate = () => {
   useEffect(() => {
     clearErrors('product_commission');
   }, [checkboxListCheck]);
+
+  useEffect(() => {
+    setFocus("operator_id");
+  }, [setFocus]);
 
   useEffect(() => {
     const data = cloneDeep(operatorData);
