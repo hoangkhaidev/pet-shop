@@ -177,10 +177,10 @@ const BrandCreate = () => {
   }, [checkboxListCheck]);
 
   useEffect(() => {
-    if (roleUser.account_type !== 'operator' && roleUser.account_type !== 'operatorsub') {
+    if (roleUser.account_type === 'admin' || roleUser.account_type === 'adminsub') {
       setFocus("operator_id");
     }
-  }, [setFocus]);
+  }, []);
 
   useEffect(() => {
     const data = cloneDeep(operatorData);
