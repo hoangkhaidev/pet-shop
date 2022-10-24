@@ -177,7 +177,9 @@ const BrandCreate = () => {
   }, [checkboxListCheck]);
 
   useEffect(() => {
-    setFocus("operator_id");
+    if (roleUser.account_type !== 'operator' && roleUser.account_type !== 'operatorsub') {
+      setFocus("operator_id");
+    }
   }, [setFocus]);
 
   useEffect(() => {
