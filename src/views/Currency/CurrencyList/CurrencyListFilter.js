@@ -49,14 +49,14 @@ const CurrencyListFilter = () => {
   });
 
   const onDataCurrency = async () => {
-    if (arrPermissionCurrency.full) {
+    if (arrPermissionCurrency?.full) {
       const response = await api.post('/api/currency/all_for_create', null);
       if (get(response, "success", false)) {
         setCurrencyData(response?.data);
       } else {
         console.log("response", response);
       }
-    } else if(arrPermissionCurrency.create) {
+    } else if(arrPermissionCurrency?.create) {
       const response = await api.post('/api/currency/all_for_create', null);
       if (get(response, "success", false)) {
         setCurrencyData(response?.data);
@@ -146,7 +146,7 @@ const CurrencyListFilter = () => {
         </Grid>
         <Grid item xs={12} xl={3} md={6} style={{ alignItems: 'center', display: 'flex', justifyContent: 'center' }}>
           {
-            arrPermissionCurrency.full ? (
+            arrPermissionCurrency?.full ? (
               <Button
                 variant="contained"
                 style={{ backgroundColor: '#1cb13c' }}
@@ -156,7 +156,7 @@ const CurrencyListFilter = () => {
                 Add New Currency
               </Button>
             ) : 
-            arrPermissionCurrency.create ? (
+            arrPermissionCurrency?.create ? (
               <Button
                 variant="contained"
                 style={{ backgroundColor: '#1cb13c' }}

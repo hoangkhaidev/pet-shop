@@ -37,6 +37,7 @@ import api from 'utils/api';
 import { makeStyles } from '@mui/styles';
 import InputField from 'views/InputField/InputField';
 import InputNumber from 'views/InputField/InputNumber';
+import { debounce } from 'lodash';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -53,7 +54,7 @@ const FirebaseLogin = ({ ...others }) => {
     const { t } = useTranslation(['translation','err',]);
     const dispatch = useDispatch();
     const token = useSelector(state => state.authentication.token);
-    const { control, handleSubmit, setError, formState: { errors } } = useForm();
+    const { control, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm();
     const [logOutReason, setLogOutReason] = useState(APIUtils.getLogOutReason());
 
     const [showPassword, setShowPassword] = useState(false);
@@ -108,7 +109,6 @@ const FirebaseLogin = ({ ...others }) => {
         const response = await api.post("/login", form, false);
         if (get(response, "success", false)) {
           const token = get(response, "data.token", "");
-          dispatch(checkIsAuthen(true));
           dispatch(getToken(token));
           navigate("/home/dashboard");
         } else {
@@ -128,7 +128,9 @@ const FirebaseLogin = ({ ...others }) => {
 
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form 
+              onSubmit={handleSubmit(onSubmit)}
+            >
                 <InputField
                   namefileld="username"
                   label="Username"
@@ -183,6 +185,7 @@ const FirebaseLogin = ({ ...others }) => {
                             type="submit"
                             variant="contained"
                             color="primary"
+                            disabled={isSubmitting}
                         >
                             Sign in
                         </Button>

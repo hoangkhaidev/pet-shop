@@ -130,7 +130,7 @@ const AdminLogs = () => {
     return <NoPermissionPage />;
   }
 
-  if (arrPermissionLog.none) {
+  if (arrPermissionLog?.none) {
     return <Navigate to="/404" />;
   }
 

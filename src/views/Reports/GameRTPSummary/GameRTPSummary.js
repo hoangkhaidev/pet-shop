@@ -241,7 +241,7 @@ const GameRTPSummary = () => {
     return <NoPermissionPage />;
   }
 
-  if (arrPermissionReports.none) {
+  if (arrPermissionReports?.none) {
     return <Navigate to="/404" />;
   }
   

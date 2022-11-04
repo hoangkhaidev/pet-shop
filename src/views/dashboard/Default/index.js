@@ -33,7 +33,7 @@ const Dashboard = () => {
     }, []);
 
     return (
-        <Grid container spacing={gridSpacing} sx={arrPermissionDashboard.none ? {marginTop: '0px', justifyContent: 'center'} : {marginTop: '0px'}}>
+        <Grid container spacing={gridSpacing} sx={arrPermissionDashboard?.none ? {marginTop: '0px', justifyContent: 'center'} : {marginTop: '0px'}}>
             <Budget />
             {/* <Grid item xs={12}>
                 <Grid container spacing={gridSpacing}>

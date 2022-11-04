@@ -520,7 +520,7 @@ const OperatorList = () => {
     return <NoPermissionPage />;
   }
 
-  if (arrPermissionOperator[0].none) {
+  if (arrPermissionOperator[0]?.none) {
     return <Navigate to="/404" />;
   }
 

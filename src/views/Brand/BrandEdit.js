@@ -455,7 +455,7 @@ const BrandEdit = () => {
   }
 
   if (!arrPermissionBrand?.full) {
-    if (arrPermissionBrand?.view || arrPermissionBrand?.create || arrPermissionBrand.none) {
+    if (arrPermissionBrand?.view || arrPermissionBrand?.create || arrPermissionBrand?.none) {
       return <Navigate to="/404" />;
     }
   }

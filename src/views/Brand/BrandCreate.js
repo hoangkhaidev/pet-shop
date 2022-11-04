@@ -351,8 +351,8 @@ const BrandCreate = () => {
     return <NoPermissionPage />;
   }
 
-  if (!arrPermissionBrand[0].full) {
-    if (arrPermissionBrand[0].view || arrPermissionBrand[0].edit || arrPermissionBrand[0].none) {
+  if (!arrPermissionBrand[0]?.full) {
+    if (arrPermissionBrand[0]?.view || arrPermissionBrand[0]?.edit || arrPermissionBrand[0]?.none) {
       return <Navigate to="/404" />;
     }
   }

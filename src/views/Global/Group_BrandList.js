@@ -145,7 +145,7 @@ const Group_BrandList = () => {
     });
   };
 
-  if (arrPermissionGlobalBrand.none) {
+  if (arrPermissionGlobalBrand?.none) {
     return <Navigate to="/404" />;
   }
 

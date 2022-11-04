@@ -215,7 +215,7 @@ const Budget = (props) => {
         }
     }, []);
 
-    if (arrPermissionDashboard.none) {
+    if (arrPermissionDashboard?.none) {
         return <NoPermissionPage />;
     }
 

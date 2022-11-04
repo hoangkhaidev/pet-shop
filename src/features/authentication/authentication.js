@@ -15,6 +15,7 @@ export const authenticationSlice = createSlice({
   reducers: {
     getToken: (state, action) => {
       state.token = action.payload;
+      state.isLoggedIn = true;
     },
     getUserProfile: (state, action) => {
       state.userProfile = action.payload;

@@ -277,8 +277,8 @@ const OperatorCreate = () => {
     return <NoPermissionPage />;
   }
 
-  if (!arrPermissionOperator[0].full) {
-    if (arrPermissionOperator[0].view || arrPermissionOperator[0].edit || arrPermissionOperator[0].none) {
+  if (!arrPermissionOperator[0]?.full) {
+    if (arrPermissionOperator[0]?.view || arrPermissionOperator[0]?.edit || arrPermissionOperator[0]?.none) {
       return <Navigate to="/404" />;
     }
   }

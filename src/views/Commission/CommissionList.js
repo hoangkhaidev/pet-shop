@@ -275,7 +275,7 @@ const CommissionList = () => {
     return <NoPermissionPage />;
   }
 
-  if (arrPermissionCommission.none) {
+  if (arrPermissionCommission?.none) {
     return <Navigate to="/404" />;
   }
 

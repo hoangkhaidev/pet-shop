@@ -139,7 +139,7 @@ const CurrencyList = () => {
     return <Loading />;
   }
 
-  if (arrPermissionCurrency.none) {
+  if (arrPermissionCurrency?.none) {
     return <Navigate to="/404" />;
   }
 

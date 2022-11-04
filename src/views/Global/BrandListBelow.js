@@ -119,7 +119,7 @@ const BrandListBelow = () => {
     return <NoPermissionPage />;
   }
 
-  if (arrPermissionGlobalBrand.none) {
+  if (arrPermissionGlobalBrand?.none) {
     return <Navigate to="/404" />;
   }
 

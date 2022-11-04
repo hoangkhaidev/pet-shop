@@ -99,8 +99,8 @@ const BrandDetail = () => {
     return <NoPermissionPage />;
   }
 
-  if (!arrPermissionGlobalBrand.full) {
-    if (arrPermissionGlobalBrand.none || arrPermissionGlobalBrand.view || arrPermissionGlobalBrand.create) {
+  if (!arrPermissionGlobalBrand?.full) {
+    if (arrPermissionGlobalBrand?.none || arrPermissionGlobalBrand?.view || arrPermissionGlobalBrand?.create) {
       return <Navigate to="/404" />;
     }
   }

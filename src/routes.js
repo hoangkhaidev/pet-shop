@@ -371,7 +371,6 @@ const routes = (isLoggedIn) => [
     element: isLoggedIn ? <Navigate to="/home/dashboard" /> : <Login />,
     children: [
       { path: 'login', element: <Login /> },
-      { path: '/', element: <Navigate to="/login" /> },
       { path: '404', element: <NotFound /> },
       { path: '*', element: <Navigate to="/404" /> },
     ],

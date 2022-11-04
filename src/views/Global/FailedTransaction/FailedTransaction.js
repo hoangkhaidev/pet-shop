@@ -191,7 +191,7 @@ const FailedTransaction = () => {
     }));
   };
 
-  if (arrPermissionFailed.none) {
+  if (arrPermissionFailed?.none) {
     return <Navigate to="/404" />;
   }
 
