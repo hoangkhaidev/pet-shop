@@ -12,9 +12,8 @@ import themes from 'themes';
 
 // project imports
 import NavigationScroll from 'layout/NavigationScroll';
-import { createContext, useEffect, useMemo, useState, Suspense } from 'react';
+import { createContext,  Suspense } from 'react';
 import { useRoutes } from 'react-router-dom';
-import useRouter from 'utils/hooks/useRouter';
 import { Helmet } from "react-helmet";
 import SocketComponent from 'SocketComponent';
 import { persistor, store } from 'stores';
@@ -56,56 +55,13 @@ const notificationReducer = (state, action) => {
 
 const Routes = () => {
     // const navigate = useNavigate();
-    const { isLoggedIn } = useSelector((state) => state.authentication);
-
-    const [curPage, setCurPage] = useState({});
-    const routing = useRoutes(routes(isLoggedIn));
-    const router = useRouter();
-  
-    const token = useSelector(state => state.authentication.token);
-    const [firstToken, setFirstToken] = useState(token);
-  
-    const routerHasUrl = useMemo(() => {
-      let listUrl = [];
-      routes().forEach(item => {
-        listUrl = [...listUrl, ...item.children];
-      });
-  
-      return listUrl;
-    }, []);
-  
-    useEffect(() => {
-      const currentPage = find(routerHasUrl, item => item.fullpath === router.pathname);
-      setCurPage(currentPage);
-      
-    }, [router.pathname, routerHasUrl]);
-  
-    useEffect(() => {
-      if (firstToken && firstToken !== token) {
-        if (token === "") {
-          window.location.href = '/login'
-        } else {
-          window.location.reload();
-        }
-      }
-    }, [token, firstToken])
-  
-    useEffect(() => {
-      if (!firstToken) {
-        setFirstToken(token)
-      }
-    }, [token, setFirstToken])
-  
-    const currentMenu = find(routes(), item => router.pathname.includes(`/${item.path}/`));
-  
-    const valueContext = { currentMenu };
-  
+    const routing = useRoutes(routes());
     return (
       <>
-        <CurrentPageContext.Provider value={valueContext}>
+        <CurrentPageContext.Provider value="PetShop">
           <Helmet>
             <title>
-              {curPage?.name}
+              Pet Shop
             </title>
           </Helmet>
           <SocketComponent />

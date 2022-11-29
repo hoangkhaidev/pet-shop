@@ -138,7 +138,7 @@ const Customization = () => {
                                     <RadioGroup
                                         aria-label="font-family"
                                         value={fontFamilyState}
-                                        onChange={(e) => setFontFamilyState(e.target.value)}
+                                        // onChange={(e) => setFontFamilyState(e.target.value)}
                                         name="row-radio-buttons-group"
                                     >
                                         <FormControlLabel
@@ -185,7 +185,7 @@ const Customization = () => {
                                         <Slider
                                             size="small"
                                             value={borderRadiusState}
-                                            onChange={handleBorderRadius}
+                                            // onChange={handleBorderRadius}
                                             getAriaValueText={valueText}
                                             valueLabelDisplay="on"
                                             aria-labelledby="discrete-slider-small-steps"

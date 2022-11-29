@@ -184,7 +184,7 @@ const FirebaseRegister = ({ ...others }) => {
                                 value={values.email}
                                 name="email"
                                 onBlur={handleBlur}
-                                onChange={handleChange}
+                                // onChange={handleChange}
                                 inputProps={{}}
                             />
                             {touched.email && errors.email && (

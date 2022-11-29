@@ -3,9 +3,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable prettier/prettier */
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
-import ManageSearchIcon from '@mui/icons-material/ManageSearch';
-import SendIcon from '@mui/icons-material/Send';
-import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { func, string } from 'prop-types';
 import { makeStyles } from '@mui/styles';
@@ -28,7 +25,6 @@ const useStyles = makeStyles(() => ({
 export const SubmitButton = ({text = "Submit", onClick, clickRef, disabled}) => {
   return (
     <Button
-      startIcon={text === 'Submit' ? <SendIcon fontSize="small" /> : <ManageSearchIcon fontSize="small" />}
       variant="contained"
       type="submit"
       color="primary"
@@ -61,7 +57,6 @@ export const CancelButton = ({
   onAction, text
 }) => (
   <Button
-    startIcon={<CancelScheduleSendIcon fontSize="small" />}
     variant="contained"
     type="button"
     onClick={onAction}

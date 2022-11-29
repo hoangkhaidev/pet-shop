@@ -9,7 +9,8 @@ const useStyles = makeStyles((theme) => ({
   titleMobile: {
     ['@media (max-width:991px)']: { // eslint-disable-line no-useless-computed-key
       margin: '24px !important',
-    }
+    },
+    textAlign: 'center',
   }
 }));
 
