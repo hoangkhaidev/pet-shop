@@ -87,6 +87,9 @@
             "@babel/preset-react"
         ]
     },
+    "engines": {
+        "node": "16.12.0"
+    },
     "browserslist": {
         "production": [
             ">0.2%",
