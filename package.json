@@ -73,9 +73,7 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-scripts build",
-        "build:testing": "env-cmd -f .env.testing react-scripts build",
-        "deploy:testing": "yarn build:testing && rsync -azP build/ dever@direct.arrowltd.net:/home/dever/public/sbe",
+        "build": "react-scripts build --output public",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
