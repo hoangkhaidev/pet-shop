@@ -5,688 +5,362 @@
 
 // material-ui
 import '../MainLayout/style.scss';
-import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Scrollbar, A11y } from 'swiper';
-import 'swiper/swiper.min.css'
-import 'swiper/modules/navigation/navigation.min.css'
-import ItemProduct from 'views/Product/ItemProduct';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClockRotateLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
-
+import { Link } from 'react-router-dom';
+import { Pagination, Stack } from '@mui/material';
 // ==============================|| MAIN LAYOUT ||============================== //
 
 const HomePage = () => {
-    const settings = {
-        dots: true,
-        fade: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,                
-        slidesToScroll: 1
-      };
-    
-      const slideImages = [
-        {
-          url: 'https://petshopsaigon.vn/wp-content/uploads/2019/08/pet-shop-sai-gon-2.jpg',
-          caption: 'Slide 1'
-        },
-        {
-          url: 'https://petshopsaigon.vn/wp-content/uploads/2020/06/z3010109271830-5b276b79e0116a01d93f36355cc06360.jpg',
-          caption: 'Slide 2'
-        },
-        {
-          url: 'https://petshopsaigon.vn/wp-content/uploads/2019/08/pet-shop-sai-gon-1.jpg',
-          caption: 'Slide 3'
-        },
-      ];
-
     return (
-        <>
-            <div id="mm-0" className="mm-page mm-slideout">
-                <div className="clear" />
-                <div className="tr_h1" style={{ paddingTop: '20px' }}>
-                    <h1 className="tr_h1_trang_chu">Pet Shop Sài Gòn - Thức ăn phụ kiện cho thú cưng chó mèo</h1>
-                </div>
-                <div className="clear" />
-                <div className="d_segment_banner">
-                    <div className="slide-container w60 w100m">
-                        <Slide {...settings}>
-                            {slideImages.map((slideImage, index)=> (
-                                <div className="each-slide" key={index}>
-                                    <div style={{'backgroundImage': `url(${slideImage.url})`}}></div>
+        <div className="container site-content">
+            <div className="content-primary">
+                <main className="site-main">
+                    <div className="recent-content">
+                        <div className="div-post-thumbnail">	
+                            <Link className="thumbnail-link" to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                <div className="thumbnail-wrap">
+                                    <img width="300" height="300" src="https://favsporting.com/wp-content/uploads/2022/12/chel-32-300x300.jpg" className="post-thumbnail" alt="thumbnail post" />
                                 </div>
-                            ))} 
-                        </Slide>
-                    </div>
-                    <div className="d_static_banner w100m">
-                        <div className="static_banner_item marginLeft_0">
-                            <a href="/danh-muc/thuc-an-cho-cho">
-                                <img src="https://petshopsaigon.vn/wp-content/uploads/2020/06/thuc-an-cho-cho-banner.jpg" alt="thuc-an-cho-cho"/>
-                            </a>
+                            </Link>
+                            <div className="post-category">
+                                <Link to="/categories/premier-league">Premier League</Link> 	
+                            </div>		
+                            <h2 className="post-title">
+                                <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                    Following Lionel Messi’s nightmare, Chelsea issued a transfer warning to Josko Gvardiol.
+                                </Link>
+                            </h2>
+                            <div className="post-meta">
+                                <span className="post-author">
+                                    <Link to="/categories/an-xao-loi" title="Posts by kansan">kansan</Link>
+                                </span> 
+                                <span className="post-date">December 16, 2022</span>
+                                <span className="post-comment">
+                                    <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan" className="comments-link">
+                                        0 Comment
+                                    </Link>
+                                </span>
+                            </div>
+                            <div className="post-summary">
+                                <p>Ϲhelsea have beeп iпformed they “doп’t пeed” Josko Gvardiol despite the Blues’ liпks with a big-moпey swoop for the defeпder. The Ϲroatiaп shoпe duriпg his пatioп’s ruп to… </p>
+                            </div>
                         </div>
-                        <div className="static_banner_item">
-                            <a href="/danh-muc/thuc-an-cho-meo">
-                                <img src="https://petshopsaigon.vn/wp-content/uploads/2020/06/thuc-an-cho-meo-banner.jpg" alt="thuc-an-cho-cho"/>
-                            </a>
-                        </div>
-                        <div className="static_banner_item marginLeft_0">
-                            <a href="/nhom-tin/pet-blog">
-                                <img src="https://petshopsaigon.vn/wp-content/uploads/2020/06/cham-soc-cho-meo-banner.jpg" alt="thuc-an-cho-cho"/>
-                            </a>
-                        </div>
-                        <div className="static_banner_item">
-                            <a href="/tin-tuc/suc-khoe-thu-cung">
-                                <img src="https://petshopsaigon.vn/wp-content/uploads/2020/06/suc-khoe-cho-meo-banner.jpg" alt="thuc-an-cho-cho"/>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div className="clear" />
-                <div className="d_best_seller d_common_title">
-                    <div className="container">
-                        <div className="blog-title">
-                            <h2><a href="/danh-muc/ban-chay" style={{ textDecoration: 'none', color: '#337ab7' }}>Sản phẩm bán chạy</a></h2>
-                        </div>
-                        <Swiper
-                            modules={[Navigation, Scrollbar, A11y]}
-                            spaceBetween={0}
-                            slidesPerView={2}
-                            navigation
-                            breakpoints={{
-                                576: {
-                                    slidesPerView: 2,
-                                },
-                                768: {
-                                    slidesPerView: 5,
-                                },
-                              }}
-                            >
-                            <SwiperSlide className="best_seller_slider_item clone left">
-                                <ItemProduct />
-                            </SwiperSlide>
-                            <SwiperSlide className="best_seller_slider_item clone left">
-                                <ItemProduct />
-                            </SwiperSlide>
-                            <SwiperSlide className="best_seller_slider_item clone left">
-                                <ItemProduct />
-                            </SwiperSlide>
-                            <SwiperSlide className="best_seller_slider_item clone left">
-                                <ItemProduct />
-                            </SwiperSlide>
-                            <SwiperSlide className="best_seller_slider_item clone left">
-                                <ItemProduct />
-                            </SwiperSlide>
-                            <SwiperSlide className="best_seller_slider_item clone left">
-                                <ItemProduct />
-                            </SwiperSlide>
-                            <SwiperSlide className="best_seller_slider_item clone left">
-                                <ItemProduct />
-                            </SwiperSlide>
-                            <SwiperSlide className="best_seller_slider_item clone left">
-                                <ItemProduct />
-                            </SwiperSlide>
-                        </Swiper>
-                    </div>    
-                </div>  
-                {/* <!-- Best Seller Slider --> */}
-                <div className="main-col">
-                    <div className="container">
-                        <div className="std">
-                            <div className="best-seller-pro  color " style={{visibility: 'visible'}}>
-                                <div className="slider-items-products">
-                                    <div className="col-xs-12 col-sm-12 col-md-2 ">
-                                        <div className="new_title center">
-                                            <h2>
-                                                <a href="/danh-muc/shop-cho-cho">Shop cho chó</a>
-                                            </h2>
-                                        </div>
-                                        <div className="index-column-2 row-service hidden-xs hidden-sm">
-                                            <ul className="links">
-                                                <li>
-                                                    <h3>
-                                                        <a href="/danh-muc/thuc-an-cho-cho" title="Thức ăn cho chó">
-                                                                    Thức ăn cho chó
-                                                        </a>
-                                                    </h3>
-                                                </li>
-                                                <li>
-                                                    <h3>
-                                                        <a href="/danh-muc/do-dung-cho-cho" title="Đồ dùng cho chó">
-                                                            Đồ dùng cho chó
-                                                        </a>
-                                                    </h3>
-                                                </li>
-                                                <li>
-                                                    <h3>
-                                                        <a href="/danh-muc/do-choi-cho-cho" title="Đồ chơi cho chó">
-                                                            Đồ chơi cho chó
-                                                        </a>
-                                                    </h3>
-                                                </li>
-                                                <li>
-                                                    <h3>
-                                                        <a href="/danh-muc/phu-kien-cho-cho" title="Phụ kiện cho chó">
-                                                            Phụ kiện cho chó
-                                                        </a>
-                                                    </h3>
-                                                </li>
-                                                <li>
-                                                    <h3>
-                                                        <a href="/danh-muc/chuong-long-cho-cho" title="Chuồng lồng cho chó">
-                                                            Chuồng lồng cho chó
-                                                        </a>
-                                                    </h3>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div className="d_product tr_d_product umt_home col-md-10">
-                                        <ul>
-                                            <li>
-                                                <div className="d_image">
-                                                    <a href="/danh-muc/do-choi-hinh-con-voi-mon-ami-toy-vinyl">
-                                                        <img className="hvr-grow" src="https://petshopsaigon.vn/wp-content/uploads/2019/10/do-choi-hinh-con-voi-mon-ami-toy-vinyl-1-300x300.jpg" alt="Đồ Chơi Hình Con Voi Mon Ami Toy Vinyl" />
-                                                    </a>
-                                                </div>
-                                                <div className="d_namesp">
-                                                    <a href="/danh-muc/do-choi-hinh-con-voi-mon-ami-toy-vinyl">
-                                                        Đồ Chơi Hình Con Voi Mon Ami Toy Vinyl
-                                                    </a>
-                                                </div>
-                                                <div className="d_hang">
-                                                    <b>Hãng</b>: 
-                                                    <a href="/hang-san-xuat/mon-ami">Mon Ami</a> 
-                                                </div>
-                                                <div className="d_giohang">
-                                                    <div className="d_giakm pull-left">
-                                                        <div className="d_gia_km">38.000 ₫ </div>
-                                                    </div>
-                                                    <div className="d_uy_giohang pull-right">
-                                                        <a href="/danh-muc/do-choi-hinh-con-voi-mon-ami-toy-vinyl">
-                                                            <img src="https://petshopsaigon.vn/wp-content/themes/template/img/GioHang.png" alt="cart"/>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div className="d_image">
-                                                    <a href="/danh-muc/xuong-vong-tron-mon-ami-toy-rubber">
-                                                        <img className="hvr-grow" src="https://petshopsaigon.vn/wp-content/uploads/2019/10/xuong-vong-tron-mon-ami-toy-rubber-1-300x300.jpg" alt="Xương Vòng Tròn Mon Ami Toy Rubber" />
-                                                    </a>
-                                                </div>
-                                                <div className="d_namesp">
-                                                    <a href="/danh-muc/xuong-vong-tron-mon-ami-toy-rubber">
-                                                        Xương Vòng Tròn Mon Ami Toy Rubber
-                                                    </a>
-                                                </div>
-                                                <div className="d_hang">
-                                                    <b>Hãng</b>: 
-                                                    <a href="/hang-san-xuat/mon-ami">Mon Ami</a> 
-                                                </div>
-                                                <div className="d_giohang">
-                                                    <div className="d_giakm pull-left">
-                                                        <div className="d_gia_km">38.000 ₫ </div>
-                                                    </div>
-                                                    <div className="d_uy_giohang pull-right">
-                                                        <a href="/danh-muc/xuong-vong-tron-mon-ami-toy-rubber">
-                                                            <img src="https://petshopsaigon.vn/wp-content/themes/template/img/GioHang.png" alt="cart"/>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div className="d_image">
-                                                    <a href="/danh-muc/banh-thuong-dang-xoan-ferplast-goodbite-vi-bo-s">
-                                                        <img className="hvr-grow" src="https://petshopsaigon.vn/wp-content/uploads/2019/09/banh-thuong-dang-xoan-ferplast-goodbite-2-2-300x300.jpg" alt="Bánh Thưởng Dạng Xoắn Ferplast Goodbite vị bò (S)" />
-                                                    </a>
-                                                </div>
-                                                <div className="d_namesp">
-                                                    <a href="/danh-muc/banh-thuong-dang-xoan-ferplast-goodbite-vi-bo-s">
-                                                        Bánh Thưởng Dạng Xoắn Ferplast Goodbite vị bò (S)
-                                                    </a>
-                                                </div>
-                                                <div className="d_hang">
-                                                    <b>Hãng</b>: 
-                                                    <a href="/hang-san-xuat/ferplast">Ferplast</a> 
-                                                </div>
-                                                <div className="d_giohang">
-                                                    <div className="d_giakm pull-left">
-                                                        <div className="d_gia_km">63.000 ₫ </div>
-                                                    </div>
-                                                    <div className="d_uy_giohang pull-right">
-                                                        <a href="/danh-muc/banh-thuong-dang-xoan-ferplast-goodbite-vi-bo-s">
-                                                            <img src="https://petshopsaigon.vn/wp-content/themes/template/img/GioHang.png"  alt="cart"/>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div className="d_image">
-                                                    <a href="/danh-muc/thuc-an-cho-cho-con-royal-canin-maxi-puppy-4kg">
-                                                        <img className="hvr-grow" src="https://petshopsaigon.vn/wp-content/uploads/2019/11/royal-canin-maxi-puppy-8-300x300.jpg" alt="Thức Ăn Cho Chó Con Royal Canin MAXI Puppy (4kg)" />
-                                                    </a>
-                                                </div>
-                                                <div className="d_namesp">
-                                                    <a href="/danh-muc/thuc-an-cho-cho-con-royal-canin-maxi-puppy-4kg">
-                                                        Thức Ăn Cho Chó Con Royal Canin MAXI Puppy (4kg)
-                                                    </a>
-                                                </div>
-                                                <div className="d_hang">
-                                                    <b>Hãng</b>: 
-                                                    <a href="/hang-san-xuat/royal-canin">Royal Canin</a> 
-                                                </div>
-                                                <div className="d_giohang">
-                                                    <div className="d_giakm pull-left">
-                                                        <div className="d_gia_km">701.000 ₫ </div>
-                                                    </div>
-                                                    <div className="d_uy_giohang pull-right">
-                                                        <a href="/danh-muc/thuc-an-cho-cho-con-royal-canin-maxi-puppy-4kg">
-                                                            <img src="https://petshopsaigon.vn/wp-content/themes/template/img/GioHang.png" alt="cart" />
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
+                        <div className="div-post-thumbnail">	
+                            <Link className="thumbnail-link" to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                <div className="thumbnail-wrap">
+                                    <img width="300" height="300" src="https://favsporting.com/wp-content/uploads/2022/12/chel-32-300x300.jpg" className="post-thumbnail" alt="thumbnail post" />
                                 </div>
+                            </Link>
+                            <div className="post-category">
+                                <Link to="/categories/premier-league">Premier League</Link> 	
+                            </div>		
+                            <h2 className="post-title">
+                                <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                    Following Lionel Messi’s nightmare, Chelsea issued a transfer warning to Josko Gvardiol.
+                                </Link>
+                            </h2>
+                            <div className="post-meta">
+                                <span className="post-author">
+                                    <Link to="/categories/an-xao-loi" title="Posts by kansan">kansan</Link>
+                                </span> 
+                                <span className="post-date">December 16, 2022</span>
+                                <span className="post-comment">
+                                    <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan" className="comments-link">
+                                        0 Comment
+                                    </Link>
+                                </span>
+                            </div>
+                            <div className="post-summary">
+                                <p>Ϲhelsea have beeп iпformed they “doп’t пeed” Josko Gvardiol despite the Blues’ liпks with a big-moпey swoop for the defeпder. The Ϲroatiaп shoпe duriпg his пatioп’s ruп to… </p>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div className="main-col">
-                    <div className="container">
-                        <div className="std">
-                            <div className="best-seller-pro  color " style={{visibility: 'visible'}}>
-                                <div className="slider-items-products">
-                                    <div className="col-xs-12 col-sm-12 col-md-2 ">
-                                        <div className="new_title center">
-                                            <h2>
-                                                <a href="/danh-muc/shop-cho-cho">Shop cho meo</a>
-                                            </h2>
-                                        </div>
-                                        <div className="index-column-2 row-service hidden-xs hidden-sm">
-                                            <ul className="links">
-                                                <li>
-                                                    <h3>
-                                                        <a href="/danh-muc/thuc-an-cho-cho" title="Thức ăn cho chó">
-                                                            Thức ăn cho chó
-                                                        </a>
-                                                    </h3>
-                                                </li>
-                                                <li>
-                                                    <h3>
-                                                        <a href="/danh-muc/do-dung-cho-cho" title="Đồ dùng cho chó">
-                                                            Đồ dùng cho chó
-                                                        </a>
-                                                    </h3>
-                                                </li>
-                                                <li>
-                                                    <h3>
-                                                        <a href="/danh-muc/do-choi-cho-cho" title="Đồ chơi cho chó">
-                                                            Đồ chơi cho chó
-                                                        </a>
-                                                    </h3>
-                                                </li>
-                                                <li>
-                                                    <h3>
-                                                        <a href="/danh-muc/phu-kien-cho-cho" title="Phụ kiện cho chó">
-                                                            Phụ kiện cho chó
-                                                        </a>
-                                                    </h3>
-                                                </li>
-                                                <li>
-                                                    <h3>
-                                                        <a href="/danh-muc/chuong-long-cho-cho" title="Chuồng lồng cho chó">
-                                                            Chuồng lồng cho chó
-                                                        </a>
-                                                    </h3>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div className="d_product tr_d_product umt_home col-md-10">
-                                        <ul>
-                                            <li>
-                                                <ItemProduct />
-                                            </li>
-                                            <li>
-                                                <div className="d_image">
-                                                    <a href="/danh-muc/xuong-vong-tron-mon-ami-toy-rubber">
-                                                        <img className="hvr-grow" src="https://petshopsaigon.vn/wp-content/uploads/2019/10/xuong-vong-tron-mon-ami-toy-rubber-1-300x300.jpg" alt="Xương Vòng Tròn Mon Ami Toy Rubber" />
-                                                    </a>
-                                                </div>
-                                                <div className="d_namesp">
-                                                    <a href="/danh-muc/xuong-vong-tron-mon-ami-toy-rubber">
-                                                        Xương Vòng Tròn Mon Ami Toy Rubber
-                                                    </a>
-                                                </div>
-                                                <div className="d_hang">
-                                                    <b>Hãng</b>: 
-                                                    <a href="/hang-san-xuat/mon-ami">Mon Ami</a> 
-                                                </div>
-                                                <div className="d_giohang">
-                                                    <div className="d_giakm pull-left">
-                                                        <div className="d_gia_km">38.000 ₫ </div>
-                                                    </div>
-                                                    <div className="d_uy_giohang pull-right">
-                                                        <a href="/danh-muc/xuong-vong-tron-mon-ami-toy-rubber">
-                                                            <img src="https://petshopsaigon.vn/wp-content/themes/template/img/GioHang.png" alt="cart"/>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div className="d_image">
-                                                    <a href="/danh-muc/banh-thuong-dang-xoan-ferplast-goodbite-vi-bo-s">
-                                                        <img className="hvr-grow" src="https://petshopsaigon.vn/wp-content/uploads/2019/09/banh-thuong-dang-xoan-ferplast-goodbite-2-2-300x300.jpg" alt="Bánh Thưởng Dạng Xoắn Ferplast Goodbite vị bò (S)" />
-                                                    </a>
-                                                </div>
-                                                <div className="d_namesp">
-                                                    <a href="/danh-muc/banh-thuong-dang-xoan-ferplast-goodbite-vi-bo-s">
-                                                        Bánh Thưởng Dạng Xoắn Ferplast Goodbite vị bò (S)
-                                                    </a>
-                                                </div>
-                                                <div className="d_hang">
-                                                    <b>Hãng</b>: 
-                                                    <a href="/hang-san-xuat/ferplast">Ferplast</a> 
-                                                </div>
-                                                <div className="d_giohang">
-                                                    <div className="d_giakm pull-left">
-                                                        <div className="d_gia_km">63.000 ₫ </div>
-                                                    </div>
-                                                    <div className="d_uy_giohang pull-right">
-                                                        <a href="/danh-muc/banh-thuong-dang-xoan-ferplast-goodbite-vi-bo-s">
-                                                            <img src="https://petshopsaigon.vn/wp-content/themes/template/img/GioHang.png"  alt="cart"/>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div className="d_image">
-                                                    <a href="/danh-muc/thuc-an-cho-cho-con-royal-canin-maxi-puppy-4kg">
-                                                        <img className="hvr-grow" src="https://petshopsaigon.vn/wp-content/uploads/2019/11/royal-canin-maxi-puppy-8-300x300.jpg" alt="Thức Ăn Cho Chó Con Royal Canin MAXI Puppy (4kg)" />
-                                                    </a>
-                                                </div>
-                                                <div className="d_namesp">
-                                                    <a href="/danh-muc/thuc-an-cho-cho-con-royal-canin-maxi-puppy-4kg">
-                                                        Thức Ăn Cho Chó Con Royal Canin MAXI Puppy (4kg)
-                                                    </a>
-                                                </div>
-                                                <div className="d_hang">
-                                                    <b>Hãng</b>: 
-                                                    <a href="/hang-san-xuat/royal-canin">Royal Canin</a> 
-                                                </div>
-                                                <div className="d_giohang">
-                                                    <div className="d_giakm pull-left">
-                                                        <div className="d_gia_km">701.000 ₫ </div>
-                                                    </div>
-                                                    <div className="d_uy_giohang pull-right">
-                                                        <a href="/danh-muc/thuc-an-cho-cho-con-royal-canin-maxi-puppy-4kg">
-                                                            <img src="https://petshopsaigon.vn/wp-content/themes/template/img/GioHang.png" alt="cart" />
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
+                        <div className="div-post-thumbnail">	
+                            <Link className="thumbnail-link" to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                <div className="thumbnail-wrap">
+                                    <img width="300" height="300" src="https://favsporting.com/wp-content/uploads/2022/12/chel-32-300x300.jpg" className="post-thumbnail" alt="thumbnail post" />
                                 </div>
+                            </Link>
+                            <div className="post-category">
+                                <Link to="/categories/premier-league">Premier League</Link> 	
+                            </div>		
+                            <h2 className="post-title">
+                                <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                    Following Lionel Messi’s nightmare, Chelsea issued a transfer warning to Josko Gvardiol.
+                                </Link>
+                            </h2>
+                            <div className="post-meta">
+                                <span className="post-author">
+                                    <Link to="/categories/an-xao-loi" title="Posts by kansan">kansan</Link>
+                                </span> 
+                                <span className="post-date">December 16, 2022</span>
+                                <span className="post-comment">
+                                    <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan" className="comments-link">
+                                        0 Comment
+                                    </Link>
+                                </span>
+                            </div>
+                            <div className="post-summary">
+                                <p>Ϲhelsea have beeп iпformed they “doп’t пeed” Josko Gvardiol despite the Blues’ liпks with a big-moпey swoop for the defeпder. The Ϲroatiaп shoпe duriпg his пatioп’s ruп to… </p>
+                            </div>
+                        </div>
+                        <div className="div-post-thumbnail">	
+                            <Link className="thumbnail-link" to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                <div className="thumbnail-wrap">
+                                    <img width="300" height="300" src="https://favsporting.com/wp-content/uploads/2022/12/chel-32-300x300.jpg" className="post-thumbnail" alt="thumbnail post" />
+                                </div>
+                            </Link>
+                            <div className="post-category">
+                                <Link to="/categories/premier-league">Premier League</Link> 	
+                            </div>		
+                            <h2 className="post-title">
+                                <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                    Following Lionel Messi’s nightmare, Chelsea issued a transfer warning to Josko Gvardiol.
+                                </Link>
+                            </h2>
+                            <div className="post-meta">
+                                <span className="post-author">
+                                    <Link to="/categories/an-xao-loi" title="Posts by kansan">kansan</Link>
+                                </span> 
+                                <span className="post-date">December 16, 2022</span>
+                                <span className="post-comment">
+                                    <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan" className="comments-link">
+                                        0 Comment
+                                    </Link>
+                                </span>
+                            </div>
+                            <div className="post-summary">
+                                <p>Ϲhelsea have beeп iпformed they “doп’t пeed” Josko Gvardiol despite the Blues’ liпks with a big-moпey swoop for the defeпder. The Ϲroatiaп shoпe duriпg his пatioп’s ruп to… </p>
+                            </div>
+                        </div>
+                        <div className="div-post-thumbnail">	
+                            <Link className="thumbnail-link" to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                <div className="thumbnail-wrap">
+                                    <img width="300" height="300" src="https://favsporting.com/wp-content/uploads/2022/12/chel-32-300x300.jpg" className="post-thumbnail" alt="thumbnail post" />
+                                </div>
+                            </Link>
+                            <div className="post-category">
+                                <Link to="/categories/premier-league">Premier League</Link> 	
+                            </div>		
+                            <h2 className="post-title">
+                                <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                    Following Lionel Messi’s nightmare, Chelsea issued a transfer warning to Josko Gvardiol.
+                                </Link>
+                            </h2>
+                            <div className="post-meta">
+                                <span className="post-author">
+                                    <Link to="/categories/an-xao-loi" title="Posts by kansan">kansan</Link>
+                                </span> 
+                                <span className="post-date">December 16, 2022</span>
+                                <span className="post-comment">
+                                    <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan" className="comments-link">
+                                        0 Comment
+                                    </Link>
+                                </span>
+                            </div>
+                            <div className="post-summary">
+                                <p>Ϲhelsea have beeп iпformed they “doп’t пeed” Josko Gvardiol despite the Blues’ liпks with a big-moпey swoop for the defeпder. The Ϲroatiaп shoпe duriпg his пatioп’s ruп to… </p>
+                            </div>
+                        </div>
+                        <div className="div-post-thumbnail">	
+                            <Link className="thumbnail-link" to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                <div className="thumbnail-wrap">
+                                    <img width="300" height="300" src="https://favsporting.com/wp-content/uploads/2022/12/chel-32-300x300.jpg" className="post-thumbnail" alt="thumbnail post" />
+                                </div>
+                            </Link>
+                            <div className="post-category">
+                                <Link to="/categories/premier-league">Premier League</Link> 	
+                            </div>		
+                            <h2 className="post-title">
+                                <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                    Following Lionel Messi’s nightmare, Chelsea issued a transfer warning to Josko Gvardiol.
+                                </Link>
+                            </h2>
+                            <div className="post-meta">
+                                <span className="post-author">
+                                    <Link to="/categories/an-xao-loi" title="Posts by kansan">kansan</Link>
+                                </span> 
+                                <span className="post-date">December 16, 2022</span>
+                                <span className="post-comment">
+                                    <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan" className="comments-link">
+                                        0 Comment
+                                    </Link>
+                                </span>
+                            </div>
+                            <div className="post-summary">
+                                <p>Ϲhelsea have beeп iпformed they “doп’t пeed” Josko Gvardiol despite the Blues’ liпks with a big-moпey swoop for the defeпder. The Ϲroatiaп shoпe duriпg his пatioп’s ruп to… </p>
+                            </div>
+                        </div>
+                        <div className="div-post-thumbnail">	
+                            <Link className="thumbnail-link" to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                <div className="thumbnail-wrap">
+                                    <img width="300" height="300" src="https://favsporting.com/wp-content/uploads/2022/12/chel-32-300x300.jpg" className="post-thumbnail" alt="thumbnail post" />
+                                </div>
+                            </Link>
+                            <div className="post-category">
+                                <Link to="/categories/premier-league">Premier League</Link> 	
+                            </div>		
+                            <h2 className="post-title">
+                                <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                    Following Lionel Messi’s nightmare, Chelsea issued a transfer warning to Josko Gvardiol.
+                                </Link>
+                            </h2>
+                            <div className="post-meta">
+                                <span className="post-author">
+                                    <Link to="/categories/an-xao-loi" title="Posts by kansan">kansan</Link>
+                                </span> 
+                                <span className="post-date">December 16, 2022</span>
+                                <span className="post-comment">
+                                    <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan" className="comments-link">
+                                        0 Comment
+                                    </Link>
+                                </span>
+                            </div>
+                            <div className="post-summary">
+                                <p>Ϲhelsea have beeп iпformed they “doп’t пeed” Josko Gvardiol despite the Blues’ liпks with a big-moпey swoop for the defeпder. The Ϲroatiaп shoпe duriпg his пatioп’s ruп to… </p>
+                            </div>
+                        </div>
+                        <div className="div-post-thumbnail">	
+                            <Link className="thumbnail-link" to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                <div className="thumbnail-wrap">
+                                    <img width="300" height="300" src="https://favsporting.com/wp-content/uploads/2022/12/chel-32-300x300.jpg" className="post-thumbnail" alt="thumbnail post" />
+                                </div>
+                            </Link>
+                            <div className="post-category">
+                                <Link to="/categories/premier-league">Premier League</Link> 	
+                            </div>		
+                            <h2 className="post-title">
+                                <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                    Following Lionel Messi’s nightmare, Chelsea issued a transfer warning to Josko Gvardiol.
+                                </Link>
+                            </h2>
+                            <div className="post-meta">
+                                <span className="post-author">
+                                    <Link to="/categories/an-xao-loi" title="Posts by kansan">kansan</Link>
+                                </span> 
+                                <span className="post-date">December 16, 2022</span>
+                                <span className="post-comment">
+                                    <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan" className="comments-link">
+                                        0 Comment
+                                    </Link>
+                                </span>
+                            </div>
+                            <div className="post-summary">
+                                <p>Ϲhelsea have beeп iпformed they “doп’t пeed” Josko Gvardiol despite the Blues’ liпks with a big-moпey swoop for the defeпder. The Ϲroatiaп shoпe duriпg his пatioп’s ruп to… </p>
+                            </div>
+                        </div>
+                        <div className="div-post-thumbnail">	
+                            <Link className="thumbnail-link" to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                <div className="thumbnail-wrap">
+                                    <img width="300" height="300" src="https://favsporting.com/wp-content/uploads/2022/12/chel-32-300x300.jpg" className="post-thumbnail" alt="thumbnail post" />
+                                </div>
+                            </Link>
+                            <div className="post-category">
+                                <Link to="/categories/premier-league">Premier League</Link> 	
+                            </div>		
+                            <h2 className="post-title">
+                                <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                    Following Lionel Messi’s nightmare, Chelsea issued a transfer warning to Josko Gvardiol.
+                                </Link>
+                            </h2>
+                            <div className="post-meta">
+                                <span className="post-author">
+                                    <Link to="/categories/an-xao-loi" title="Posts by kansan">kansan</Link>
+                                </span> 
+                                <span className="post-date">December 16, 2022</span>
+                                <span className="post-comment">
+                                    <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan" className="comments-link">
+                                        0 Comment
+                                    </Link>
+                                </span>
+                            </div>
+                            <div className="post-summary">
+                                <p>Ϲhelsea have beeп iпformed they “doп’t пeed” Josko Gvardiol despite the Blues’ liпks with a big-moпey swoop for the defeпder. The Ϲroatiaп shoпe duriпg his пatioп’s ruп to… </p>
+                            </div>
+                        </div>
+                        <div className="div-post-thumbnail">	
+                            <Link className="thumbnail-link" to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                <div className="thumbnail-wrap">
+                                    <img width="300" height="300" src="https://favsporting.com/wp-content/uploads/2022/12/chel-32-300x300.jpg" className="post-thumbnail" alt="thumbnail post" />
+                                </div>
+                            </Link>
+                            <div className="post-category">
+                                <Link to="/categories/premier-league">Premier League</Link> 	
+                            </div>		
+                            <h2 className="post-title">
+                                <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                                    Following Lionel Messi’s nightmare, Chelsea issued a transfer warning to Josko Gvardiol.
+                                </Link>
+                            </h2>
+                            <div className="post-meta">
+                                <span className="post-author">
+                                    <Link to="/categories/an-xao-loi" title="Posts by kansan">kansan</Link>
+                                </span> 
+                                <span className="post-date">December 16, 2022</span>
+                                <span className="post-comment">
+                                    <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan" className="comments-link">
+                                        0 Comment
+                                    </Link>
+                                </span>
+                            </div>
+                            <div className="post-summary">
+                                <p>Ϲhelsea have beeп iпformed they “doп’t пeed” Josko Gvardiol despite the Blues’ liпks with a big-moпey swoop for the defeпder. The Ϲroatiaп shoпe duriпg his пatioп’s ruп to… </p>
                             </div>
                         </div>
                     </div>
+                    <Stack spacing={2} className="assadsadsad" sx={{ justifyContent: 'center', paddingTop: '20px' }}>
+                        <Pagination count={10} color="primary" sx={{ justifyContent: 'center', display: 'flex' }}/>
+                    </Stack>
+                </main>
+            </div>
+            <aside className="content-secondary">
+                <div className="widget-posts-thumbnail" style={{ height: 'auto !important' }}>
+                    <h2 className="widget-title">Recent Posts</h2>
+                    <ul>
+                        <li className="clear">
+                            <Link to="news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan/">
+                                <div className="thumbnail-wrap">
+                                    <img width="300" height="150" src="https://favsporting.com/wp-content/uploads/2022/12/chel-32-300x150.jpg" className="wp-post-image" alt="post-sadsasd-title" />
+                                </div>
+                                <div className="entry-wrap">
+                                    Following Lionel Messi’s nightmare, Chelsea issued a transfer warning to Josko Gvardiol.
+                                </div>
+                                <div className="gradient" style={{ display: 'block' }} />
+                            </Link>
+                        </li>
+                        <li className="post-list post-list-1">
+                            <span>1</span>
+                            <Link to="news/liverpool-legend-rejects-transfer-of-cody-gakpo-and-identifies-ideal-luis-diaz-replacement-kansan/">
+                                Liverpool legend rejects transfer of Cody Gakpo and identifies ideal Luis Diaz replacement
+                            </Link>
+                        </li>
+                        <li className="post-list post-list-2">
+                            <span>2</span>
+                            <Link to="news/manchester-city-signed-a-contract-to-sign-rafael-leao-with-an-attractive-salary-kansan/">
+                                Manchester City signed a contract to sign Rafael Leao with an attractive salary
+                            </Link>
+                        </li>
+                        <li className="post-list post-list-3">
+                            <span>3</span>
+                            <a href="news/ten-hag-has-bought-man-utds-next-pogba-by-signing-a-young-world-cup-star-worth-17-million-kansan/">
+                                Ten Hag has bought Man Utd’s next Pogba by signing a young World Cup star worth £ 17 million
+                            </a>
+                        </li>
+                        <li className="post-list post-list-4">
+                            <span>4</span>
+                            <Link to="news/2022-world-cup-manchester-united-legend-explains-real-reason-why-messi-wants-to-win-world-cup-marie/">
+                                2022 World Cup: Manchester United Legend Explains Real Reason Why Messi Wants to Win World Cup
+                            </Link>
+                        </li>
+                        <li className="post-list post-list-5">
+                            <span>5</span>
+                            <Link to="news/juventus-star-hoping-to-start-the-world-cup-final-marie/" rel="bookmark">
+                                Juventus star hoping to start the World Cup final
+                            </Link>
+                        </li>
+                    </ul>
                 </div>
-            </div>    
-            <section className="latest-blog wow  animated" style={{visibility: 'visible'}}>
-                <div className="container">
-                    <div className="blog-title">
-                        <h2>Bài viết nổi bật</h2>
-                    </div>
-                    <div className="tr_pc">
-                        <div className="row">
-                            <div className="col-xs-6 col-sm-4">
-                                <article className="blog_entry clearfix wow animated" style={{visibility: 'visible'}}>
-                                    <div className="entry-content">
-                                        <div className="featured-thumb">
-                                            <a href="/tin-tuc/thuc-an-cho-meo-4-thang-tuoi">
-                                                <img src="https://petshopsaigon.vn/wp-content/uploads/2022/04/thuc-an-cho-meo-4-thang-tuoi-1.jpg" alt="Top 5 thức ăn cho mèo 4 tháng tuổi nên mua nhất Việt Nam" />
-                                            </a>
-                                        </div>
-                                        <header className="blog_entry-header clearfix">
-                                            <div className="blog_entry-header-inner">
-                                                <h3 className="blog_entry-title"> 
-                                                    <a rel="bookmark" href="/tin-tuc/thuc-an-cho-meo-4-thang-tuoi" title="Top 5 thức ăn cho mèo 4 tháng tuổi nên mua nhất Việt Nam">
-                                                        Top 5 thức ăn cho mèo 4 tháng tuổi nên mua nhất Việt Nam
-                                                    </a> 
-                                                </h3>
-                                            </div>
-                                        </header>
-                                        <div className="entry-content-small content-small">
-                                            Thức ăn cho mèo 4 tháng tuổi loại nào tốt nhất. Khi mua thức ăn cho mèo 4 tháng tuổi cần chú ý đến gì? Mời bạn xem ngay ...									
-                                        </div>
-                                        <div className="post-date">
-                                            <FontAwesomeIcon
-                                                icon={faClockRotateLeft}
-                                                size={'1x'}
-                                                style={{ cursor: 'pointer', marginRight: '3px' }} 
-                                            />25/04/2022									
-                                        </div>
-                                    </div>
-                                    <a href="/tin-tuc/thuc-an-cho-meo-4-thang-tuoi" className="link-article">
-                                        <FontAwesomeIcon
-                                            icon={faCaretRight}
-                                            size={'1x'}
-                                            style={{ cursor: 'pointer', marginRight: '3px' }} 
-                                        />Đọc Tiếp
-                                    </a>
-                                </article>
-                            </div>
-                            <div className="col-xs-6 col-sm-4">
-                                <article className="blog_entry clearfix wow    animated" style={{visibility: 'visible'}}>
-                                    <div className="entry-content">
-                                        <div className="featured-thumb">
-                                            <a href="/tin-tuc/thuc-an-cho-cho-20kg">
-                                                <img src="https://petshopsaigon.vn/wp-content/uploads/2022/04/thuc-an-cho-cho-20kg-10.jpg" alt="Top 5 thức ăn cho chó 20kg đáp ứng đủ nhu cầu dinh dưỡng" />
-                                            </a>
-                                        </div>
-                                        <header className="blog_entry-header clearfix">
-                                            <div className="blog_entry-header-inner">
-                                                <h3 className="blog_entry-title"> 
-                                                    <a rel="bookmark" href="/tin-tuc/thuc-an-cho-cho-20kg" title="Top 5 thức ăn cho chó 20kg đáp ứng đủ nhu cầu dinh dưỡng">
-                                                        Top 5 thức ăn cho chó 20kg đáp ứng đủ nhu cầu dinh dưỡng
-                                                    </a> 
-                                                </h3>
-                                            </div>
-                                        </header>
-                                        <div className="entry-content-small content-small">
-                                            Thức ăn cho chó 20kg loại nào tốt nhất ở Việt Nam? Mời bạn đọc xem bài viết này để biết được top thức ăn cho chó 20kg ...									</div>
-                                        <div className="post-date">
-                                            <FontAwesomeIcon
-                                                icon={faClockRotateLeft}
-                                                size={'1x'}
-                                                style={{ cursor: 'pointer', marginRight: '3px' }} 
-                                            />08/04/2022									
-                                        </div>
-                                    </div>
-                                    <a href="/tin-tuc/thuc-an-cho-cho-20kg" className="link-article">
-                                        <FontAwesomeIcon
-                                            icon={faCaretRight}
-                                            size={'1x'}
-                                            style={{ cursor: 'pointer', marginRight: '3px' }} 
-                                        />Đọc Tiếp
-                                    </a>
-                                </article>
-                            </div>
-                            <div className="col-xs-6 col-sm-4">
-                                <article className="blog_entry clearfix wow    animated" style={{visibility: 'visible'}}>
-                                    <div className="entry-content">
-                                        <div className="featured-thumb">
-                                            <a href="/tin-tuc/thuc-an-cho-cho-truong-thanh">
-                                                <img src="https://petshopsaigon.vn/wp-content/uploads/2022/03/thuc-an-cho-cho-truong-thanh-1.jpg" alt="Top 5 thức ăn cho chó trưởng thành tốt nhất Việt Nam" />
-                                            </a>
-                                        </div>
-                                        <header className="blog_entry-header clearfix">
-                                            <div className="blog_entry-header-inner">
-                                                <h3 className="blog_entry-title"> 
-                                                    <a rel="bookmark" href="/tin-tuc/thuc-an-cho-cho-truong-thanh" title="Top 5 thức ăn cho chó trưởng thành tốt nhất Việt Nam">
-                                                        Top 5 thức ăn cho chó trưởng thành tốt nhất Việt Nam
-                                                    </a> 
-                                                </h3>
-                                            </div>
-                                        </header>
-                                        <div className="entry-content-small content-small">
-                                            Thức ăn cho chó trưởng thành loại nào là tốt nhất? Mời bạn đọc tham khảo ngay top 5 thức ăn cho chó trưởng thành tốt nhất ...									
-                                        </div>
-                                        <div className="post-date">
-                                            <FontAwesomeIcon
-                                                icon={faClockRotateLeft}
-                                                size={'1x'}
-                                                style={{ cursor: 'pointer', marginRight: '3px' }} 
-                                            />
-                                            01/04/2022									
-                                        </div>
-                                    </div>
-                                    <a href="/tin-tuc/thuc-an-cho-cho-truong-thanh" className="link-article">
-                                        <FontAwesomeIcon
-                                            icon={faCaretRight}
-                                            size={'1x'}
-                                            style={{ cursor: 'pointer', marginRight: '3px' }} 
-                                        />
-                                        Đọc Tiếp
-                                    </a>
-                                </article>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="tr_mobile">
-                        <Swiper
-                            modules={[Navigation, Scrollbar, A11y]}
-                            spaceBetween={0}
-                            slidesPerView={1}
-                            navigation
-                        >
-                            <SwiperSlide>
-                                <article className="blog_entry clearfix wow    animated" style={{visibility: 'visible'}}>
-                                    <div className="entry-content">
-                                        <div className="featured-thumb">
-                                            <a href="/tin-tuc/thuc-an-cho-cho-truong-thanh">
-                                                <img src="https://petshopsaigon.vn/wp-content/uploads/2022/03/thuc-an-cho-cho-truong-thanh-1.jpg" alt="Top 5 thức ăn cho chó trưởng thành tốt nhất Việt Nam" />
-                                            </a>
-                                        </div>
-                                        <header className="blog_entry-header clearfix">
-                                            <div className="blog_entry-header-inner">
-                                                <h3 className="blog_entry-title"> 
-                                                    <a rel="bookmark" href="/tin-tuc/thuc-an-cho-cho-truong-thanh" title="Top 5 thức ăn cho chó trưởng thành tốt nhất Việt Nam">
-                                                        Top 5 thức ăn cho chó trưởng thành tốt nhất Việt Nam
-                                                    </a> 
-                                                </h3>
-                                            </div>
-                                        </header>
-                                        <div className="entry-content-small content-small">
-                                            Thức ăn cho chó trưởng thành loại nào là tốt nhất? Mời bạn đọc tham khảo ngay top 5 thức ăn cho chó trưởng thành tốt nhất ...									
-                                        </div>
-                                        <div className="post-date">
-                                            <FontAwesomeIcon
-                                                icon={faClockRotateLeft}
-                                                size={'1x'}
-                                                style={{ cursor: 'pointer', marginRight: '3px' }} 
-                                            />
-                                            01/04/2022									
-                                        </div>
-                                    </div>
-                                    <a href="/tin-tuc/thuc-an-cho-cho-truong-thanh" className="link-article">
-                                        <FontAwesomeIcon
-                                            icon={faCaretRight}
-                                            size={'1x'}
-                                            style={{ cursor: 'pointer', marginRight: '3px' }} 
-                                        />
-                                        Đọc Tiếp
-                                    </a>
-                                </article>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <article className="blog_entry clearfix wow    animated" style={{visibility: 'visible'}}>
-                                    <div className="entry-content">
-                                        <div className="featured-thumb">
-                                            <a href="/tin-tuc/thuc-an-cho-cho-truong-thanh">
-                                                <img src="https://petshopsaigon.vn/wp-content/uploads/2022/03/thuc-an-cho-cho-truong-thanh-1.jpg" alt="Top 5 thức ăn cho chó trưởng thành tốt nhất Việt Nam" />
-                                            </a>
-                                        </div>
-                                        <header className="blog_entry-header clearfix">
-                                            <div className="blog_entry-header-inner">
-                                                <h3 className="blog_entry-title"> 
-                                                    <a rel="bookmark" href="/tin-tuc/thuc-an-cho-cho-truong-thanh" title="Top 5 thức ăn cho chó trưởng thành tốt nhất Việt Nam">
-                                                        Top 5 thức ăn cho chó trưởng thành tốt nhất Việt Nam
-                                                    </a> 
-                                                </h3>
-                                            </div>
-                                        </header>
-                                        <div className="entry-content-small content-small">
-                                            Thức ăn cho chó trưởng thành loại nào là tốt nhất? Mời bạn đọc tham khảo ngay top 5 thức ăn cho chó trưởng thành tốt nhất ...									
-                                        </div>
-                                        <div className="post-date">
-                                            <FontAwesomeIcon
-                                                icon={faClockRotateLeft}
-                                                size={'1x'}
-                                                style={{ cursor: 'pointer', marginRight: '3px' }} 
-                                            />
-                                            01/04/2022									
-                                        </div>
-                                    </div>
-                                    <a href="/tin-tuc/thuc-an-cho-cho-truong-thanh" className="link-article">
-                                        <FontAwesomeIcon
-                                            icon={faCaretRight}
-                                            size={'1x'}
-                                            style={{ cursor: 'pointer', marginRight: '3px' }} 
-                                        />
-                                        Đọc Tiếp
-                                    </a>
-                                </article>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <article className="blog_entry clearfix wow    animated" style={{visibility: 'visible'}}>
-                                    <div className="entry-content">
-                                        <div className="featured-thumb">
-                                            <a href="/tin-tuc/thuc-an-cho-cho-truong-thanh">
-                                                <img src="https://petshopsaigon.vn/wp-content/uploads/2022/03/thuc-an-cho-cho-truong-thanh-1.jpg" alt="Top 5 thức ăn cho chó trưởng thành tốt nhất Việt Nam" />
-                                            </a>
-                                        </div>
-                                        <header className="blog_entry-header clearfix">
-                                            <div className="blog_entry-header-inner">
-                                                <h3 className="blog_entry-title"> 
-                                                    <a rel="bookmark" href="/tin-tuc/thuc-an-cho-cho-truong-thanh" title="Top 5 thức ăn cho chó trưởng thành tốt nhất Việt Nam">
-                                                        Top 5 thức ăn cho chó trưởng thành tốt nhất Việt Nam
-                                                    </a> 
-                                                </h3>
-                                            </div>
-                                        </header>
-                                        <div className="entry-content-small content-small">
-                                            Thức ăn cho chó trưởng thành loại nào là tốt nhất? Mời bạn đọc tham khảo ngay top 5 thức ăn cho chó trưởng thành tốt nhất ...									
-                                        </div>
-                                        <div className="post-date">
-                                            <FontAwesomeIcon
-                                                icon={faClockRotateLeft}
-                                                size={'1x'}
-                                                style={{ cursor: 'pointer', marginRight: '3px' }} 
-                                            />
-                                            01/04/2022									
-                                        </div>
-                                    </div>
-                                    <a href="/tin-tuc/thuc-an-cho-cho-truong-thanh" className="link-article">
-                                        <FontAwesomeIcon
-                                            icon={faCaretRight}
-                                            size={'1x'}
-                                            style={{ cursor: 'pointer', marginRight: '3px' }} 
-                                        />
-                                        Đọc Tiếp
-                                    </a>
-                                </article>
-                            </SwiperSlide>
-                        </Swiper>
-                    </div>
-                </div>
-            </section>
-        </>
+            </aside>
+        </div>
     );
 };
 

@@ -15,7 +15,6 @@ import NavigationScroll from 'layout/NavigationScroll';
 import { createContext,  Suspense } from 'react';
 import { useRoutes } from 'react-router-dom';
 import { Helmet } from "react-helmet";
-import SocketComponent from 'SocketComponent';
 import { persistor, store } from 'stores';
 import CircularIndeterminate from 'views/page/CircularIndeterminate';
 import { NotificationProvider } from 'context/NotificationContext';
@@ -64,7 +63,6 @@ const Routes = () => {
               Pet Shop
             </title>
           </Helmet>
-          <SocketComponent />
           {routing}
         </CurrentPageContext.Provider>
       </>
