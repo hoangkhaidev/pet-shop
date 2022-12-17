@@ -1,37 +1,43 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable arrow-body-style */
 /* eslint-disable prettier/prettier */
-
-// styles
+import { Link } from "react-router-dom";
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
 const ItemProduct = () => {
+    
     return (
         <>
-            <div className="d_image">
-                <a href="/san-pham/thuc-an-trong-nha-cho-meo-truong-thanh-royal-canin-indoor-27-2kg">
-                    <img className="hvr-grow" src="https://petshopsaigon.vn/wp-content/uploads/2019/10/thuc-an-cho-meo-royal-canin-indoor-27-10-300x300.jpg" alt="Thức Ăn Cho Mèo Trưởng Thành Royal Canin Indoor 27 (2kg)" />
-                </a>
-            </div>
-            <div className="d_namesp">
-                <a href="/san-pham/thuc-an-trong-nha-cho-meo-truong-thanh-royal-canin-indoor-27-2kg">Thức Ăn Cho Mèo Trưởng Thành Royal Canin Indoor 27 (2kg)</a>
-            </div>
-            <div className="d_hang">
-                <b>Hãng</b>: 
-                <a href="/hang-san-xuat/royal-canin"> Royal Canin </a>
-            </div>
-            <div className="d_giohang">
-                <div className="d_giakm pull-left">
-                    <div className="d_gia_km">456.000 ₫ </div>
-                    <div className="d_gia_goc">450.000 ₫ </div>
+            <div className="div-post-thumbnail">	
+                <Link className="thumbnail-link" to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                    <div className="thumbnail-wrap">
+                        <img width="300" height="300" src="https://favsporting.com/wp-content/uploads/2022/12/chel-32-300x300.jpg" className="post-thumbnail" alt="thumbnail post" />
+                    </div>
+                </Link>
+                <div className="post-category">
+                    <Link to="/categories/premier-league">Premier League</Link> 	
+                </div>		
+                <h2 className="post-title">
+                    <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
+                        Following Lionel Messi’s nightmare, Chelsea issued a transfer warning to Josko Gvardiol.
+                    </Link>
+                </h2>
+                <div className="post-meta">
+                    <span className="post-author">
+                        <Link to="/categories/an-xao-loi" title="Posts by kansan">kansan</Link>
+                    </span> 
+                    <span className="post-date">December 16, 2022</span>
+                    <span className="post-comment">
+                        <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan" className="comments-link">
+                            0 Comment
+                        </Link>
+                    </span>
                 </div>
-                <div className="d_uy_giohang pull-right">
-                    <a href="/san-pham/thuc-an-trong-nha-cho-meo-truong-thanh-royal-canin-indoor-27-2kg">
-                        <img src="https://petshopsaigon.vn/wp-content/themes/template/img/GioHang.png" alt="thuc-an-cho-cho" />
-                    </a>
+                <div className="post-summary">
+                    <p>Ϲhelsea have beeп iпformed they “doп’t пeed” Josko Gvardiol despite the Blues’ liпks with a big-moпey swoop for the defeпder. The Ϲroatiaп shoпe duriпg his пatioп’s ruп to… </p>
                 </div>
             </div>
-            <div className="d_discount">-10%</div>
         </>
     );
 };

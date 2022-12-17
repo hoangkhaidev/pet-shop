@@ -55,13 +55,13 @@ const routes = () => [
     ]
   },
   {
-    path: 'trang-thong-tin-tim-kiem',
+    path: 'search',
     name: 'Trang Tìm Kiếm',
     element:  <MainLayout />,
     children: [
       {
           path: '/',
-          fullpath: '/trang-thong-tin-tim-kiem',
+          fullpath: '/search',
           name: 'Trang Tìm Kiếm',
           element: <Search />
       },

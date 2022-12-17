@@ -24,8 +24,8 @@ const Header = () => {
 
     return (
         <>
-            <header className="site-header">
-                <div className="container">
+            <header className="site-header ">
+                <div className="container dis-block padd-0">
                     <div className="logo">
                         <h1>
                             <Link to="/">Fav Sporting</Link>
@@ -65,7 +65,7 @@ const Header = () => {
                             <form>
                                 <input type="text" value={searchName} name="search" onChange={handleChangeSearch} className="search-input" placeholder="Search" />
                                 <button type="button" className="search-submit">
-                                    <Link to={`/trang-thong-tin-tim-kiem?search=${searchName}`} >
+                                    <Link to={`/search?key=${searchName}`} >
                                         <FontAwesomeIcon
                                             icon={faSearch}
                                             size={'1x'}

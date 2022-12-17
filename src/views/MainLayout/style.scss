@@ -482,3 +482,137 @@ ul {
     margin-bottom: 0;
     font-weight: bold;
 }
+
+.site-bottom {
+    background-color: #222;
+    border-top: 1px solid #333;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    padding: 20px 0;
+    text-align: center;
+    border-top: none;
+}
+
+.site-info a {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+}
+
+#btn_to_top {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    background-color: #0389ff;
+    border: 1px solid #fff;
+    border-radius: 20px;
+}
+
+.post-header h1.post-title {
+    font-size: 30px;
+    line-height: 1.25;
+    margin-bottom: 15px;
+}
+
+.post-header .post-category a {
+    background: none;
+    padding: 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: #0389ff;
+}
+
+.post-header .post-author:before {
+    background-color: #ccc;
+    border-radius: 50%;
+    color: #aaa;
+    content: " ";
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    position: absolute;
+    left: 0;
+    top: 6px;
+}
+
+.post-header .post-author {
+    position: relative;
+    margin-left: 7px;
+    padding-left: 11px;
+}
+
+.post-header {
+    margin-bottom: 20px;
+}
+
+.post-content img,
+.post-content iframe {
+    max-width: 100%;
+}
+
+@media screen and (max-width: 991px) {
+    .site-header {
+        background: none;
+        height: auto;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .dis-block {
+        display: block;
+    }
+
+    .dis-none {
+        display: none;
+    }
+
+    .logo {
+        justify-content: center;
+        height: 35px;
+        margin-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .logo a {
+        font-size: 14px;
+    }
+
+    .menu-text {
+        line-height: 20px;
+        font-size: 13px;
+        color: #777;
+        font-weight: 600;
+        padding: 0;
+    }
+
+    .padd-0 {
+        padding: 0;
+    }
+
+    .menu-item a:hover .menu-text {
+        color: #0389ff;
+        background: none;
+    }
+
+    .menu-item {
+        margin-right: 15px;
+    }
+
+    .header-search {
+        height: auto;
+        margin-bottom: 20px;
+    }
+
+    .site-content {
+        padding: 15px 0;
+    }
+
+    .thumbnail-link {
+        width: 100%;
+        float: none;
+    }
+
+    .thumbnail-link img {
+        height: 180px;
+        border-radius: 10px;
+        object-fit: fill;
+    }
+}

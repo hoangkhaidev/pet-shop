@@ -1,35 +1,52 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable react/prop-types */
 /* eslint-disable arrow-body-style */
 /* eslint-disable prettier/prettier */
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
 const Breadcrumbs = ({params, paramsChild}) => {
     return (
         <>
-            <div className="brecum container">
-                <div className="breadcrumbs">
-                    {/* <!-- Breadcrumb NavXT 6.3.0 --> */}
-                    <span property="itemListElement" typeof="ListItem">
-                        <a title="Go to PET SHOP Sài Gòn - PET STORE TP.HCM bán Thức Ăn Phụ Kiện cho Chó và Mèo Uy Tín - Chính Hãng." href="/" className="home">
-                            <span property="name">PET SHOP Sài Gòn - PET STORE TP.HCM bán Thức Ăn Phụ Kiện cho Chó và Mèo Uy Tín - Chính Hãng</span>
-                        </a>
-                        <meta property="position" content="1" />
-                    </span> &gt; 
-                    {(params) && (
-                        <>
-                            <span property="itemListElement" typeof="ListItem">
-                                <a title="Go to Hướng dẫn." href={params?.url} className="post post-huong-dan-archive">
-                                    <span property="name">{params?.name}</span>
-                                </a>
-                                <meta property="position" content="2" />
-                            </span> &gt;
-                        </>
-                    )}
-                    <span className="post post-huong-dan current-item">{paramsChild?.name}</span>
-                </div>		
+            <div className="breadcrumbs clear">
+                <span className="breadcrumbs-nav">
+                    <Link to="/">Home</Link>
+                    <FontAwesomeIcon
+                        icon={faArrowRight}
+                        size={'1x'}
+                        style={{ marginRight: '6px' }} 
+                    />
+                    {
+                        params && (
+                            <>
+                                <span>
+                                    <Link to={params?.url}>
+                                        {params?.name}
+                                    </Link> 
+                                </span>
+                                <FontAwesomeIcon
+                                    icon={faArrowRight}
+                                    size={'1x'}
+                                    style={{ marginRight: '6px' }} 
+                                />
+                            </>
+                        )
+                    }
+                    <span className="post-category">{paramsChild?.name}</span>
+                </span>	
+                {
+                    !params && (
+                        <h1>
+                            {paramsChild?.name}				
+                        </h1>
+                    )
+                }			
+                	
             </div>
-            <div className="clear" />
         </>
     );
 };
