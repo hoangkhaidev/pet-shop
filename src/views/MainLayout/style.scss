@@ -298,6 +298,7 @@ input[type=text]:focus {
 
 .post-summary {
     line-height: 1.8;
+    height: 52px;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -504,7 +505,7 @@ ul {
     right: 15px;
     background-color: #0389ff;
     border: 1px solid #fff;
-    border-radius: 20px;
+    border-radius: 20%;
 }
 
 .post-header h1.post-title {
@@ -554,7 +555,7 @@ ul {
 }
 
 .menu {
-    padding: 0 10px;
+    padding: 0 15px;
 }
 
 @media screen and (max-width: 991px) {
