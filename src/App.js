@@ -57,10 +57,10 @@ const Routes = () => {
     const routing = useRoutes(routes());
     return (
       <>
-        <CurrentPageContext.Provider value="PetShop">
+        <CurrentPageContext.Provider value="FavSporting">
           <Helmet>
             <title>
-              Pet Shop
+              Fav Sporting
             </title>
           </Helmet>
           {routing}

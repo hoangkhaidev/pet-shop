@@ -3,7 +3,7 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable prettier/prettier */
 
-import { Pagination, Stack } from "@mui/material";
+// import { Pagination, Stack } from "@mui/material";
 import useRouter from "utils/hooks/useRouter";
 import Breadcrumbs from "views/Breadcrumbs/Breadcrumbs";
 import RecentPosts from "views/News/RecentPosts";
@@ -22,6 +22,8 @@ const Search = () => {
         url: ''
     }
 
+    const type = 'search';
+
     return (
         <>
             <div className="container site-content">
@@ -29,23 +31,26 @@ const Search = () => {
                     <main className="site-main">
                     {/* <!-- .breadcrumbs --> */}
                         <Breadcrumbs paramsChild={paramsChild} />
-
-                        <div className="recent-content">
-                            <ItemProduct />
-                            <ItemProduct />
-                            <ItemProduct />
-                            <ItemProduct />
-                            <ItemProduct />
-                            <ItemProduct />
-                            <ItemProduct />
-                            <ItemProduct />
-                            <ItemProduct />
-                            <ItemProduct />
-                            <ItemProduct />
+                        <div className="dis-none-laptop dis-block top-product">
+                            <h1>Search</h1>
+                            <span>{paramsChild.name}</span>
                         </div>
-                        <Stack spacing={2} className="assadsadsad" sx={{ justifyContent: 'center', paddingTop: '20px' }}>
+                        <div className="recent-content">
+                            <ItemProduct type={type} />
+                            <ItemProduct type={type} />
+                            <ItemProduct type={type} />
+                            <ItemProduct type={type} />
+                            <ItemProduct type={type} />
+                            <ItemProduct type={type} />
+                            <ItemProduct type={type} />
+                            <ItemProduct type={type} />
+                            <ItemProduct type={type} />
+                            <ItemProduct type={type} />
+                            <ItemProduct type={type} />
+                        </div>
+                        {/* <Stack spacing={2} className="assadsadsad" sx={{ justifyContent: 'center', paddingTop: '20px' }}>
                             <Pagination count={10} color="primary" sx={{ justifyContent: 'center', display: 'flex' }}/>
-                        </Stack>
+                        </Stack> */}
                     </main>
                 </div>
                 <RecentPosts />

@@ -1,9 +1,11 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable arrow-body-style */
 /* eslint-disable prettier/prettier */
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Breadcrumbs from "views/Breadcrumbs/Breadcrumbs";
 import RecentPosts from "./RecentPosts";
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 
 // styles
 
@@ -31,7 +33,18 @@ const News = () => {
                             <h1 className="post-title">
                                 Pep Guardiola angry after £ 5 million compensation for Man City
                             </h1>
-                            <div className="post-meta">
+                            <div className="post-meta dis-none-laptop dis-flex">
+                                <span className="post-author">
+                                    <FontAwesomeIcon
+                                        icon={faUserCircle}
+                                        size={'1x'}
+                                        style={{ marginRight: '6px', fontSize: '16px', lineHeight: '14px' }} 
+                                    />
+                                    <Link to="/categories/an-xao-loi" title="Posts by kansan">By <b>kansan</b></Link>
+                                </span> 
+                                <span className="post-date">December 16, 2022</span>
+                            </div>
+                            <div className="post-meta dis-none">
                                 <span className="post-category">
                                     <Link to="/categories/premier-league/">Premier League</Link> 
                                 </span>		

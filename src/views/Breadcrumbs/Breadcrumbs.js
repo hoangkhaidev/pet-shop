@@ -12,7 +12,7 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 const Breadcrumbs = ({params, paramsChild}) => {
     return (
         <>
-            <div className="breadcrumbs clear">
+            <div className="breadcrumbs clear dis-none">
                 <span className="breadcrumbs-nav">
                     <Link to="/">Home</Link>
                     <FontAwesomeIcon

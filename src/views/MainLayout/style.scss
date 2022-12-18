@@ -549,6 +549,14 @@ ul {
     max-width: 100%;
 }
 
+.dis-none-laptop {
+    display: none;
+}
+
+.menu {
+    padding: 0 10px;
+}
+
 @media screen and (max-width: 991px) {
     .site-header {
         background: none;
@@ -572,7 +580,7 @@ ul {
     }
 
     .logo a {
-        font-size: 14px;
+        font-size: 15px;
     }
 
     .menu-text {
@@ -611,8 +619,114 @@ ul {
     }
 
     .thumbnail-link img {
-        height: 180px;
-        border-radius: 10px;
+        max-height: 160px;
+        border-radius: 8px;
         object-fit: fill;
+    }
+
+    .site-main {
+        background: none;
+        padding: 10px;
+    }
+
+    .div-post-thumbnail {
+        background: #fff;
+        padding: 15px;
+        border-radius: 8px;
+    }
+
+    .post-title {
+        font-size: 14px;
+        line-height: 2;
+    }
+
+    .post-summary {
+        font-size: 13px;
+        color: #555;
+        -webkit-line-clamp: 2;
+    }
+
+    .post-category a {
+        font-size: 12px;
+        background-color: #0389ff !important;
+        margin-bottom: 0px;
+        padding: 0 5px;
+    }
+
+    .post-meta {
+        justify-content: space-between;
+        padding-top: 10px;
+    }
+
+    .dis-flex {
+        display: flex;
+    }
+
+    .post-date:before {
+        content: none;
+    }
+
+    .post-author {
+        align-items: center;
+        display: flex;
+    }
+
+    .footer-top {
+        border-top: 1px solid #ccc;
+        padding: 40px 25px 0px 25px;
+    }
+
+    .footer-h2 {
+        font-size: 15px;
+        font-weight: 600;
+        padding-bottom: 15px;
+    }
+
+    .footer-item {
+        list-style: none;
+        height: 40px;
+    }
+
+    .footer-item a {
+        text-decoration: none;
+        color: #555;
+        line-height: 1.8;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+    }
+
+    .footer-menu {
+        margin: 0;
+        padding: 0;
+        padding-bottom: 40px;
+    }
+
+    .top-product {
+        padding: 30px 0px 40px 0px;
+    }
+
+    .top-product h1 {
+        display: flex;
+        justify-content: center;
+        font-weight: normal;
+        font-size: 40px;
+        padding-bottom: 10px;
+    }
+
+    .top-product span {
+        display: flex;
+        justify-content: center;
+        color: #555;
+    }
+
+    .post-header .post-author:before {
+        content: none;
+    }
+
+    .post-header .post-author {
+        padding-left: 0;
+        margin-left: 0;
     }
 }
