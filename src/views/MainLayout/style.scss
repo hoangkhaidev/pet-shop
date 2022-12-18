@@ -499,13 +499,13 @@ ul {
     text-decoration: none;
 }
 
-#btn_to_top {
+.btn_to_top {
     position: fixed;
     bottom: 15px;
     right: 15px;
     background-color: #0389ff;
     border: 1px solid #fff;
-    border-radius: 20%;
+    border-radius: 20px;
 }
 
 .post-header h1.post-title {

@@ -100,7 +100,7 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            <button onClick={() => topFunction()} id="btn_to_top" type="button" title="Go to top" style={{display: 'block'}}>
+            <button onClick={() => topFunction()} className="btn_to_top" type="button" title="Go to top" style={{display: 'block'}}>
                 <i className="fa fa-arrow-circle-up" aria-hidden="true" />
                 <FontAwesomeIcon
                     icon={faArrowCircleUp}

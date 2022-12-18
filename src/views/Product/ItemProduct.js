@@ -16,7 +16,7 @@ const ItemProduct = ({ type }) => {
                 {!type && (
                     <Link className="thumbnail-link" to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan">
                         <div className="thumbnail-wrap">
-                            <img width="300" height="300" src="https://favsporting.com/wp-content/uploads/2022/12/chel-32-300x300.jpg" className="post-thumbnail" alt="thumbnail post" />
+                            <img width="300" height="300" src="https://media.bongda.com.vn/files/phi.do/2022/12/18/de-jong-2-0854.jpg" className="post-thumbnail" alt="thumbnail post" />
                         </div>
                     </Link>
                 )}
