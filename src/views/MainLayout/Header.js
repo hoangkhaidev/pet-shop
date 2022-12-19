@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
+import MetaDescription from 'views/MetaDescription/MetaDescription';
 
 const Header = () => {
 
@@ -40,8 +41,16 @@ const Header = () => {
         onGetCategories();
     }, []);
 
+    const meta = {
+        title: 'Lionel Messi wants to continue with Argentina after World Cup final win over France',
+        description: 'Lionel Messi inspired Argentina to their first World Cup victory since 1986 in an enthralling final vs France; the 35-year-old wants to carry on playing for',
+        imageUrl: 'https://aweu.info/wp-content/uploads/2022/12/skysports-lionel-messi-argentina_6000543.jpg',
+        imageAlt: 'Lionel Messi wants to continue with Argentina after World Cup final win over France'
+    }
+
     return (
         <>
+            <MetaDescription title={meta.title} description={meta.description} imageUrl={meta.imageUrl} imageAlt={meta.imageAlt} />
             <header className="site-header ">
                 <div className="container dis-block padd-0">
                     <div className="logo">
