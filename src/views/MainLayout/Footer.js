@@ -5,12 +5,42 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './style.scss';
 // ==============================|| MAIN LAYOUT ||============================== //
 import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const Footer = () => {
     const topFunction = () => {
         window.scrollTo(0, 0);
     };
+
+    const [dataCategories, setDataCategories] = useState([]);
+    const [dataPosts, setDataPosts] = useState([]);
+
+    const onGetCategories = async() => {
+        const res = await fetch(
+            `https://aweu.info/wp-json/wp/v2/categories`,
+            {
+                method: 'GET',
+            }
+        );
+        const test = await res.json();
+        setDataCategories(test);
+    }
+
+    const onGetPosts = async() => {
+        const res = await fetch(
+        `https://aweu.info/wp-json/wp/v2/posts`,
+        {
+            method: 'GET',
+        }
+        );
+        const test = await res.json();
+        setDataPosts(test);
+    }
+
+    useEffect (() => {
+        onGetPosts();
+        onGetCategories();
+    }, []);
 
     return (
         <footer className="site-footer">
@@ -18,7 +48,16 @@ const Footer = () => {
                 <div>
                     <h2 className="footer-h2">Recent Posts</h2>
                     <ul className="footer-menu">
-                        <li className="footer-item">
+                        {dataPosts?.map((item) => {
+                            return (
+                                <li className="footer-item" key={item.id}>
+                                    <a href={item.link}>
+                                        {item.yoast_head_json?.og_title}
+                                    </a>
+                                </li>
+                            )
+                        })}
+                        {/* <li className="footer-item">
                             <Link to="/news/liverpool-legend-rejects-transfer-of-cody-gakpo-and-identifies-ideal-luis-diaz-replacement-kansan/">
                                 Liverpool legend rejects transfer of Cody Gakpo and identifies ideal Luis Diaz replacement
                             </Link>
@@ -42,14 +81,25 @@ const Footer = () => {
                             <Link to="/news/juventus-star-hoping-to-start-the-world-cup-final-marie/" rel="bookmark">
                                 Juventus star hoping to start the World Cup final
                             </Link>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
                 <div className="dis-flex">
                     <div style={{width: '50%'}}>
                         <h2 className="footer-h2">Categories</h2>
                         <ul className="footer-menu"> 
-                            <li className="footer-item">
+                            {dataCategories?.map((item, index) => {
+                                if (item.parent > 0 && index < 7) {
+                                    return (
+                                        <li key={item?.id} className="footer-item">
+                                            <a href={item?.link}>
+                                                {item?.name}
+                                            </a>    
+                                        </li>
+                                    );
+                                } return <div key={item?.id} />;
+                            })}
+                            {/* <li className="footer-item">
                                 <Link to="/categories/boston-celtics">
                                     Boston Celtics
                                 </Link>    
@@ -73,21 +123,21 @@ const Footer = () => {
                                 <Link to="/categories/miami-heat">
                                     Miami Heat
                                 </Link>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                     <div style={{marginLeft: '30px'}}>
                         <h2 className="footer-h2">More</h2>
                         <ul className="footer-menu">
                             <li className="footer-item">
-                                <Link to="/">
+                                <a href="https://aweu.info/">
                                     RSS
-                                </Link>    
+                                </a>    
                             </li>
                             <li className="footer-item">
-                                <Link to="/">
+                                <a href="https://aweu.info/">
                                     Sitemap
-                                </Link> 
+                                </a> 
                             </li>
                         </ul>
                     </div>
@@ -96,7 +146,7 @@ const Footer = () => {
             <div className="site-bottom">
                 <div className="container" style={{ justifyContent: 'center'}}>
                     <div className="site-info">
-                        © 2022 <Link to="/">Fav Sporting</Link> - Design by <Link to="https://wpenjoy.com">Fav Sporting</Link>
+                        © 2022 <a href="https://aweu.info/">Fav Sporting</a> - Design by <a href="https://aweu.info/">Fav Sporting</a>
                     </div>
                 </div>
             </div>

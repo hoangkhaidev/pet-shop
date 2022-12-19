@@ -1,21 +1,38 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable arrow-body-style */
 /* eslint-disable prettier/prettier */
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 // styles
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
 const RecentPosts = () => {
-    
+
+    const [dataPosts, setDataPosts] = useState([]);
+
+    const onGetPosts = async() => {
+        const res = await fetch(
+        `https://aweu.info/wp-json/wp/v2/posts`,
+        {
+            method: 'GET',
+        }
+        );
+        const test = await res.json();
+        setDataPosts(test);
+    }
+
+    useEffect (() => {
+        onGetPosts();
+    }, []);
+
     return (
         <>
             <aside className="content-secondary dis-none">
                 <div className="widget-posts-thumbnail" style={{ height: 'auto !important' }}>
                     <h2 className="widget-title">Recent Posts</h2>
                     <ul>
-                        <li className="clear">
+                        {/* <li className="clear">
                             <Link to="/news/following-lionel-messis-nightmare-chelsea-issued-a-transfer-warning-to-josko-gvardiol-kansan/">
                                 <div className="thumbnail-wrap">
                                     <img width="300" height="150" src="https://favsporting.com/wp-content/uploads/2022/12/chel-32-300x150.jpg" className="wp-post-image" alt="post-sadsasd-title" />
@@ -25,8 +42,34 @@ const RecentPosts = () => {
                                 </div>
                                 <div className="gradient" style={{ display: 'block' }} />
                             </Link>
-                        </li>
-                        <li className="post-list post-list-1">
+                        </li> */}
+
+                        {dataPosts?.map((item, index) => {
+                            if (index === 0) {
+                                return (
+                                    <li className="clear" key={item.id}>
+                                        <a href={item.link}>
+                                            <div className="thumbnail-wrap">
+                                                <img width="300" height="150" src={item.yoast_head_json?.og_image[0]?.url} className="wp-post-image" alt="post-sadsasd-title" />
+                                            </div>
+                                            <div className="entry-wrap">
+                                                {item.yoast_head_json?.og_title}
+                                            </div>
+                                            <div className="gradient" style={{ display: 'block' }} />
+                                        </a>
+                                    </li>
+                                )
+                            } 
+                            return (
+                                <li className="post-list post-list-1" key={item.id}>
+                                    <span>{index}</span>
+                                    <a href={item.link}>
+                                        {item.yoast_head_json?.og_title}
+                                    </a>
+                                </li>
+                            )
+                        })}
+                        {/* <li className="post-list post-list-1">
                             <span>1</span>
                             <Link to="/news/liverpool-legend-rejects-transfer-of-cody-gakpo-and-identifies-ideal-luis-diaz-replacement-kansan/">
                                 Liverpool legend rejects transfer of Cody Gakpo and identifies ideal Luis Diaz replacement
@@ -55,7 +98,7 @@ const RecentPosts = () => {
                             <Link to="/news/juventus-star-hoping-to-start-the-world-cup-final-marie/" rel="bookmark">
                                 Juventus star hoping to start the World Cup final
                             </Link>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
             </aside>
