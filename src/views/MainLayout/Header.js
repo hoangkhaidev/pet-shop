@@ -42,7 +42,7 @@ const Header = () => {
     }, []);
 
     const meta = {
-        title: 'Lionel Messi wants to continue with Argentina after World Cup final win over France',
+        title: 'Fav Sporting',
         description: 'Lionel Messi inspired Argentina to their first World Cup victory since 1986 in an enthralling final vs France; the 35-year-old wants to carry on playing for',
         imageUrl: 'https://aweu.info/wp-content/uploads/2022/12/skysports-lionel-messi-argentina_6000543.jpg',
         imageAlt: 'Lionel Messi wants to continue with Argentina after World Cup final win over France'

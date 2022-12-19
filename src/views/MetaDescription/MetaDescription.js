@@ -10,6 +10,7 @@ const MetaDescription = ({title, description, imageUrl, imageAlt}) => {
         <Helmet>
             <title>{title}</title>
             <meta property="og:title" content={title} />
+            <meta property="og:type" content="website" />
             <meta property="description" content={description} />
             <meta property="og:image" content={imageUrl} />
             <meta property="og:url" content={window.location.pathname + window.location.search} />
